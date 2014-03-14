@@ -13,21 +13,22 @@ public class MongoDemo {
 		insert();
 	}
 
+	public static void insert1() {
+
+	}
+
 	public static void insert() {
 		try {
-			MongoClient mongoClient = new MongoClient(Constants.DB_HOST,Constants.DB_PORT);
+			MongoClient mongoClient = new MongoClient(Constants.DB_HOST, Constants.DB_PORT);
 			DB db = mongoClient.getDB(Constants.DB_NAME);
-			
+
 			DBCollection collection = db.getCollection("user");
 
-			BasicDBObject doc = new BasicDBObject("name", "MongoDB")
-					.append("_id", "jaishree")
-					.append("type", "database").append("count", 1)
+			BasicDBObject doc = new BasicDBObject("name", "MongoDB").append("_id", "jaishree").append("type", "database").append("count", 1)
 					.append("info", new BasicDBObject("x", 203).append("y", 102));
-			
-			
-			//ObjectMapper om = new ObjectMapper();
-			
+
+			// ObjectMapper om = new ObjectMapper();
+
 			collection.insert(doc);
 
 		} catch (UnknownHostException e) {

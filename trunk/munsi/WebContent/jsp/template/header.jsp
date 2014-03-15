@@ -1,12 +1,15 @@
 <%@ page language="java" isELIgnored="false" contentType="text/html; charset=ISO-8859-1"	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
-<head>
+<head lang="en">
+
+	<meta charset="utf-8" />
+	<title>Insert title here</title>
+	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="overview &amp; stats" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	<title>Insert title here</title>
 	
 	<jsp:include page='/jsp/template/cssandjs.jsp' />
 	
@@ -23,7 +26,7 @@
 					<a href="#" class="navbar-brand">
 						<small>
 							<i class="icon-leaf"></i>
-							My MUNSI
+							e-MUNSI
 						</small>
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
@@ -278,4 +281,4 @@
 					</ul><!-- /.ace-nav -->
 				</div><!-- /.navbar-header -->
 			</div><!-- /.container -->
-		</div
+		</div>

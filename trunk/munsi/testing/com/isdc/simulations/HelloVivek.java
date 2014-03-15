@@ -45,8 +45,11 @@ public class HelloVivek extends HttpServlet {
 	}
 
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String requestedPage = request.getParameter("reqPage");
+		
 		request.setAttribute("treq", "ihateyou");
-		RequestDispatcher rd = request.getRequestDispatcher("/jsp/test/embed.jsp");
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/jsp/test/"+requestedPage);
 		rd.include(request, response);
 		return;
 		

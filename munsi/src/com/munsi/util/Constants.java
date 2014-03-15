@@ -11,7 +11,22 @@ public class Constants {
 		DB_PORT = Integer.parseInt(DB_PORT_STRRING);
 	}
 	
-	
-
+	public enum DBCollectionEnum{
+		MAST_MAIN_ACCOUNT("mast_main_account"),
+		MAST_CUSTOMER("mast_customer"),
+		MAST_AREA("mast_area"),
+		MAST_BEAT("mast_beat"),
+		MAST_MANUFACTURER("mast_manufacturer");
+		
+		private String collectionName;
+		DBCollectionEnum(String collectionName){
+			this.collectionName = collectionName;
+		}
+		
+		@Override
+		public String toString() {
+			return collectionName;
+		}
+	}
 	
 }

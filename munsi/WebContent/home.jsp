@@ -39,11 +39,8 @@
 		
 		<!-- Dynamic Content Goes here-->
 		<div class="page-content">
-	
-	
-	
-	
-	
+			
+			<jsp:include page="/hello.action"></jsp:include>
 			
 		</div>
 		<!-- /.page-content -->

@@ -3,7 +3,7 @@
 
 						<div class="page-header">
 							
-							<h1>embed.jsp
+							<h1>embed1.jsp 
 								FAQ
 								<small>
 									<i class="icon-double-angle-right"></i>

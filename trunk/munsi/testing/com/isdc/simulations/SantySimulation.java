@@ -1,6 +1,7 @@
 package com.isdc.simulations;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.UnknownHostException;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -11,12 +12,16 @@ import org.codehaus.jackson.map.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.DBRef;
 import com.mongodb.MongoClient;
+import com.mongodb.util.JSON;
+import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
 
 public class SantySimulation {
-	public static void main(String[] args) throws JsonGenerationException, JsonMappingException, IOException {
-		jsonSimulation();
+	public static void main(String[] args) throws Exception {
+		mongoReferenceFetchSimulation();
 	}
 
 	public static void insert() throws UnknownHostException {
@@ -44,6 +49,126 @@ public class SantySimulation {
 		JsonBean readValue = mapper.readValue(jsonStr, JsonBean.class);
 		System.out.println(readValue);
 	}
+
+	public static void mongoReferenceInsertSimulation() throws Exception {
+
+		MongoClient mongoClient = new MongoClient(Constants.DB_HOST, Constants.DB_PORT);
+		DB db = mongoClient.getDB(Constants.DB_NAME);
+
+		ObjectMapper jsonMapper = new ObjectMapper();
+
+		SAddress addr = new SAddress();
+		addr.set_id(100l);
+		addr.setAddress("Kharghar, Sector-3.");
+		String jsonAddr = jsonMapper.writeValueAsString(addr);
+		DBObject mbAddr = (DBObject) JSON.parse(jsonAddr);
+		try {
+			DBCollection collection = db.getCollection("santy_address");
+			collection.insert(mbAddr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		SUser sUser = new SUser();
+		sUser.set_id(1l);
+		sUser.setName("raj here!!");
+		String jsonUser = jsonMapper.writeValueAsString(sUser);
+
+		DBObject mdUser = (DBObject) JSON.parse(jsonUser);
+		DBRef xAddr = new DBRef(db, "santy_address", 100l);
+		mdUser.put("xAddressId", xAddr);
+
+		try {
+			DBCollection collection = db.getCollection("santy_user");
+			collection.insert(mdUser);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void mongoReferenceFetchSimulation() throws Exception {
+		MongoClient mongoClient = new MongoClient(Constants.DB_HOST, Constants.DB_PORT);
+		DB db = mongoClient.getDB(Constants.DB_NAME);
+
+		DBCollection collection = db.getCollection("santy_user");
+		DBObject dbUser = collection.findOne(1l);
+
+		DBRef addrRef = (DBRef) dbUser.get("xAddressId");
+		DBObject mdAddr = addrRef.fetch();
+		dbUser.put("address", mdAddr);
+		dbUser.removeField("xAddressId");
+
+		String json = JSON.serialize(dbUser);
+		SUser joUser = (SUser) CommonUtil.jsonToObject(json, SUser.class.getName());
+		System.out.println(joUser);
+	}
+}
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+class SUser implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long _id;
+	private String name;
+	private long xAddressId;
+	private SAddress address;
+
+	public long get_id() {
+		return _id;
+	}
+
+	public void set_id(long _id) {
+		this._id = _id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public long getxAddressId() {
+		return xAddressId;
+	}
+
+	public void setxAddressId(long xAddressId) {
+		this.xAddressId = xAddressId;
+	}
+
+	public SAddress getAddress() {
+		return address;
+	}
+
+	public void setAddress(SAddress address) {
+		this.address = address;
+	}
+
+}
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+class SAddress implements Serializable {
+	private static final long serialVersionUID = 1L;
+	private long _id;
+	private String address;
+
+	public long get_id() {
+		return _id;
+	}
+
+	public void set_id(long _id) {
+		this._id = _id;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
 }
 
 @JsonIgnoreProperties(ignoreUnknown = true)

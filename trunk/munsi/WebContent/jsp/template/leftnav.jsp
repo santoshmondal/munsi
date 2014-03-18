@@ -105,6 +105,6 @@
 		</div>
 
 		<script type="text/javascript">
-						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+						try{ace.settings.check('sidebar' , 'collapsed');}catch(e){}
 					</script>
 	</div>

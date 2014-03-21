@@ -47,9 +47,9 @@ public class HelloVivek extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestedPage = request.getParameter("reqPage");
 		
-		request.setAttribute("treq", "ihateyou");
+		request.setAttribute("treq", "i&you");
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/jsp/test/"+requestedPage);
+		RequestDispatcher rd = request.getRequestDispatcher(requestedPage);
 		rd.include(request, response);
 		return;
 		

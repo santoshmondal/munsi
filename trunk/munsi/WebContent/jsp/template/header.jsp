@@ -10,7 +10,6 @@
 	<meta name="description" content="overview &amp; stats" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	
-	
 	<jsp:include page='/jsp/template/cssandjs.jsp' />
 	
 </head>
@@ -24,10 +23,11 @@
 			<div class="navbar-container" id="navbar-container">
 				<div class="navbar-header pull-left">
 					<a href="#" class="navbar-brand">
+						
+							<b class="icon-male" style="color:black"></b>
 						<small>
-							<i class="icon-leaf"></i>
-							e-MUNSI
-						</small>
+							e-MUNSI</small>
+						
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
 
@@ -42,7 +42,7 @@
 							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="icon-ok"></i>
-									4 Tasks to complete
+									4 Recent Activities
 								</li>
 
 								<li>
@@ -115,7 +115,7 @@
 							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="icon-warning-sign"></i>
-									8 Notifications
+									8 Alerts & Notifications
 								</li>
 
 								<li>
@@ -170,7 +170,7 @@
 							</ul>
 						</li>
 
-						<li class="green">
+<!-- 						<li class="green">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-envelope icon-animated-vertical"></i>
 								<span class="badge badge-success">5</span>
@@ -241,13 +241,13 @@
 								</li>
 							</ul>
 						</li>
-
+ -->
 						<li class="light-blue">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
-								<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" />
+								<i class="icon-user"></i>
 								<span class="user-info">
 									<small>Welcome,</small>
-									Jason
+									User
 								</span>
 
 								<i class="icon-caret-down"></i>

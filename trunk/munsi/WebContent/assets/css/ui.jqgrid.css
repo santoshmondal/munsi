@@ -98,7 +98,7 @@ tr.ui-search-toolbar select {margin: 1px 0 0 0}
 .ui-jqdialog>.ui-resizable-se { bottom: -3px; right: -3px}
 /* end Modal window*/
 /* Form edit */
-.ui-jqdialog-content .FormGrid {margin: 0;}
+.ui-jqdialog-content .FormGrid {margin: 0; max-height: 467px !important;}
 .ui-jqdialog-content .EditTable { width: 100%; margin-bottom:0;}
 .ui-jqdialog-content .DelTable { width: 100%; margin-bottom:0;}
 .EditTable td input, .EditTable td select, .EditTable td textarea {margin: 0;}

@@ -4,7 +4,6 @@ $(function(){
 
 	$("#sidebar").click(function(event) {
 		
-		$("#sidebar li").removeClass("active");
 		
 		if ($(event.target).is("li")){
 			var hrefEle  = $(event.target).find("[data-href]");
@@ -12,8 +11,10 @@ $(function(){
 		}
 		else{
 			var hrefEle  = $(event.target).closest("li").find("[data-href]");
-				
+
+			
 			if (hrefEle.data("href")){
+				$("#sidebar li").removeClass("active");
 				console.log("clicked: " + hrefEle.data("href"));
 				var parentLi = hrefEle.closest("li");
 				 parentLi.addClass("active");
@@ -25,7 +26,9 @@ $(function(){
 			}
 		}
 	});
-
+	//-------------------------------------------
+	//----------------- HotKeys -----------------
+	//-------------------------------------------
 	
 	
 });

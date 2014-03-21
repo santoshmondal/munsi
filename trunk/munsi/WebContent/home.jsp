@@ -18,14 +18,14 @@
 		<jsp:include page="/jsp/template/leftnav.jsp"></jsp:include>
 
 		<div class="main-content">
-			<div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
+			<!-- <div class="breadcrumbs breadcrumbs-fixed" id="breadcrumbs">
 				
 
 				<ul class="breadcrumb">
 					<li><i class="icon-home home-icon"></i> <a href="#">Home</a></li>
 					<li class="active">Dashboard</li>
 				</ul>
-				<!-- .breadcrumb -->
+				.breadcrumb
 				
 				<div class="nav-search" id="nav-search">
 					<form class="form-search">
@@ -36,14 +36,15 @@
 						</span>
 					</form>
 				</div>
-				<!-- #nav-search -->
-			</div>
+				#nav-search
+			</div> -->
 			
-
 			<!-- Dynamic Content Goes here-->
 			<div class="page-content">
-				<div class="space"></div><div class="space"></div>
+				<!-- <div class="space"></div><div class="space"></div>
+				 -->
 				<div id="id_EmbedPage">
+				
 					
 				</div>
 			</div>

@@ -12,6 +12,8 @@
 
 		<!-- page specific plugin styles -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui-1.10.3.custom.min.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/datepicker.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ui.jqgrid.css" />
 		<!-- fonts -->
 
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ace-fonts.css" />
@@ -62,6 +64,7 @@
 			if("ontouchend" in document) document.write("<script src='${pageContext.request.contextPath}/assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 		</script>
 		
+		<script src="${pageContext.request.contextPath}/assets/js/jquery.hotkeys-0.7.9.min.js"></script>
 		
 		<script src="${pageContext.request.contextPath}/custom/js/munsi.js"></script>
 		<script src="${pageContext.request.contextPath}/custom/js/app.js"></script>

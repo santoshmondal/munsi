@@ -2,11 +2,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 						<div class="page-header">
-							
-							<h1>Product Groups
+							<h1>
+								Manufacturer Master
 								<small>
 									<i class="icon-double-angle-right"></i>
-									manage the product groups and subgroups.
+									View, Add and Edit Manufacturer details.
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -15,82 +15,18 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<div class="tabbable">
-									<ul class="nav nav-tabs padding-18 tab-size-bigger" id="myTab">
-										<li class="active">
-											<a data-toggle="tab" href="#faq-tab-1">
-												<i class="blue icon-key bigger-120"></i>
-												Main Group
-											</a>
-										</li>
+								<table id="grid-table-manuf"></table>
 
-										<li>
-											<a data-toggle="tab" href="#faq-tab-2">
-												<i class="green  icon-key bigger-120"></i>
-												Sub Group
-											</a>
-										</li>
+								<div id="grid-pager-manuf"></div>
 
-									</ul>
-
-									<div class="tab-content no-border padding-24">
-										<div id="faq-tab-1" class="tab-pane fade in active">
-											<h4 class="blue">
-												<i class="icon-ok bigger-110"></i>
-												Main Group
-											</h4>
-
-											<div class="space-8"></div>
-
-											<div class="row">
-												<div class="col-xs-12">
-													<!-- PAGE CONTENT BEGINS -->
-					
-													<table id="grid-table-maingroup"></table>
-					
-													<div id="grid-pager-maingroup"></div>
-					
-													<script type="text/javascript">
-														var $path_base = "/";//this will be used in gritter alerts containing images
-													</script>
-					
-													<!-- PAGE CONTENT ENDS -->
-												</div><!-- /.col -->
-											</div><!-- /.row -->
-										</div>
-
-										<div id="faq-tab-2" class="tab-pane fade in active">
-											<h4 class="blue">
-												<i class="green icon-user bigger-110"></i>
-												Sub Group
-											</h4>
-
-											<div class="space-8"></div>
-
-											<div class="row">
-												<div class="col-xs-12">
-													<!-- PAGE CONTENT BEGINS -->
-					
-													<table id="grid-table-subgroup"></table>
-					
-													<div id="grid-pager-subgroup"></div>
-					
-													<script type="text/javascript">
-														var $path_base = "/";//this will be used in gritter alerts containing images
-													</script>
-					
-													<!-- PAGE CONTENT ENDS -->
-												</div><!-- /.col -->
-											</div><!-- /.row -->
-										</div>
-
-									</div>
-								</div>
+								<script type="text/javascript">
+									var $path_base = "/";//this will be used in gritter alerts containing images
+								</script>
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
-
+		
 	<script type="text/javascript">
 			var grid_data = 
 			[ 
@@ -104,15 +40,15 @@
 			];	
 			
 			jQuery(function($) {
-				var grid_selector = "#grid-table-maingroup";
-				var pager_selector = "#grid-pager-maingroup";
+				var grid_selector = "#grid-table-manuf";
+				var pager_selector = "#grid-pager-manuf";
 			
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
 					data: grid_data,
 					datatype: "local",
-					height: 266,
+					height: 366,
 					colNames:['id','Name','Description',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
@@ -237,7 +173,7 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
-						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
+						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {
@@ -427,178 +363,5 @@
 					}
 			    });
 				
-				
-	//-----------------------------------
-	//----------- Sub Group JQGrid
-	//-----------------------------------
-	
-				var grid_selector_sub = "#grid-table-subgroup";
-				var pager_selector_sub = "#grid-pager-subgroup";
-			
-				jQuery(grid_selector_sub).jqGrid({
-					//direction: "rtl",
-					
-					data: grid_data,
-					datatype: "local",
-					height: 266,
-					colNames:['id','Name','Description',' '],
-					colModel:[
-						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
-						{name:'name',index:'name', width:110, editrules:{required:true}, editable: true},
-						{name:'description',index:'description', width:150,editable: true,editoptions:{maxlength:"200"}},
-						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-							formatter:'actions', 
-							formatoptions:{ 
-								keys:true,
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
-							}
-						}
-					], 
-			
-					viewrecords : true,
-					rowNum:10,
-					rowList:[10,20,30],
-					pager : pager_selector_sub,
-					altRows: true,
-					//toppager: true,
-					
-					multiselect: false,
-					//multikey: "ctrlKey",
-			        multiboxonly: true,
-			
-					loadComplete : function() {
-						var table = this;
-						setTimeout(function(){
-							styleCheckbox(table);
-							updateActionIcons(table);
-							updatePagerIcons(table);
-							enableTooltips(table);
-						}, 0);
-					},
-					afterSubmit: function (response, postdata) {
-						console.log("Called afterSubmitCell");
-	                    setTimeout(function () {
-	                        $("#info_dialog").css({
-	                            left: "30px", // new left position of ERROR dialog
-	                            top: "10px"   // new top position of ERROR dialog
-	                        });
-	                    });
-	                    return [false, "It's an error text"];
-	                },
-					editurl: $path_base+"/dummy.html",//nothing is saved
-					//caption: "List of areas",
-					scrollOffset: 18,
-					autowidth: true
-			
-				});
-
-				jQuery(grid_selector_sub).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
-					//alert("You enter a row with id: " + rowid);
-                    editingRowId = rowid;
-                    // we use aftersavefunc to restore focus
-                    jQuery(grid_selector_sub).jqGrid('editRow',rowid,true,null, null, null, {},function(){
-                        setTimeout(function(){
-                        	jQuery(grid_selector_sub).focus();
-                        },100);
-                    },
-                    null,
-                    function(){
-                        setTimeout(function(){
-                        	jQuery(grid_selector_sub).focus();
-                        },100);
-                    });
-				} } );
-				
-
-				//navButtons
-				jQuery(grid_selector_sub).jqGrid('navGrid',pager_selector_sub,
-					{ 	//navbar options
-						edit: false,
-						editicon : 'icon-pencil blue',
-						add: true,
-						addtext:"Add",
-						addtitle: "Add Area",
-						addicon : 'icon-plus-sign purple',
-						del: false,
-						delicon : 'icon-trash red',
-						search: true,
-						searchicon : 'icon-search orange',
-						refresh: true,
-						refreshicon : 'icon-refresh green',
-						view: false,
-						viewicon : 'icon-zoom-in grey',
-					},
-					{
-						//edit record form
-						//closeAfterEdit: true,
-						recreateForm: true,
-						closeOnEscape:true,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_edit_form(form);
-						}
-					},
-					{
-						//new record form
-						closeAfterAdd: true,
-						recreateForm: true,
-						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
-						closeOnEscape:true,
-						viewPagerButtons: false,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" ></div>')
-							style_edit_form(form);
-						}
-					},
-					{
-						//delete record form
-						recreateForm: true,
-						closeOnEscape:true,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							if(form.data('styled')) return false;
-							
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
-							style_delete_form(form);
-							
-							form.data('styled', true);
-						},
-						onClick : function(e) {
-							alert(1);
-						}
-					},
-					{
-						//search form
-						recreateForm: true,
-						afterShowSearch: function(e){
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-							style_search_form(form);
-						},
-						afterRedraw: function(){
-							style_search_filters($(this));
-						}
-						,
-						multipleSearch: true,
-						closeOnEscape:true
-						/**
-						multipleGroup:true,
-						showQuery: true
-						*/
-					},
-					{
-						//view record form
-						recreateForm: true,
-						closeOnEscape:true,
-						beforeShowForm: function(e){
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
-						}
-					}
-				)
-			
 			});
 		</script>

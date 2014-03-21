@@ -5913,14 +5913,17 @@ $.extend($.jgrid,{
 		});
 		if (p.width === 0 || !p.width) {p.width = 300;}
 		if(p.height === 0 || !p.height) {p.height =200;}
+		
 		if(!p.zIndex) {
 			var parentZ = $(insertSelector).parents("*[role=dialog]").filter(':first').css("z-index");
+			
 			if(parentZ) {
 				p.zIndex = parseInt(parentZ,10)+2;
 			} else {
 				p.zIndex = 950;
 			}
 		}
+		
 		var rtlt = 0;
 		if( rtlsup && coord.left && !appendsel) {
 			rtlt = $(p.gbox).width()- (!isNaN(p.width) ? parseInt(p.width,10) :0) - 8; // to do

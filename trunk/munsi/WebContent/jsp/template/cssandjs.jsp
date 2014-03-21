@@ -11,7 +11,8 @@
 		<![endif]-->
 
 		<!-- page specific plugin styles -->
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui-1.10.3.custom.min.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jquery-ui-1.10.3.full.min.css" />
+		<!-- <link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.custom.min.css" /> -->
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/datepicker.css" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ui.jqgrid.css" />
 		<!-- fonts -->

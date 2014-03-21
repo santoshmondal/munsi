@@ -24,6 +24,39 @@
 									var $path_base = "/";//this will be used in gritter alerts containing images
 								</script>
 								
+								
+								<!-- Dialog Scheme -->
+								<div id="dialog-scheme" class="hide">
+									<table id="grid-table-scheme"></table>
+									<div id="grid-pager-scheme"></div>
+									
+									 <!-- <p class="validateTips">All form fields are required.</p>
+									 	
+									<form class="form-inline" role="form">
+										
+										 <div class="form-group">
+										    <label for="name" class="col-sm-2 control-label">Name</label>
+										    <div class="col-sm-10">
+												<input type="text" name="name" id="name" class=" text ui-widget-content ui-corner-all">
+										    </div>
+										 </div>
+										  
+										 <div class="form-group">
+											<label for="email" class="col-sm-2 control-label">Email</label>
+										    <div class="col-sm-10">
+												<input type="text" name="email" id="email" value="" class="text ui-widget-content ui-corner-all">
+											</div>
+										 </div>
+										 
+										<div class="form-group">
+											<label for="password" class="col-sm-2 control-label">Password</label>
+											<div class="col-sm-10">
+												<input type="password" name="password" id="password" value="" class="text ui-widget-content ui-corner-all">
+											</div>
+										</div>
+									</form> -->
+								</div>	
+								
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -32,21 +65,27 @@
 			var grid_data = 
 			[ 
 				{id:"11",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
-				{id:"12",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
-				{id:"13",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"1234567890sdfsdf",servicechargetax:"",scheme:''},
-				{id:"14",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
-				{id:"15",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
+				{id:"12",name:"MA 12",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
+				{id:"13",name:"MA 13",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"1234567890sdfsdf",servicechargetax:"",scheme:''},
+				{id:"14",name:"MA 441",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
+				{id:"15",name:"MA 15",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
 				{id:"16",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
 				{id:"17",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
-				{id:"18",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
-				{id:"19",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
-				{id:"10",name:"MA 1",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''}
+				{id:"18",name:"MA 155",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
+				{id:"19",name:"MA 123",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''},
+				{id:"10",name:"MA 13",weight:"0.019",group:"G 1",subgroup:"SG 1",taxes:"12.50",margin:"",openingstock:"10",mrp:"1.00",salerate:"0.76",purchaseunit:"Box",purchaserate:"",pack:"",lockitem:"",unit:"",batchyn:"",vattype:"",servicechargetax:"",scheme:''}
 			];	
 			
+			var grid_data_scheme =
+					[ 
+						{id:"1",name:"MA 1",schemetype:"0.019",quantity:"G 1",eligiblitycriteria:"SG 1",minreq:"12.50"},
+						{id:"2",name:"MA 2",schemetype:"0.019",quantity:"G 1",eligiblitycriteria:"SG 1",minreq:"12.50"},
+						{id:"3",name:"MA 3",schemetype:"0.019",quantity:"G 1",eligiblitycriteria:"SG 1",minreq:"12.50"}
+					];	
 			jQuery(function($) {
 				var grid_selector = "#grid-table-prodmaster";
 				var pager_selector = "#grid-pager-prodmaster";
-			
+				
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
@@ -57,23 +96,23 @@
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:false},
 						{name:'name',index:'name', width:250,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'weight',index:'weight', width:100, editable: true,editoptions:{size:"10",maxlength:"130"}},
-						{name:'margin',index:'margin',width:130, editable: true,editoptions:{size:"10",maxlength:"130"}},
+						{name:'weight',index:'weight', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'margin',index:'margin',width:130, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						
-						{name:'mrp',index:'mrp',width:120, editable: true,editoptions:{size:"10",maxlength:"130"}},
+						{name:'mrp',index:'mrp',width:120, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'salerate',index:'salerate',width:155,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'unit',index:'unit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						{name:'unit',index:'unit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
 						
 						{name:'purchaserate',index:'purchaserate',width:200,  editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'purchaseunit',index:'purchaseunit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:7, colpos:2}, edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
 						{name:'pack',index:'pack',  sorttype:"int", sortable:true,hidden:true, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'lockitem',index:'lockitem', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'batchyn',index:'batchyn', editable: true,edittype:"checkbox",hidden:true, editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'taxes',index:'taxes', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ multiple: true,  value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)", size: 3}},
-						
-						{name:'vattype',index:'vattype', editable: true, edittype:"select",editoptions:{   value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
+						{name:'taxes',index:'taxes', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)", size: 3}},
+
+						{name:'vattype',index:'vattype', editable: true, edittype:"select",editoptions:{  dataInit: function(elem) {$(elem).width(160);}, value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
 						{name:'servicechargetax',index:'servicechargetax', sorttype:"int", sortable:true,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'group',index:'group', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
+						{name:'group',index:'group', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
 						{name:'subgroup',index:'subgroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
 						
 						{name:'openingstock',index:'openingstock',width:190, sortable:false,editable: false, formatter:'showlink', formatoptions:{baseLinkUrl:'#', addParam: '&action=manage_opening_stock'}},
@@ -118,7 +157,12 @@
 	                            if (hash.substring(0,5) === '#?id=') {
 	                                var id = hash.substring(5,hash.length);
 	                                var text = "clicked the row with id='"+id+"' and hash is:"+hash;
-	                                alert(text);
+	                                if(hash.indexOf('action=manage_scheme') > -1){
+	                                	showSchemeDialog(id);
+	                                }
+	                                else{
+		                                alert(text);
+	                                }
 	                                //$("#log").append(text+"<br />");
 	                            }
 	                            e.preventDefault();
@@ -408,6 +452,121 @@
 					}
 			    });
 				
+		//----------------------------------------
+		//----------Scheme Related JS ------------
+		//----------------------------------------
+				function showSchemeDialog(row) {
+					console.log("showSchemeDialog[param]> "+row);
+					
+					$( "#dialog-scheme" ).removeClass('hide').dialog({
+						resizable: true,
+						modal: true,
+						title: "",
+						height: 400,
+						width: 660,
+						title_html: true,
+						open: function() {
+						    $(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Scheme</span> </div>");
+						    $(".ui-dialog-buttonset").addClass('col-lg-12');
+						    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
+						    var rowData1 = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
+						    console.log(rowData1 + '\n rowData.name >' + rowData1.name);
+						    jQuery(grid_selector_scheme).jqGrid('setCaption', "Scheme for "+rowData1.name);
+						    //Ajax call to populate Scheme Grid
+						},
+						buttons: [
+							{
+								html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
+								"class" : "btn btn-primary btn-xs pull-left",
+								click: function() {
+									var datarow = {id:"",name:"",schemetype:"",quantity:"",eligiblitycriteria:"",minreq:""};
+						            var newId = $.jgrid.randId();
+						            console.log("add called--->newId = "+newId)
+									jQuery(grid_selector_scheme).jqGrid('addRowData', newId , datarow, "last");
+									//jQuery(grid_selector_scheme).trigger("reloadGrid");
+								}
+							},
+							{
+								html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
+								"class" : "btn btn-xs pull-right",
+								click: function() {
+									
+									$( this).dialog( "close" );
+								}
+							},
+							{
+								html: "<i class='icon-trash bigger-110'></i>&nbsp; Submit",
+								"class" : "btn btn-danger btn-xs pull-right",
+								click: function() {
+									console.log(jQuery(grid_selector_scheme).jqGrid('getGridParam','data'));
+									//$( this ).dialog( "close" );
+								}
+							}
+							
+						]
+					});
+				}
+			
+			//--------- Scheme JQGrid------
+			
+				var grid_selector_scheme = "#grid-table-scheme";
+				var pager_selector_scheme = "#grid-pager-scheme";
+				
+				jQuery(grid_selector_scheme).jqGrid({
+					//direction: "rtl",
+					
+					data: grid_data_scheme,
+					datatype: "local",
+
+					colNames:['id','Name','Scheme type','Quantity','Eligiblity Criteria','Min. Purchase Qty.',' '],
+					colModel:[
+						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
+						{name:'name',index:'name', width:100,sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'schemetype',index:'schemetype',width:100, sortable:false, editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						
+						{name:'quantity',index:'quantity',width:80, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'eligiblitycriteria',index:'eligiblitycriteria',width:130 , sortable:false, editable: true,edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						{name:'minreq',index:'minreq',width:140, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'myac',index:'', width:70, fixed:true, sortable:false, resize:false,
+							formatter:'actions', 
+							formatoptions:{ 
+								keys:true,
+								delOptions:{top:45 , left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
+								//editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
+							}
+						}
+					], 
+			
+					viewrecords : true,
+					
+					pager : "",
+					altRows: false,
+					
+					multiselect: false,
+					//multikey: "ctrlKey",
+			        multiboxonly: true,
+			        height: 'auto',
+					loadComplete : function() {
+						var table = this;
+						setTimeout(function(){
+							styleCheckbox(table);
+							updateActionIcons(table);
+							updatePagerIcons(table);
+							enableTooltips(table);
+						}, 0);
+						
+					},
+					editurl: $path_base+"/dummy.html",//nothing is saved
+					caption: "Scheme",
+					scrollOffset: 18,
+					autowidth: true,
+					autoheight:true
+				});
+
+				jQuery(grid_selector_scheme).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
+					editingRowId = rowid;
+                    jQuery(grid_selector_scheme).find('#jEditButton_'+editingRowId).click();
+				} } );
 				
 			});
 		</script>

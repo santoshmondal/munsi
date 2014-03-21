@@ -44,16 +44,18 @@
 						<i class="icon-double-angle-right"></i>Main Account
 				</a></li>
 				<li><a href="#" data-href="/jsp/master/customer_acc_master.jsp">
-						<i class="icon-double-angle-right"></i> Customer Account
+						<i class="icon-double-angle-right"></i> Customer
 				</a></li>
 				<li><a href="#" data-href="/jsp/master/area_master.jsp"> <i
 						class="icon-double-angle-right"></i> Area
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/product_master.jsp">
+				
+				<!-- <li><a href="#" data-href="/jsp/master/product_master.jsp">
 						<i class="icon-double-angle-right"></i> Opening
-				</a></li>
-				<li><a href="#"  data-href="/jsp/master/product_master.jsp"> <i
-						class="icon-double-angle-right"></i> Product Master
+				</a></li> -->
+				
+				<li><a href="#" data-href="/jsp/master/product_master.jsp">
+						<i class="icon-double-angle-right"></i> Product
 				</a></li>
 				<li><a href="#" data-href="/jsp/master/product_grouping.jsp">
 						<i class="icon-double-angle-right"></i> Product Grouping
@@ -71,20 +73,22 @@
 								<i class="icon-sitemap"></i> Product Grouping
 						</a></li>
 					</ul>
-				</li>
- -->
-				<li><a href="#" data-href="/jsp/master/product_master.jsp">
-						<i class="icon-double-angle-right"></i> Salesman
+				</li> 
+				<li class='disabled'><a href="#"
+					data-href="/jsp/master/product_master.jsp"> <i
+						class="icon-double-angle-right"></i> Salesman
+				</a></li> -->
+				<li><a href="#" data-href="/jsp/master/manufacturer_master.jsp">
+						<i class="icon-double-angle-right"></i> Manufacturer
 				</a></li>
-
-				<li><a href="#" data-href="/jsp/master/product_master.jsp">
-						<i class="icon-double-angle-right"></i> Scheme
+				<li><a href="#" data-href="/jsp/master/tax_master.jsp">
+						<i class="icon-double-angle-right"></i> TAX
 				</a></li>
-
-				<li><a href="#" data-href="/jsp/master/product_master.jsp">
-						<i class="icon-double-angle-right"></i> <span class="menu-text">
+				<li class='disabled'><a href="#"
+					data-href="/jsp/master/product_master.jsp"> <i
+						class="icon-double-angle-right"></i> <span class="menu-text">
 							Van <span class="badge badge-transparent"> <i
-								class="icon-truck green" style='font-size:1.5em'></i>
+								class="icon-truck green" style='font-size: 1.5em'></i>
 						</span>
 					</span>
 				</a></li>
@@ -117,7 +121,7 @@
 						<i class="icon-double-angle-right"></i> Product Master
 				</a></li>
 			</ul></li>
-		<li><a href="#"> <i class="icon-text-width"></i> <span
+		<!-- 		<li><a href="#"> <i class="icon-text-width"></i> <span
 				class="menu-text" data-href="/jsp/test/embed1.jsp">
 					Typography </span>
 		</a></li>
@@ -179,8 +183,7 @@
 								class="icon-warning-sign red bigger-130"></i>
 						</span>
 			</span>
-		</a></li>
-
+		</a></li> -->
 	</ul>
 	<!-- /.nav-list -->
 
@@ -190,6 +193,9 @@
 	</div>
 
 	<script type="text/javascript">
-						try{ace.settings.check('sidebar' , 'collapsed');}catch(e){}
-					</script>
+		try {
+			ace.settings.check('sidebar', 'collapsed');
+		} catch (e) {
+		}
+	</script>
 </div>

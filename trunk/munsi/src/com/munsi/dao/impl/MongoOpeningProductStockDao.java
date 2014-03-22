@@ -18,6 +18,7 @@ import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.OpeningProductStockDao;
 import com.munsi.pojo.master.OpeningProductStock;
+import com.munsi.pojo.master.inventory.ProductInventory;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
@@ -31,7 +32,8 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 	
 	
 	private String collProduct = DBCollectionEnum.MAST_PRODUCT.toString();
-	private String collOpeningProductstock = DBCollectionEnum.OPENING_PRODUCT_STOCK.toString();
+	private String collOpeningProductStock = DBCollectionEnum.OPENING_PRODUCT_STOCK.toString();
+	private String collProductInventory = DBCollectionEnum.PRODUCT_INVENTORY.toString();
 	
 	private DB mongoDB = MongoUtil.getDB();
 	
@@ -44,7 +46,7 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.OPENING_PRODUCT_STOCK).toString();
 			openingProductStock.set_id(_id);
 			
-			DBCollection collection = mongoDB.getCollection( collOpeningProductstock );
+			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
 			String jsonString = CommonUtil.objectToJson(openingProductStock);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
@@ -57,7 +59,31 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 			WriteResult writeResult = collection.insert(dbObject );
 			
 			if ( writeResult.getN() > 0 ){
+				
+				DBCollection collectionInventry = mongoDB.getCollection( collProductInventory );
+				ProductInventory inventory = new ProductInventory();
+				String _id2 = MongoUtil.getNextSequence(DBCollectionEnum.PRODUCT_INVENTORY).toString();
+				
+				inventory.set_id(_id2);
+				inventory.setAvailableQuantity(openingProductStock.getQuantity());
+				inventory.setBatchNumber(openingProductStock.getBatchNumber());
+				inventory.setExpDate( openingProductStock.getExpDate() );
+				inventory.setMfgDate( openingProductStock.getMfgDate() );
+				inventory.setProduct( openingProductStock.getProduct() );
+			
+				jsonString = CommonUtil.objectToJson(inventory);
+				
+				DBObject invenToryDBObject = (DBObject) JSON.parse( jsonString );
+				
+				productRef = new DBRef(mongoDB, collProduct, openingProductStock.getProduct().get_id() );
+				invenToryDBObject.put( KEY_PRODUCT_XID, productRef);
+				invenToryDBObject.removeField(KEY_PRODUCT);
+				
+				writeResult = collectionInventry.insert( invenToryDBObject );
+				
 				return true;
+				
+				
 			}
 			
 		}catch( Exception exception ){
@@ -72,7 +98,7 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 			Date date = new Date();
 			openingProductStock.setUtime( date );
 			
-			DBCollection collection = mongoDB.getCollection( collOpeningProductstock );
+			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
 			String jsonString = CommonUtil.objectToJson(openingProductStock);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
@@ -101,7 +127,7 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 	@Override
 	public Boolean delete(String _id) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collOpeningProductstock );
+			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
 			
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true)
@@ -128,7 +154,7 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 	@Override
 	public OpeningProductStock get(String _id, Boolean withReferences) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collOpeningProductstock );
+			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			
@@ -159,7 +185,7 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 	@Override
 	public List<OpeningProductStock> getOpeningStockByProduct(String product_id,Boolean withReferences) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collOpeningProductstock );
+			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
 			
 			DBRef productRef = new DBRef(mongoDB, collProduct, product_id);
 			
@@ -209,7 +235,7 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 	@Override
 	public List<OpeningProductStock> getAll(Boolean withReferences) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collOpeningProductstock );
+			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
 			DBCursor dbCursor = collection.find(deletedQuery);
 			

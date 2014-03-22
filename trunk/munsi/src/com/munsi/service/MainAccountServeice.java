@@ -3,16 +3,16 @@ package com.munsi.service;
 import java.util.List;
 
 import com.munsi.dao.MainAccountDao;
-import com.munsi.dao.ObjectFactory;
-import com.munsi.dao.ObjectFactory.ObjectEnum;
 import com.munsi.pojo.master.MainAccount;
+import com.munsi.util.ObjectFactory;
+import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class MainAccountServeice {
 
 	private MainAccountDao mainAccountDao;
 
 	public MainAccountServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.MAIN_AC_DAO);
+		Object object = ObjectFactory.getDaoInstance(ObjectEnum.MAIN_ACCOUNT_DAO);
 		if (object instanceof MainAccountDao) {
 			mainAccountDao = (MainAccountDao) object;
 		}

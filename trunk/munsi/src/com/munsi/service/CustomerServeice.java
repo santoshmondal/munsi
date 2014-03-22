@@ -3,9 +3,9 @@ package com.munsi.service;
 import java.util.List;
 
 import com.munsi.dao.CustomerDao;
-import com.munsi.dao.ObjectFactory;
-import com.munsi.dao.ObjectFactory.ObjectEnum;
 import com.munsi.pojo.master.Customer;
+import com.munsi.util.ObjectFactory;
+import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class CustomerServeice {
 
@@ -34,8 +34,18 @@ public class CustomerServeice {
 	public Customer get(String _id) {
 		return customerDao.get(_id);
 	}
-
+	
+	public Customer get(String _id, Boolean withReferences) {
+		return customerDao.get(null, withReferences);
+	}
+	
 	public List<Customer> getAll() {
 		return customerDao.getAll();
 	}
+	
+	public List<Customer> getAll(Boolean withReferences) {
+		return customerDao.getAll(withReferences);
+	}
+	
+	
 }

@@ -131,9 +131,8 @@ public class MongoMainAccountDao implements MainAccountDao {
 	public List<MainAccount> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
-			DBObject existQuery = new BasicDBObject("$exists", false);
 			
-			DBObject q1 =  new BasicDBObject("deleted", existQuery);
+			DBObject q1 =  new BasicDBObject("deleted", new BasicDBObject("$exists", false));
 			DBObject q2 =  new BasicDBObject("deleted", null);
 			DBObject q3 =  new BasicDBObject("deleted", false);
 			

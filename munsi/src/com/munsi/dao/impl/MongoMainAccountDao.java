@@ -132,7 +132,7 @@ public class MongoMainAccountDao implements MainAccountDao {
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
 			DBObject query = new BasicDBObject("deleted", false);
 			QueryBuilder qb = new QueryBuilder();
-			qb.exists( new BasicDBObject("deleted",0) ).or(query) ;
+			qb.exists( new BasicDBObject("deleted",0) ) ;
 			
 			DBCursor dbCursor = collection.find( qb.get() );
 			

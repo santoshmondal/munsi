@@ -64,10 +64,13 @@ public class MongoTaxDao implements TaxDao {
 			String jsonString = CommonUtil.objectToJson(tax);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			dbObject.removeField("_id");
+			
+			DBObject updateObje = new BasicDBObject("$set",dbObject);
 			
 			DBObject query = new BasicDBObject("_id", tax.get_id());
 			
-			WriteResult writeResult = collection.update(query, dbObject);
+			WriteResult writeResult = collection.update(query, updateObje);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -89,7 +92,8 @@ public class MongoTaxDao implements TaxDao {
 			DBObject update = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
 			
-			WriteResult writeResult = collection.update(query, update);
+			DBObject updateObj = new BasicDBObject("$set", update);
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -122,7 +126,8 @@ public class MongoTaxDao implements TaxDao {
 	public List<Tax> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collTax );
-			DBCursor dbCursor = collection.find();
+			DBObject queryCheckDeleted = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find(queryCheckDeleted);
 			
 			List<Tax> taxList = new ArrayList<>();
 			

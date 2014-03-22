@@ -51,9 +51,8 @@ public class MongoCustomerDao implements CustomerDao {
 			String jsonString = CommonUtil.objectToJson(customer);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			String mainAC_id = customer.getMainAccount().get_id();
 			
-			DBRef mainACRef = new DBRef(mongoDB, collMAinAC, mainAC_id);
+			DBRef mainACRef = new DBRef(mongoDB, collMAinAC, customer.getMainAccount().get_id());
 			DBRef areaRef = new DBRef(mongoDB, collArea, customer.getArea().get_id());
 			DBRef beatRef = new DBRef(mongoDB, collBeat, customer.getBeat().get_id());
 			
@@ -100,9 +99,13 @@ public class MongoCustomerDao implements CustomerDao {
 			dbObject.removeField(KEY_MAIN_ACCOUNT);
 			dbObject.removeField(KEY_AREA);
 			dbObject.removeField(KEY_BEAT);
+			dbObject.removeField("_id");
 			
 			DBObject query = new BasicDBObject("_id", customer.get_id()); 
-			WriteResult writeResult = collection.update(query, dbObject);
+			
+			DBObject update = new BasicDBObject("$set", dbObject); 
+			
+			WriteResult writeResult = collection.update(query, update);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -121,8 +124,9 @@ public class MongoCustomerDao implements CustomerDao {
 			DBCollection collection = mongoDB.getCollection( collCustomer );
 			
 			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
+			DBObject updateKey = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
+			DBObject update = new BasicDBObject("$set",updateKey);
 			
 			WriteResult writeResult = collection.update(query, update);
 			
@@ -182,7 +186,8 @@ public class MongoCustomerDao implements CustomerDao {
 	public List<Customer> getAll(Boolean withReferences) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collCustomer );
-			DBCursor dbCursor = collection.find();
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find(deletedQuery);
 			
 			List<Customer> customerList = new ArrayList<>();
 			
@@ -222,7 +227,9 @@ public class MongoCustomerDao implements CustomerDao {
 			DBCollection collection = mongoDB.getCollection( collCustomer );
 			DBObject dbKey = new BasicDBObject("name",1);
 			
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			
+			DBCursor dbCursor = collection.find(deletedQuery, dbKey);
 			
 			List<String[]> customerList = new ArrayList<>();
 			

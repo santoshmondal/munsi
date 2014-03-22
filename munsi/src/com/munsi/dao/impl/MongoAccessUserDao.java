@@ -63,10 +63,13 @@ public class MongoAccessUserDao implements AccesssUserDao {
 			String jsonString = CommonUtil.objectToJson(accessUser);
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
-
+			dbObject.removeField("_id");
+			
 			DBObject query = new BasicDBObject("_id", accessUser.get_id());
 
-			WriteResult writeResult = collection.update(query, dbObject);
+			DBObject update = new BasicDBObject("$set", dbObject);
+
+			WriteResult writeResult = collection.update(query, update);
 
 			if (writeResult.getN() > 0) {
 				return true;
@@ -86,8 +89,8 @@ public class MongoAccessUserDao implements AccesssUserDao {
 
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
-
-			WriteResult writeResult = collection.update(query, update);
+			DBObject updateObj = new BasicDBObject("$set", update);
+			WriteResult writeResult = collection.update(query, updateObj);
 
 			if (writeResult.getN() > 0) {
 				return true;

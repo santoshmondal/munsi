@@ -115,7 +115,7 @@ public class MongoMainAccountDao implements MainAccountDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
-			MainAccount mainAccount = (MainAccount) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+			MainAccount mainAccount = (MainAccount) CommonUtil.jsonToObject( jsonString, MainAccount.class.getName() );
 			
 			return mainAccount;
 			

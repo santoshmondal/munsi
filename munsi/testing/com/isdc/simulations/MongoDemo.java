@@ -13,12 +13,15 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
 import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
 import com.munsi.pojo.master.Customer;
 import com.munsi.pojo.master.MainAccount;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
+import com.munsi.util.MongoUtil;
+import com.munsi.util.Constants.DBCollectionEnum;
 
 public class MongoDemo {
 	public static DB getDB(){
@@ -34,7 +37,8 @@ public class MongoDemo {
 	public static void main(String[] args) {
 		//insert1();
 		//readCus();
-		readCus2();
+		//readCus2();
+		insertMAC();
 	}
 	
 	public static MainAccount readMainAC() {
@@ -85,7 +89,7 @@ public class MongoDemo {
 		
 	}
 	
-	public static void insert2() {
+	public static void insertMAC() {
 		DBCollection collection = getDB().getCollection("mainaccount");
 		DBObject dbObject = (DBObject) JSON.parse( getJSONStringMainAC() ); 
 		collection.insert(dbObject );
@@ -109,7 +113,10 @@ public class MongoDemo {
 	
 	public static String getJSONStringMainAC() {
 		MainAccount ma = new MainAccount();
-		ma.set_id("2");
+		//Integer id = MongoUtil.getNextSequence(Constants.DBCollectionEnum.MAST_MAIN_ACCOUNT);
+		String strid = getNextSequence("mainaccount").toString();
+		System.out.println("strid "+strid);
+		ma.set_id(strid);
 		ma.setCode("ma1");
 		ma.setName("SUNDRY CREDITORS");
 		return CommonUtil.objectToJson(ma);
@@ -151,4 +158,34 @@ public class MongoDemo {
 			e.printStackTrace();
 		}
 	}
+	
+	public static Integer getNextSequence(String collectionStr) {
+
+		String collectionName = collectionStr;
+
+		DB db = getDB();
+		DBCollection collection = db.getCollection("counters");
+		DBObject query = new BasicDBObject("_id", collectionName);
+		DBObject update = (DBObject) JSON.parse("{ $inc: { seq: 1 } }");
+
+		synchronized (query) {
+
+			DBObject dbObject = collection.findAndModify(query, update);
+
+			if (dbObject == null) {
+				dbObject = new BasicDBObject("_id", collectionName).append("seq", 1);
+				collection.insert(dbObject);
+			}
+
+			dbObject = collection.findOne(query);
+			if (dbObject == null) {
+				throw new MongoException("Problem to find next sequence");
+			}
+			System.out.println( "Seq: "+dbObject.get("seq") );
+			return Integer.valueOf( dbObject.get("seq").toString() );
+		}
+
+	}
+
+	
 }

@@ -32,12 +32,9 @@ public class Product extends BasePojo {
 	private Manufacturer manufacturar;
 	private ProductGroup productGroup;
 	private ProductGroup productSubGroup;
-	private Set<OpeningProductStock> openingStockList;
 	
 	private Float serviceCharge;
 	
-	private Set<Scheme> schemeList;
-
 	public String get_id() {
 		return _id;
 	}
@@ -175,21 +172,6 @@ public class Product extends BasePojo {
 		this.productGroup = productGroup;
 	}
 
-	public Set<OpeningProductStock> getOpeningStockList() {
-		return openingStockList;
-	}
-
-	public void setOpeningStockList(Set<OpeningProductStock> openingStockList) {
-		this.openingStockList = openingStockList;
-	}
-
-	public Set<Scheme> getSchemeList() {
-		return schemeList;
-	}
-
-	public void setSchemeList(Set<Scheme> schemeList) {
-		this.schemeList = schemeList;
-	}
 
 	public Float getServiceCharge() {
 		return serviceCharge;

@@ -1,6 +1,7 @@
 package com.munsi.util;
 
 import java.io.IOException;
+import java.util.Random;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
@@ -43,5 +44,10 @@ public class CommonUtil {
 
         return null;
 	}
+	
+	public static String generateInvoiceNumber() {
+		return "";
+	}
+	
 	
 }

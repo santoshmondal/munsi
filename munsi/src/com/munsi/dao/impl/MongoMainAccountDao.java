@@ -11,10 +11,10 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.QueryBuilder;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.MainAccountDao;
-import com.munsi.pojo.master.Customer;
 import com.munsi.pojo.master.MainAccount;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
@@ -58,6 +58,7 @@ public class MongoMainAccountDao implements MainAccountDao {
 	public Boolean update(MainAccount mainAccount) {
 		try{
 			Date date = new Date();
+			
 			mainAccount.setUtime( date );
 			
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
@@ -130,8 +131,10 @@ public class MongoMainAccountDao implements MainAccountDao {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
 			DBObject query = new BasicDBObject("deleted", false);
+			QueryBuilder qb = new QueryBuilder();
+			qb.exists( new BasicDBObject("deleted",0) ).or(query) ;
 			
-			DBCursor dbCursor = collection.find(query);
+			DBCursor dbCursor = collection.find( qb.get() );
 			
 			List<MainAccount> mainAccountList = new ArrayList<>();
 			

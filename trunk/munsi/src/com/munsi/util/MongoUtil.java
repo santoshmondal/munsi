@@ -2,6 +2,7 @@ package com.munsi.util;
 
 import java.net.UnknownHostException;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -58,5 +59,21 @@ public class MongoUtil {
 			return (Integer) dbObject.get("seq");
 		}
 
+	}
+	
+	public static DBObject getQueryToCheckDeleted(){
+		DBObject q1 =  new BasicDBObject("deleted", new BasicDBObject("$exists", false));
+		DBObject q2 =  new BasicDBObject("deleted", null);
+		DBObject q3 =  new BasicDBObject("deleted", "");
+		DBObject q4 =  new BasicDBObject("deleted", false);
+	
+		BasicDBList orQuery = new BasicDBList();
+		orQuery.add( q1 );
+		orQuery.add( q2 );
+		orQuery.add( q3 );
+		orQuery.add( q4 );
+				
+		DBObject finalQuery = new BasicDBObject("$or", orQuery);
+		return finalQuery;
 	}
 }

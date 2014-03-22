@@ -101,13 +101,9 @@ public class MongoMainAccountDao implements MainAccountDao {
 		
 	}
 	
-	@Override
-	public MainAccount get(String _id) {
-		return get(_id, false); // _id of customer, withReferences - false 
-	}
 	
 	@Override
-	public MainAccount get(String _id, Boolean withReferences) {
+	public MainAccount get(String _id) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
 			DBObject query = new BasicDBObject("_id", _id);
@@ -125,11 +121,6 @@ public class MongoMainAccountDao implements MainAccountDao {
 	
 	@Override
 	public List<MainAccount> getAll() {
-		return getAll(false);
-	}
-	
-	@Override
-	public List<MainAccount> getAll(Boolean withReferences) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
 			DBCursor dbCursor = collection.find();
@@ -151,34 +142,6 @@ public class MongoMainAccountDao implements MainAccountDao {
 		return null;
 	}
 	
-	@Override
-	public List<String[]> getIdName() {
-		try{
-			DBCollection collection = mongoDB.getCollection( collMAinAC );
-			DBObject dbKey = new BasicDBObject("name",1);
-			
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
-			
-			List<String[]> mainAccountList = new ArrayList<>();
-			
-			while ( dbCursor.hasNext() ) {
-				
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-				
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-				
-				String [] idName = new String[]{ _id, name };
-				mainAccountList.add(idName);
-			}
-			
-			return mainAccountList;
-			
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return null;
-	}
 	
 	
 }

@@ -4,6 +4,8 @@ import com.munsi.dao.impl.MongoAreaDao;
 import com.munsi.dao.impl.MongoCustomerDao;
 import com.munsi.dao.impl.MongoMainAccountDao;
 import com.munsi.dao.impl.MongoManufacturerDao;
+import com.munsi.dao.impl.MongoProductGroupDao;
+import com.munsi.dao.impl.MongoTaxDao;
 import com.munsi.service.CustomerServeice;
 
 public class ObjectFactory {
@@ -15,6 +17,8 @@ public class ObjectFactory {
 		AREA_DAO(MongoAreaDao.class.getName()),
 		MAIN_AC_DAO(MongoMainAccountDao.class.getName()),
 		MANUFACTURER_DAO(MongoManufacturerDao.class.getName()),
+		PRODUCT_GROUP_DAO(MongoProductGroupDao.class.getName()),
+		TAX_DAO(MongoTaxDao.class.getName()),
 		
 		
 		// Services

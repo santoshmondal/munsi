@@ -13,30 +13,32 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import com.munsi.dao.ManufacturerDao;
-import com.munsi.pojo.master.Manufacturer;
+import com.munsi.dao.TaxDao;
+import com.munsi.pojo.master.Customer;
+import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
 
-public class MongoManufacturerDao implements ManufacturerDao {
-	private static final Logger LOG = Logger.getLogger( MongoManufacturerDao.class );
+public class MongoTaxDao implements TaxDao {
+	private static final Logger LOG = Logger.getLogger( MongoTaxDao.class );
 	
-	private String collManufacturer = DBCollectionEnum.MAST_MANUFACTURER.toString();
+	
+	private String collTax = DBCollectionEnum.MAST_TAX.toString();
 	
 	private DB mongoDB = MongoUtil.getDB();
 	
 	@Override
-	public Boolean create(Manufacturer manufacturer) {
+	public Boolean create(Tax tax) {
 		try{
 			Date date = new Date();
-			manufacturer.setCtime( date );
-			manufacturer.setUtime( date );
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_MANUFACTURER).toString();
-			manufacturer.set_id( _id );
+			tax.setCtime( date );
+			tax.setUtime( date );
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_TAX).toString();
+			tax.set_id( _id );
 			
-			DBCollection collection = mongoDB.getCollection( collManufacturer );
-			String jsonString = CommonUtil.objectToJson(manufacturer);
+			DBCollection collection = mongoDB.getCollection( collTax );
+			String jsonString = CommonUtil.objectToJson(tax);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
@@ -53,17 +55,18 @@ public class MongoManufacturerDao implements ManufacturerDao {
 	}
 	
 	@Override
-	public Boolean update(Manufacturer manufacturer) {
+	public Boolean update(Tax tax) {
 		try{
 			Date date = new Date();
-			manufacturer.setUtime( date );
+			tax.setUtime( date );
 			
-			DBCollection collection = mongoDB.getCollection( collManufacturer );
-			String jsonString = CommonUtil.objectToJson(manufacturer);
+			DBCollection collection = mongoDB.getCollection( collTax );
+			String jsonString = CommonUtil.objectToJson(tax);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			DBObject query = new BasicDBObject("_id", manufacturer.get_id()); 
+			DBObject query = new BasicDBObject("_id", tax.get_id());
+			
 			WriteResult writeResult = collection.update(query, dbObject);
 			
 			if ( writeResult.getN() > 0 ){
@@ -80,7 +83,7 @@ public class MongoManufacturerDao implements ManufacturerDao {
 	@Override
 	public Boolean delete(String _id) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collManufacturer );
+			DBCollection collection = mongoDB.getCollection( collTax );
 			
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true)
@@ -99,16 +102,15 @@ public class MongoManufacturerDao implements ManufacturerDao {
 	}
 	
 	@Override
-	public Manufacturer get(String _id) {
+	public Tax get(String _id) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collManufacturer );
+			DBCollection collection = mongoDB.getCollection( collTax );
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
-		
 			String jsonString = JSON.serialize(dbObject);
-			Manufacturer manufacturer = (Manufacturer) CommonUtil.jsonToObject( jsonString, Manufacturer.class.getName() );
+			Tax tax = (Tax) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
 			
-			return manufacturer;
+			return tax;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -116,31 +118,27 @@ public class MongoManufacturerDao implements ManufacturerDao {
 		return null;
 	}
 	
-	
 	@Override
-	public List<Manufacturer> getAll() {
+	public List<Tax> getAll() {
 		try{
-			DBCollection collection = mongoDB.getCollection( collManufacturer );
+			DBCollection collection = mongoDB.getCollection( collTax );
 			DBCursor dbCursor = collection.find();
 			
-			List<Manufacturer> manufacturerList = new ArrayList<>();
+			List<Tax> taxList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
-
 				String jsonString = JSON.serialize(dbObject);
-				Manufacturer manufacturer = (Manufacturer) CommonUtil.jsonToObject( jsonString, Manufacturer.class.getName() );
-				manufacturerList.add(manufacturer);
+				Tax tax = (Tax) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+				taxList.add(tax);
 			}
 			
-			return manufacturerList;
+			return taxList;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
 		}
 		return null;
 	}
-	
-
 	
 }

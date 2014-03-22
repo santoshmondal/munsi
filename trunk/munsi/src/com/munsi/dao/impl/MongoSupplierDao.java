@@ -14,54 +14,47 @@ import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import com.munsi.dao.CustomerDao;
-import com.munsi.pojo.master.Customer;
+import com.munsi.dao.SupplierDao;
+import com.munsi.pojo.master.Supplier;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
 
-public class MongoCustomerDao implements CustomerDao {
-	private static final Logger LOG = Logger.getLogger( MongoCustomerDao.class );
+public class MongoSupplierDao implements SupplierDao {
+	private static final Logger LOG = Logger.getLogger( MongoSupplierDao.class );
 	
-	public static final String KEY_MAIN_ACCOUNT_XID = "mainAccountXid";
 	public static final String KEY_AREA_XID = "areaXid";
 	public static final String KEY_BEAT_XID = "beatXid";
 	
-	public static final String KEY_MAIN_ACCOUNT = "mainAccount";
 	public static final String KEY_AREA = "area";
 	public static final String KEY_BEAT = "beat";
 	
-	private String collCustomer = DBCollectionEnum.MAST_CUSTOMER.toString();
-	private String collMAinAC = DBCollectionEnum.MAST_MAIN_ACCOUNT.toString();
+	private String collSupplier = DBCollectionEnum.MAST_SUPPLIER.toString();
 	private String collArea = DBCollectionEnum.MAST_AREA.toString();
 	private String collBeat = DBCollectionEnum.MAST_BEAT.toString();
 	
 	private DB mongoDB = MongoUtil.getDB();
 	
 	@Override
-	public Boolean create(Customer customer) {
+	public Boolean create(Supplier supplier) {
 		try{
 			Date date = new Date();
-			customer.setCtime( date );
-			customer.setUtime( date );
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_CUSTOMER).toString();
-			customer.set_id( _id );
+			supplier.setCtime( date );
+			supplier.setUtime( date );
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_SUPPLIER).toString();
+			supplier.set_id( _id );
 			
-			DBCollection collection = mongoDB.getCollection( collCustomer );
-			String jsonString = CommonUtil.objectToJson(customer);
+			DBCollection collection = mongoDB.getCollection( collSupplier );
+			String jsonString = CommonUtil.objectToJson(supplier);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			String mainAC_id = customer.getMainAccount().get_id();
 			
-			DBRef mainACRef = new DBRef(mongoDB, collMAinAC, mainAC_id);
-			DBRef areaRef = new DBRef(mongoDB, collArea, customer.getArea().get_id());
-			DBRef beatRef = new DBRef(mongoDB, collBeat, customer.getBeat().get_id());
+			DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
+			DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
 			
-			dbObject.put( KEY_MAIN_ACCOUNT_XID, mainACRef );
 			dbObject.put( KEY_AREA_XID, areaRef );
 			dbObject.put( KEY_BEAT_XID, beatRef );
 			
-			dbObject.removeField(KEY_MAIN_ACCOUNT);
 			dbObject.removeField(KEY_AREA);
 			dbObject.removeField(KEY_BEAT);
 			
@@ -78,30 +71,26 @@ public class MongoCustomerDao implements CustomerDao {
 	}
 	
 	@Override
-	public Boolean update(Customer customer) {
+	public Boolean update(Supplier supplier) {
 		try{
 			Date date = new Date();
-			customer.setUtime( date );
+			supplier.setUtime( date );
 			
-			DBCollection collection = mongoDB.getCollection( collCustomer );
-			String jsonString = CommonUtil.objectToJson(customer);
+			DBCollection collection = mongoDB.getCollection( collSupplier );
+			String jsonString = CommonUtil.objectToJson(supplier);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			String mainAC_id = customer.getMainAccount().get_id();
 			
-			DBRef mainACRef = new DBRef(mongoDB, collMAinAC, mainAC_id);
-			DBRef areaRef = new DBRef(mongoDB, collArea, customer.getArea().get_id());
-			DBRef beatRef = new DBRef(mongoDB, collBeat, customer.getBeat().get_id());
+			DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
+			DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
 			
-			dbObject.put( KEY_MAIN_ACCOUNT_XID, mainACRef );
 			dbObject.put( KEY_AREA_XID, areaRef );
 			dbObject.put( KEY_BEAT_XID, beatRef );
 			
-			dbObject.removeField(KEY_MAIN_ACCOUNT);
 			dbObject.removeField(KEY_AREA);
 			dbObject.removeField(KEY_BEAT);
 			
-			DBObject query = new BasicDBObject("_id", customer.get_id()); 
+			DBObject query = new BasicDBObject("_id", supplier.get_id()); 
 			WriteResult writeResult = collection.update(query, dbObject);
 			
 			if ( writeResult.getN() > 0 ){
@@ -118,7 +107,7 @@ public class MongoCustomerDao implements CustomerDao {
 	@Override
 	public Boolean delete(String _id) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collCustomer );
+			DBCollection collection = mongoDB.getCollection( collSupplier );
 			
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true)
@@ -137,35 +126,32 @@ public class MongoCustomerDao implements CustomerDao {
 	}
 	
 	@Override
-	public Customer get(String _id) {
-		return get(_id, false); // _id of customer, withReferences - false 
+	public Supplier get(String _id) {
+		return get(_id, false); // _id of supplier, withReferences - false 
 	}
 	
 	@Override
-	public Customer get(String _id, Boolean withReferences) {
+	public Supplier get(String _id, Boolean withReferences) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collCustomer );
+			DBCollection collection = mongoDB.getCollection( collSupplier );
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			
 			if( withReferences == true ){
-				DBObject mainACdDB =  ((DBRef)dbObject.get(KEY_MAIN_ACCOUNT_XID)).fetch();
 				DBObject areaDB =  ((DBRef)dbObject.get(KEY_AREA_XID)).fetch();
 				DBObject beatDB =  ((DBRef)dbObject.get(KEY_BEAT_XID)).fetch();
 				
-				dbObject.put(KEY_MAIN_ACCOUNT, mainACdDB);
 				dbObject.put(KEY_AREA, areaDB);
 				dbObject.put(KEY_BEAT, beatDB);
 			}
 			
-			dbObject.removeField(KEY_MAIN_ACCOUNT_XID);
 			dbObject.removeField(KEY_AREA_XID);
 			dbObject.removeField(KEY_BEAT_XID);
 			
 			String jsonString = JSON.serialize(dbObject);
-			Customer customer = (Customer) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+			Supplier supplier = (Supplier) CommonUtil.jsonToObject( jsonString, Supplier.class.getName() );
 			
-			return customer;
+			return supplier;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -174,41 +160,38 @@ public class MongoCustomerDao implements CustomerDao {
 	}
 	
 	@Override
-	public List<Customer> getAll() {
+	public List<Supplier> getAll() {
 		return getAll(false);
 	}
 	
 	@Override
-	public List<Customer> getAll(Boolean withReferences) {
+	public List<Supplier> getAll(Boolean withReferences) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collCustomer );
+			DBCollection collection = mongoDB.getCollection( collSupplier );
 			DBCursor dbCursor = collection.find();
 			
-			List<Customer> customerList = new ArrayList<>();
+			List<Supplier> supplierList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
 				
 				if( withReferences == true ){
-					DBObject mainACdDB =  ((DBRef)dbObject.get(KEY_MAIN_ACCOUNT_XID)).fetch();
 					DBObject areaDB =  ((DBRef)dbObject.get(KEY_AREA_XID)).fetch();
 					DBObject beatDB =  ((DBRef)dbObject.get(KEY_BEAT_XID)).fetch();
 					
-					dbObject.put(KEY_MAIN_ACCOUNT, mainACdDB);
 					dbObject.put(KEY_AREA, areaDB);
 					dbObject.put(KEY_BEAT, beatDB);
 				}
 				
-				dbObject.removeField(KEY_MAIN_ACCOUNT_XID);
 				dbObject.removeField(KEY_AREA_XID);
 				dbObject.removeField(KEY_BEAT_XID);
 				
 				String jsonString = JSON.serialize(dbObject);
-				Customer customer = (Customer) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
-				customerList.add(customer);
+				Supplier supplier = (Supplier) CommonUtil.jsonToObject( jsonString, Supplier.class.getName() );
+				supplierList.add(supplier);
 			}
 			
-			return customerList;
+			return supplierList;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -219,12 +202,12 @@ public class MongoCustomerDao implements CustomerDao {
 	@Override
 	public List<String[]> getIdName() {
 		try{
-			DBCollection collection = mongoDB.getCollection( collCustomer );
+			DBCollection collection = mongoDB.getCollection( collSupplier );
 			DBObject dbKey = new BasicDBObject("name",1);
 			
 			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
 			
-			List<String[]> customerList = new ArrayList<>();
+			List<String[]> supplierList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				
@@ -234,10 +217,10 @@ public class MongoCustomerDao implements CustomerDao {
 				String name = dbObject.getString("name");
 				
 				String [] idName = new String[]{ _id, name };
-				customerList.add(idName);
+				supplierList.add(idName);
 			}
 			
-			return customerList;
+			return supplierList;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);

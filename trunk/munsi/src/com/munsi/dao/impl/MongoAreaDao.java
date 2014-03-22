@@ -14,8 +14,8 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.AreaDao;
-import com.munsi.pojo.master.Customer;
 import com.munsi.pojo.master.Area;
+import com.munsi.pojo.master.Customer;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
@@ -64,10 +64,12 @@ public class MongoAreaDao implements AreaDao {
 			String jsonString = CommonUtil.objectToJson(area);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			
+			dbObject.removeField("_id");
 			DBObject query = new BasicDBObject("_id", area.get_id());
 			
-			WriteResult writeResult = collection.update(query, dbObject);
+			DBObject updateObj = new BasicDBObject("$set", dbObject);
+			
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -89,7 +91,8 @@ public class MongoAreaDao implements AreaDao {
 			DBObject update = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
 			
-			WriteResult writeResult = collection.update(query, update);
+			DBObject updateObj = new BasicDBObject("$set", update);
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -101,13 +104,9 @@ public class MongoAreaDao implements AreaDao {
 		
 	}
 	
-	@Override
-	public Area get(String _id) {
-		return get(_id, false); // _id of customer, withReferences - false 
-	}
 	
 	@Override
-	public Area get(String _id, Boolean withReferences) {
+	public Area get(String _id) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collArea );
 			DBObject query = new BasicDBObject("_id", _id);
@@ -125,14 +124,10 @@ public class MongoAreaDao implements AreaDao {
 	
 	@Override
 	public List<Area> getAll() {
-		return getAll(false);
-	}
-	
-	@Override
-	public List<Area> getAll(Boolean withReferences) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collArea );
-			DBCursor dbCursor = collection.find();
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find( finalQuery);
 			
 			List<Area> areaList = new ArrayList<>();
 			
@@ -151,34 +146,6 @@ public class MongoAreaDao implements AreaDao {
 		return null;
 	}
 	
-	@Override
-	public List<String[]> getIdName() {
-		try{
-			DBCollection collection = mongoDB.getCollection( collArea );
-			DBObject dbKey = new BasicDBObject("name",1);
-			
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
-			
-			List<String[]> areaList = new ArrayList<>();
-			
-			while ( dbCursor.hasNext() ) {
-				
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-				
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-				
-				String [] idName = new String[]{ _id, name };
-				areaList.add(idName);
-			}
-			
-			return areaList;
-			
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return null;
-	}
 	
 	
 }

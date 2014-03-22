@@ -89,9 +89,11 @@ public class MongoSupplierDao implements SupplierDao {
 			
 			dbObject.removeField(KEY_AREA);
 			dbObject.removeField(KEY_BEAT);
+			dbObject.removeField("_id");
+			DBObject updateObj = new BasicDBObject("$set", dbObject); 
 			
 			DBObject query = new BasicDBObject("_id", supplier.get_id()); 
-			WriteResult writeResult = collection.update(query, dbObject);
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -112,8 +114,9 @@ public class MongoSupplierDao implements SupplierDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
+			DBObject updateObj = new BasicDBObject("$set", update); 
 			
-			WriteResult writeResult = collection.update(query, update);
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -168,7 +171,8 @@ public class MongoSupplierDao implements SupplierDao {
 	public List<Supplier> getAll(Boolean withReferences) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collSupplier );
-			DBCursor dbCursor = collection.find();
+			DBObject queryCheckDeleted = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find(queryCheckDeleted);
 			
 			List<Supplier> supplierList = new ArrayList<>();
 			
@@ -204,8 +208,9 @@ public class MongoSupplierDao implements SupplierDao {
 		try{
 			DBCollection collection = mongoDB.getCollection( collSupplier );
 			DBObject dbKey = new BasicDBObject("name",1);
+			DBObject queryCheckDeleted = MongoUtil.getQueryToCheckDeleted();
 			
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
+			DBCursor dbCursor = collection.find(queryCheckDeleted, dbKey);
 			
 			List<String[]> supplierList = new ArrayList<>();
 			

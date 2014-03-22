@@ -131,17 +131,7 @@ public class MongoMainAccountDao implements MainAccountDao {
 	public List<MainAccount> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
-			
-			DBObject q1 =  new BasicDBObject("deleted", new BasicDBObject("$exists", false));
-			DBObject q2 =  new BasicDBObject("deleted", null);
-			DBObject q3 =  new BasicDBObject("deleted", false);
-			
-			BasicDBList orQuery = new BasicDBList();
-			orQuery.add(q1);
-			orQuery.add(q2);
-			orQuery.add(q3);
-					
-			DBObject finalQuery = new BasicDBObject("$or", orQuery);
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			DBCursor dbCursor = collection.find( finalQuery);
 			
 			List<MainAccount> mainAccountList = new ArrayList<>();

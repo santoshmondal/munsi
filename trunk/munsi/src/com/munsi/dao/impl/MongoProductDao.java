@@ -124,9 +124,12 @@ public class MongoProductDao implements ProductDao {
 			dbObject.removeField(KEY_TAX_LIST);
 			dbObject.removeField(KEY_PRODUCT_GROUP);
 			dbObject.removeField(KEY_PRODUCT_SUBGROUP);
+			dbObject.removeField("_id");
 			
-			DBObject query = new BasicDBObject("_id", product.get_id()); 
-			WriteResult writeResult = collection.update(query, dbObject);
+			DBObject query = new BasicDBObject("_id", product.get_id());
+			DBObject updateObj = new BasicDBObject("$set", dbObject); 
+			
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -147,8 +150,9 @@ public class MongoProductDao implements ProductDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
+			DBObject updateObj = new BasicDBObject("$set", update); 
 			
-			WriteResult writeResult = collection.update(query, update);
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -220,7 +224,8 @@ public class MongoProductDao implements ProductDao {
 	public List<Product> getAll(Boolean withReferences) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collProduct );
-			DBCursor dbCursor = collection.find();
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find(deletedQuery);
 			
 			List<Product> productList = new ArrayList<>();
 			

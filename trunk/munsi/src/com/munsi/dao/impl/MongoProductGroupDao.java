@@ -6,11 +6,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.QueryOperators;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.ProductGroupDao;
@@ -62,9 +64,12 @@ public class MongoProductGroupDao implements ProductGroupDao {
 			String jsonString = CommonUtil.objectToJson(productGroup);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			dbObject.removeField("_id");
+			DBObject updateObj = new BasicDBObject("$set",dbObject);
 			
-			DBObject query = new BasicDBObject("_id", productGroup.get_id()); 
-			WriteResult writeResult = collection.update(query, dbObject);
+			DBObject query = new BasicDBObject("_id", productGroup.get_id());
+			
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -86,7 +91,9 @@ public class MongoProductGroupDao implements ProductGroupDao {
 			DBObject update = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
 			
-			WriteResult writeResult = collection.update(query, update);
+			DBObject updateObj = new BasicDBObject("$set",update);
+						
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -126,7 +133,15 @@ public class MongoProductGroupDao implements ProductGroupDao {
 		try{
 			DBCollection collection = mongoDB.getCollection( collProductGroup );
 			DBObject query = new BasicDBObject("level", level);
-			DBCursor dbCursor = collection.find(query);
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			
+			BasicDBList queryList = new BasicDBList();
+			queryList.add(deletedQuery);
+			queryList.add(query);
+			
+			DBObject finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
+			
+			DBCursor dbCursor = collection.find(finalQuery);
 			
 			List<ProductGroup> productGroupList = new ArrayList<>();
 			

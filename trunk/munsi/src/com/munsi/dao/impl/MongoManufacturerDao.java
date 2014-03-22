@@ -62,9 +62,13 @@ public class MongoManufacturerDao implements ManufacturerDao {
 			String jsonString = CommonUtil.objectToJson(manufacturer);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			dbObject.removeField("_id");
 			
-			DBObject query = new BasicDBObject("_id", manufacturer.get_id()); 
-			WriteResult writeResult = collection.update(query, dbObject);
+			DBObject query = new BasicDBObject("_id", manufacturer.get_id());
+			
+			DBObject updateObj = new BasicDBObject("$set", dbObject);
+			
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -86,7 +90,9 @@ public class MongoManufacturerDao implements ManufacturerDao {
 			DBObject update = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
 			
-			WriteResult writeResult = collection.update(query, update);
+			DBObject updateObj = new BasicDBObject("$set", update);
+			
+			WriteResult writeResult = collection.update(query, updateObj);
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -121,7 +127,8 @@ public class MongoManufacturerDao implements ManufacturerDao {
 	public List<Manufacturer> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collManufacturer );
-			DBCursor dbCursor = collection.find();
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			DBCursor dbCursor = collection.find(deletedQuery);
 			
 			List<Manufacturer> manufacturerList = new ArrayList<>();
 			

@@ -64,10 +64,14 @@ public class MongoMainAccountDao implements MainAccountDao {
 			String jsonString = CommonUtil.objectToJson(mainAccount);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
+			dbObject.removeField("_id");
 			
 			DBObject query = new BasicDBObject("_id", mainAccount.get_id());
 			
-			WriteResult writeResult = collection.update(query, dbObject);
+			DBObject update = new BasicDBObject("$set", dbObject); 
+			
+			WriteResult writeResult = collection.update(query, update);
+			
 			
 			if ( writeResult.getN() > 0 ){
 				return true;
@@ -86,8 +90,10 @@ public class MongoMainAccountDao implements MainAccountDao {
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
 			
 			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
+			DBObject updateKey = new BasicDBObject("deleted", true)
 							.append("utime", new Date());
+			
+			DBObject update = new BasicDBObject("$set", updateKey); 
 			
 			WriteResult writeResult = collection.update(query, update);
 			

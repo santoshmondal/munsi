@@ -22,16 +22,6 @@ public interface MainAccountDao {
 	 */
 	public MainAccount get(String _id);
 
-	/**
-	 * @param _id
-	 *            MainAccount id to be loaded
-	 * @param withReferences
-	 *            - Boolean, if true MainAccount object load its references, if
-	 *            false MainAccount object does not load its references.
-	 *            (default is false)
-	 * @return ArraList of MainAccount
-	 */
-	public MainAccount get(String _id, Boolean withReferences);
 
 	/**
 	 * Get list of MainAccount instance, MainAccount instance does not load
@@ -41,19 +31,5 @@ public interface MainAccountDao {
 	 */
 	public List<MainAccount> getAll();
 
-	/**
-	 * @param withReferences
-	 *            - Boolean, if true MainAccount object load its references, if
-	 *            false MainAccount object does not load its references.(default
-	 *            is false)
-	 * @return ArraList of MainAccounts
-	 */
-	public List<MainAccount> getAll(Boolean withReferences);
-
-	/**
-	 * @return List of String array, String array contains id at 0 index, and
-	 *         name at 1 index
-	 */
-	List<String[]> getIdName();
 
 }

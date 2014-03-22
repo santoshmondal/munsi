@@ -6,6 +6,7 @@ import com.munsi.dao.impl.MongoBeatDao;
 import com.munsi.dao.impl.MongoCustomerDao;
 import com.munsi.dao.impl.MongoMainAccountDao;
 import com.munsi.dao.impl.MongoManufacturerDao;
+import com.munsi.dao.impl.MongoOpeningProductStockDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.dao.impl.MongoProductGroupDao;
 import com.munsi.dao.impl.MongoSupplierDao;
@@ -16,7 +17,9 @@ import com.munsi.service.BeatServeice;
 import com.munsi.service.CustomerServeice;
 import com.munsi.service.MainAccountServeice;
 import com.munsi.service.ManufacturerServeice;
+import com.munsi.service.OpeningProductStockService;
 import com.munsi.service.ProductGroupServeice;
+import com.munsi.service.ProductSchemeService;
 import com.munsi.service.ProductServeice;
 import com.munsi.service.SupplierServeice;
 import com.munsi.service.TaxServeice;
@@ -36,7 +39,8 @@ public class ObjectFactory {
 		PRODUCT_DAO(MongoProductDao.class.getName()),
 		ACCESS_USER_DAO(MongoAccessUserDao.class.getName()),
 		SUPPLIER_DAO(MongoSupplierDao.class.getName()),
-		
+		OPENING_PRODUCT_STOCK_DAO(MongoOpeningProductStockDao.class.getName()),
+		PRODUCT_SCHEME_DAO(MongoProductDao.class.getName()),
 		
 		// Services
 		AREA_SERVICE(AreaServeice.class.getName()),
@@ -48,7 +52,9 @@ public class ObjectFactory {
 		ACCESS_USER_SERVICE(AccessUserServeice.class.getName()),
 		SUPPLIER_SERVICE(SupplierServeice.class.getName()),
 		TAX_SERVICE(TaxServeice.class.getName()),
-		MAIN_ACCOUNT_SERVICE(MainAccountServeice.class.getName());		
+		MAIN_ACCOUNT_SERVICE(MainAccountServeice.class.getName()),
+		OPENING_PRODUCT_STOCK_SERVICE(OpeningProductStockService.class.getName()),
+		PRODUCT_SCHEME_SERVICE(ProductSchemeService.class.getName());		
 		//@formatter:on
 
 		private final String className;

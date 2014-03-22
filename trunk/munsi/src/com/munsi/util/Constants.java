@@ -28,7 +28,10 @@ public class Constants {
 		MAST_TAX("mast_tax"),
 		MAST_PRODUCT_GROUP("mast_product_group"), 
 		MAST_PRODUCT("mast_product"), 
-		MAST_SUPPLIER("mast_supplier");
+		MAST_SUPPLIER("mast_supplier"),
+		PRODUCT_INVENTORY("product_inventory"),
+		OPENING_PRODUCT_STOCK("opening_product_stock"),
+		MAST_PRODUCT_SCHEME("mast_product_scheme");
 		// @formatter:on
 
 		private final String collectionName;

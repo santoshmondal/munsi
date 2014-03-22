@@ -3,9 +3,13 @@ package com.munsi.pojo.master;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Scheme implements Serializable {
+import com.munsi.pojo.BasePojo;
+
+public class ProductScheme extends BasePojo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	private String _id;
 	
 	/** Scheme Name **/
 	private String name;
@@ -28,6 +32,8 @@ public class Scheme implements Serializable {
 	/** True for activ , false for inactive */
 	private Boolean status;
 
+	private Product product;
+	
 	public String getName() {
 		return name;
 	}
@@ -82,6 +88,22 @@ public class Scheme implements Serializable {
 
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+
+	public String get_id() {
+		return _id;
+	}
+
+	public void set_id(String _id) {
+		this._id = _id;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 	
 	

@@ -14,11 +14,13 @@ public class Constants {
 	public static final String DB_HOST = Config.getProperty("db.host");
 	public static final String DB_PORT_STRRING = Config.getProperty("db.port");
 	public static final Integer DB_PORT;
-
+	
 	static {
 		DB_PORT = Integer.parseInt(DB_PORT_STRRING);
 	}
-
+	
+	public static final String OPERATION = "op";
+	
 	public enum DBCollectionEnum {
 		// @formatter:off
 		MAST_MAIN_ACCOUNT("mast_main_account"),
@@ -42,6 +44,17 @@ public class Constants {
 		public String toString() {
 			return collectionName;
 		}
+	}
+	
+	public enum UIOperations {
+		// @formatter:off
+		VIEW,
+		VIEW_ALL,
+		ADD,
+		EDIT,
+		DELETE
+		// @formatter:on
+
 	}
 	
 	public static String getVatTypeJSON(){
@@ -92,5 +105,6 @@ public class Constants {
 		
 	    return "";
 	}
+	
 	
 }

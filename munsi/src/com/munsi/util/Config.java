@@ -38,7 +38,4 @@ public class Config {
 		return resource.getPath();
 	}
 
-	public static void main(String[] args) {
-		LOG.info(getProperty("test"));
-	}
 }

@@ -24,12 +24,16 @@ public class Product extends BasePojo {
 	/** Number of item in a BOX (if Purchase unit is box) */
 	private Integer pack;
 	private Boolean lockItem;
+	
 	/** way of tax calculation */
 	private String vatType;
 	private Set<Tax> taxList;
 	private Manufacturer manufacturar;
 	private ProductGroup productGroup;
+	private ProductGroup productSubGroup;
 	private Set<OpeningProductStock> openingStockList;
+	
+	private Float serviceCharge;
 	
 	private Set<Scheme> schemeList;
 
@@ -184,6 +188,22 @@ public class Product extends BasePojo {
 
 	public void setSchemeList(Set<Scheme> schemeList) {
 		this.schemeList = schemeList;
+	}
+
+	public Float getServiceCharge() {
+		return serviceCharge;
+	}
+
+	public void setServiceCharge(Float serviceCharge) {
+		this.serviceCharge = serviceCharge;
+	}
+
+	public ProductGroup getProductSubGroup() {
+		return productSubGroup;
+	}
+
+	public void setProductSubGroup(ProductGroup productSubGroup) {
+		this.productSubGroup = productSubGroup;
 	}
 	
 	

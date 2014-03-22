@@ -33,7 +33,7 @@ public class MongoAccessUserDao implements AccesssUserDao {
 			Date date = new Date();
 			accessUser.setCtime(date);
 			accessUser.setUtime(date);
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_MAIN_ACCOUNT).toString();
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_ACCESS_USER).toString();
 			accessUser.set_id(_id);
 
 			DBCollection collection = mongoDB.getCollection(collAccessUser);

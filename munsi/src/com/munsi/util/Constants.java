@@ -3,6 +3,7 @@ package com.munsi.util;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -15,8 +16,26 @@ public class Constants {
 	public static final String DB_PORT_STRRING = Config.getProperty("db.port");
 	public static final Integer DB_PORT;
 	
+	private static Map<String,String> locationMap = new LinkedHashMap<>();
+	
+	
 	static {
+		// DB port 
 		DB_PORT = Integer.parseInt(DB_PORT_STRRING);
+		
+		// Put value in location map
+		locationMap.put("TE+", "TE+ Trading Expense +ve");
+		locationMap.put("TE-", "TE- Trading Expense -ve");
+		locationMap.put("TI+", "TI+ Trading Income +ve");
+		locationMap.put("TI-", "TI- Trading Income -ve");
+		locationMap.put("PE+", "PE+ Profit Losss Expense +ve");
+		locationMap.put("PI+", "PI+ Profit Losss Income +ve");
+		locationMap.put("BA+", "BA+ Balance Sheet Asset +ve");
+		locationMap.put("BA-", "BA- Balance Sheet Asset -ve");
+		locationMap.put("BL+", "BL+ Balance Sheet Lblty +ve");
+		locationMap.put("BL-", "BL- Balance Sheet Lblty -ve");
+		
+		
 	}
 	
 	public static final String OPERATION = "op";
@@ -31,7 +50,8 @@ public class Constants {
 		MAST_ACCESS_USER("mast_access_user"),
 		MAST_TAX("mast_tax"),
 		MAST_PRODUCT_GROUP("mast_product_group"), 
-		MAST_PRODUCT("mast_product");
+		MAST_PRODUCT("mast_product"), 
+		MAST_SUPPLIER("mast_supplier");
 		// @formatter:on
 
 		private final String collectionName;
@@ -106,5 +126,22 @@ public class Constants {
 	    return "";
 	}
 	
+	public static String getLocationString(){
+		StringBuffer sb = new StringBuffer();
+		String separater = "";
+		
+		for( Entry<String, String> entry : locationMap.entrySet() ){
+			sb.append(separater);
+			sb.append(entry.getKey());
+			sb.append(":");
+			sb.append(entry.getValue());
+			separater= ";";
+		}
+	    
+		return sb.toString();
+	}
 	
+	public static String getLocationValue(String locCode){
+		return locationMap.get(locCode);
+	}
 }

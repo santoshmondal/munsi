@@ -34,7 +34,7 @@ public class MongoAreaDao implements AreaDao {
 			Date date = new Date();
 			area.setCtime( date );
 			area.setUtime( date );
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_MAIN_ACCOUNT).toString();
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.MAST_AREA).toString();
 			area.set_id( _id );
 			
 			DBCollection collection = mongoDB.getCollection( collArea );

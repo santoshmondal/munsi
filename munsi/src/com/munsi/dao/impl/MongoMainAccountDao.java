@@ -136,7 +136,7 @@ public class MongoMainAccountDao implements MainAccountDao {
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				MainAccount mainAccount = (MainAccount) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+				MainAccount mainAccount = (MainAccount) CommonUtil.jsonToObject( jsonString, MainAccount.class.getName() );
 				mainAccountList.add(mainAccount);
 			}
 			

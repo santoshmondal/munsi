@@ -10,6 +10,7 @@ public class MainAccount extends BasePojo {
 	
 	private String _id;
 	private String code;
+	private String location;
 	private String name;
 	
 	public String get_id() {
@@ -36,4 +37,13 @@ public class MainAccount extends BasePojo {
 		this.code = code;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	
 }

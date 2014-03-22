@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -130,11 +131,19 @@ public class MongoMainAccountDao implements MainAccountDao {
 	public List<MainAccount> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
-			DBObject query = new BasicDBObject("deleted", false);
-			QueryBuilder qb = new QueryBuilder();
-			qb.exists( new BasicDBObject("deleted",0) ) ;
+			DBObject existQuery = new BasicDBObject("$exists", false);
 			
-			DBCursor dbCursor = collection.find( qb.get() );
+			DBObject q1 =  new BasicDBObject("deleted", existQuery);
+			DBObject q2 =  new BasicDBObject("deleted", null);
+			DBObject q3 =  new BasicDBObject("deleted", false);
+			
+			BasicDBList orQuery = new BasicDBList();
+			orQuery.add(q1);
+			orQuery.add(q2);
+			orQuery.add(q3);
+					
+			DBObject finalQuery = new BasicDBObject("$or", orQuery);
+			DBCursor dbCursor = collection.find( finalQuery);
 			
 			List<MainAccount> mainAccountList = new ArrayList<>();
 			

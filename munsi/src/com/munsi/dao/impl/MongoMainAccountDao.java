@@ -129,7 +129,9 @@ public class MongoMainAccountDao implements MainAccountDao {
 	public List<MainAccount> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collMAinAC );
-			DBCursor dbCursor = collection.find();
+			DBObject query = new BasicDBObject("deleted", false);
+			
+			DBCursor dbCursor = collection.find(query);
 			
 			List<MainAccount> mainAccountList = new ArrayList<>();
 			

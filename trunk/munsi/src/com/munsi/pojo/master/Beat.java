@@ -10,6 +10,7 @@ public class Beat extends BasePojo {
 	private String _id;
 	private String name;
 	private String description;
+	private Area area;
 
 	public String get_id() {
 		return _id;
@@ -33,6 +34,16 @@ public class Beat extends BasePojo {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.munsi.pojo.master;
 
-import java.util.Set;
-
 import com.munsi.pojo.BasePojo;
 
 public class Area extends BasePojo {
@@ -14,8 +12,6 @@ public class Area extends BasePojo {
 	private String city;
 	private String state;
 	private String country;
-
-	private Set<Beat> beatList;
 
 	public String get_id() {
 		return _id;
@@ -65,14 +61,7 @@ public class Area extends BasePojo {
 		this.country = country;
 	}
 
-	public Set<Beat> getBeatList() {
-		return beatList;
-	}
-
-	public void setBeatList(Set<Beat> beatList) {
-		this.beatList = beatList;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		return get_id().hashCode();

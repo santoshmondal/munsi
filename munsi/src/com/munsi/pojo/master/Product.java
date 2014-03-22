@@ -17,9 +17,10 @@ public class Product extends BasePojo {
 	private Float margin;
 	private Float mrp;
 	private Float purchaseRate;
-	private Float purchaseUnit;
+	private String purchaseUnit;
+	
 	private Float salesRate;
-	private Float salesUnit;
+	private String salesUnit;
 
 	/** Number of item in a BOX (if Purchase unit is box) */
 	private Integer pack;
@@ -102,11 +103,11 @@ public class Product extends BasePojo {
 		this.purchaseRate = purchaseRate;
 	}
 
-	public Float getPurchaseUnit() {
+	public String getPurchaseUnit() {
 		return purchaseUnit;
 	}
 
-	public void setPurchaseUnit(Float purchaseUnit) {
+	public void setPurchaseUnit(String purchaseUnit) {
 		this.purchaseUnit = purchaseUnit;
 	}
 
@@ -118,11 +119,11 @@ public class Product extends BasePojo {
 		this.salesRate = salesRate;
 	}
 
-	public Float getSalesUnit() {
+	public String getSalesUnit() {
 		return salesUnit;
 	}
 
-	public void setSalesUnit(Float salesUnit) {
+	public void setSalesUnit(String salesUnit) {
 		this.salesUnit = salesUnit;
 	}
 

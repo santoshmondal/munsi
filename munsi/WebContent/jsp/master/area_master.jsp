@@ -6,7 +6,7 @@
 								Area Master
 								<small>
 									<i class="icon-double-angle-right"></i>
-									Dynamic tables and grids using jqGrid plugin
+									Add, Edit and Delete area and the beat.
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -15,71 +15,48 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<table id="grid-table"></table>
+								<table id="grid-table_area"></table>
+								<div id="grid-pager_area"></div>
 
-								<div id="grid-pager"></div>
-
-								<script type="text/javascript">
-									var $path_base = "/";//this will be used in gritter alerts containing images
-								</script>
-
+								<!-- Dialog Scheme -->
+								<div id="dialog-beat" class="hide">
+									<table id="grid-table-beat"></table>
+									
+								</div>	
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 		
 	<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"1",code:"1",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"2",code:"2",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"3",code:"3",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"4",code:"4",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"5",code:"5",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"6",code:"6",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"7",code:"7",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"8",code:"8",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"9",code:"9",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"10",code:"10",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"11",code:"11",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"12",code:"12",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"13",code:"13",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"14",code:"14",name:"Laser Printer",note:"note2",stock:"Yes",ship:"FedEx",sdate:"2007-12-03"},
-				{id:"15",code:"15",name:"Play Station",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"16",code:"16",name:"Mobile Telephone",note:"note",stock:"Yes",ship:"ARAMEX",sdate:"2007-12-03"},
-				{id:"17",code:"17",name:"Server",note:"note2",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"18",code:"18",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"19",code:"19",name:"Matrix Printer",note:"note3",stock:"No", ship:"FedEx",sdate:"2007-12-03"},
-				{id:"20",code:"20",name:"Desktop Computer",note:"note",stock:"Yes",ship:"FedEx", sdate:"2007-12-03"},
-				{id:"21",code:"21",name:"Laptop",note:"Long text ",stock:"Yes",ship:"InTime",sdate:"2007-12-03"},
-				{id:"22",code:"22",name:"LCD Monitor",note:"note3",stock:"Yes",ship:"TNT",sdate:"2007-12-03"},
-				{id:"23",code:"23",name:"Speakers",note:"note",stock:"No",ship:"ARAMEX",sdate:"2007-12-03"}
-			];	
+			
 			
 			jQuery(function($) {
-				var grid_selector = "#grid-table";
-				var pager_selector = "#grid-pager";
+				var grid_selector = "#grid-table_area";
+				var pager_selector = "#grid-pager_area";
 			
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+					url: "${pageContext.request.contextPath}/areamaster.action?op=view_all",
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
 					height: 366,
-					colNames:['id','Area Code','Last Sales','Name', 'Stock', 'Ship via','Notes',' '],
+					colNames:['id','Name','City', 'State', 'Country','Description','Beat',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},		
-						{name:'code',index:'code', width:60, sorttype:"int", editable: true},
-						{name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
-						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-						{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-						{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}, 
+						{name:'name',index:'name', width:250, editable: true},
+						{name:'city',index:'city', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+						{name:'state',index:'city', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+						{name:'country',index:'country',editable: true, hidden:true, editoptions:{size:"20",maxlength:"30"}},
+						{name:'description',index:'description', sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}}, 
+						{name:'beat', width:130,editable: false, formatter:function(){ return '<a href="action=manage_beat">Click here</a>';}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
-								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+								delOptions:{top:45 , url: "${pageContext.request.contextPath}/areamaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
 							}
 						}
 					], 
@@ -103,9 +80,30 @@
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
+						
+						var ids = jQuery(grid_selector).getDataIDs();
+	                    var myGridNode = jQuery(grid_selector)[0];
+	                    for (var i = 0, idCount = ids.length; i < idCount; i++) {
+	                        var a = $("#"+ids[i]+" a",myGridNode);
+	                        a.html("Manage");
+	                        a.each(function() {
+	                        	var sHref = $( this ).attr('href');
+	                        	$( this ).attr('href',"#?id="+ids[i]+"&"+sHref);
+	                        });
+	                        a.click(function(e) {
+	                            var hash=e.currentTarget.hash;// string like "#?id=0"
+	                            if (hash.substring(0,5) === '#?id=') {
+	                                var id = hash.substring(5,hash.length);
+	                                if(hash.indexOf('action=manage_beat') > -1){
+	                                	showBeatDialog(id);
+	                                }
+	                            }
+	                            e.preventDefault();
+	                        });
+	                    } 
 					},
 			
-					editurl: $path_base+"/dummy.html",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -129,10 +127,6 @@
                     });
 				} } );
 				
-				//enable search/filter toolbar
-				//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true});
-				//jQuery(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
-
 				//switch element when editing inline
 				function aceSwitch( cellvalue, options, cell ) {
 					setTimeout(function(){
@@ -149,7 +143,6 @@
 								.datepicker({format:'dd-mm-yyyy' , autoclose:true}); 
 					}, 0);
 				}
-			
 			
 				//navButtons
 				jQuery(grid_selector).jqGrid('navGrid',pager_selector,
@@ -176,7 +169,7 @@
 						closeOnEscape:true,
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 							style_edit_form(form);
 						}
 					},
@@ -184,11 +177,13 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
+						url: "${pageContext.request.contextPath}/areamaster.action?op=add",
+						top:50, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600,
 						closeOnEscape:true,
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" ></div>')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" ></div>');
 							style_edit_form(form);
 						}
 					},
@@ -200,7 +195,7 @@
 							var form = $(e[0]);
 							if(form.data('styled')) return false;
 							
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 							style_delete_form(form);
 							
 							form.data('styled', true);
@@ -214,7 +209,7 @@
 						recreateForm: true,
 						afterShowSearch: function(e){
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
 							style_search_form(form);
 						},
 						afterRedraw: function(){
@@ -234,10 +229,10 @@
 						closeOnEscape:true,
 						beforeShowForm: function(e){
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
 						}
 					}
-				)
+				);
 			
 			
 				
@@ -251,7 +246,7 @@
 					var buttons = form.next().find('.EditButton .fm-button');
 					buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
 					buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
-					buttons.eq(1).prepend('<i class="icon-remove"></i>')
+					buttons.eq(1).prepend('<i class="icon-remove"></i>');
 					
 					buttons = form.next().find('.navButton a');
 					buttons.find('.ui-icon').remove();
@@ -263,7 +258,7 @@
 					var buttons = form.next().find('.EditButton .fm-button');
 					buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
 					buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
-					buttons.eq(1).prepend('<i class="icon-remove"></i>')
+					buttons.eq(1).prepend('<i class="icon-remove"></i>');
 				}
 				
 				function style_search_filters(form) {
@@ -274,7 +269,7 @@
 				}
 				function style_search_form(form) {
 					var dialog = form.closest('.ui-jqdialog');
-					var buttons = dialog.find('.EditTable')
+					var buttons = dialog.find('.EditTable');
 					buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
 					buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
 					buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
@@ -284,7 +279,7 @@
 					var form = $(e[0]);
 					if(form.data('styled')) return false;
 					
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 					style_delete_form(form);
 					
 					form.data('styled', true);
@@ -292,7 +287,7 @@
 				
 				function beforeEditCallback(e) {
 					var form = $(e[0]);
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 					style_edit_form(form);
 				}
 			
@@ -348,7 +343,7 @@
 						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
 						
 						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
+					});
 				}
 			
 				function enableTooltips(table) {
@@ -356,13 +351,6 @@
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
 				}
 			
-				//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
-			
-				/* $(window).on('resize', function() {
-				    jQuery(grid_selector).setGridWidth($('#id_EmbedPage').width(), false); 
-				    jQuery(grid_selector).setGridHeight($('#id_EmbedPage').height()-100,false); 
-				}).trigger('resize');  
-			 */
 
 				//-----> press g for setting focus on jqgrid
 				$(document).bind('keydown', 'g', function(){
@@ -373,5 +361,126 @@
 					}
 			    });
 				
+				//--------- Beat JQGrid------
+				
+				var grid_selector_beat = "#grid-table-beat";
+				
+				jQuery(grid_selector_beat).jqGrid({
+					//direction: "rtl",
+					
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
+					colNames:['id','Name','Description',' '],
+					colModel:[
+						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
+						{name:'name',index:'name', width:150,sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'description',index:'description',width:300, sortable:false, editable: true},
+						{name:'myac',index:'', width:70, fixed:true, sortable:false, resize:false,
+							formatter:'actions', 
+							formatoptions:{ 
+								keys:true,
+								delOptions:{top:45 ,url: "${pageContext.request.contextPath}/beatmaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
+							}
+						}
+					], 
+			
+					viewrecords : true,
+					
+					pager : "",
+					altRows: false,
+					
+					multiselect: false,
+			        multiboxonly: true,
+			        height: 'auto',
+					loadComplete : function() {
+						var table = this;
+						setTimeout(function(){
+							styleCheckbox(table);
+							updateActionIcons(table);
+							updatePagerIcons(table);
+							enableTooltips(table);
+						}, 0);
+						
+					},
+					caption: "Beat",
+					scrollOffset: 18,
+					autowidth: true,
+					autoheight:true
+				});
+
+				jQuery(grid_selector_beat).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
+					editingRowId = rowid;
+                    jQuery(grid_selector_beat).find('#jEditButton_'+editingRowId).click();
+				} } );
+				
+				//----------------------------------------
+				//----------Beat Related JS ------------
+				//----------------------------------------
+						function showBeatDialog(row) {
+							
+							$( "#dialog-beat" ).removeClass('hide').dialog({
+								resizable: false,
+								modal: true,
+								autoOpen: false,
+								title: "",
+								height: 400,
+								width: 550,
+								title_html: true,
+								open: function() {
+									$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Beat</span> </div>");
+								    $(".ui-dialog-buttonset").addClass('col-lg-12');
+								    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
+								    var productMasterRowData = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
+								    prodMasterSelID = productMasterRowData.id;
+								    jQuery(grid_selector_beat).setGridParam( {editurl: "${pageContext.request.contextPath}/beatmaster.action?op=edit&areaId="+prodMasterSelID, datatype:"json", url:"${pageContext.request.contextPath}/beatmaster.action?op=view&areaId="+productMasterRowData.id} );
+								    jQuery(grid_selector_beat).jqGrid('setCaption', "Beat for "+productMasterRowData.name);
+
+								    jQuery(grid_selector_beat).jqGrid("clearGridData");
+								    jQuery(grid_selector_beat).trigger("reloadGrid");
+								},
+								buttons: [
+									{
+										html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
+										"class" : "btn btn-primary btn-xs pull-left",
+										click: function() {
+											var datarow = {id:"",name:"",description:""};
+								            var newId = $.jgrid.randId();
+											jQuery(grid_selector_beat).jqGrid('addRowData', newId , datarow, "last");
+											var editparameters = {
+													"keys" : true,
+													"oneditfunc" : null,
+													"successfunc" : null,
+													"url" : "${pageContext.request.contextPath}/beatmaster.action?op=add&areaId="+prodMasterSelID,
+												    "extraparam" : {},
+													"aftersavefunc" : function(){
+														jQuery(grid_selector_beat).setGridParam( {url:"${pageContext.request.contextPath}/beatmaster.action?op=edit&areaId="+prodMasterSelID} );
+													},
+													"errorfunc": null,
+													"afterrestorefunc" : null,
+													"restoreAfterError" : true,
+													"mtype" : "POST"
+												};
+											jQuery(grid_selector_beat).jqGrid('editRow',newId , editparameters );
+										}
+									},
+									{
+										html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
+										"class" : "btn btn-xs pull-right",
+										click: function() {
+											$( this).dialog( "close" );
+										}
+									}
+								]
+							});
+							
+							$( "#dialog-beat" ).dialog( "open" );
+						}
+				
 			});
+			
+
+			
+				
 		</script>

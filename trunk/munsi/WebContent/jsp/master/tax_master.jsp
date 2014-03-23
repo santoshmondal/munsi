@@ -28,16 +28,6 @@
 						</div><!-- /.row -->
 		
 	<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"1",rate:"MA 1",description:"Desktop Computer",name:"name MA 1"},
-				{id:"2",rate:"MA 2",description:"Trading Income +ve",name:"name MA 2"},
-				{id:"3",rate:"MA 3",description:"Trading Income +ve",name:"name MA 3"},
-				{id:"4",rate:"MA 4",description:"Trading Income +ve",name:"name MA 4"},
-				{id:"5",rate:"MA 5",description:"Trading Income +ve",name:"name MA 5"},
-				{id:"6",rate:"MA 6",description:"Desktop Computer",name:"note"}
-				
-			];	
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table-taxes";
@@ -46,8 +36,11 @@
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+					url: "${pageContext.request.contextPath}/tax.action?op=view_all",
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
 					height: 366,
 					colNames:['id','Name','Rate','Description',' '],
 					colModel:[
@@ -59,7 +52,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/tax.action?op=delete",  beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}
@@ -95,7 +88,7 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: $path_base+"/dummy.html",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/tax.action?op=edit", //nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -174,7 +167,8 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
-						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
+						url: "${pageContext.request.contextPath}/tax.action?op=add", 
+						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {

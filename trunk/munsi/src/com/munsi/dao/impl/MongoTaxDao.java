@@ -112,7 +112,7 @@ public class MongoTaxDao implements TaxDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
-			Tax tax = (Tax) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+			Tax tax = (Tax) CommonUtil.jsonToObject( jsonString, Tax.class.getName() );
 			
 			return tax;
 			
@@ -134,7 +134,7 @@ public class MongoTaxDao implements TaxDao {
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				Tax tax = (Tax) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+				Tax tax = (Tax) CommonUtil.jsonToObject( jsonString, Tax.class.getName() );
 				taxList.add(tax);
 			}
 			

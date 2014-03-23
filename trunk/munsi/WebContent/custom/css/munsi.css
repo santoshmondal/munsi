@@ -4,3 +4,17 @@
 body{
 	
 }
+
+.munsi_logo
+{
+	text-shadow:3px -2px 4px rgba(157,186,63,1);
+	font-weight:normal;
+	color:#FFFFFD;
+	letter-spacing:1pt;
+	word-spacing:-14pt;
+	font-size:23px;
+	font-family:comic sans, comic sans ms, cursive, verdana, arial, sans-serif;
+	line-height:1;
+	margin:0px;
+	padding:0px;
+}

@@ -9,7 +9,7 @@ public class ProductGroup extends BasePojo {
 	private String _id;
 	private String name;
 	private String description;
-	private Integer level;
+	private String level;
 	private String parentXid;
 	
 	public String get_id() {
@@ -36,11 +36,11 @@ public class ProductGroup extends BasePojo {
 		this.description = description;
 	}
 
-	public Integer getLevel() {
+	public String getLevel() {
 		return level;
 	}
 
-	public void setLevel(Integer level) {
+	public void setLevel(String level) {
 		this.level = level;
 	}
 

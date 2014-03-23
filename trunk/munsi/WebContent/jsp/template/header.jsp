@@ -24,8 +24,8 @@
 				<div class="navbar-header pull-left">
 					<a href="#" class="navbar-brand">
 						
-							<b class="icon-male" style="color:black"></b>
-						<small>
+							<b class="icon-barchart" style="color:red"></b>
+						<small class='munsi_logo'>
 							e-MUNSI</small>
 						
 					</a><!-- /.brand -->

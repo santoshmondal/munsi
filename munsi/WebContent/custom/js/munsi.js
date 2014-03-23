@@ -30,7 +30,10 @@ $(function(){
 	//----------------- HotKeys -----------------
 	//-------------------------------------------
 	
-	
+	//-----> press g for setting focus on jqgrid
+	$(document).bind('keydown', 'm', function(){
+	    $("#sidebar-collapse").click();
+    });
 });
 
 

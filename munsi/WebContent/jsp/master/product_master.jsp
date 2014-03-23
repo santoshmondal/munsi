@@ -1,4 +1,5 @@
 
+<%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
 <%@page import="com.munsi.util.CommonUtil"%>
 <%@page import="com.munsi.util.Constants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -49,34 +50,34 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Alias','Weight','Margin (%)','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Lock Item','Batch Y/N','Taxes','VAT Type','Service Charge (%)','Group','Subgroup','Opening Stock','Scheme',' '],
+					colNames:['id','Name','Alias','Weight','Margin (%)','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Lock Item','Batch Y/N','Taxes','VAT Type','Service Charge (%)','Manufacturer','Group','Subgroup','Opening Stock','Scheme',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 
 						{name:'name',index:'name', width:250,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'alias',index:'alias', width:250,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'alias',index:'alias', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'weight',index:'weight', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'margin',index:'margin',width:130, editable: true,editoptions:{size:"20",maxlength:"130"}},
 
-						
 						{name:'mrp',index:'mrp',width:120, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'saleRate',index:'saleRate',width:155,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'saleUnit',index:'saleUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
-						
+						{name:'salesRate',index:'salesRate',width:155,  editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:6, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
+
 						{name:'purchaseRate',index:'purchaseRate',width:200,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:7, colpos:2}, edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Purchase Unit', rowpos:8, colpos:2}, edittype:"select",editoptions:{value:"Box:Box;Piece:Piece;KG:KG"}},
 						{name:'pack',index:'pack',  sorttype:"int", sortable:true,hidden:true, editrules:{required:false, edithidden:true}, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'lockItem',index:'lockItem', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'batchyn',index:'batchyn', editable: true,edittype:"checkbox",hidden:true, editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'1taxList',index:'taxList', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)", size: 3}},
+						{name:'1taxList',index:'taxList', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_TAX, "_id", "name") %>", size: 3}},
 
-						{name:'vatType',index:'vatType', editable: true, hidden:true,editrules:{required:false, edithidden:true}, edittype:"select",editoptions:{  dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getVatTypeJSON() %>"}},
+						{name:'vatType',index:'vatType', editable: true, hidden:true,editrules:{required:false, edithidden:true}, edittype:"select", formatter:'select',editoptions:{  dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getVatTypeJSON() %>"}},
 						{name:'serviceCharge',index:'serviceCharge', sorttype:"int",hidden:true,editrules:{required:false, edithidden:true}, sortable:true,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'1productGroup',index:'productGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
-						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
+						{name:'1manufacturer',index:'manufacturer', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_MANUFACTURER, "_id", "name") %>"}},
+						{name:'1productGroup',index:'productGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name") %>"}},
+						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name") %>"}},
 						
-						{name:'openingStock',width:190, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_opening_stock">Click here</a>';}, formatoptions:{baseLinkUrl:'#', addParam: '&action=manage_opening_stock'}},
-						{name:'scheme', width:130,editable: false, formatter:function(){ return '<a href="action=manage_scheme">Click here</a>';}, formatoptions:{baseLinkUrl:'#', addParam: '&action=manage_scheme'}},
+						{name:'openingStock',width:165, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_opening_stock">Click here</a>';}},
+						{name:'scheme', width:130,editable: false, formatter:function(){ return '<a href="action=manage_scheme">Click here</a>';}},
 						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
@@ -110,7 +111,7 @@
 						var ids = jQuery(grid_selector).getDataIDs();
 	                    var myGridNode = jQuery(grid_selector)[0];
 	                    for (var i = 0, idCount = ids.length; i < idCount; i++) {
-	                    	debugger
+	                    	
 	                        var a = $("#"+ids[i]+" a",myGridNode);
 	                        a.html("Manage");
 	                        a.each(function() {
@@ -435,14 +436,14 @@
 							$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Scheme</span> </div>");
 						    $(".ui-dialog-buttonset").addClass('col-lg-12');
 						    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
-						    var rowData1 = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
-						    jQuery(grid_selector_scheme).jqGrid('setGridParam', { url: "${pageContext.request.contextPath}/schememaster.action?op=view&productId="+rowData1.id});
-							
-						    console.log(rowData1 + '\n rowData.name >' + rowData1.name);
-						    jQuery(grid_selector_scheme).jqGrid('setCaption', "Scheme for "+rowData1.name);
-						    //Ajax call to populate Scheme Grid
 						    
-						    //jQuery(grid_selector_scheme).trigger("reloadGrid");
+						    var rowData1 = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
+
+						    jQuery(grid_selector_scheme).setGridParam( {url:"${pageContext.request.contextPath}/schememaster.action?op=view&productId="+rowData1.id} );
+						    jQuery(grid_selector_scheme).jqGrid('setCaption', "Scheme for "+rowData1.name);
+
+						    jQuery(grid_selector_scheme).jqGrid("clearGridData");
+						    jQuery(grid_selector_scheme).trigger("reloadGrid");
 						},
 						buttons: [
 							{
@@ -451,8 +452,26 @@
 								click: function() {
 									var datarow = {id:"",name:"",schemetype:"",quantity:"",eligiblitycriteria:"",minreq:""};
 						            var newId = $.jgrid.randId();
-						            console.log("add called--->newId = "+newId)
+
+								    var rowData1 = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
+
+						            console.log("add called--->newId = "+newId);
 									jQuery(grid_selector_scheme).jqGrid('addRowData', newId , datarow, "last");
+									var editparameters = {
+											"keys" : true,
+											"oneditfunc" : null,
+											"successfunc" : null,
+											"url" : "${pageContext.request.contextPath}/schememaster.action?op=add&productId="+rowData1.id,
+										    "extraparam" : {},
+											"aftersavefunc" : function(){
+												jQuery(grid_selector_scheme).setGridParam( {url:"${pageContext.request.contextPath}/schememaster.action?op=edit&productId="+rowData1.id} );
+											},
+											"errorfunc": null,
+											"afterrestorefunc" : null,
+											"restoreAfterError" : true,
+											"mtype" : "POST"
+										}
+									jQuery(grid_selector_scheme).jqGrid('editRow',newId , editparameters );
 									//jQuery(grid_selector_scheme).trigger("reloadGrid");
 								}
 							},
@@ -460,18 +479,17 @@
 								html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
 								"class" : "btn btn-xs pull-right",
 								click: function() {
-									
 									$( this).dialog( "close" );
 								}
-							},
+							}/* ,
 							{
 								html: "<i class='icon-trash bigger-110'></i>&nbsp; Submit",
 								"class" : "btn btn-danger btn-xs pull-right",
 								click: function() {
-									console.log(jQuery(grid_selector_scheme).jqGrid('getGridParam','data'));
-									//$( this ).dialog( "close" );
+									//console.log(jQuery(grid_selector_scheme).jqGrid('getGridParam','data'));
+									$( this ).dialog( "close" );
 								}
-							}
+							} */
 							
 						]
 					});
@@ -495,10 +513,10 @@
 					colModel:[
 						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
 						{name:'name',index:'name', width:100,sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'schemetype',index:'schemetype',width:100, sortable:false, editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						{name:'schemetype',index:'schemetype',formatter:'select', width:100, sortable:false, editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"<%= CommonUtil.getSchemeTypeJSON() %>"}},
 						
 						{name:'quantity',index:'quantity',width:80, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'eligiblitycriteria',index:'eligiblitycriteria',width:130 , sortable:false, editable: true,edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						{name:'eligiblitycriteria',index:'eligiblitycriteria',formatter:'select',width:130 , sortable:false, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getSchemeONJSON() %>"}},
 						{name:'minreq',index:'minreq',width:140, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'myac',index:'', width:70, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

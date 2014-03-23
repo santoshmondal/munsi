@@ -1,3 +1,5 @@
+		<script src="${pageContext.request.contextPath}/custom/js/munsi.js"></script>
+		
 
 		<script src="${pageContext.request.contextPath}/assets/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/typeahead-bs2.min.js"></script>

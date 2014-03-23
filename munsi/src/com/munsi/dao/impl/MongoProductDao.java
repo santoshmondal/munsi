@@ -65,7 +65,7 @@ public class MongoProductDao implements ProductDao {
 				}
 			}
 			
-			/*
+			
 			DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturar().get_id() );
 			DBRef productGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductGroup().get_id());
 			DBRef productSubGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductSubGroup().get_id());
@@ -78,7 +78,7 @@ public class MongoProductDao implements ProductDao {
 			dbObject.removeField(KEY_MANUFACTURER);
 			dbObject.removeField(KEY_TAX_LIST);
 			dbObject.removeField(KEY_PRODUCT_GROUP);
-			dbObject.removeField(KEY_PRODUCT_SUBGROUP);*/
+			dbObject.removeField(KEY_PRODUCT_SUBGROUP);
 			
 			WriteResult writeResult = collection.insert(dbObject );
 			

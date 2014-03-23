@@ -27,10 +27,13 @@
 								<!-- Dialog Scheme -->
 								<div id="dialog-scheme" class="hide">
 									<table id="grid-table-scheme"></table>
-									<div id="grid-pager-scheme"></div>
 									
 								</div>	
-								
+								<!-- Dialog Opening Stock -->
+								<div id="dialog-stock" class="hide">
+									<table id="grid-table-stock"></table>
+									
+								</div>
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
@@ -122,21 +125,18 @@
 	                            var hash=e.currentTarget.hash;// string like "#?id=0"
 	                            if (hash.substring(0,5) === '#?id=') {
 	                                var id = hash.substring(5,hash.length);
-	                                var text = "clicked the row with id='"+id+"' and hash is:"+hash;
 	                                if(hash.indexOf('action=manage_scheme') > -1){
 	                                	showSchemeDialog(id);
 	                                }
 	                                else{
-		                                alert(text);
+	                                	showStockDialog(id);
 	                                }
-	                                //$("#log").append(text+"<br />");
 	                            }
 	                            e.preventDefault();
 	                        });
 	                    }   
 					},
-					editurl: "${pageContext.request.contextPath}/productmaster.action?op=edit",//nothing is saved
-					//caption: "List of areas",
+					editurl: "${pageContext.request.contextPath}/productmaster.action?op=edit",
 					scrollOffset: 18,
 					autowidth: true
 			
@@ -159,10 +159,6 @@
                     });*/ 
 				} } );
 				
-				//enable search/filter toolbar
-				//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true});
-				//jQuery(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
-
 				//switch element when editing inline
 				function aceSwitch( cellvalue, options, cell ) {
 					setTimeout(function(){
@@ -206,7 +202,7 @@
 						closeOnEscape:true,
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 							
 							style_edit_form(form);
 						}
@@ -221,7 +217,7 @@
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" ></div>')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" ></div>');
 							style_edit_form(form);
 						}
 					},
@@ -233,7 +229,7 @@
 							var form = $(e[0]);
 							if(form.data('styled')) return false;
 							
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 							style_delete_form(form);
 							
 							form.data('styled', true);
@@ -247,7 +243,7 @@
 						recreateForm: true,
 						afterShowSearch: function(e){
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
 							style_search_form(form);
 						},
 						afterRedraw: function(){
@@ -267,10 +263,10 @@
 						closeOnEscape:true,
 						beforeShowForm: function(e){
 							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />')
+							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
 						}
 					}
-				)
+				);
 			
 			
 				
@@ -305,7 +301,7 @@
 					var buttons = form.next().find('.EditButton .fm-button');
 					buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
 					buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
-					buttons.eq(1).prepend('<i class="icon-remove"></i>')
+					buttons.eq(1).prepend('<i class="icon-remove"></i>');
 				}
 				
 				function style_search_filters(form) {
@@ -316,7 +312,7 @@
 				}
 				function style_search_form(form) {
 					var dialog = form.closest('.ui-jqdialog');
-					var buttons = dialog.find('.EditTable')
+					var buttons = dialog.find('.EditTable');
 					buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
 					buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
 					buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
@@ -326,7 +322,7 @@
 					var form = $(e[0]);
 					if(form.data('styled')) return false;
 					
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 					style_delete_form(form);
 					
 					form.data('styled', true);
@@ -334,7 +330,7 @@
 				
 				function beforeEditCallback(e) {
 					var form = $(e[0]);
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
+					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 					style_edit_form(form);
 				}
 			
@@ -344,16 +340,16 @@
 				//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
 				//or go back to default browser checkbox styles for the grid
 				function styleCheckbox(table) {
-				/**
+				
 					$(table).find('input:checkbox').addClass('ace')
 					.wrap('<label />')
-					.after('<span class="lbl align-top" />')
+					.after('<span class="lbl align-top" />');
 			
 			
 					$('.ui-jqgrid-labels th[id*="_cb"]:first-child')
 					.find('input.cbox[type=checkbox]').addClass('ace')
 					.wrap('<label />').after('<span class="lbl align-top" />');
-				*/
+				
 				}
 				
 			
@@ -390,7 +386,7 @@
 						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
 						
 						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
+					});
 				}
 			
 				function enableTooltips(table) {
@@ -398,131 +394,42 @@
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
 				}
 			
-				//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
 			
-				/* $(window).on('resize', function() {
-				    jQuery(grid_selector).setGridWidth($('#id_EmbedPage').width(), false); 
-				    jQuery(grid_selector).setGridHeight($('#id_EmbedPage').height()-100,false); 
-				}).trigger('resize');  
-			 */
-
 				//-----> press g for setting focus on jqgrid
 				$(document).bind('keydown', 'g', function(){
 				    var	ids = jQuery(grid_selector).jqGrid("getDataIDs");
 				    //console.log(ids);
 					if(ids && ids.length > 0){
-						//jQuery(grid_selector).focus();
-						//jQuery(grid_selector).jqGrid("setSelection", 1);
-						//alert(ids[0]);
 						jQuery(grid_selector).jqGrid("setSelection", ids[0]);
 						jQuery(grid_selector).focus();
 					}
 			    });
-				
-		//----------------------------------------
-		//----------Scheme Related JS ------------
-		//----------------------------------------
-				function showSchemeDialog(row) {
-					console.log("showSchemeDialog[param]> "+row);
-					
-					$( "#dialog-scheme" ).removeClass('hide').dialog({
-						resizable: true,
-						modal: true,
-						title: "",
-						height: 400,
-						width: 660,
-						title_html: true,
-						open: function() {
-							$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Scheme</span> </div>");
-						    $(".ui-dialog-buttonset").addClass('col-lg-12');
-						    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
-						    
-						    var rowData1 = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
-
-						    jQuery(grid_selector_scheme).setGridParam( {url:"${pageContext.request.contextPath}/schememaster.action?op=view&productId="+rowData1.id} );
-						    jQuery(grid_selector_scheme).jqGrid('setCaption', "Scheme for "+rowData1.name);
-
-						    jQuery(grid_selector_scheme).jqGrid("clearGridData");
-						    jQuery(grid_selector_scheme).trigger("reloadGrid");
-						},
-						buttons: [
-							{
-								html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
-								"class" : "btn btn-primary btn-xs pull-left",
-								click: function() {
-									var datarow = {id:"",name:"",schemetype:"",quantity:"",eligiblitycriteria:"",minreq:""};
-						            var newId = $.jgrid.randId();
-
-								    var rowData1 = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
-
-						            console.log("add called--->newId = "+newId);
-									jQuery(grid_selector_scheme).jqGrid('addRowData', newId , datarow, "last");
-									var editparameters = {
-											"keys" : true,
-											"oneditfunc" : null,
-											"successfunc" : null,
-											"url" : "${pageContext.request.contextPath}/schememaster.action?op=add&productId="+rowData1.id,
-										    "extraparam" : {},
-											"aftersavefunc" : function(){
-												jQuery(grid_selector_scheme).setGridParam( {url:"${pageContext.request.contextPath}/schememaster.action?op=edit&productId="+rowData1.id} );
-											},
-											"errorfunc": null,
-											"afterrestorefunc" : null,
-											"restoreAfterError" : true,
-											"mtype" : "POST"
-										}
-									jQuery(grid_selector_scheme).jqGrid('editRow',newId , editparameters );
-									//jQuery(grid_selector_scheme).trigger("reloadGrid");
-								}
-							},
-							{
-								html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
-								"class" : "btn btn-xs pull-right",
-								click: function() {
-									$( this).dialog( "close" );
-								}
-							}/* ,
-							{
-								html: "<i class='icon-trash bigger-110'></i>&nbsp; Submit",
-								"class" : "btn btn-danger btn-xs pull-right",
-								click: function() {
-									//console.log(jQuery(grid_selector_scheme).jqGrid('getGridParam','data'));
-									$( this ).dialog( "close" );
-								}
-							} */
-							
-						]
-					});
-				}
-			
+		
 			//--------- Scheme JQGrid------
 			
 				var grid_selector_scheme = "#grid-table-scheme";
-				var pager_selector_scheme = "#grid-pager-scheme";
 				
 				jQuery(grid_selector_scheme).jqGrid({
 					//direction: "rtl",
-					
 					
 					mtype: "POST",
 					loadonce: true,
 					gridview: true,
 					datatype: "json",
-
-					colNames:['id','Name','Scheme type','Quantity','Eligiblity Criteria','Min. Purchase Qty.',' '],
+					colNames:['id','Name','Scheme type','Quantity','Scheme On','Min. Purchase Qty.',' '],
 					colModel:[
 						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
 						{name:'name',index:'name', width:100,sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'schemetype',index:'schemetype',formatter:'select', width:100, sortable:false, editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"<%= CommonUtil.getSchemeTypeJSON() %>"}},
+						{name:'schemeType',index:'schemeType',formatter:'select', width:100, sortable:false, editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"<%= CommonUtil.getSchemeTypeJSON() %>"}},
 						
-						{name:'quantity',index:'quantity',width:80, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'eligiblitycriteria',index:'eligiblitycriteria',formatter:'select',width:130 , sortable:false, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getSchemeONJSON() %>"}},
-						{name:'minreq',index:'minreq',width:140, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'schemeValue',index:'schemeValue',width:80, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'schemeOn',index:'schemeOn',formatter:'select',width:130 , sortable:false, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getSchemeONJSON() %>"}},
+						{name:'minEligibleValue',index:'minEligibleValue',width:140, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'myac',index:'', width:70, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{top:45 ,url: "#", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
+								delOptions:{top:45 ,url: "${pageContext.request.contextPath}/schememaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
 							}
 						}
@@ -547,7 +454,7 @@
 						}, 0);
 						
 					},
-					editurl: "${pageContext.request.contextPath}/schememaster.action?op=edit",//nothing is saved
+					//nothing is saved
 					caption: "Scheme",
 					scrollOffset: 18,
 					autowidth: true,
@@ -559,5 +466,200 @@
                     jQuery(grid_selector_scheme).find('#jEditButton_'+editingRowId).click();
 				} } );
 				
+				//----------------------------------------
+				//----------Scheme Related JS ------------
+				//----------------------------------------
+						function showSchemeDialog(row) {
+							console.log("showSchemeDialog[param]> "+row);
+							
+							$( "#dialog-scheme" ).removeClass('hide').dialog({
+								resizable: false,
+								modal: true,
+								autoOpen: false,
+								title: "",
+								height: 400,
+								width: 660,
+								title_html: true,
+								open: function() {
+									$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Scheme</span> </div>");
+								    $(".ui-dialog-buttonset").addClass('col-lg-12');
+								    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
+								 
+								    var productMasterRowData = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
+								    prodMasterSelID = productMasterRowData.id;
+								    jQuery(grid_selector_scheme).setGridParam( {editurl: "${pageContext.request.contextPath}/schememaster.action?op=edit&productId="+prodMasterSelID, datatype:"json", url:"${pageContext.request.contextPath}/schememaster.action?op=view&productId="+productMasterRowData.id} );
+								    jQuery(grid_selector_scheme).jqGrid('setCaption', "Scheme for "+productMasterRowData.name);
+
+								    jQuery(grid_selector_scheme).jqGrid("clearGridData");
+								    jQuery(grid_selector_scheme).trigger("reloadGrid");
+								},
+								buttons: [
+									{
+										html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
+										"class" : "btn btn-primary btn-xs pull-left",
+										click: function() {
+											var datarow = {id:"",name:"",schemetype:"",quantity:"",eligiblitycriteria:"",minreq:""};
+								            var newId = $.jgrid.randId();
+											jQuery(grid_selector_scheme).jqGrid('addRowData', newId , datarow, "last");
+											var editparameters = {
+													"keys" : true,
+													"oneditfunc" : null,
+													"successfunc" : null,
+													"url" : "${pageContext.request.contextPath}/schememaster.action?op=add&productId="+prodMasterSelID,
+												    "extraparam" : {},
+													"aftersavefunc" : function(){
+														jQuery(grid_selector_scheme).setGridParam( {url:"${pageContext.request.contextPath}/schememaster.action?op=edit&productId="+prodMasterSelID} );
+													},
+													"errorfunc": null,
+													"afterrestorefunc" : null,
+													"restoreAfterError" : true,
+													"mtype" : "POST"
+												};
+											jQuery(grid_selector_scheme).jqGrid('editRow',newId , editparameters );
+										}
+									},
+									{
+										html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
+										"class" : "btn btn-xs pull-right",
+										click: function() {
+											$( this).dialog( "close" );
+										}
+									}
+								]
+							});
+							
+							$( "#dialog-scheme" ).dialog( "open" );
+						}
+				
+						//--------- Opening Stock JQGrid------
+						
+						var grid_selector_stock = "#grid-table-stock";
+						
+						jQuery(grid_selector_stock).jqGrid({
+							//direction: "rtl",
+							
+							mtype: "POST",
+							loadonce: true,
+							gridview: true,
+							datatype: "json",
+							colNames:['id','Quantity','Batch Number','Exp. Date','MFG Date',' '],
+							colModel:[
+								{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
+								{name:'quantity',index:'quantity', width:100, sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
+								
+								{name:'batchNumber',index:'batchNumber', width:100, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
+								{name:'1expDate',index:'expDate', width:180,editable:true, sorttype:"date",unformat: pickDate},
+								{name:'1mfgDate',index:'mfgDate', width:180, editable:true, sorttype:"date",unformat: pickDate},
+								{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
+									formatter:'actions', 
+									formatoptions:{ 
+										keys:true,
+										delOptions:{top:45 ,url: "${pageContext.request.contextPath}/openingstockmaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
+										//editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
+									}
+								}
+							], 
+					
+							viewrecords : true,
+							
+							pager : "",
+							altRows: false,
+							
+							multiselect: false,
+							//multikey: "ctrlKey",
+					        multiboxonly: true,
+					        height: 'auto',
+					        
+							loadComplete : function() {
+								var table = this;
+								setTimeout(function(){
+									styleCheckbox(table);
+									updateActionIcons(table);
+									updatePagerIcons(table);
+									enableTooltips(table);
+								}, 0);
+								
+							},
+							//nothing is saved
+							caption: "Opening Stock",
+							scrollOffset: 18,
+							autowidth: false,
+							autoheight:true
+						});
+
+						jQuery(grid_selector_stock).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
+							editingRowId = rowid;
+		                    jQuery(grid_selector_stock).find('#jEditButton_'+editingRowId).click();
+						} } );
+
+						//----------------------------------------
+						//----------Stock Related JS ------------
+						//----------------------------------------
+								function showStockDialog(row) {
+									console.log("showStockDialog[param]> "+row);
+									
+									$( "#dialog-stock" ).removeClass('hide').dialog({
+										resizable: false,
+										modal: true,
+										title: "",
+										autoOpen: false,
+										height: 400,
+										width: 660,
+										title_html: true,
+										open: function() {
+											$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Opening Stock</span> </div>");
+										    $(".ui-dialog-buttonset").addClass('col-lg-12');
+										    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
+										 
+										    var productMasterRowData = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
+										    prodMasterSelID = productMasterRowData.id;
+										    jQuery(grid_selector_stock).setGridParam( {editurl: "${pageContext.request.contextPath}/openingstockmaster.action?op=edit&productId="+prodMasterSelID, datatype:"json", url:"${pageContext.request.contextPath}/openingstockmaster.action?op=view&productId="+productMasterRowData.id} );
+										    jQuery(grid_selector_stock).jqGrid('setCaption', "Opening Stock for "+productMasterRowData.name);
+
+										    jQuery(grid_selector_stock).jqGrid("clearGridData");
+										    jQuery(grid_selector_stock).trigger("reloadGrid");
+										},
+										buttons: [
+											{
+												html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
+												"class" : "btn btn-primary btn-xs pull-left",
+												click: function() {
+													var datarow = {id:"",quantity:"",batchNumber:"",expDate:"",mfgDate:""};
+										            var newId = $.jgrid.randId();
+
+												    jQuery(grid_selector_stock).jqGrid('addRowData', newId , datarow, "last");
+													var editparameters = {
+															"keys" : true,
+															"oneditfunc" : null,
+															"successfunc" : null,
+															"url" : "${pageContext.request.contextPath}/openingstockmaster.action?op=add&productId="+prodMasterSelID,
+														    "extraparam" : {},
+															"aftersavefunc" : function(){
+																jQuery(grid_selector_stock).setGridParam( {url:"${pageContext.request.contextPath}/openingstockmaster.action?op=edit&productId="+prodMasterSelID} );
+															},
+															"errorfunc": null,
+															"afterrestorefunc" : null,
+															"restoreAfterError" : true,
+															"mtype" : "POST"
+														};
+													jQuery(grid_selector_stock).jqGrid('editRow',newId , editparameters );
+												}
+											},
+											{
+												html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
+												"class" : "btn btn-xs pull-right",
+												click: function() {
+													$( this).dialog( "close" );
+												}
+											}
+											
+										]
+									});
+									
+									$( "#dialog-stock" ).dialog("open");
+								}
 			});
+			
+			
+				
 		</script>

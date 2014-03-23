@@ -2,6 +2,9 @@ package com.munsi.action.master;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
+import com.munsi.pojo.master.OpeningProductStock;
 import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.ProductScheme;
+import com.munsi.service.OpeningProductStockService;
 import com.munsi.service.ProductSchemeService;
 import com.munsi.service.ProductServeice;
 import com.munsi.util.CommonUtil;
@@ -26,12 +31,12 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 /**
  * Servlet implementation class MainAccount
  */
-@WebServlet("/schememaster.action")
-public class SchemeMasterAction extends HttpServlet {
+@WebServlet("/openingstockmaster.action")
+public class OpeningStockMasterAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOG = Logger.getLogger(SchemeMasterAction.class);
+	private static final Logger LOG = Logger.getLogger(OpeningStockMasterAction.class);
 	
-	private ProductSchemeService prodSchemeService;
+	private OpeningProductStockService openStockService;
 	private ProductServeice productServeice;
 	
 	/**
@@ -41,9 +46,9 @@ public class SchemeMasterAction extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		
-		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_SCHEME_SERVICE);
-		if (object instanceof ProductSchemeService ) {
-			prodSchemeService = (ProductSchemeService ) object;	
+		Object object = ObjectFactory.getInstance(ObjectEnum.OPENING_PRODUCT_STOCK_SERVICE);
+		if (object instanceof OpeningProductStockService) {
+			openStockService= (OpeningProductStockService) object;	
 		}
 		else{
 			throw new ServletException("ProductSchemeService not initialized !");
@@ -91,16 +96,27 @@ public class SchemeMasterAction extends HttpServlet {
 		if(operation != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			String product_id = request.getParameter("productId");
+			String expDate = request.getParameter("1expDate");
+			String mfgDate = request.getParameter("1mfgDate");
 			
-			ProductScheme ps =  new ProductScheme();
+			OpeningProductStock ps =  new OpeningProductStock();
 			BeanUtils.populate(ps, request.getParameterMap() );
+			
+			if(expDate!=null){
+				DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				ps.setExpDate(formatter.parse(expDate));
+			}
+			if(mfgDate!=null){
+				DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				ps.setMfgDate(formatter.parse(mfgDate));
+			}
 			
 			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:
 				Product product = productServeice.get(product_id);
 				ps.setProduct(product);
-				prodSchemeService.create(ps);	
+				openStockService.create(ps);	
 				break;
 			case EDIT :
 					if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
@@ -109,25 +125,25 @@ public class SchemeMasterAction extends HttpServlet {
 							ps.setProduct(product);
 						}
 						ps.set_id(id);
-						prodSchemeService.update(ps);
+						openStockService.update(ps);
 					} 
 				break;	
 				
 			case DELETE :
 				if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-					prodSchemeService.delete(id);
+					openStockService.delete(id);
 				}
 				break;
 
 			case VIEW :
-				List<ProductScheme> pgList = prodSchemeService.getSchemeByProduct(product_id);
+				List<OpeningProductStock> pgList = openStockService.getOpeningStockByProduct(product_id);
 				json = CommonUtil.objectToJson(pgList);
 				json = json.replaceAll("_id", "id");
 				break;	
 				
 			case VIEW_ALL :
 				
-				List<ProductScheme> pgList1 = prodSchemeService.getAll();
+				List<OpeningProductStock> pgList1 = openStockService.getAll();
 				json = CommonUtil.objectToJson(pgList1);
 				json = json.replaceAll("_id", "id");
 				break;	

@@ -12,11 +12,14 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import com.mongodb.QueryOperators;
+import com.mongodb.util.JSON;
 import com.munsi.pojo.master.Product;
 import com.munsi.util.Constants.DBCollectionEnum;
 
@@ -177,20 +180,37 @@ public class CommonUtil {
 		return locationMap.get(locCode);
 	}
 	
+	
+	public static String getIdNameString(DBCollectionEnum dbCollectionEnum, String valueKey, String lableKey){
+		return getIdNameString(dbCollectionEnum, valueKey, lableKey, null);
+	}
+	
 	/**
-	 * @param fullyQualifiedClassName of class for which you want string
+	 * @param dbCollectionEnum collection name
+	 * @param valueKey 
+	 * @param lableKey
+	 * @param (Optional) jsonQuery : Condition string in json format of Mongo DB
 	 * @return
 	 */
-	public static String getIdNameString(DBCollectionEnum dbCollectionEnum, String valueKey, String lableKey){
+	public static String getIdNameString(DBCollectionEnum dbCollectionEnum, String valueKey, String lableKey, String jsonQuery){
 		try{
 			DB mongoDB = MongoUtil.getDB();
 			
 			DBCollection collection = mongoDB.getCollection(dbCollectionEnum.toString() );
 			DBObject dbKey = new BasicDBObject(valueKey,1).append(lableKey, 1);
-			
+
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			DBObject finalQuery = deletedQuery; 
 			
-			DBCursor dbCursor = collection.find(deletedQuery, dbKey);
+			if( jsonQuery != null && jsonQuery.length() > 0){
+				DBObject optionalQuery = (DBObject) JSON.parse(jsonQuery);
+				BasicDBList queryList = new BasicDBList();
+				queryList.add(deletedQuery);
+				queryList.add(optionalQuery);
+				finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
+			}
+			
+			DBCursor dbCursor = collection.find(finalQuery, dbKey);
 			
 			StringBuffer sb = new StringBuffer();
 			String separater = "";

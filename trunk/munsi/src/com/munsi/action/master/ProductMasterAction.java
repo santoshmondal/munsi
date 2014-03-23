@@ -2,7 +2,9 @@ package com.munsi.action.master;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,8 @@ import com.munsi.dao.MainAccountDao;
 import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.Tax;
 import com.munsi.service.MainAccountServeice;
+import com.munsi.service.ManufacturerServeice;
+import com.munsi.service.ProductGroupServeice;
 import com.munsi.service.ProductServeice;
 import com.munsi.service.TaxServeice;
 import com.munsi.util.CommonUtil;
@@ -74,8 +78,36 @@ public class ProductMasterAction extends HttpServlet {
 		
 		if(operation != null && prodService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
+			
+			String manufacturer = request.getParameter("1manufacturer");
+			String mainGroup = request.getParameter("1productGroup");
+			String subGroup = request.getParameter("1productSubGroup");
+			String[] taxListIds = request.getParameterValues("1taxList");
+			
 			Product product =  new Product();
 			BeanUtils.populate(product, request.getParameterMap() );
+			
+			if (manufacturer != null){
+				ManufacturerServeice manufServ = (ManufacturerServeice)ObjectFactory.getInstance(ObjectEnum.MANUFACTURER_SERVICE);
+				product.setManufacturar(manufServ.get(manufacturer));
+			}
+			if (mainGroup != null){
+				ProductGroupServeice mainGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);
+				product.setProductGroup(mainGrpServ.get(mainGroup));
+			}
+			if (subGroup != null){
+				ProductGroupServeice subGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);
+				product.setProductSubGroup(subGrpServ.get(subGroup));
+			}
+			if(taxListIds != null){
+				Set<Tax> taxList = new HashSet<Tax>();
+				String taxids[] = taxListIds[0].split(","); 
+				for(String strId : taxids){
+					TaxServeice taxServ = (TaxServeice)ObjectFactory.getInstance(ObjectEnum.TAX_SERVICE);
+					taxList.add(taxServ.get(strId));
+				}
+				product.setTaxList(taxList);
+			}
 			
 			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {

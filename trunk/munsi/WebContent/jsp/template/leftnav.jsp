@@ -30,7 +30,7 @@
 
 	<ul class="nav nav-list">
 		<li class="active"><a href="#"> <i class="icon-dashboard"></i>
-				<span class="menu-text" data-href="/jsp/test/embed.jsp">
+				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
 					Dashboard </span>
 		</a></li>
 
@@ -84,8 +84,8 @@
 				<li><a href="#" data-href="/jsp/master/tax_master.jsp">
 						<i class="icon-double-angle-right"></i> TAX
 				</a></li>
-				<li class='disabled'><a href="#"
-					data-href="/jsp/master/product_master.jsp"> <i
+				<li ><a href="#" 
+					data-href="/jsp/template/under_maintenance.jsp"> <i
 						class="icon-double-angle-right"></i> <span class="menu-text">
 							Van <span class="badge badge-transparent"> <i
 								class="icon-truck green" style='font-size: 1.5em'></i>
@@ -99,12 +99,12 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/area_master.jsp"> <i
-						class="icon-double-angle-right"></i> Area Master
+				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp"> <i
+						class="icon-double-angle-right"></i> Data Entry 1
 				</a></li>
 
-				<li><a href="#" data-href="/jsp/master/product_master.jsp">
-						<i class="icon-double-angle-right"></i> Product Master
+				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp">
+						<i class="icon-double-angle-right"></i> Data Entry 2
 				</a></li>
 			</ul></li>
 		<li><a href="#" class="dropdown-toggle"> <i
@@ -113,12 +113,12 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/area_master.jsp"> <i
-						class="icon-double-angle-right"></i> Area Master
+				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp"> <i
+						class="icon-double-angle-right"></i> Report 1
 				</a></li>
 
-				<li><a href="#" data-href="/jsp/master/product_master.jsp">
-						<i class="icon-double-angle-right"></i> Product Master
+				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp">
+						<i class="icon-double-angle-right"></i> Report 2
 				</a></li>
 			</ul></li>
 		<!-- 		<li><a href="#"> <i class="icon-text-width"></i> <span

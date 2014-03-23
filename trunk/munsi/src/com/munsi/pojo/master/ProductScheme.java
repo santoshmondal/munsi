@@ -25,7 +25,7 @@ public class ProductScheme extends BasePojo implements Serializable {
 
 	/** According to schemeON  it can be min sale item or it can be min sale amount */
 	private Float minEligibleValue;
-	
+
 	/** Scheme valid till */
 	private Date validTill;
 	
@@ -66,12 +66,12 @@ public class ProductScheme extends BasePojo implements Serializable {
 		this.schemeOn = schemeOn;
 	}
 
-	public Float getMinEligibleVale() {
+	public Float getMinEligibleValue() {
 		return minEligibleValue;
 	}
 
-	public void setMinEligibleVale(Float minEligibleVale) {
-		this.minEligibleValue = minEligibleVale;
+	public void setMinEligibleValue(Float minEligibleValue) {
+		this.minEligibleValue = minEligibleValue;
 	}
 
 	public Date getValidTill() {

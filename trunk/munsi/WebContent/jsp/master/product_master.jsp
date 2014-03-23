@@ -76,8 +76,8 @@
 						{name:'vatType',index:'vatType', editable: true, hidden:true,editrules:{required:false, edithidden:true}, edittype:"select", formatter:'select',editoptions:{  dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getVatTypeJSON() %>"}},
 						{name:'serviceCharge',index:'serviceCharge', sorttype:"int",hidden:true,editrules:{required:false, edithidden:true}, sortable:true,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'1manufacturer',index:'manufacturer', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_MANUFACTURER, "_id", "name") %>"}},
-						{name:'1productGroup',index:'productGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name") %>"}},
-						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name") %>"}},
+						{name:'1productGroup',index:'productGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'1'}") %>"}},
+						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'2'}") %>"}},
 						
 						{name:'openingStock',width:165, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_opening_stock">Click here</a>';}},
 						{name:'scheme', width:130,editable: false, formatter:function(){ return '<a href="action=manage_scheme">Click here</a>';}},
@@ -146,17 +146,8 @@
 					//alert("You enter a row with id: " + rowid);
                     editingRowId = rowid;
                     // we use aftersavefunc to restore focus
-                    jQuery(grid_selector).find('#jEditButton_'+editingRowId).click();/* 
-                    jQuery(grid_selector).jqGrid('editRow',rowid,true,null, null, null, {},function(){
-                        
-                        	jQuery(grid_selector).focus();
-                        
-                    },
-                    null,
-                    function(){
-                        	jQuery(grid_selector).focus();
-                        
-                    });*/ 
+                    jQuery(grid_selector).find('#jEditButton_'+editingRowId).click();
+                   
 				} } );
 				
 				//switch element when editing inline
@@ -268,8 +259,6 @@
 					}
 				);
 			
-			
-				
 				function style_edit_form(form) {
 					//enable datepicker on "sdate" field and switches for "stock" field
 					form.find('input[name=sdate]').datepicker({format:'dd-mm-yyyy' , autoclose:true})
@@ -333,7 +322,6 @@
 					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
 					style_edit_form(form);
 				}
-			
 			
 			
 				//it causes some flicker when reloading or navigating grid

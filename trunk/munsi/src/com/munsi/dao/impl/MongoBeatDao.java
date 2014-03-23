@@ -196,7 +196,7 @@ public class MongoBeatDao implements BeatDao {
 	@Override
 	public List<Beat> getBeatListByArea(String area_id, Boolean withReferences) {
 		try{
-			DBCollection collection = mongoDB.getCollection( collArea );
+			DBCollection collection = mongoDB.getCollection( collBeat );
 			
 			DBRef areaRef = new DBRef(mongoDB, collArea, area_id);
 			

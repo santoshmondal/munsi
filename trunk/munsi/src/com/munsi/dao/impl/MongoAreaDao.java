@@ -112,7 +112,7 @@ public class MongoAreaDao implements AreaDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
-			Area area = (Area) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+			Area area = (Area) CommonUtil.jsonToObject( jsonString, Area.class.getName() );
 			
 			return area;
 			
@@ -134,7 +134,7 @@ public class MongoAreaDao implements AreaDao {
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				Area area = (Area) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
+				Area area = (Area) CommonUtil.jsonToObject( jsonString, Area.class.getName() );
 				areaList.add(area);
 			}
 			

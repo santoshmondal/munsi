@@ -12,7 +12,13 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.munsi.pojo.master.Product;
+import com.munsi.util.Constants.DBCollectionEnum;
 
 public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger( CommonUtil.class );
@@ -155,5 +161,43 @@ public class CommonUtil {
 	
 	public static String getLocationValue(String locCode){
 		return locationMap.get(locCode);
+	}
+	
+	/**
+	 * @param fullyQualifiedClassName of class for which you want string
+	 * @return
+	 */
+	public static String getIdNameString(DBCollectionEnum dbCollectionEnum, String valueKey, String lableKey){
+		try{
+			DB mongoDB = MongoUtil.getDB();
+			
+			DBCollection collection = mongoDB.getCollection(dbCollectionEnum.toString() );
+			DBObject dbKey = new BasicDBObject(valueKey,1).append(lableKey, 1);
+			
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			
+			DBCursor dbCursor = collection.find(deletedQuery, dbKey);
+			
+			StringBuffer sb = new StringBuffer();
+			String separater = "";
+			while ( dbCursor.hasNext() ) {
+				
+				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
+				String value = dbObject.getString(valueKey);
+				String name = dbObject.getString(lableKey);
+				sb.append(separater);
+				sb.append(value);
+				sb.append(":");
+				sb.append(name);
+				separater = ";";
+			}
+				
+			return sb.toString();
+				
+			}catch( Exception exception ){
+				
+			}
+
+		return "";
 	}
 }

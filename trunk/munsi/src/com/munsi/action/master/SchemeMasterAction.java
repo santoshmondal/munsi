@@ -15,10 +15,12 @@ import org.apache.log4j.Logger;
 
 import com.isdc.simulations.VivekSimulation;
 import com.munsi.dao.MainAccountDao;
+import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.ProductScheme;
 import com.munsi.pojo.master.Tax;
 import com.munsi.service.MainAccountServeice;
 import com.munsi.service.ProductSchemeService;
+import com.munsi.service.ProductServeice;
 import com.munsi.service.TaxServeice;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
@@ -61,22 +63,26 @@ public class SchemeMasterAction extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
-		
+
 		Object object = ObjectFactory.getDaoInstance(ObjectEnum.PRODUCT_SCHEME_SERVICE);
 		ProductSchemeService prodSchemeService = null;
-		
+
 		if (object instanceof ProductSchemeService ) {
-			prodSchemeService = (ProductSchemeService ) object;
+			prodSchemeService = (ProductSchemeService ) object;	
 		}
-		
+
 		if(operation != null && prodSchemeService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
+			String product_id = request.getParameter("productId");
+			
 			ProductScheme ps =  new ProductScheme();
 			BeanUtils.populate(ps, request.getParameterMap() );
 			
 			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:
+				Product product = new ProductServeice().get(product_id);
+				ps.setProduct(product);
 				prodSchemeService.create(ps);	
 				break;
 			case EDIT :
@@ -93,7 +99,6 @@ public class SchemeMasterAction extends HttpServlet {
 				break;
 
 			case VIEW :
-				String product_id = request.getParameter("productId");
 				List<ProductScheme> pgList = prodSchemeService.getSchemeByProduct(product_id);
 				json = CommonUtil.objectToJson(pgList);
 				json = json.replaceAll("_id", "id");

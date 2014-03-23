@@ -25,6 +25,8 @@ public class CommonUtil {
 
 	private static Map<String,String> vatTypemap = new LinkedHashMap<>();
 	private static Map<String,String> locationMap = new LinkedHashMap<>();
+	private static Map<String,String> schemeOnMap = new LinkedHashMap<>();
+	private static Map<String,String> schemeTypeMap = new LinkedHashMap<>();
 	
 	static {
 		// Put value in location map
@@ -44,6 +46,15 @@ public class CommonUtil {
 		vatTypemap.put("2", Config.getProperty("vatType.2"));
 		vatTypemap.put("3", Config.getProperty("vatType.3"));
 		vatTypemap.put("4", Config.getProperty("vatType.4"));
+
+		// Put value in scheme type map
+		schemeTypeMap.put("1", Config.getProperty("schemeType.1"));
+		schemeTypeMap.put("2", Config.getProperty("schemeType.2"));
+		
+		// Put value in scheme on map
+		schemeOnMap.put("1", Config.getProperty("schemeOn.1"));
+		schemeOnMap.put("2", Config.getProperty("schemeOn.2"));
+		
 	}
 	
 	public static Object jsonToObject(String json, String fullyQualifiedClassName) {
@@ -115,33 +126,36 @@ public class CommonUtil {
 	
 	
 	public static String getSchemeTypeJSON(){
-		Map<String,String> map = new LinkedHashMap<>();
-		map.put("1", Config.getProperty("schemeType.1"));
-		map.put("2", Config.getProperty("schemeType.2"));
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.writeValueAsString(map);
-        }
-		catch (JsonGenerationException e) {}
-		catch (JsonMappingException e) {}
-		catch (IOException e) {}
 		
-	    return "";
+		StringBuffer sb = new StringBuffer();
+		String separater = "";
+		
+		for( Entry<String, String> entry : schemeTypeMap.entrySet() ){
+			sb.append(separater);
+			sb.append(entry.getKey());
+			sb.append(":");
+			sb.append(entry.getValue());
+			separater= ";";
+		}
+		
+		return sb.toString();
 	}
 	
 	public static String getSchemeONJSON(){
-		Map<String,String> map = new LinkedHashMap<>();
-		map.put("1", Config.getProperty("schemeON.1"));
-		map.put("2", Config.getProperty("schemeON.2"));
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.writeValueAsString(map);
-        }
-		catch (JsonGenerationException e) {}
-		catch (JsonMappingException e) {}
-		catch (IOException e) {}
 		
-	    return "";
+
+		StringBuffer sb = new StringBuffer();
+		String separater = "";
+		
+		for( Entry<String, String> entry : schemeOnMap.entrySet() ){
+			sb.append(separater);
+			sb.append(entry.getKey());
+			sb.append(":");
+			sb.append(entry.getValue());
+			separater= ";";
+		}
+		
+		return sb.toString();
 	}
 	
 	public static String getLocationString(){

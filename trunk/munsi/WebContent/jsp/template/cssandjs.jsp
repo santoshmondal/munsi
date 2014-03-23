@@ -67,6 +67,5 @@
 		
 		<script src="${pageContext.request.contextPath}/assets/js/jquery.hotkeys-0.7.9.min.js"></script>
 		
-		<script src="${pageContext.request.contextPath}/custom/js/munsi.js"></script>
 		<script src="${pageContext.request.contextPath}/custom/js/app.js"></script>
 		

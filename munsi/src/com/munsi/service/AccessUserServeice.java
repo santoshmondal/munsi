@@ -13,7 +13,7 @@ public class AccessUserServeice {
 	private TaxDao taxDao;
 
 	public AccessUserServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.ACCESS_USER_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.ACCESS_USER_DAO);
 		if (object instanceof TaxDao) {
 			taxDao = (MongoTaxDao) object;
 		}

@@ -12,7 +12,7 @@ public class CustomerServeice {
 	private CustomerDao customerDao;
 
 	public CustomerServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.CUSTOMER_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.CUSTOMER_DAO);
 		if (object instanceof CustomerDao) {
 			customerDao = (CustomerDao) object;
 		}

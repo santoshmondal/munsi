@@ -70,7 +70,7 @@ public class ObjectFactory {
 		}
 	}
 
-	public static Object getDaoInstance(ObjectEnum ObjectEnum) {
+	public static Object getInstance(ObjectEnum ObjectEnum) {
 		try {
 			Class<?> clazz = Class.forName(ObjectEnum.toString());
 			return clazz.newInstance();

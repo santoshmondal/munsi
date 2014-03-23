@@ -13,9 +13,16 @@ public class AreaServeice {
 	private AreaDao areaDao;
 
 	public AreaServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.AREA_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.AREA_DAO);
 		if (object instanceof AreaDao) {
 			areaDao = (MongoAreaDao) object;
+		}
+		else{
+			try {
+				throw new Exception("Problem to initialise MongoAreaDao");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 
 	}

@@ -11,7 +11,7 @@ public class OpeningProductStockService {
 	
 	private OpeningProductStockDao openingProductStock;
 	public OpeningProductStockService() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.OPENING_PRODUCT_STOCK_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.OPENING_PRODUCT_STOCK_DAO);
 		if (object instanceof OpeningProductStockDao) {
 			openingProductStock = (OpeningProductStockDao) object;
 		}

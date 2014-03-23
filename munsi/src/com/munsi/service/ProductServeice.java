@@ -13,7 +13,7 @@ public class ProductServeice {
 	private ProductDao productDao;
 
 	public ProductServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.PRODUCT_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
 		if (object instanceof ProductDao) {
 			productDao = (MongoProductDao) object;
 		}

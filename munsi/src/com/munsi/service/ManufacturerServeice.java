@@ -13,7 +13,7 @@ public class ManufacturerServeice {
 	private ManufacturerDao manufacturerDao;
 
 	public ManufacturerServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.MANUFACTURER_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.MANUFACTURER_DAO);
 		if (object instanceof ManufacturerDao) {
 			manufacturerDao = (MongoManufacturerDao) object;
 		}

@@ -17,7 +17,7 @@ public class ProductGroupServeice {
 	private ProductGroupDao productGroupDao;
 
 	public ProductGroupServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.PRODUCT_GROUP_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_DAO);
 		if (object instanceof ProductGroupDao) {
 			productGroupDao = (MongoProductGroupDao) object;
 		}

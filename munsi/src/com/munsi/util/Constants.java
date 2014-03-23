@@ -16,6 +16,7 @@ public class Constants {
 	public static final String OPERATION = "op";
 	public static final String COLLECTION_KEY = "id";
 	public static final String JQGRID_EMPTY = "_empty";
+	public static final String JQGRID_LEVEL = "level";
 	
 	public enum DBCollectionEnum {
 		// @formatter:off

@@ -24,12 +24,12 @@ public class Product extends BasePojo {
 
 	/** Number of item in a BOX (if Purchase unit is box) */
 	private Integer pack;
-	private Boolean lockItem;
+	private String lockItem;
 	
 	/** way of tax calculation */
 	private String vatType;
 	private Set<Tax> taxList;
-	private Manufacturer manufacturar;
+	private Manufacturer manufacturer;
 	private ProductGroup productGroup;
 	private ProductGroup productSubGroup;
 	
@@ -132,11 +132,11 @@ public class Product extends BasePojo {
 		this.pack = pack;
 	}
 
-	public Boolean getLockItem() {
+	public String getLockItem() {
 		return lockItem;
 	}
 
-	public void setLockItem(Boolean lockItem) {
+	public void setLockItem(String lockItem) {
 		this.lockItem = lockItem;
 	}
 
@@ -157,11 +157,11 @@ public class Product extends BasePojo {
 	}
 
 	public Manufacturer getManufacturar() {
-		return manufacturar;
+		return manufacturer;
 	}
 
 	public void setManufacturar(Manufacturer manufacturar) {
-		this.manufacturar = manufacturar;
+		this.manufacturer = manufacturar;
 	}
 
 	public ProductGroup getProductGroup() {

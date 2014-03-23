@@ -8,6 +8,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -21,9 +22,16 @@ import com.munsi.util.Constants;
 
 public class SantySimulation {
 	public static void main(String[] args) throws Exception {
-		mongoReferenceFetchSimulation();
+		jsonIgnoreNull();
 	}
 
+	public static void jsonIgnoreNull() {
+		SUser bean = new SUser();
+		bean.set_id(1234l);
+		
+		System.out.println(CommonUtil.objectToJson(bean));
+	}
+	
 	public static void insert() throws UnknownHostException {
 		MongoClient mongoClient = new MongoClient(Constants.DB_HOST, Constants.DB_PORT);
 		DB db = mongoClient.getDB(Constants.DB_NAME);
@@ -105,12 +113,13 @@ public class SantySimulation {
 	}
 }
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SUser implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private long _id;
+	private Long _id;
 	private String name;
-	private long xAddressId;
+	private Long xAddressId;
 	private SAddress address;
 
 	public long get_id() {
@@ -129,11 +138,11 @@ class SUser implements Serializable {
 		this.name = name;
 	}
 
-	public long getxAddressId() {
+	public Long getxAddressId() {
 		return xAddressId;
 	}
 
-	public void setxAddressId(long xAddressId) {
+	public void setxAddressId(Long xAddressId) {
 		this.xAddressId = xAddressId;
 	}
 
@@ -147,6 +156,7 @@ class SUser implements Serializable {
 
 }
 
+@JsonSerialize(include=JsonSerialize.Inclusion.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true)
 class SAddress implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -1,4 +1,6 @@
 
+<%@page import="com.munsi.util.CommonUtil"%>
+<%@page import="com.munsi.util.Constants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 						<div class="page-header">
@@ -28,32 +30,6 @@
 						</div><!-- /.row -->
 		
 	<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"1",code:"MA 1",location:"Desktop Computer",name:"name MA 1"},
-				{id:"2",code:"MA 2",location:"Trading Income +ve",name:"name MA 2"},
-				{id:"3",code:"MA 3",location:"Trading Income +ve",name:"name MA 3"},
-				{id:"4",code:"MA 4",location:"Trading Income +ve",name:"name MA 4"},
-				{id:"5",code:"MA 5",location:"Trading Income +ve",name:"name MA 5"},
-				{id:"6",code:"MA 6",location:"Desktop Computer",name:"note"},
-				{id:"7",code:"MA 7",location:"Desktop Computer",name:"note"},
-				{id:"8",code:"MA 8",location:"Desktop Computer",name:"note"},
-				{id:"9",code:"MA 9",location:"Desktop Computer",name:"note"},
-				{id:"10",code:"MA 10",location:"Desktop Computer",name:"note"},
-				{id:"11",code:"MA 11",location:"Trading Income +ve",name:"note"},
-				{id:"12",code:"MA 12",location:"Trading Income -ve",name:"note"},
-				{id:"13",code:"MA 13",location:"Trading Income -ve",name:"note"},
-				{id:"14",code:"MA 14",location:"Trading Income -ve",name:"note"},
-				{id:"15",code:"MA 15",location:"Desktop Computer",name:"note"},
-				{id:"16",code:"MA 16",location:"Desktop Computer",name:"note"},
-				{id:"17",code:"MA 17",location:"Desktop Computer",name:"note"},
-				{id:"18",code:"MA 18",location:"Desktop Computer",name:"note"},
-				{id:"19",code:"MA 19",location:"Trading Income +ve",name:"note"},
-				{id:"20",code:"MA 20",location:"Trading Income -ve",name:"note"},
-				{id:"21",code:"MA 21",location:"Trading Income -ve",name:"note"},
-				{id:"22",code:"MA 22",location:"Trading Income -ve",name:"note"},
-				{id:"23",code:"MA 23",location:"Trading Income +ve",name:"note"}
-			];	
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table";
@@ -62,20 +38,23 @@
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+					url: "${pageContext.request.contextPath}/mainaccount.action?op=view_all",
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
 					height: 366,
 					colNames:['id','Code','Location','Name',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'code',index:'code', width:60, sorttype:"int", editrules:{required:true}, editable: true},
-						{name:'location',index:'location', width:110, editable: true,edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
+						{name:'location',index:'location', width:110, editable: true,edittype:"select",editoptions:{value: "<%= CommonUtil.getLocationString()%>"}},
 						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"40",maxlength:"130"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true, url: "${pageContext.request.contextPath}/mainaccount.action?op=delete", beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}
@@ -111,7 +90,7 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: $path_base+"/dummy.html",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/mainaccount.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -164,7 +143,7 @@
 						editicon : 'icon-pencil blue',
 						add: true,
 						addtext:"Add",
-						addtitle: "Add Area",
+						addtitle: "Add Main Account",
 						addicon : 'icon-plus-sign purple',
 						del: false,
 						delicon : 'icon-trash red',
@@ -190,7 +169,8 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
-						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
+						url: "${pageContext.request.contextPath}/mainaccount.action?op=add",
+						top:(($(window).height() - 400) / 2) , left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {
@@ -206,7 +186,7 @@
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
 							if(form.data('styled')) return false;
-							
+							console.log("deleted Calling....");
 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
 							style_delete_form(form);
 							
@@ -267,6 +247,7 @@
 				}
 			
 				function style_delete_form(form) {
+					console.log(form);
 					var buttons = form.next().find('.EditButton .fm-button');
 					buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
 					buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');

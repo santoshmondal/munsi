@@ -14,7 +14,7 @@ import org.apache.log4j.Logger;
 /**
  * Servlet implementation class HelloVivek
  */
-@WebServlet(name = "HelloEmbed", urlPatterns = { "/hello.action" })
+@WebServlet(urlPatterns = { "/hello.action" })
 public class HelloVivek extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(HelloVivek.class);
 	private static final long serialVersionUID = 1L;

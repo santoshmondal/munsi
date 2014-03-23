@@ -12,9 +12,12 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
+import com.munsi.pojo.master.Product;
+
 public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger( CommonUtil.class );
-	
+
+	private static Map<String,String> vatTypemap = new LinkedHashMap<>();
 	private static Map<String,String> locationMap = new LinkedHashMap<>();
 	
 	static {
@@ -29,6 +32,12 @@ public class CommonUtil {
 		locationMap.put("BA-", "BA- Balance Sheet Asset -ve");
 		locationMap.put("BL+", "BL+ Balance Sheet Lblty +ve");
 		locationMap.put("BL-", "BL- Balance Sheet Lblty -ve");
+		
+		// Put value in vat type map
+		vatTypemap.put("1", Config.getProperty("vatType.1"));
+		vatTypemap.put("2", Config.getProperty("vatType.2"));
+		vatTypemap.put("3", Config.getProperty("vatType.3"));
+		vatTypemap.put("4", Config.getProperty("vatType.4"));
 	}
 	
 	public static Object jsonToObject(String json, String fullyQualifiedClassName) {
@@ -51,8 +60,13 @@ public class CommonUtil {
 	}
 
 	public static String objectToJson(Object object) {
+		
+		if (object instanceof Product)
+		{
+			
+		}
 		ObjectMapper mapper = new ObjectMapper();
-
+		
         try {
         	mapper.setSerializationInclusion(Inclusion.NON_NULL);
         	mapper.setSerializationInclusion(Inclusion.NON_EMPTY);
@@ -76,23 +90,23 @@ public class CommonUtil {
 	
 	
 	public static String getVatTypeJSON(){
-		Map<String,String> map = new LinkedHashMap<>();
-		map.put("1", Config.getProperty("vatType.1"));
-		map.put("2", Config.getProperty("vatType.2"));
-		map.put("3", Config.getProperty("vatType.3"));
-		map.put("4", Config.getProperty("vatType.4"));
 		
-		ObjectMapper mapper = new ObjectMapper();
 		
-		try {
-			return mapper.writeValueAsString(map);
-        }
-		catch (JsonGenerationException e) {}
-		catch (JsonMappingException e) {}
-		catch (IOException e) {}
+		StringBuffer sb = new StringBuffer();
+		String separater = "";
 		
-	    return "";
+		for( Entry<String, String> entry : vatTypemap.entrySet() ){
+			sb.append(separater);
+			sb.append(entry.getKey());
+			sb.append(":");
+			sb.append(entry.getValue());
+			separater= ";";
+		}
+		
+	    return sb.toString();
 	}
+	
+	
 	
 	public static String getSchemeTypeJSON(){
 		Map<String,String> map = new LinkedHashMap<>();

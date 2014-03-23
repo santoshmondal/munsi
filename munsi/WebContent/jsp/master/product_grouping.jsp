@@ -110,8 +110,11 @@
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+					url: "${pageContext.request.contextPath}/productgroup.action?op=view_all&level=1",
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
 					height: 266,
 					colNames:['id','Name','Description',' '],
 					colModel:[
@@ -122,7 +125,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true,  url: "${pageContext.request.contextPath}/productgroup.action?op=delete&level=1", beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}
@@ -158,7 +161,7 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: $path_base+"/dummy.html",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/productgroup.action?op=edit&level=1",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -237,6 +240,7 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
+						url: "${pageContext.request.contextPath}/productgroup.action?op=add&level=1",
 						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
@@ -438,8 +442,11 @@
 				jQuery(grid_selector_sub).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+					url: "${pageContext.request.contextPath}/productgroup.action?op=view_all&level=2",
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
 					height: 266,
 					colNames:['id','Name','Description',' '],
 					colModel:[
@@ -450,7 +457,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true, beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true, url: "${pageContext.request.contextPath}/productgroup.action?op=delete&level=2", beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}
@@ -486,7 +493,7 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: $path_base+"/dummy.html",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/productgroup.action?op=edit&level=2",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -544,6 +551,7 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
+						url: "${pageContext.request.contextPath}/productgroup.action?op=add&level=2",
 						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,

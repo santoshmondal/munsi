@@ -221,36 +221,4 @@ public class MongoCustomerDao implements CustomerDao {
 		return null;
 	}
 	
-	@Override
-	public List<String[]> getIdName() {
-		try{
-			DBCollection collection = mongoDB.getCollection( collCustomer );
-			DBObject dbKey = new BasicDBObject("name",1);
-			
-			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
-			
-			DBCursor dbCursor = collection.find(deletedQuery, dbKey);
-			
-			List<String[]> customerList = new ArrayList<>();
-			
-			while ( dbCursor.hasNext() ) {
-				
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-				
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-				
-				String [] idName = new String[]{ _id, name };
-				customerList.add(idName);
-			}
-			
-			return customerList;
-			
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return null;
-	}
-	
-	
 }

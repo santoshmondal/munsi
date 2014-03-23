@@ -9,6 +9,7 @@ import com.munsi.dao.impl.MongoManufacturerDao;
 import com.munsi.dao.impl.MongoOpeningProductStockDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.dao.impl.MongoProductGroupDao;
+import com.munsi.dao.impl.MongoProductSchemeDao;
 import com.munsi.dao.impl.MongoSupplierDao;
 import com.munsi.dao.impl.MongoTaxDao;
 import com.munsi.service.AccessUserServeice;
@@ -40,7 +41,7 @@ public class ObjectFactory {
 		ACCESS_USER_DAO(MongoAccessUserDao.class.getName()),
 		SUPPLIER_DAO(MongoSupplierDao.class.getName()),
 		OPENING_PRODUCT_STOCK_DAO(MongoOpeningProductStockDao.class.getName()),
-		PRODUCT_SCHEME_DAO(MongoProductDao.class.getName()),
+		PRODUCT_SCHEME_DAO(MongoProductSchemeDao.class.getName()),
 		
 		// Services
 		AREA_SERVICE(AreaServeice.class.getName()),

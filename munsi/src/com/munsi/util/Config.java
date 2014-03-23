@@ -10,9 +10,10 @@ import org.apache.log4j.Logger;
 public class Config {
 	private static final Logger LOG = Logger.getLogger(Config.class);
 	private static final String CONFIG_FILE_NAME = "config.properties";
-	private static final Properties properties = new Properties();
+	private static Properties properties = null;
 	
 	static {
+		properties = new Properties();
 		try {
 			String currentClasspath = getCurrentClasspath(); 
 			String fullConfigFilePath = currentClasspath+File.separator+CONFIG_FILE_NAME;

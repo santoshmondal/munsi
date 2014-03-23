@@ -50,10 +50,4 @@ public interface CustomerDao {
 	 */
 	public List<Customer> getAll(Boolean withReferences);
 
-	/**
-	 * @return List of String array, String array contains id at 0 index, and
-	 *         name at 1 index
-	 */
-	List<String[]> getIdName();
-
 }

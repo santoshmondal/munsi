@@ -229,7 +229,7 @@ public class CommonUtil {
 			return sb.toString();
 				
 			}catch( Exception exception ){
-				
+				exception.printStackTrace();
 			}
 
 		return "";

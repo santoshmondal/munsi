@@ -12,7 +12,7 @@ public class MainAccountServeice {
 	private MainAccountDao mainAccountDao;
 
 	public MainAccountServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.MAIN_ACCOUNT_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.MAIN_ACCOUNT_DAO);
 		if (object instanceof MainAccountDao) {
 			mainAccountDao = (MainAccountDao) object;
 		}

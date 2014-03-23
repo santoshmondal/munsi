@@ -33,7 +33,17 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 public class ProductMasterAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(ProductMasterAction.class);
+	private ProductServeice prodService;
 	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
+		if (object instanceof ProductServeice ) {
+			prodService = (ProductServeice ) object;
+		}
+		
+	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -61,12 +71,6 @@ public class ProductMasterAction extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
-		
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.PRODUCT_SERVICE);
-		ProductServeice prodService = null;
-		if (object instanceof ProductServeice ) {
-			prodService = (ProductServeice ) object;
-		}
 		
 		if(operation != null && prodService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);

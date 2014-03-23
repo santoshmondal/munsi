@@ -13,7 +13,7 @@ public class BeatServeice {
 	private BeatDao beatDao;
 
 	public BeatServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.BEAT_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.BEAT_DAO);
 		if (object instanceof BeatDao) {
 			beatDao = (MongoBeatDao) object;
 		}

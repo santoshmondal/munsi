@@ -11,7 +11,7 @@ public class ProductSchemeService {
 	private ProductSchemeDao productSchemeDao;
 
 	public ProductSchemeService() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.PRODUCT_SCHEME_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_SCHEME_DAO);
 		if (object instanceof ProductSchemeDao) {
 			productSchemeDao = (ProductSchemeDao) object;
 		}

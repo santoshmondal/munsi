@@ -13,13 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.isdc.simulations.VivekSimulation;
-import com.munsi.dao.MainAccountDao;
 import com.munsi.service.MainAccountServeice;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
-import com.munsi.util.ObjectFactory;
 import com.munsi.util.Constants.UIOperations;
+import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 /**
@@ -29,6 +27,17 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 public class MainAccountAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(MainAccountAction.class);
+	MainAccountServeice mainAccountService;
+	
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		Object object = ObjectFactory.getInstance(ObjectEnum.MAIN_ACCOUNT_SERVICE);
+		
+		if (object instanceof MainAccountServeice) {
+			mainAccountService = (MainAccountServeice) object;
+		}
+	}
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -57,12 +66,6 @@ public class MainAccountAction extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
-		
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.MAIN_ACCOUNT_SERVICE);
-		MainAccountServeice mainAccountService = null;
-		if (object instanceof MainAccountServeice) {
-			mainAccountService = (MainAccountServeice) object;
-		}
 		
 		if(operation != null && mainAccountService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);

@@ -13,7 +13,7 @@ public class TaxServeice {
 	private TaxDao taxDao;
 
 	public TaxServeice() {
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.TAX_DAO);
+		Object object = ObjectFactory.getInstance(ObjectEnum.TAX_DAO);
 		if (object instanceof TaxDao) {
 			taxDao = (MongoTaxDao) object;
 		}

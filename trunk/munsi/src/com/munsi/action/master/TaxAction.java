@@ -13,15 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.isdc.simulations.VivekSimulation;
-import com.munsi.dao.MainAccountDao;
 import com.munsi.pojo.master.Tax;
-import com.munsi.service.MainAccountServeice;
 import com.munsi.service.TaxServeice;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
-import com.munsi.util.ObjectFactory;
 import com.munsi.util.Constants.UIOperations;
+import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 /**
@@ -31,7 +28,17 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 public class TaxAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(TaxAction.class);
-	
+	private TaxServeice taxService;
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		Object object = ObjectFactory.getInstance(ObjectEnum.TAX_SERVICE);
+		
+		if (object instanceof TaxServeice) {
+			taxService = (TaxServeice) object;
+		}
+		
+	}
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -59,12 +66,6 @@ public class TaxAction extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
-		
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.TAX_SERVICE);
-		TaxServeice taxService = null;
-		if (object instanceof TaxServeice) {
-			taxService = (TaxServeice) object;
-		}
 		
 		if(operation != null && taxService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);

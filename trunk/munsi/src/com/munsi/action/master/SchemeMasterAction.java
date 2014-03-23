@@ -13,19 +13,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.isdc.simulations.VivekSimulation;
-import com.munsi.dao.MainAccountDao;
 import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.ProductScheme;
-import com.munsi.pojo.master.Tax;
-import com.munsi.service.MainAccountServeice;
 import com.munsi.service.ProductSchemeService;
 import com.munsi.service.ProductServeice;
-import com.munsi.service.TaxServeice;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
-import com.munsi.util.ObjectFactory;
 import com.munsi.util.Constants.UIOperations;
+import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 /**
@@ -35,6 +30,35 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 public class SchemeMasterAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(SchemeMasterAction.class);
+	
+	private ProductSchemeService prodSchemeService;
+	private ProductServeice productServeice;
+	
+	/**
+	 * Initialise all services here, Every request should not initialise them. 
+	 */
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		
+		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_SCHEME_SERVICE);
+		if (object instanceof ProductSchemeService ) {
+			prodSchemeService = (ProductSchemeService ) object;	
+		}
+		else{
+			throw new ServletException("ProductSchemeService not initialized !");
+		}
+		
+		object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
+		if (object instanceof ProductServeice ) {
+			productServeice = (ProductServeice ) object;
+		}
+		else{
+			throw new ServletException("ProductServeice not initialized !");
+		}
+		
+	}
+	
 	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -64,14 +88,7 @@ public class SchemeMasterAction extends HttpServlet {
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
 
-		Object object = ObjectFactory.getDaoInstance(ObjectEnum.PRODUCT_SCHEME_SERVICE);
-		ProductSchemeService prodSchemeService = null;
-
-		if (object instanceof ProductSchemeService ) {
-			prodSchemeService = (ProductSchemeService ) object;	
-		}
-
-		if(operation != null && prodSchemeService  != null){
+		if(operation != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			String product_id = request.getParameter("productId");
 			
@@ -81,7 +98,7 @@ public class SchemeMasterAction extends HttpServlet {
 			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:
-				Product product = new ProductServeice().get(product_id);
+				Product product = productServeice.get(product_id);
 				ps.setProduct(product);
 				prodSchemeService.create(ps);	
 				break;

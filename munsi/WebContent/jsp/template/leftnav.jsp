@@ -92,7 +92,8 @@
 						</span>
 					</span>
 				</a></li>
-			</ul></li>
+			</ul>
+		</li>
 		<li><a href="#" class="dropdown-toggle"> <i class="icon-book"></i>
 				<span class="menu-text"> Data Entry </span> <b
 				class="arrow icon-angle-down"></b>
@@ -106,7 +107,16 @@
 				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp">
 						<i class="icon-double-angle-right"></i> Data Entry 2
 				</a></li>
-			</ul></li>
+			</ul>
+		</li>
+		<li><a href="#" data-href="/jsp/purchase/purchaseadd.jsp"> <i class="icon-star"></i>
+				<span class="menu-text"> Purchase </span>
+			</a>
+		</li>
+		<li><a href="#" data-href="/jsp/sales/salesadd.jsp"> <i class="icon-star"></i>
+				<span class="menu-text"> Sale </span>
+			</a>
+		</li>
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 				<b class="arrow icon-angle-down"></b>

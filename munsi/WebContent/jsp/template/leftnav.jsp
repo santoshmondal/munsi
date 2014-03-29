@@ -46,19 +46,19 @@
 				<li><a href="#" data-href="/jsp/master/customer_acc_master.jsp">
 						<i class="icon-double-angle-right"></i> Customer
 				</a></li>
+				
 				<li><a href="#" data-href="/jsp/master/area_master.jsp"> <i
 						class="icon-double-angle-right"></i> Area
 				</a></li>
-				
-				<!-- <li><a href="#" data-href="/jsp/master/product_master.jsp">
-						<i class="icon-double-angle-right"></i> Opening
-				</a></li> -->
 				
 				<li><a href="#" data-href="/jsp/master/product_master.jsp">
 						<i class="icon-double-angle-right"></i> Product
 				</a></li>
 				<li><a href="#" data-href="/jsp/master/product_grouping.jsp">
 						<i class="icon-double-angle-right"></i> Product Grouping
+				</a></li>
+				<li><a href="#" data-href="/jsp/master/supplier_master.jsp">
+						<i class="icon-double-angle-right"></i> Supplier
 				</a></li>
 				<!-- <li><a href="#" class="dropdown-toggle">
 						<i class="icon-list-alt"></i> <span class="menu-text"> Product </span> <b

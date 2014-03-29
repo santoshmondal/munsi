@@ -1,4 +1,6 @@
 
+<%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
+<%@page import="com.munsi.util.CommonUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 						<div class="page-header">
@@ -19,28 +21,13 @@
 
 								<div id="grid-pager"></div>
 
-								<script type="text/javascript">
-									var $path_base = "/";//this will be used in gritter alerts containing images
-								</script>
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 		
 	<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"11",group:"MA 1",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"12",group:"MA 2",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"Yes",classtype:"",ratetype:"",discount:""},
-				{id:"13",group:"MA 3",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"14",group:"MA 4",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"15",group:"MA 5",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"16",group:"MA 6",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"17",group:"MA 7",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"18",group:"MA 8",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""},
-				{id:"19",group:"MA 9",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"Yes",classtype:"",ratetype:"",discount:""},
-				{id:"10",group:"MA 10",name:"Customer 1",address:"Customer 1 Address",city:"",pincode:"",telephone:"",area:"",remark:"",category:"",blacklisted:"No",classtype:"",ratetype:"",discount:""}
-			];	
+			
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table";
@@ -49,32 +36,36 @@
 				jQuery(grid_selector).jqGrid({
 					//direction: "rtl",
 					
-					data: grid_data,
-					datatype: "local",
+					url: "${pageContext.request.contextPath}/customermaster.action?op=view_all",
+					mtype: "POST",
+					loadonce: true,
+					gridview: true,
+					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Main Group','Discount (%)','Remark','Category','Black Listed','Class','Rate Type','Area','Address','City','Pin Code','Telephone',' '],
+					colNames:['id','Name','Main Account','Discount (%)','Remark','Category','Black Listed','Class','Credit Limit','Area','Beat','Address','City','Pin Code','Telephone',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
-						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'group',index:'group', width:110, editable: true,edittype:"select",editoptions:{value:"MA 1:name MA 1(MA 1);MA 2:name MA 2(MA 2);MA 3:name MA 3(MA 3);MA 4:name MA 4(MA 4);MA 5:name MA 5(MA 5)"}},
+						{name:'name',index:'name', width:150,editable: true,editrules:{required:true},editoptions:{size:"20",maxlength:"130"}},
+						{name:'1mainAccount',index:'mainAccount', width:110, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getIdNameString(DBCollectionEnum.MAST_MAIN_ACCOUNT, "_id", "name")%>"}},
 						{name:'discount',index:'discount', width:110,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'remark',index:'remark', width:150, sortable:false,editable: true,hidden:true,editrules:{required:true, edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
-						{name:'category',index:'category', width:110, editable: true,edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
-						{name:'blacklisted',index:'blacklisted', width:110, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'classtype',index:'classtype', width:80, editable: true,edittype:"select",editoptions:{value:"Class A:Class A;Class B:Class B"}},
-						{name:'ratetype',index:'ratetype', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'area',index:'area', width:110, editable: true,edittype:"select",editoptions:{value:"TE+:Trading Expense +ve;TE-:Trading Expense -ve;TI+:Trading Income +ve;TI-:Trading Income -ve;PE+:Profit Loss Expense;PI+:Profit Loss Income"}},
-						{name:'address',index:'address', width:150, sortable:false,editable: true,hidden:true,editrules:{required:true, edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
+						{name:'remark',index:'remark', width:150, sortable:false,editable: true,hidden:true,editrules:{edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
+						{name:'category',index:'category', width:110, editable: true},
+						{name:'blackList',index:'blackList', width:110, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+						{name:'customerClass',index:'customerClass', width:80, editable: true,edittype:"select",editoptions:{value:"Class A:Class A;Class B:Class B"}},
+						{name:'creditLimit',index:'creditLimit', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'1area',index:'area', width:110, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getIdNameString(DBCollectionEnum.MAST_AREA, "_id", "name")%>"}},
+						{name:'1beat',index:'beat', width:110, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getIdNameString(DBCollectionEnum.MAST_BEAT, "_id", "name")%>"}},
+						{name:'address',index:'address', width:150, sortable:false,editable: true,hidden:true,editrules:{edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
 						
-						{name:'city',index:'city', width:150,editable: true,editrules:{required:true, edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'pincode',index:'pincode', width:150,editable: true,editrules:{required:true, edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"15"}},
-						{name:'telephone',index:'telephone', width:150,editable: true,editoptions:{size:"20",maxlength:"15"}},
+						{name:'city',index:'city', width:150,editable: true,editrules:{edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'pin',index:'pin', width:150,editable: true,editrules:{edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"15"}},
+						{name:'phone',index:'phone', width:150,editable: true,editoptions:{size:"20",maxlength:"15"}},
 						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{top:45 , left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
+								delOptions:{url: "${pageContext.request.contextPath}/customermaster.action?op=delete", top:45 , left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
 								editformbutton:true, editOptions:{top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
 							}
 						}
@@ -101,7 +92,7 @@
 						}, 0);
 					},
 					
-					editurl: $path_base+"/dummy.html",//nothing is saved
+					editurl:"${pageContext.request.contextPath}/customermaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -180,6 +171,7 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
+						url: "${pageContext.request.contextPath}/customermaster.action?op=add",
 						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
@@ -362,7 +354,7 @@
 			 */
 
 				//-----> press g for setting focus on jqgrid
-				$(document).bind('keydown', 'g', function(){
+				$(document).bind('keydown', 'Alt+g', function(){
 				    var	ids = jQuery(grid_selector).jqGrid("getDataIDs");
 					if(ids && ids.length > 0){
 						jQuery(grid_selector).focus();

@@ -384,7 +384,7 @@
 			
 			
 				//-----> press g for setting focus on jqgrid
-				$(document).bind('keydown', 'g', function(){
+				$(document).bind('keydown', 'Alt+g', function(){
 				    var	ids = jQuery(grid_selector).jqGrid("getDataIDs");
 				    //console.log(ids);
 					if(ids && ids.length > 0){

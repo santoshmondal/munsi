@@ -13,14 +13,13 @@ public class Customer extends BasePojo {
 	private String phone;
 	private String category;
 	private String customerClass;
-	private Boolean blackList;
+	private String blackList;
 	private Float discount;
 	private Integer creditDays;
 	private Double creditLimit;
 	private Area area;
 	private Beat beat;
 	private Double openingBalance;
-	
 	private MainAccount mainAccount;
 	
 	public String get_id() {
@@ -136,11 +135,11 @@ public class Customer extends BasePojo {
 	}
 	
 	
-	public Boolean getBlackList() {
+	public String getBlackList() {
 		return blackList;
 	}
 
-	public void setBlackList(Boolean blackList) {
+	public void setBlackList(String blackList) {
 		this.blackList = blackList;
 	}
 	

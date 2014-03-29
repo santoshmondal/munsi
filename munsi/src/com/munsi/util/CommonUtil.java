@@ -234,4 +234,40 @@ public class CommonUtil {
 
 		return "";
 	}
+	
+
+	public static String getIdLabelJSON(DBCollectionEnum dbCollectionEnum, String idKey, String lableKey, String jsonQuery){
+		try{
+			DB mongoDB = MongoUtil.getDB();
+			
+			DBCollection collection = mongoDB.getCollection(dbCollectionEnum.toString() );
+			DBObject dbKey = new BasicDBObject(idKey,1).append(lableKey, 1);
+
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			DBObject finalQuery = deletedQuery; 
+			
+			if( jsonQuery != null && jsonQuery.length() > 0){
+				DBObject optionalQuery = (DBObject) JSON.parse(jsonQuery);
+				BasicDBList queryList = new BasicDBList();
+				queryList.add(deletedQuery);
+				queryList.add(optionalQuery);
+				finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
+			}
+			
+			DBCursor dbCursor = collection.find(finalQuery, dbKey);
+			
+			String sb = "[]";
+			if( dbCursor.hasNext() ) {
+				
+				sb=JSON.serialize(dbCursor).toString();
+			}
+				
+			return sb;
+				
+			}catch( Exception exception ){
+				exception.printStackTrace();
+			}
+
+		return "";
+	}
 }

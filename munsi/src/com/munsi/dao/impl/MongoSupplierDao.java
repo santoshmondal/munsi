@@ -49,14 +49,14 @@ public class MongoSupplierDao implements SupplierDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
+			/*DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
 			DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
 			
 			dbObject.put( KEY_AREA_XID, areaRef );
 			dbObject.put( KEY_BEAT_XID, beatRef );
 			
 			dbObject.removeField(KEY_AREA);
-			dbObject.removeField(KEY_BEAT);
+			dbObject.removeField(KEY_BEAT);*/
 			
 			WriteResult writeResult = collection.insert(dbObject );
 			

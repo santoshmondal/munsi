@@ -71,7 +71,7 @@ public class MongoCustomerDao implements CustomerDao {
 			}
 			
 		}catch( Exception exception ){
-			LOG.equals(exception);
+			LOG.error(exception);
 		}
 		return false;
 	}
@@ -112,7 +112,7 @@ public class MongoCustomerDao implements CustomerDao {
 			}
 			
 		}catch( Exception exception ){
-			LOG.equals(exception);
+			LOG.error(exception);
 		}
 		return false;
 		
@@ -134,7 +134,7 @@ public class MongoCustomerDao implements CustomerDao {
 				return true;
 			}
 		}catch( Exception exception ){
-			LOG.equals(exception);
+			LOG.error(exception);
 		}
 		return false;
 		
@@ -172,7 +172,7 @@ public class MongoCustomerDao implements CustomerDao {
 			return customer;
 			
 		}catch( Exception exception ){
-			LOG.equals(exception);
+			LOG.error(exception);
 		}
 		return null;
 	}
@@ -216,7 +216,7 @@ public class MongoCustomerDao implements CustomerDao {
 			return customerList;
 			
 		}catch( Exception exception ){
-			LOG.equals(exception);
+			LOG.error(exception);
 		}
 		return null;
 	}

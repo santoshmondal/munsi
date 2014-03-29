@@ -3,10 +3,10 @@
 
 						<div class="page-header">
 							<h1>
-								Manufacturer Master
+								Supplier Master
 								<small>
 									<i class="icon-double-angle-right"></i>
-									View, Add and Edit Manufacturer details.
+									View, Add and Edit Supplier details.
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -15,13 +15,9 @@
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 
-								<table id="grid-table-manuf"></table>
+								<table id="grid-table-supp"></table>
 
-								<div id="grid-pager-manuf"></div>
-
-								<script type="text/javascript">
-									var $path_base = "/";//this will be used in gritter alerts containing images
-								</script>
+								<div id="grid-pager-supp"></div>
 
 								<!-- PAGE CONTENT ENDS -->
 							</div><!-- /.col -->
@@ -30,29 +26,29 @@
 	<script type="text/javascript">
 			
 			jQuery(function($) {
-				var grid_selector = "#grid-table-manuf";
-				var pager_selector = "#grid-pager-manuf";
-			
-				jQuery(grid_selector).jqGrid({
+				var grid_selector = jQuery("#grid-table-supp");
+				var pager_selector = jQuery("#grid-pager-supp");
+				var pager_selector_id = "#grid-pager-supp";
+				grid_selector.jqGrid({
 					//direction: "rtl",
 					
-					url: "${pageContext.request.contextPath}/manufacturer.action?op=view_all",
+					url: "${pageContext.request.contextPath}/suppliermaster.action?op=view_all",
 					mtype: "POST",
 					loadonce: true,
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Description',' '],
+					colNames:['id','Name','Description','Telephone',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'name',index:'name', width:110, editrules:{required:true}, editable: true},
-						{name:'description',index:'description', width:150,editable: true,editoptions:{maxlength:"200"}},
+						{name:'remark',index:'remark', width:150,editable: true,editoptions:{maxlength:"200"}},
+						{name:'phone',index:'phone', width:100,editable: true,editoptions:{size:"20",maxlength:"15"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/manufacturer.action?op=delete",  beforeShowForm:beforeDeleteCallback},
-								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
+								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/suppliermaster.action?op=delete",  beforeShowForm:beforeDeleteCallback},
 							}
 						}
 					], 
@@ -60,7 +56,7 @@
 					viewrecords : true,
 					rowNum:10,
 					rowList:[10,20,30],
-					pager : pager_selector,
+					pager : pager_selector_id,
 					altRows: true,
 					//toppager: true,
 					
@@ -87,33 +83,33 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: "${pageContext.request.contextPath}/manufacturer.action?op=edit",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/suppliermaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
 			
 				});
 
-				jQuery(grid_selector).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
+				grid_selector.jqGrid('bindKeys', {"onEnter":function( rowid ) {  
 					//alert("You enter a row with id: " + rowid);
                     editingRowId = rowid;
                     // we use aftersavefunc to restore focus
-                    jQuery(grid_selector).jqGrid('editRow',rowid,true,null, null, null, {},function(){
+                    grid_selector.jqGrid('editRow',rowid,true,null, null, null, {},function(){
                         setTimeout(function(){
-                        	jQuery(grid_selector).focus();
+                        	grid_selector.focus();
                         },100);
                     },
                     null,
                     function(){
                         setTimeout(function(){
-                        	jQuery(grid_selector).focus();
+                        	grid_selector.focus();
                         },100);
                     });
 				} } );
 				
 				//enable search/filter toolbar
-				//jQuery(grid_selector).jqGrid('filterToolbar',{defaultSearch:true,stringResult:true});
-				//jQuery(grid_selector).jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
+				//grid_selector.jqGrid('filterToolbar',{defaultSearch:true,stringResult:true});
+				//grid_selector.jqGrid('filterToolbar', { searchOnEnter: true, enableClear: false });
 
 				//switch element when editing inline
 				function aceSwitch( cellvalue, options, cell ) {
@@ -134,7 +130,7 @@
 			
 			
 				//navButtons
-				jQuery(grid_selector).jqGrid('navGrid',pager_selector,
+				grid_selector.jqGrid('navGrid',pager_selector_id,
 					{ 	//navbar options
 						edit: false,
 						editicon : 'icon-pencil blue',
@@ -166,7 +162,7 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
-						url: "${pageContext.request.contextPath}/manufacturer.action?op=add",
+						url: "${pageContext.request.contextPath}/suppliermaster.action?op=add",
 						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
@@ -340,20 +336,20 @@
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
 				}
 			
-				//var selr = jQuery(grid_selector).jqGrid('getGridParam','selrow');
+				//var selr = grid_selector.jqGrid('getGridParam','selrow');
 			
 				/* $(window).on('resize', function() {
-				    jQuery(grid_selector).setGridWidth($('#id_EmbedPage').width(), false); 
-				    jQuery(grid_selector).setGridHeight($('#id_EmbedPage').height()-100,false); 
+				    grid_selector.setGridWidth($('#id_EmbedPage').width(), false); 
+				    grid_selector.setGridHeight($('#id_EmbedPage').height()-100,false); 
 				}).trigger('resize');  
 			 */
 
 				//-----> press g for setting focus on jqgrid
 				$(document).bind('keydown', 'Alt+g', function(){
-				    var	ids = jQuery(grid_selector).jqGrid("getDataIDs");
+				    var	ids = grid_selector.jqGrid("getDataIDs");
 					if(ids && ids.length > 0){
-						jQuery(grid_selector).focus();
-						jQuery(grid_selector).jqGrid("setSelection", ids[0]);
+						grid_selector.focus();
+						grid_selector.jqGrid("setSelection", ids[0]);
 					}
 			    });
 				

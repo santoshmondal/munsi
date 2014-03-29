@@ -5,19 +5,20 @@
 
 <div class="row page-header">
 
-	<div class="col-xs-3">
+	<div class="col-xs-4">
 		<h1>
 			<small> New Purchase Invoice <i
 				class="icon-double-angle-right"></i> Invoice entry.
 			</small>
 		</h1>
 	</div>
-	<div class="col-xs-9">
+	<div class="col-xs-8">
 		<div class="col-xs-4">
 			<span class="input-icon input-icon-right"> <input type="text"
 				id="idSupplier" placeholder="Enter Supplier Name" /> <i
 				class="icon-user green"></i>
 			</span>
+			<input type="hidden" id="idSupplier-id"/>
 		</div>
 		<div class="col-xs-4">
 
@@ -27,10 +28,11 @@
 			</span>
 		</div>
 		<div class="col-xs-4">
-			<button class="btn btn-sm btn-inverse pull-right" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom" type="button">
+			<button class="btn btn-sm btn-inverse pull-right" data-rel="tooltip"
+				title="Save (Alt+s)" data-placement="bottom" type="button">
 				<i class="icon-save"></i> Save
 			</button>
-			
+
 		</div>
 	</div>
 
@@ -51,22 +53,17 @@
 
 <script type="text/javascript">
 	 var mydata = [
-                   {id:"1", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"2", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"3", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"4", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"5", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"6", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"7", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"8", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"9", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"10", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"11", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"12", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"13", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"14", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"15", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discount:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''}
-              ];
+                   {id:"1", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"2", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"3", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"4", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"5", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"6", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"7", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"8", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"9", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
+                   {id:"10", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''}
+             ];
 
 			
 			
@@ -74,32 +71,35 @@
 				var grid_selector = jQuery("#grid-table_pinvoice");
 				var pager_selector = jQuery("#grid-table_pinvoice_toppager");
 				var pager_selector_id = "#grid-table_pinvoice_toppager";
-				
+				var colModel, i, cmi, tr = "<tr>", skip = 0, ths;
 				
 			     
 				grid_selector.jqGrid({
 					
 					datatype: "local",
                 	data: mydata,
-					height: '100%',
+                	height: '328',
 					toppager:true,
 					cellsubmit: 'clientArray',
 					'cellEdit' : true,
-					colNames:['id','Code','Name', 'Quantity', 'Rate', 'Unit','Tax','Discount',' Total Qty.','Total Amount','MFG Date','EXP Date','Batch Number'],
+					colNames:['id','Code','Name', 'Quantity', 'Rate', 'Unit','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amount','MFG Date','EXP Date','Batch Number'],
 					colModel:[
-						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
-						{name:'code',index:'code', width:100, editable: true,unformat: pickAutoComplete},
-						{name:'name',index:'name', width:250, editable: true,unformat: pickAutoComplete},
-						{name:'quantity',index:'quantity', align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'rate',index:'rate', width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'unit',index:'unit',width:80,align:'right', editable: true, edittype:"select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:'<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_MANUFACTURER, "_id", "name") %>'}},
-						{name:'tax',index:'tax', width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
-						{name:'discount', width:130,editable: false,align:'center', formatter:function(){ return '<a href="action=manage_discount">Click here</a>';}},
-						{name:'totalquantity',index:'totalquantity', align:'right', width:100,editable: true,formatter:'integer'},
-						{name:'totalamount',index:'totalamount', align:'right', width:120,editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'mfgdate',index:'mfgdate', width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'expdate',index:'expdate', width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'batchno',index:'batchno', width:150, editable: true}
+						{name:'id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
+						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickAutoComplete},
+						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickAutoComplete},
+						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
+						{name:'rate',index:'rate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'unit',index:'unit',width:80, sortable:false, editable: true, edittype:"select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"Box:Box;Piece:Piece;KG:KG"}},
+						{name:'tax',index:'tax', width:80, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
+						{name:'discountpercent',index:'discountpercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
+						{name:'discountamount',index:'discountamount', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'freequantity',index:'freequantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
+						//{name:'discount', width:130, hidden:true, editable: false,align:'center', formatter:function(){ return '<a href="action=manage_discount">Click here</a>';}},
+						{name:'totalquantity',index:'totalquantity', sortable:false, align:'right', width:100,editable: true,formatter:'integer'},
+						{name:'totalamount',index:'totalamount', sortable:false, align:'right', width:120,editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
+						{name:'expdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
+						{name:'batchno',index:'batchno', sortable:false, width:150, editable: true}
 						
 					], 
 			
@@ -164,7 +164,26 @@
 					autowidth: true
 			
 				});
-
+				
+				
+				colModel = grid_selector[0].p.colModel;
+	            ths = grid_selector[0].grid.headers;
+	            for(i=0;i<colModel.length;i++) {
+	                cmi = colModel[i];
+	                if (cmi.name !== 'discountpercent') {
+	                    if (skip === 0) {
+	                        $(ths[i].el).attr("rowspan", "2");
+	                    } else {
+	                        skip--;
+	                    }
+	                } else {
+	                    tr += '<th class="ui-state-default ui-th-column ui-th-ltr" colspan="3" role="columnheader">Discount</th>';
+	                    skip = 2; // because we make colspan="3" the next 2 columns should not receive the rowspan="2" attribute
+	                }
+	            }
+	            tr += "</tr>";
+	            grid_selector.closest("div.ui-jqgrid-view").find("table.ui-jqgrid-htable > thead").append(tr);
+				
 				grid_selector.jqGrid('bindKeys', {"onEnter":function( rowid ) {  
 					//alert("You enter a row with id: " + rowid);
                     editingRowId = rowid;
@@ -460,11 +479,12 @@
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
+					$('[data-rel=tooltip]').tooltip({container:'body'});
 				}
 			
 
 				//-----> press g for setting focus on jqgrid
-				$(document).bind('keydown', 'g', function(){
+				$(document).bind('keydown', 'Alt+g', function(){
 				    var	ids = grid_selector.jqGrid("getDataIDs");
 					if(ids && ids.length > 0){
 						grid_selector.focus();
@@ -472,163 +492,64 @@
 					}
 			    });
 				
-				//--------- Beat JQGrid------
-				
-				var grid_selector_beat = "#grid-table-beat";
-				
-				jQuery(grid_selector_beat).jqGrid({
-					//direction: "rtl",
+				function  getTextFromCell(cellNode) {
+					var text = cellNode.childNodes[0].nodeName === "INPUT"?
+                            cellNode.childNodes[0].value:
+	                            cellNode.textContent || cellNode.innerText;
+                    return text.replace("Rs","").replace("%","").replace(",","");
+				};
+				function getColumnIndexByName(grid,columnName) {
+			         var cm = grid.jqGrid('getGridParam','colModel');
+			         
+			         for (var i=0,l=cm.length; i<l; i++) {
+			             if (cm[i].name===columnName) {
+			                 return i; // return the index
+			             }
+			         }
+			         return -1;
+			     };
+				function calculateTotalAmount(){
 					
-					mtype: "POST",
-					loadonce: true,
-					gridview: true,
-					datatype: "json",
-					colNames:['id','Name','Description',' '],
-					colModel:[
-						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
-						{name:'name',index:'name', width:150,sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'description',index:'description',width:300, sortable:false, editable: true},
-						{name:'myac',index:'', width:70, fixed:true, sortable:false, resize:false,
-							formatter:'actions', 
-							formatoptions:{ 
-								keys:true,
-								delOptions:{top:45 ,url: "${pageContext.request.contextPath}/beatmaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
-							}
-						}
-					], 
-			
-					viewrecords : true,
-					
-					pager : "",
-					altRows: false,
-					
-					multiselect: false,
-			        multiboxonly: true,
-			        height: 'auto',
-					loadComplete : function() {
-						var table = this;
-						setTimeout(function(){
-							styleCheckbox(table);
-							updateActionIcons(table);
-							updatePagerIcons(table);
-							enableTooltips(table);
-						}, 0);
-						
-					},
-					caption: "Beat",
-					scrollOffset: 18,
-					autowidth: true,
-					autoheight:true
-				});
+			         var totalAmount = 0, totalTax = 0,
+		             i=getColumnIndexByName(grid_selector,'totalamount'); // nth-child need 1-based index so we use (i+1) below
+			         $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
+			        	    
+			        	 totalAmount += Number(getTextFromCell(this));
+			         });
+
+                    i=getColumnIndexByName(grid_selector,'tax');
+                    $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
+                        totalTax += Number(getTextFromCell(this));
+                    });
+	                    
+			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',totalamount:totalAmount,tax:totalTax});
+			     };
+			     
+			     
+			     //------------ AutoComplete Supplier Name--------------
+			     var objJsonSupplier = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_SUPPLIER, "_id", "name", "") %>';
+			    
+			     objJsonSupplier = JSON.parse(objJsonSupplier.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
+			     $("#idSupplier").autocomplete({
+					     minLength: 0,
+					     source: objJsonSupplier,
+					     focus: function( event, ui ) {
+					     $( "#idSupplier" ).val( ui.item.label );
+					     return false;
+					     },
+					     select: function( event, ui ) {
+					     $( "#idSupplier" ).val( ui.item.label );
+					     $( "#idSupplier-id" ).val( ui.item.id );
+					     
+					     return false;
+					     }
+				     })
+				     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+				     return $( "<li>" )
+				     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
+				     .appendTo( ul );
+				     };
 				
-				jQuery(grid_selector_beat).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
-					editingRowId = rowid;
-                    jQuery(grid_selector_beat).find('#jEditButton_'+editingRowId).click();
-				} } );
-				
-				//----------------------------------------
-				//----------Beat Related JS ------------
-				//----------------------------------------
-						function showBeatDialog(row) {
-							
-							$( "#dialog-beat" ).removeClass('hide').dialog({
-								resizable: false,
-								modal: true,
-								autoOpen: false,
-								title: "",
-								height: 400,
-								width: 550,
-								title_html: true,
-								open: function() {
-									$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Beat</span> </div>");
-								    $(".ui-dialog-buttonset").addClass('col-lg-12');
-								    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
-								    var productMasterRowData = grid_selector.jqGrid('getRowData',row.split('&')[0]);
-								    prodMasterSelID = productMasterRowData.id;
-								    jQuery(grid_selector_beat).setGridParam( {editurl: "${pageContext.request.contextPath}/beatmaster.action?op=edit&areaId="+prodMasterSelID, datatype:"json", url:"${pageContext.request.contextPath}/beatmaster.action?op=view&areaId="+productMasterRowData.id} );
-								    jQuery(grid_selector_beat).jqGrid('setCaption', "Beat for "+productMasterRowData.name);
-
-								    jQuery(grid_selector_beat).jqGrid("clearGridData");
-								    jQuery(grid_selector_beat).trigger("reloadGrid");
-								},
-								buttons: [
-									{
-										html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
-										"class" : "btn btn-primary btn-xs pull-left",
-										click: function() {
-											var datarow = {id:"",name:"",description:""};
-								            var newId = $.jgrid.randId();
-											jQuery(grid_selector_beat).jqGrid('addRowData', newId , datarow, "last");
-											var editparameters = {
-													"keys" : true,
-													"oneditfunc" : null,
-													"successfunc" : null,
-													"url" : "${pageContext.request.contextPath}/beatmaster.action?op=add&areaId="+prodMasterSelID,
-												    "extraparam" : {},
-													"aftersavefunc" : function(){
-														jQuery(grid_selector_beat).setGridParam( {url:"${pageContext.request.contextPath}/beatmaster.action?op=edit&areaId="+prodMasterSelID} );
-													},
-													"errorfunc": null,
-													"afterrestorefunc" : null,
-													"restoreAfterError" : true,
-													"mtype" : "POST"
-												};
-											jQuery(grid_selector_beat).jqGrid('editRow',newId , editparameters );
-										}
-									},
-									{
-										html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
-										"class" : "btn btn-xs pull-right",
-										click: function() {
-											$( this).dialog( "close" );
-										}
-									}
-								]
-							});
-							
-							$( "#dialog-beat" ).dialog( "open" );
-						};
-						function  getTextFromCell(cellNode) {
-							var text = cellNode.childNodes[0].nodeName === "INPUT"?
-		                            cellNode.childNodes[0].value:
-			                            cellNode.textContent || cellNode.innerText;
-		                    return text.replace("Rs","").replace("%","").replace(",","");
-						};
-						function getColumnIndexByName(grid,columnName) {
-					         var cm = grid.jqGrid('getGridParam','colModel');
-					         
-					         for (var i=0,l=cm.length; i<l; i++) {
-					             if (cm[i].name===columnName) {
-					                 return i; // return the index
-					             }
-					         }
-					         return -1;
-					     };
-						function calculateTotalAmount(){
-							
-					         var totalAmount = 0, totalTax = 0,
-				             i=getColumnIndexByName(grid_selector,'totalamount'); // nth-child need 1-based index so we use (i+1) below
-					         $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
-					        	    
-					        	 totalAmount += Number(getTextFromCell(this));
-					         });
-
-		                    i=getColumnIndexByName(grid_selector,'tax');
-		                    $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
-		                        totalTax += Number(getTextFromCell(this));
-		                    });
-			                    
-					         grid_selector.jqGrid('footerData','set',{name:'TOTAL',totalamount:totalAmount,tax:totalTax});
-					     };
-					     
-					     
-					     //------------ AutoComplete Supplier Name--------------
-					     $("#idSupplier").autocomplete({
-								source: availableTags
-							});
-					     
-
-						$('[data-rel=tooltip]').tooltip({container:'body'});
 			});
 			
 

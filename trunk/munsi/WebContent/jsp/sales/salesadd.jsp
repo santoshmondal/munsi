@@ -5,19 +5,20 @@
 
 <div class="row page-header">
 
-	<div class="col-xs-3">
+	<div class="col-xs-4">
 		<h1>
 			<small> New Sales Invoice <i class="icon-double-angle-right"></i>
 				Invoice entry.
 			</small>
 		</h1>
 	</div>
-	<div class="col-xs-9">
+	<div class="col-xs-8">
 		<div class="col-xs-4">
 			<span class="input-icon input-icon-right"> <input type="text"
 				id="idCustomer" placeholder="Enter Customer Name" /> <i
 				class="icon-user green"></i>
 			</span>
+			<input type="hidden" id="idCustomer-id"/>
 		</div>
 		<div class="col-xs-4"></div>
 		<div class="col-xs-4 pull-right">
@@ -71,7 +72,7 @@
 					
 					datatype: "local",
                 	data: mydata,
-					height: '100%',
+					height: '328',
 					toppager:true,
 					cellsubmit: 'clientArray',
 					'cellEdit' : true,
@@ -82,13 +83,11 @@
 						{name:'name',index:'name', width:250, editable: true,unformat: pickAutoComplete},
 						{name:'quantity',index:'quantity', align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'rate',index:'rate', width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'unit',index:'unit',width:80,align:'right', editable: true, edittype:"select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:'<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_MANUFACTURER, "_id", "name") %>'}},
+						{name:'unit',index:'unit',width:80, editable: true, edittype:"select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"Box:Box;Piece:Piece;KG:KG"}},
 						{name:'tax',index:'tax', width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'discount', width:130,editable: false,align:'center', formatter:function(){ return '<a href="action=manage_discount">Click here</a>';}},
 						{name:'totalquantity',index:'totalquantity', align:'right', width:100,editable: true,formatter:'integer'},
-						{name:'totalamount',index:'totalamount', align:'right', width:120,editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						
-						
+						{name:'totalamount',index:'totalamount', align:'right', width:120,editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
 					], 
 			
 					viewrecords : true,
@@ -149,7 +148,17 @@
 					//caption: "List of areas",
 					scrollOffset: 20,
 					footerrow: true,
-					autowidth: true
+					autowidth: true,
+					afterSaveCell: function (rowid, cellname, value) {
+						calculateTotalAmount();
+	                    /* var amount, tax, $this;
+	                    if (cellname === 'amount' || cellname === 'tax') {
+	                        $this = $(this);
+	                        amount = parseFloat($this.jqGrid("getCell", rowid, 'amount'));
+	                        tax = parseFloat($this.jqGrid("getCell", rowid, 'tax'));
+	                        $this.jqGrid("setCell", rowid, 'total', amount + tax);
+	                    } */
+	                }
 			
 				});
 
@@ -448,11 +457,12 @@
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
+					$('[data-rel=tooltip]').tooltip({container:'body'});
 				}
 			
 
 				//-----> press g for setting focus on jqgrid
-				$(document).bind('keydown', 'g', function(){
+				$(document).bind('keydown', 'Alt+g', function(){
 				    var	ids = grid_selector.jqGrid("getDataIDs");
 					if(ids && ids.length > 0){
 						grid_selector.focus();
@@ -576,11 +586,12 @@
 							
 							$( "#dialog-beat" ).dialog( "open" );
 						};
+						
 						function  getTextFromCell(cellNode) {
 							var text = cellNode.childNodes[0].nodeName === "INPUT"?
 		                            cellNode.childNodes[0].value:
 			                            cellNode.textContent || cellNode.innerText;
-		                    return text.replace("Rs","").replace("%","").replace(",","");
+		                    return text.replace("Rs","").replace("%","").replace(",","","gm");
 						};
 						function getColumnIndexByName(grid,columnName) {
 					         var cm = grid.jqGrid('getGridParam','colModel');
@@ -593,8 +604,7 @@
 					         return -1;
 					     };
 						function calculateTotalAmount(){
-							
-					         var totalAmount = 0, totalTax = 0,
+							 var totalAmount = 0, totalTax = 0,
 				             i=getColumnIndexByName(grid_selector,'totalamount'); // nth-child need 1-based index so we use (i+1) below
 					         $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
 					        	    
@@ -610,12 +620,28 @@
 					     };
 					     
 					     //------------ AutoComplete Customer Name--------------
+					     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
+					    
+					     objJsonCustomer = JSON.parse(objJsonCustomer.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
 					     $("#idCustomer").autocomplete({
-								source: availableTags
-							});
-					     
-					     
-					     $('[data-rel=tooltip]').tooltip({container:'body'});
+					    	 minLength: 0,
+						     source: objJsonCustomer,
+						     focus: function( event, ui ) {
+						     $( "#idCustomer" ).val( ui.item.label );
+						     return false;
+						     },
+						     select: function( event, ui ) {
+						     $( "#idCustomer" ).val( ui.item.label );
+						     $( "#idCustomer-id" ).val( ui.item.id );
+						     
+						     return false;
+						     }
+					     })
+					     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+					     return $( "<li>" )
+					     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
+					     .appendTo( ul );
+					     };
 			});
 			
 

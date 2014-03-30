@@ -1,6 +1,6 @@
 <script>
 	var params = [
-			'directories=no,location=no,channelmode=no,fullscreen=no,menubar=no,resizable=yes,status=no,toolbar=no,history=no,scrollbars=yes',
+			'directories=no,location=no,channelmode=no,fullscreen=no,location=no,menubar=no,resizable=yes,status=no,toolbar=no,history=no,scrollbars=yes',
 			'height=' + screen.height, 'width=' + screen.width ].join(',');
 
 	var popup = window.open('home.jsp', '_blank', params);

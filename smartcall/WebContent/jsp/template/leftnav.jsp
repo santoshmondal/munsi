@@ -30,10 +30,13 @@
 
 	<ul class="nav nav-list">
 		<li class="active"><a href="#"> <i class="icon-dashboard"></i>
-				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
-					Dashboard </span>
+				<span class="menu-text" data-href="/jsp/smart/vehicle_data.jsp">
+					Vehicle Data </span>
 		</a></li>
-
+		<li ><a href="#"> <i class="icon-star"></i>
+				<span class="menu-text" data-href="/jsp/smart/vehicle_detail.jsp">
+					Overdue </span>
+		</a></li>
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-list-alt"></i> <span class="menu-text"> Master </span> <b
 				class="arrow icon-angle-down"></b>
@@ -49,7 +52,7 @@
 				<li><a href="#" data-href="/jsp/master/tax_master.jsp">
 						<i class="icon-double-angle-right"></i> TAX
 				</a></li>
-				<li ><a href="#" 
+				<li><a href="#" 
 					data-href="/jsp/template/under_maintenance.jsp"> <i
 						class="icon-double-angle-right"></i> <span class="menu-text">
 							Van <span class="badge badge-transparent"> <i
@@ -60,20 +63,32 @@
 			</ul>
 		</li>
 		<li><a href="#" class="dropdown-toggle"> <i class="icon-book"></i>
-				<span class="menu-text"> Data Entry </span> <b
+				<span class="menu-text"> Appointment </span> <b
 				class="arrow icon-angle-down"></b>
 		</a>
 
 			<ul class="submenu">
 				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp"> <i
-						class="icon-double-angle-right"></i> Data Entry 1
+						class="icon-double-angle-right"></i> Appointments
 				</a></li>
 
 				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp">
-						<i class="icon-double-angle-right"></i> Data Entry 2
+						<i class="icon-double-angle-right"></i> Tomorrow's Appointment
 				</a></li>
 			</ul>
 		</li>
+		<li ><a> <i class="icon-cloud-upload"></i>
+				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+					Upload</span>
+		</a></li>
+		<li ><a> <i class="icon-check"></i>
+				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+					Assign Caller</span>
+		</a></li>
+		<li ><a> <i class="icon-truck"></i>
+				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+					Recently Served</span>
+		</a></li>
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 				<b class="arrow icon-angle-down"></b>
@@ -96,7 +111,9 @@
 		<i class="icon-double-angle-left" data-icon1="icon-double-angle-left"
 			data-icon2="icon-double-angle-right"></i>
 	</div>
-
+	<div class="navbar-fixed-bottom">
+		Developed by <i class="blue">Asyncsolution</i>
+	</div>
 	<script type="text/javascript">
 		try {
 			ace.settings.check('sidebar', 'collapsed');

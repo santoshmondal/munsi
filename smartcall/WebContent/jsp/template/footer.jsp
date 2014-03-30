@@ -21,6 +21,7 @@
 		<script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.js"></script>
 		<%-- <script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.min.js"></script> --%>
 		<script src="${pageContext.request.contextPath}/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/chosen.jquery.min.js"></script>
 		<!-- ace scripts -->
 
 		<script src="${pageContext.request.contextPath}/assets/js/ace-elements.min.js"></script>

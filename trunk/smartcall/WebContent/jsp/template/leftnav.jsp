@@ -29,39 +29,31 @@
 	<!-- #sidebar-shortcuts -->
 
 	<ul class="nav nav-list">
-		<li class="active"><a href="#"> <i class="icon-dashboard"></i>
-				<span class="menu-text" data-href="/jsp/smart/vehicle_data.jsp">
-					Vehicle Data </span>
-		</a></li>
-		<li ><a href="#"> <i class="icon-star"></i>
-				<span class="menu-text" data-href="/jsp/smart/vehicle_detail.jsp">
-					Overdue </span>
-		</a></li>
-		<li><a href="#" class="dropdown-toggle"> <i
-				class="icon-list-alt"></i> <span class="menu-text"> Master </span> <b
+		<li class="open"><a href="#" class="dropdown-toggle"> <i
+				class="icon-dashboard"></i> <span class="menu-text"> Vehicle </span> <b
 				class="arrow icon-angle-down"></b>
-		</a>
-
-			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/main_acc_master.jsp">
-						<i class="icon-double-angle-right"></i>Main Account
+			</a>
+			<ul class="submenu"  style="display: block;">
+				<li class="active" ><a href="#"> <i class="icon-file"></i>
+						<span class="menu-text" data-href="/jsp/smart/vehicle_data.jsp">
+							My List </span>
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/manufacturer_master.jsp">
-						<i class="icon-double-angle-right"></i> Manufacturer
+				<li><a href="#"> <i class="icon-hdd"></i>
+						<span class="menu-text" data-href="/jsp/smart/vehicle_data.jsp">
+							All Data </span>
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/tax_master.jsp">
-						<i class="icon-double-angle-right"></i> TAX
+				<li ><a href="#"> <i class="icon-star"></i>
+						<span class="menu-text" data-href="/jsp/smart/vehicle_detail.jsp">
+							Service Overdue </span>
 				</a></li>
-				<li><a href="#" 
-					data-href="/jsp/template/under_maintenance.jsp"> <i
-						class="icon-double-angle-right"></i> <span class="menu-text">
-							Van <span class="badge badge-transparent"> <i
-								class="icon-truck green" style='font-size: 1.5em'></i>
-						</span>
-					</span>
+				<li ><a> <i class="icon-ok"></i>
+						<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+							Recently Served</span>
 				</a></li>
 			</ul>
 		</li>
+		
+		
 		<li><a href="#" class="dropdown-toggle"> <i class="icon-book"></i>
 				<span class="menu-text"> Appointment </span> <b
 				class="arrow icon-angle-down"></b>
@@ -77,18 +69,42 @@
 				</a></li>
 			</ul>
 		</li>
-		<li ><a> <i class="icon-cloud-upload"></i>
-				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
-					Upload</span>
-		</a></li>
-		<li ><a> <i class="icon-check"></i>
-				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
-					Assign Caller</span>
-		</a></li>
-		<li ><a> <i class="icon-truck"></i>
-				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
-					Recently Served</span>
-		</a></li>
+		
+		<li><a href="#" class="dropdown-toggle"> <i
+				class="icon-cogs"></i> <span class="menu-text"> Administer </span> <b
+				class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li ><a> <i class="icon-cloud-upload"></i>
+						<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+							Upload</span>
+				</a></li>
+				<li ><a> <i class="icon-check"></i>
+						<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+							Assign Caller</span>
+				</a></li>
+				<li ><a> <i class="icon-group"></i>
+						<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+							Manage User</span>
+				</a></li>
+				<li><a href="#" class="dropdown-toggle"> <i
+						class="icon-list-alt"></i> <span class="menu-text"> Master </span> <b
+						class="arrow icon-angle-down"></b>
+					</a>
+					<ul class="submenu">
+						<li><a href="#" data-href="/jsp/master/main_acc_master.jsp">
+								<i class="icon-double-angle-right"></i>Main Account
+						</a></li>
+						<li><a href="#" data-href="/jsp/master/manufacturer_master.jsp">
+								<i class="icon-double-angle-right"></i> Manufacturer
+						</a></li>
+						<li><a href="#" data-href="/jsp/master/tax_master.jsp">
+								<i class="icon-double-angle-right"></i> TAX
+					</a></li>
+				</ul>
+			</li>
+			</ul>
+		</li>
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 				<b class="arrow icon-angle-down"></b>

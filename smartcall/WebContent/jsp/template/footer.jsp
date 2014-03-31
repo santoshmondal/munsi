@@ -19,9 +19,11 @@
 		<script src="${pageContext.request.contextPath}/assets/js/flot/jquery.flot.resize.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/date-time/bootstrap-datepicker.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.js"></script>
-		<%-- <script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.min.js"></script> --%>
 		<script src="${pageContext.request.contextPath}/assets/js/jqGrid/i18n/grid.locale-en.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/chosen.jquery.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/x-editable/bootstrap-editable.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/x-editable/ace-editable.min.js"></script>
+		
 		<!-- ace scripts -->
 
 		<script src="${pageContext.request.contextPath}/assets/js/ace-elements.min.js"></script>

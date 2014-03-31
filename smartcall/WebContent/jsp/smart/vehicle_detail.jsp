@@ -179,7 +179,7 @@
 							<div class="profile-info-name">Remark</div>
 
 							<div class="profile-info-value">
-								<span >Any remark or note about car or owner.</span>
+								<span  class="editable"  id="idRemark" >Any remark or note about car or owner.</span>
 							</div>
 						</div>
 						<div class="profile-info-row clearfix">
@@ -324,6 +324,11 @@
 		$('[data-rel=tooltip]').tooltip({container:'body'});
 		
 		$(".chosen-select").chosen(); 
+		
+		$('#idRemark').editable({
+			type: 'text',
+			name: 'remark'
+	    });
     });
 				
 		</script>

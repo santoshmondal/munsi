@@ -265,4 +265,11 @@ public class CommonUtil {
 
 		return "";
 	}
+
+	public static Boolean isEmptyString(String _id) {
+		if( _id == null || _id.trim().length() == 0 ){
+			return Boolean.TRUE;
+		}
+		return Boolean.FALSE;
+	}
 }

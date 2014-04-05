@@ -1,12 +1,18 @@
 package com.async.util;
 
+import com.smartcall.dao.impl.MongoCustomerDetailsDao;
+import com.smartcall.service.CustomerDetailsService;
+
 
 public class ObjectFactory {
 
 	public static enum ObjectEnum {
 		//@formatter:off
 		// DAOs
-		CUSTOMER_DAO(ObjectFactory.class.getName());
+		CUSTOMER_DETAILS_DAO(MongoCustomerDetailsDao.class.getName()),
+		
+		// Services
+		CUSTOMER_DETAILS_SERVICE(CustomerDetailsService.class.getName());
 		//@formatter:on
 
 		private final String className;
@@ -21,6 +27,10 @@ public class ObjectFactory {
 		}
 	}
 
+	/**
+	 * @param ObjectEnum
+	 * @return
+	 */
 	public static Object getInstance(ObjectEnum ObjectEnum) {
 		try {
 			Class<?> clazz = Class.forName(ObjectEnum.toString());
@@ -36,13 +46,5 @@ public class ObjectFactory {
 
 		return null;
 	}
-
-	/*
-	 * public static void main(String[] args) { BaseDao baseDao =
-	 * DaoFactory.getDaoInstance(DaoEnum.CUSTOMER_DAO); CustomerDao customerDao
-	 * = (CustomerDao) baseDao; System.out.println(customerDao);
-	 * 
-	 * }
-	 */
 
 }

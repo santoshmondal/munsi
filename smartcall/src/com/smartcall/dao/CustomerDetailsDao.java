@@ -15,6 +15,6 @@ public interface CustomerDetailsDao {
 	
 	public CustomerDetails getCustomerDetails( String _id );
 
-	Boolean assignCaller(Set<String> vinList, String coller_xid);
+	public Boolean assignCaller(Set<String> vinList, String coller_xid);
 	
 }

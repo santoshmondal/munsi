@@ -116,8 +116,5 @@ public class CustomerDetails extends BasePojo{
 	public void setAssignedCaller(AccessUser assignedCaller) {
 		this.assignedCaller = assignedCaller;
 	}
-	
-	
-	
 		
 }

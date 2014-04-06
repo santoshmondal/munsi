@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/datepicker.css" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ui.jqgrid.css" />
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/chosen.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap-timepicker.css" />
 		<!-- fonts -->
 
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/ace-fonts.css" />

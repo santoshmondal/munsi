@@ -46,8 +46,8 @@
 						<span class="menu-text" data-href="/jsp/smart/vehicle_detail.jsp">
 							Service Overdue </span>
 				</a></li>
-				<li ><a> <i class="icon-ok"></i>
-						<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+				<li ><a href="#"> <i class="icon-ok"></i>
+						<span class="menu-text" data-href="/jsp/smart/vehicle_appointment.jsp">
 							Recently Served</span>
 				</a></li>
 			</ul>

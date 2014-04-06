@@ -23,7 +23,7 @@
 		<script src="${pageContext.request.contextPath}/assets/js/chosen.jquery.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/x-editable/bootstrap-editable.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/x-editable/ace-editable.min.js"></script>
-		
+		<script src="${pageContext.request.contextPath}/assets/js/date-time/bootstrap-timepicker.min.js"></script>
 		<!-- ace scripts -->
 
 		<script src="${pageContext.request.contextPath}/assets/js/ace-elements.min.js"></script>

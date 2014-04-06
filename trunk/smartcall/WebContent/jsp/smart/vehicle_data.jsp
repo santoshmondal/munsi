@@ -40,6 +40,7 @@
 				{id:"4",customerName:"Cust21",mobileNo:"547896525",model:"Audi",variant:"x1",vin:"jhkj22s44411545",engineNo:"AASDFX545",regNovehNo:"XXAX12154",invoiceDateSale:"1-12-2012",vehicleDeliveryDate:"25-12-2012",dealerName:"",dealerState:"",dealerCity:"",odometerReading:"200",status:"Ringing"},
 				{id:"5",customerName:"Cust221",mobileNo:"547896525",model:"Hundai",variant:"x1",vin:"asdfbd544411545",engineNo:"AASDFX545",regNovehNo:"XXAX12154",invoiceDateSale:"1-12-2012",vehicleDeliveryDate:"25-12-2012",dealerName:"",dealerState:"",dealerCity:"",odometerReading:"200",status:"Ringing"},
 				{id:"6",customerName:"Cust12",mobileNo:"547896525",model:"Hundai",variant:"x1",vin:"asdfg7488811545",engineNo:"AASDFX545",regNovehNo:"XXAX12154",invoiceDateSale:"1-12-2012",vehicleDeliveryDate:"25-12-2012",dealerName:"",dealerState:"",dealerCity:"",odometerReading:"200",status:"Ringing"},
+				
 				{id:"7",customerName:"Cust121",mobileNo:"547896525",model:"Hundai",variant:"x1",vin:"asadfg548411545",engineNo:"AASDFX545",regNovehNo:"XXAX12154",invoiceDateSale:"1-12-2012",vehicleDeliveryDate:"25-12-2012",dealerName:"",dealerState:"",dealerCity:"",odometerReading:"200",status:"Ringing"}
             ],
             myGrid = $("#grid-table-data");
@@ -57,8 +58,34 @@
 				{name:'vin',index:'vin',width:120, editable: true,editoptions:{size:"20",maxlength:"130"}},
 				{name:'engineNo',index:'engineNo',width:120,  editable: true,editoptions:{size:"20",maxlength:"130"}},
 				{name:'regNovehNo',index:'regNovehNo',  editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:6, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
-				{name:'invoiceDateSale',index:'invoiceDateSale',width:100,sorttype:'date', formatter:'date', formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
-				{name:'vehicleDeliveryDate',index:'vehicleDeliveryDate',width:130, formatter:'date', formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
+				{name:'invoiceDateSale',index:'invoiceDateSale',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
+                    dataInit : function (elem) {
+                        $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
+							
+                        		if (this.id.substr(0, 3) === "gs_") {
+                                    setTimeout(function(){
+                                    	myGrid[0].triggerToolbar();
+                                    }, 50);
+                                } else {
+                                    $(this).trigger('change');
+                                }
+                        });
+                        
+                    }},formatter:'date', formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
+				{name:'vehicleDeliveryDate',index:'vehicleDeliveryDate',width:130, formatter:'date',  searchoptions: {sopt: ['eq'],
+                    dataInit : function (elem) {
+                        $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
+							
+                        		if (this.id.substr(0, 3) === "gs_") {
+                                    setTimeout(function(){
+                                    	myGrid[0].triggerToolbar();
+                                    }, 50);
+                                } else {
+                                    $(this).trigger('change');
+                                }
+                        });
+                        
+                    }},formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
 				{name:'dealerName',index:'dealerName',width:100,hidden:true},
 				{name:'dealerState',index:'dealerState',width:100,hidden:true},
 				{name:'dealerCity',index:'dealerCity',width:100,hidden:true},

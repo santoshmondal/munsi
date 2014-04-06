@@ -120,6 +120,10 @@
 					</div>
 
 					<div class="hr hr16 dotted"></div>
+					<button class="btn btn-success" type="button">
+							<i class="icon-save bigger-110"></i>
+							Save
+					</button>
 				</div>
 
 				<div class="col-xs-12 col-sm-9">

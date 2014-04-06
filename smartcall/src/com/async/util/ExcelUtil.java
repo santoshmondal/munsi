@@ -1,5 +1,6 @@
 package com.async.util;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,10 +40,12 @@ public class ExcelUtil {
 	}
 	
 	public List<CustomerDetails> parse( Boolean ignoreDateError ) {
+		System.out.println("11");
 		if( inputStream == null ){
 			return null;
 		}
 		
+		long sTime = System.currentTimeMillis();
 		Workbook lWorkbook = null;
 		try {
 			lWorkbook = WorkbookFactory.create(inputStream);
@@ -51,21 +54,29 @@ public class ExcelUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		long eTime = System.currentTimeMillis();
+		System.out.println("TT::" + (eTime-sTime));
 
 		Sheet lSheet = lWorkbook.getSheetAt(0);
+		
 		Iterator<Row> lRowIterator = lSheet.iterator();
-		customerDetailsList = new ArrayList<>();			
+		customerDetailsList = new ArrayList<>();
+		CustomerDetails customerDetails = null;
+		MongoCustomerDetailsDao mcd = new MongoCustomerDetailsDao();
+	        	 
+	        
 		while (lRowIterator.hasNext()) {
 			Row row = lRowIterator.next();
 			if (row == null || row.getRowNum() == 0){
 				continue;	// Ignore header
 			}
 			
-			CustomerDetails customerDetails = null;
 			try {
 				customerDetails = parseRow( row, ignoreDateError) ;
+				
 				if( customerDetails != null ){
-					customerDetailsList.add( customerDetails );
+					mcd.create( customerDetails );
+					//customerDetailsList.add( customerDetails );
 				}
 				
 			} catch (Exception e) {
@@ -227,9 +238,10 @@ public class ExcelUtil {
 	public static void main(String[] args) throws ParseException {
     	
 		String lstrExelFilePath = "/home/isdc/Desktop/Total Data.xlsx";
-        FileInputStream inputStream = null;
+        InputStream inputStream = null;
         try {
-			inputStream = new FileInputStream(new File( lstrExelFilePath ));
+			inputStream = new BufferedInputStream(
+					new FileInputStream(new File( lstrExelFilePath )));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -237,13 +249,13 @@ public class ExcelUtil {
         List<CustomerDetails> l = excelUtil.parse( false );
         System.out.println( l.size() );
         
-        MongoCustomerDetailsDao mcd = new MongoCustomerDetailsDao();
-        for(CustomerDetails cs : l ){
-        	mcd.create( cs ); 
-        }
+        //MongoCustomerDetailsDao mcd = new MongoCustomerDetailsDao();
+       // for(CustomerDetails cs : l ){
+        	//mcd.create( cs ); 
+        //}
     	
-        for(String str : excelUtil.errorList){
-        	System.out.println(str);
-        }
+        //for(String str : excelUtil.errorList){
+        	//System.out.println(str);
+        //}
     }
 }

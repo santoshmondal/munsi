@@ -1,5 +1,6 @@
 package com.async.util;
 
+import com.smartcall.dao.impl.MongoAccessUserDao;
 import com.smartcall.dao.impl.MongoCustomerDetailsDao;
 import com.smartcall.service.CustomerDetailsService;
 
@@ -10,6 +11,7 @@ public class ObjectFactory {
 		//@formatter:off
 		// DAOs
 		CUSTOMER_DETAILS_DAO(MongoCustomerDetailsDao.class.getName()),
+		ACCESS_USER_DAO(MongoAccessUserDao.class.getName()),
 		
 		// Services
 		CUSTOMER_DETAILS_SERVICE(CustomerDetailsService.class.getName());

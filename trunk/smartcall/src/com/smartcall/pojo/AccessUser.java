@@ -12,6 +12,16 @@ public class AccessUser extends BasePojo {
 	private String mobile;
 	private String emailId;
 	private String role;
+	private String phone;
+	private String address;
+	private String city;
+	private String state;
+	private String country;
+	private String description;
+	private Boolean status;
+	private Boolean credentialExpired;
+	private Boolean locked;
+	private Boolean approved;
 	
 	public String get_id() {
 		return _id;
@@ -54,6 +64,66 @@ public class AccessUser extends BasePojo {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getState() {
+		return state;
+	}
+	public void setState(String state) {
+		this.state = state;
+	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Boolean getStatus() {
+		return status;
+	}
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+	public Boolean getCredentialExpired() {
+		return credentialExpired;
+	}
+	public void setCredentialExpired(Boolean credentialExpired) {
+		this.credentialExpired = credentialExpired;
+	}
+	public Boolean getLocked() {
+		return locked;
+	}
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
+	public Boolean getApproved() {
+		return approved;
+	}
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
 	}
 	
 	

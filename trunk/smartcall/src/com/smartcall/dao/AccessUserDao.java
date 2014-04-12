@@ -16,6 +16,6 @@ public interface AccessUserDao {
 
 	public List<AccessUser> getAll();
 
-	AccessUser authenticate(String userName, String password);
+	public AccessUser authenticate(String userName, String password);
 
 }

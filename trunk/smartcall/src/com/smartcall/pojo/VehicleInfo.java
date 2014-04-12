@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class VehicleInfo implements Serializable{
-	
+	//Note: No need to extends BasePojo
 	private static final long serialVersionUID = 1L;
 	
 	private String salesConsultant;

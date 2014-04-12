@@ -23,6 +23,7 @@ import com.mongodb.QueryOperators;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.smartcall.dao.CustomerDetailsDao;
+import com.smartcall.pojo.AccessUser;
 import com.smartcall.pojo.CustomerDetails;
 import com.smartcall.pojo.Service;
 
@@ -226,10 +227,8 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	
 
 	@Override
-	public boolean addService(String _id, Service service ) {
+	public Boolean addService(String _id, Service service ) {
 		try{
-			DBObject updateDate = new BasicDBObject( "utime", new Date() );
-
 			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
 			
 			String jsonString = CommonUtil.objectToJson(service);
@@ -237,6 +236,9 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 			DBObject dbObjectService = (DBObject) JSON.parse( jsonString );
 			
 			DBObject dbObjServiceList = new BasicDBObject("serviceList", dbObjectService );
+			
+			DBObject updateDate = new BasicDBObject( "utime", new Date() )
+			.append("lastServiceDate", service.getServiceDate() );
 			
 			DBObject updateQuery = new BasicDBObject("$set",updateDate)
 										.append("$push", dbObjServiceList);
@@ -256,5 +258,64 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 		}
 		return Boolean.FALSE;
 	}
+
+	
+	@Override
+	public Boolean updateRating(String _id, Integer rating ) {
+		try{
+			
+			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
+			
+			DBObject dbObjRating = new BasicDBObject("rating", rating ).append( "utime", new Date());
+			
+			DBObject updateQuery = new BasicDBObject("$set", dbObjRating);
+			
+			DBObject query = new BasicDBObject("_id", _id);
+			
+			WriteResult writeResult = collection.update(query, updateQuery);
+			
+			if ( writeResult.getN() > 0 ){
+				return Boolean.TRUE;
+			}
+
+			
+		}catch( Exception exception ){
+			LOG.error("",exception);
+			//exception.printStackTrace();
+		}
+		return Boolean.FALSE;
+	}
+
+	@Override
+	public Boolean updateLastCalling( String _id, String lastContactedByXID, String lastCallResponse, String remark, Date lastCallingDate ) {
+		try{
+			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
+			
+			DBRef accesssUserRef = new DBRef(mongoDB, collAccessUser, lastContactedByXID);
+			
+			DBObject dbObject = new BasicDBObject("lastCallResponse", lastCallResponse )
+									.append("remark", remark)
+									.append(KEY_LASTCONTACTEDBY_XID, accesssUserRef)
+									.append(KEY_LASTCONTACTEDBY_XID, accesssUserRef)
+									.append("lastCallingDate", lastCallingDate)
+									.append( "utime", new Date());
+			
+			DBObject updateQuery = new BasicDBObject("$set", dbObject);
+			
+			DBObject query = new BasicDBObject("_id", _id);
+			
+			WriteResult writeResult = collection.update(query, updateQuery);
+			
+			if ( writeResult.getN() > 0 ){
+				return Boolean.TRUE;
+			}
+
+			
+		}catch( Exception exception ){
+			LOG.error("",exception);
+			//exception.printStackTrace();
+		}
+		return Boolean.FALSE;
+	}	
 	
 }

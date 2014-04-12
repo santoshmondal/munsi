@@ -1,5 +1,6 @@
 package com.smartcall.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -41,7 +42,17 @@ public class CustomerDetailsService {
 		return customerDetailsDao.delete(_id);
 	}
 
-	public boolean addService(String _id, Service service){
+	public Boolean addService(String _id, Service service){
 		return customerDetailsDao.addService(_id, service);
 	}
+	
+	public Boolean updateRating(String _id, Integer rating){
+		return customerDetailsDao.updateRating(_id, rating);
+	}
+	
+	public Boolean updateLastCalling(String _id, String lastContactedByXID,
+			String lastCallResponse, String remark, Date lastCallingDate){
+		return customerDetailsDao.updateLastCalling(_id, lastContactedByXID, lastCallResponse, remark, lastCallingDate);
+	}
+	
 }

@@ -3,7 +3,7 @@ package com.smartcall.pojo;
 import java.io.Serializable;
 
 public class PersonalInfo implements Serializable{
-	
+	//Note: No need to extends BasePojo
 	private static final long serialVersionUID = 1L;
 	
 	private String name;

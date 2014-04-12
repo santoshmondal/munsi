@@ -52,7 +52,7 @@ public class CustomerDetailsService {
 	
 	public Boolean updateLastCalling(String _id, String lastContactedByXID,
 			String lastCallResponse, String remark, Date lastCallingDate){
-		return customerDetailsDao.updateLastCalling(_id, lastContactedByXID, lastCallResponse, remark, lastCallingDate);
+		return customerDetailsDao.updateLastCalling(_id, lastContactedByXID, lastCallResponse, remark);
 	}
 	
 }

@@ -1,12 +1,22 @@
 package com.async.util;
 
+import com.estudio.dao.impl.MongoAccessUserDao;
+import com.estudio.dao.impl.MongoCustomerDao;
+import com.estudio.dao.impl.MongoMasterDao;
+import com.estudio.service.AccessUserServeice;
+import com.estudio.service.CustomerService;
 
 public class ObjectFactory {
 
 	public static enum ObjectEnum {
 		//@formatter:off
 		// DAOs
-		CUSTOMER_DAO(ObjectFactory.class.getName());
+		CUSTOMER_DAO(MongoCustomerDao.class.getName()),
+		ACCESS_USER_DAO(MongoAccessUserDao.class.getName()),
+		MASTER_DAO(MongoMasterDao.class.getName()),
+		// Services
+		CUSTOMER_SERVICE(CustomerService.class.getName()),
+		ACCESS_USER_SERVICE(AccessUserServeice.class.getName());
 		//@formatter:on
 
 		private final String className;

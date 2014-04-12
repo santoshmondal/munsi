@@ -23,7 +23,6 @@ import com.mongodb.QueryOperators;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.smartcall.dao.CustomerDetailsDao;
-import com.smartcall.pojo.AccessUser;
 import com.smartcall.pojo.CustomerDetails;
 import com.smartcall.pojo.Service;
 

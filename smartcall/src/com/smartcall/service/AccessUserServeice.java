@@ -39,4 +39,9 @@ public class AccessUserServeice {
 	public List<AccessUser> getAll() {
 		return accessUserDao.getAll();
 	}
+	
+	public AccessUser authenticate(String userName, String password){
+		return accessUserDao.authenticate(userName, password);
+	}
+
 }

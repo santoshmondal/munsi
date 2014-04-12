@@ -65,7 +65,8 @@ public class CommonUtil {
         try {
     		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES,false);
     	    Class<?> jsonClass = Class.forName(fullyQualifiedClassName);
-            return mapper.readValue(json, jsonClass);
+    	    
+    	    return mapper.readValue(json, jsonClass);
         } catch (JsonGenerationException e) {
                 LOG.error(e);
         } catch (JsonMappingException e) {

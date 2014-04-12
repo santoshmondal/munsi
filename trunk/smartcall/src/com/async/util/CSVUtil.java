@@ -75,7 +75,7 @@ public class CSVUtil {
 		
 		CustomerDetails customerDetails = new CustomerDetails();
 		PersonalInfo personalInfo = new PersonalInfo();
-		personalInfo.setName( arrLine[0] );
+		personalInfo.setName( arrLine[1] );
 		personalInfo.setResidentialAddress( arrLine[2]+" "+arrLine[3]+" "+arrLine[4]);
 		personalInfo.setCompanyName( arrLine[5] );
 		personalInfo.setCompanyAddress( arrLine[6]+" "+arrLine[6]+" "+arrLine[8] );

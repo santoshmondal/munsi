@@ -317,4 +317,10 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 		return Boolean.FALSE;
 	}	
 	
+	public static void main(String[] args) {
+		String id = "MDHFBUK13AA004425";
+		MongoCustomerDetailsDao obj = new MongoCustomerDetailsDao();
+		obj.updateLastCalling(id, null, "Ringing", "Hellooooo", new Date());
+	}
+	
 }

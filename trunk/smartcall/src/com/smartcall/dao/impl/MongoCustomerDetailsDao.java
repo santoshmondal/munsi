@@ -1,6 +1,8 @@
 package com.smartcall.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -33,7 +35,7 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	public static final String KEY_ASSIGNED_CALLER = "assignedCaller";
 	
 	public static final String KEY_LASTCONTACTEDBY_XID = "lastContactedByXid";
-	public static final String KEY_LASTCONTACTEDBY = "lastContactedBy";
+	public static final String KEY_LASTCONTACTED_BY = "lastContactedBy";
 	
 	@Override
 	public Boolean create(CustomerDetails customerDetails){
@@ -51,7 +53,7 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			dbObject.removeField(KEY_ASSIGNED_CALLER);
-			dbObject.removeField("lastContactedBy");
+			dbObject.removeField(KEY_LASTCONTACTED_BY);
 			
 			WriteResult writeResult = collection.insert(dbObject );
 			
@@ -77,7 +79,7 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			dbObject.removeField("_id");
 			dbObject.removeField(KEY_ASSIGNED_CALLER);
-			dbObject.removeField(KEY_LASTCONTACTEDBY);
+			dbObject.removeField(KEY_LASTCONTACTED_BY);
 			
 			if( customerDetails.getLastContactedBy() != null ){
 				DBRef accesssUserRef = new DBRef(mongoDB, collAccessUser, customerDetails.getLastContactedBy().get_id());
@@ -105,6 +107,27 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 		return Boolean.FALSE;
 	}
 
+	@Override
+	public Boolean delete(String _id) {
+		try{
+			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
+			
+			DBObject query = new BasicDBObject("_id", _id);
+			DBObject update = new BasicDBObject("deleted", true)
+							.append("utime", new Date());
+			
+			DBObject updateObj = new BasicDBObject("$set", update);
+			WriteResult writeResult = collection.update(query, updateObj);
+			
+			if ( writeResult.getN() > 0 ){
+				return true;
+			}
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return false;
+		
+	}
 	
 	@Override
 	public Boolean assignCaller(Set<String> vinList, String coller_xid ) {
@@ -134,13 +157,13 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	
 	// ==================== ========================//
 	@Override
-	public List<CustomerDetails> getCusDetailsList() {
+	public List<CustomerDetails> getAll() {
 		try{
 			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
 			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 			DBCursor dbCursor = collection.find( finalQuery);
 			
-			List<CustomerDetails> areaList = new ArrayList<>();
+			List<CustomerDetails> customerDetailsList = new ArrayList<>();
 			
 			while ( dbCursor.hasNext() ) {
 				DBObject dbObject = dbCursor.next();
@@ -149,14 +172,23 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 				DBObject contactedByRef =  ( (DBRef)dbObject.get(KEY_LASTCONTACTEDBY_XID) ).fetch();
 				
 				dbObject.put(KEY_ASSIGNED_CALLER, callerRef);
-				dbObject.put(KEY_LASTCONTACTEDBY, contactedByRef);
+				dbObject.put(KEY_LASTCONTACTED_BY, contactedByRef);
 				
 				String jsonString = JSON.serialize(dbObject);
 				CustomerDetails customerDetails = (CustomerDetails) CommonUtil.jsonToObject( jsonString, CustomerDetails.class.getName() );
-				areaList.add(customerDetails);
+				customerDetailsList.add(customerDetails);
+				
 			}
 			
-			return areaList;
+			Collections.sort(customerDetailsList, new Comparator<CustomerDetails>() {
+				public int compare(CustomerDetails o1, CustomerDetails o2) {
+					Date date1 = o1.getLastServiceDate();
+					Date date2 = o2.getLastServiceDate();
+					return date1.compareTo(date2);
+				}
+			});
+			
+			return customerDetailsList;
 			
 		}catch( Exception exception ){
 			LOG.error("",exception);
@@ -167,7 +199,7 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 
 
 	@Override
-	public CustomerDetails getCustomerDetails(String _id) {
+	public CustomerDetails get(String _id) {
 		try{
 			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
 			DBObject query = new BasicDBObject("_id", _id);
@@ -177,7 +209,7 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 			DBObject contactedByRef =  ( (DBRef)dbObject.get(KEY_LASTCONTACTEDBY_XID) ).fetch();
 			
 			dbObject.put(KEY_ASSIGNED_CALLER, callerRef);
-			dbObject.put(KEY_LASTCONTACTEDBY, contactedByRef);
+			dbObject.put(KEY_LASTCONTACTED_BY, contactedByRef);
 			
 			String jsonString = JSON.serialize(dbObject);
 			CustomerDetails customerDetails = (CustomerDetails) CommonUtil.jsonToObject( jsonString, CustomerDetails.class.getName() );
@@ -190,5 +222,6 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 		}
 		return null;
 	}
+	
 
 }

@@ -11,10 +11,12 @@ public interface CustomerDetailsDao {
 	
 	public Boolean update(CustomerDetails customerDetails);
 	
-	public List<CustomerDetails> getCusDetailsList();
+	public List<CustomerDetails> getAll();
 	
-	public CustomerDetails getCustomerDetails( String _id );
+	public CustomerDetails get( String _id );
 
 	public Boolean assignCaller(Set<String> vinList, String coller_xid);
+
+	public Boolean delete(String _id);
 	
 }

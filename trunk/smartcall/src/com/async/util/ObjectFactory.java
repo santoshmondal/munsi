@@ -1,7 +1,10 @@
 package com.async.util;
 
 import com.smartcall.dao.impl.MongoAccessUserDao;
+import com.smartcall.dao.impl.MongoAppointmentDao;
 import com.smartcall.dao.impl.MongoCustomerDetailsDao;
+import com.smartcall.pojo.Appointment;
+import com.smartcall.service.AppointmentService;
 import com.smartcall.service.CustomerDetailsService;
 
 
@@ -12,9 +15,10 @@ public class ObjectFactory {
 		// DAOs
 		CUSTOMER_DETAILS_DAO(MongoCustomerDetailsDao.class.getName()),
 		ACCESS_USER_DAO(MongoAccessUserDao.class.getName()),
-		
+		APPOINTMENT_DAO(MongoAppointmentDao.class.getName()),
 		// Services
-		CUSTOMER_DETAILS_SERVICE(CustomerDetailsService.class.getName());
+		CUSTOMER_DETAILS_SERVICE(CustomerDetailsService.class.getName()),
+		APPOINTMENT_SERVICE(AppointmentService.class.getName());
 		//@formatter:on
 
 		private final String className;

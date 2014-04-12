@@ -22,7 +22,8 @@ public class Constants {
 		
 		// @formatter:off
 		CUSTOMER_DETAILS("customer_details"),
-		ACCESS_USER("access_user");
+		ACCESS_USER("access_user"),
+		APPOINTMENT("appointment");
 		// @formatter:on
 
 		private final String collectionName;
@@ -37,7 +38,7 @@ public class Constants {
 		}
 	}
 	
-	public enum UIOperations {
+	public enum UIOperationsEnum {
 		// @formatter:off
 		VIEW,
 		VIEW_ALL,
@@ -47,5 +48,10 @@ public class Constants {
 		// @formatter:on
 	}
 	
-	
+	public enum AppointmentStatusEnum {
+		// @formatter:off
+		NEW,
+		SERVICED;
+		// @formatter:on
+	}
 }

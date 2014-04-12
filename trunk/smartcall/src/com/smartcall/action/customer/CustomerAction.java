@@ -12,9 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.async.util.CommonUtil;
 import com.async.util.Constants;
-import com.async.util.Constants.UIOperations;
+import com.async.util.Constants.UIOperationsEnum;
 import com.async.util.ObjectFactory;
 import com.smartcall.action.BaseServlet;
 import com.smartcall.pojo.CustomerDetails;
@@ -67,7 +66,7 @@ public class CustomerAction extends BaseServlet {
 		if(operation != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			
-			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
+			UIOperationsEnum opEnum  = UIOperationsEnum.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case EDIT :
 				break;	
@@ -80,7 +79,7 @@ public class CustomerAction extends BaseServlet {
 				
 			case VIEW_ALL :
 				
-				List<CustomerDetails> customerList = customerDetailsService.getCusDetailsList();
+				List<CustomerDetails> customerList = customerDetailsService.getAll();
 				//json = CommonUtil.objectToJson(customerList);
 				//json = json.replaceAll("_id", "id");
 				json = "{["+

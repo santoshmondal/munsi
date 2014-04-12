@@ -26,6 +26,25 @@ public class MongoAccessUserDao implements AccessUserDao{
 	private final DB mongoDB = MongoUtil.getDB();
 
 	@Override
+	public AccessUser authenticate(String userName, String password) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collAccessUser);
+			DBObject query = new BasicDBObject("userName", userName)
+								.append("password", "password");
+			
+			DBObject dbObject = collection.findOne(query);
+			String jsonString = JSON.serialize(dbObject);
+			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
+
+			return accessUser;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+	
+	@Override
 	public Boolean create(AccessUser accessUser) {
 		try {
 			Date date = new Date();

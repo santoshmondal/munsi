@@ -24,16 +24,20 @@ public class CustomerDetailsService {
 		return customerDetailsDao.update(customerDetails);
 	}
 	
-	public List<CustomerDetails> getCusDetailsList(){
-		return customerDetailsDao.getCusDetailsList();
+	public List<CustomerDetails> getAll(){
+		return customerDetailsDao.getAll();
 	}
 	
-	public CustomerDetails getCustomerDetails( String _id ){
-		return customerDetailsDao.getCustomerDetails(_id);
+	public CustomerDetails get( String _id ){
+		return customerDetailsDao.get(_id);
 	}
 
-	Boolean assignCaller(Set<String> vinList, String coller_xid){
+	public Boolean assignCaller(Set<String> vinList, String coller_xid){
 		return customerDetailsDao.assignCaller(vinList, coller_xid);
+	}
+	
+	public Boolean delete(String _id){
+		return customerDetailsDao.delete(_id);
 	}
 
 }

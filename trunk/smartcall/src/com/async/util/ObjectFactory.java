@@ -3,7 +3,6 @@ package com.async.util;
 import com.smartcall.dao.impl.MongoAccessUserDao;
 import com.smartcall.dao.impl.MongoAppointmentDao;
 import com.smartcall.dao.impl.MongoCustomerDetailsDao;
-import com.smartcall.pojo.Appointment;
 import com.smartcall.service.AppointmentService;
 import com.smartcall.service.CustomerDetailsService;
 

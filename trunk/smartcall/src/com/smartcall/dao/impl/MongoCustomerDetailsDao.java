@@ -24,6 +24,7 @@ import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.smartcall.dao.CustomerDetailsDao;
 import com.smartcall.pojo.CustomerDetails;
+import com.smartcall.pojo.Service;
 
 public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	private static final Logger LOG = Logger.getLogger( MongoCustomerDetailsDao.class );
@@ -224,4 +225,36 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	}
 	
 
+	@Override
+	public boolean addService(String _id, Service service ) {
+		try{
+			DBObject updateDate = new BasicDBObject( "utime", new Date() );
+
+			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
+			
+			String jsonString = CommonUtil.objectToJson(service);
+			
+			DBObject dbObjectService = (DBObject) JSON.parse( jsonString );
+			
+			DBObject dbObjServiceList = new BasicDBObject("serviceList", dbObjectService );
+			
+			DBObject updateQuery = new BasicDBObject("$set",updateDate)
+										.append("$push", dbObjServiceList);
+			
+			DBObject query = new BasicDBObject("_id", _id);
+			
+			WriteResult writeResult = collection.update(query, updateQuery);
+			
+			if ( writeResult.getN() > 0 ){
+				return Boolean.TRUE;
+			}
+
+			
+		}catch( Exception exception ){
+			LOG.error("",exception);
+			//exception.printStackTrace();
+		}
+		return Boolean.FALSE;
+	}
+	
 }

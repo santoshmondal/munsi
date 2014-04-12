@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
+import com.smartcall.pojo.Service;
 import com.smartcall.dao.CustomerDetailsDao;
 import com.smartcall.pojo.CustomerDetails;
 
@@ -40,4 +41,7 @@ public class CustomerDetailsService {
 		return customerDetailsDao.delete(_id);
 	}
 
+	public boolean addService(String _id, Service service){
+		return customerDetailsDao.addService(_id, service);
+	}
 }

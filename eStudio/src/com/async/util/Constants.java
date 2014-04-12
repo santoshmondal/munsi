@@ -20,19 +20,9 @@ public class Constants {
 	
 	public enum DBCollectionEnum {
 		// @formatter:off
-		MAST_MAIN_ACCOUNT("mast_main_account"),
-		MAST_CUSTOMER("mast_customer"),
-		MAST_AREA("mast_area"),
-		MAST_BEAT("mast_beat"),
-		MAST_MANUFACTURER("mast_manufacturer"),
-		MAST_ACCESS_USER("mast_access_user"),
-		MAST_TAX("mast_tax"),
-		MAST_PRODUCT_GROUP("mast_product_group"), 
-		MAST_PRODUCT("mast_product"), 
-		MAST_SUPPLIER("mast_supplier"),
-		PRODUCT_INVENTORY("product_inventory"),
-		OPENING_PRODUCT_STOCK("opening_product_stock"),
-		MAST_PRODUCT_SCHEME("mast_product_scheme");
+		ACCESS_USER("access_user"),
+		CUSTOMER("customer"),
+		MASTER("master");
 		// @formatter:on
 
 		private final String collectionName;

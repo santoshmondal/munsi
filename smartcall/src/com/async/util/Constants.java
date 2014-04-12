@@ -54,4 +54,18 @@ public class Constants {
 		SERVICED;
 		// @formatter:on
 	}
+	
+	public enum CriteriaEnum {
+		// @formatter:off
+		SET("$set");
+		private String criteria;
+		private CriteriaEnum(String criString) {
+			this.criteria = criString;
+		}
+		public String toString(){
+			return this.criteria;
+		}
+		// @formatter:on
+	}
+	
 }

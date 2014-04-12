@@ -1,5 +1,6 @@
 package com.smartcall.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -20,6 +21,11 @@ public interface CustomerDetailsDao {
 
 	public Boolean delete(String _id);
 
-	public boolean addService(String _id, Service service);
+	public Boolean addService(String _id, Service service);
+
+	public Boolean updateRating(String _id, Integer rating);
+
+	public Boolean updateLastCalling(String _id, String lastContactedByXID,
+			String lastCallResponse, String remark, Date lastCallingDate);
 	
 }

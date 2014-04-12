@@ -9,7 +9,7 @@ public class Service implements Serializable {
 	
 	private String type;
 	private Date serviceDate;
-	private String callingDate;
+	private Date callingDate;
 	private Float price;
 	
 	public String getType() {
@@ -28,11 +28,11 @@ public class Service implements Serializable {
 		this.serviceDate = serviceDate;
 	}
 	
-	public String getCallingDate() {
+	public Date getCallingDate() {
 		return callingDate;
 	}
 	
-	public void setCallingDate(String callingDate) {
+	public void setCallingDate(Date callingDate) {
 		this.callingDate = callingDate;
 	}
 

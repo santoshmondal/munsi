@@ -235,19 +235,25 @@ public class ExcelUtil {
     	return errorList;
     }
     
-	public static void main(String[] args) throws ParseException {
+	public static void main(String[] args) throws ParseException, IOException {
     	
 		String lstrExelFilePath = "/home/isdc/Desktop/Total Data.xlsx";
         InputStream inputStream = null;
         try {
+        	
 			inputStream = new BufferedInputStream(
 					new FileInputStream(new File( lstrExelFilePath )));
-		} catch (FileNotFoundException e) {
+			ExcelUtil excelUtil = new ExcelUtil(inputStream);
+	        List<CustomerDetails> l = excelUtil.parse( false );
+	        System.out.println( l.size() );
+	        
+        } catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-        ExcelUtil excelUtil = new ExcelUtil(inputStream);
-        List<CustomerDetails> l = excelUtil.parse( false );
-        System.out.println( l.size() );
+        finally{
+        	inputStream.close();
+        }
+        
         
         //MongoCustomerDetailsDao mcd = new MongoCustomerDetailsDao();
        // for(CustomerDetails cs : l ){

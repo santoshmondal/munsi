@@ -286,8 +286,10 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	}
 
 	@Override
-	public Boolean updateLastCalling( String _id, String lastContactedByXID, String lastCallResponse, String remark, Date lastCallingDate ) {
+	public Boolean updateLastCalling( String _id, String lastContactedByXID, String lastCallResponse, String remark ) {
+		
 		try{
+			Date date = new Date();
 			DBCollection collection = mongoDB.getCollection( collCustomerDetails );
 			
 			DBRef accesssUserRef = new DBRef(mongoDB, collAccessUser, lastContactedByXID);
@@ -295,9 +297,8 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 			DBObject dbObject = new BasicDBObject("lastCallResponse", lastCallResponse )
 									.append("remark", remark)
 									.append(KEY_LASTCONTACTEDBY_XID, accesssUserRef)
-									.append(KEY_LASTCONTACTEDBY_XID, accesssUserRef)
-									.append("lastCallingDate", lastCallingDate)
-									.append( "utime", new Date());
+									.append("lastCallingDate", date)
+									.append( "utime", date);
 			
 			DBObject updateQuery = new BasicDBObject("$set", dbObject);
 			
@@ -320,7 +321,7 @@ public class MongoCustomerDetailsDao implements CustomerDetailsDao {
 	public static void main(String[] args) {
 		String id = "MDHFBUK13AA004425";
 		MongoCustomerDetailsDao obj = new MongoCustomerDetailsDao();
-		obj.updateLastCalling(id, null, "Ringing", "Hellooooo", new Date());
+		obj.updateLastCalling(id, null, "Ringing", "Hellooooo");
 	}
 	
 }

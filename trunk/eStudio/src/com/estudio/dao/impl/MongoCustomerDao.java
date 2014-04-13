@@ -172,4 +172,12 @@ public class MongoCustomerDao implements CustomerDao{
 		return null;
 	}
 	*/
+	
+	public static void main(String[] args) {
+		MongoCustomerDao mcd = new MongoCustomerDao();
+		Customer customer = new Customer();
+		customer.setName("ajay devgan");
+		
+		mcd.create(customer);
+	}
 }

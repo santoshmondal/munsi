@@ -2,7 +2,9 @@ package com.estudio.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -172,4 +174,18 @@ public class MongoMasterDao implements MasterDao{
 		return null;
 	}
 	*/
+	
+	public static void main(String[] args) {
+		Master master = new Master();
+		master.set_id("PHOTO_MASTER");
+		master.setSize("1x4");
+		Map<String, String> qpMap = new HashMap<String, String>();
+		qpMap.put("ABC", "100");
+		qpMap.put("ABCD", "100");
+		master.setQualityPriceMap(qpMap);
+		
+		MongoMasterDao mmd = new MongoMasterDao();
+		mmd.create(master);	
+		
+	}
 }

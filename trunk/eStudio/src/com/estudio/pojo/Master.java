@@ -1,5 +1,7 @@
 package com.estudio.pojo;
 
+import java.util.Map;
+
 
 public class Master extends BasePojo  {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +21,8 @@ public class Master extends BasePojo  {
 	
 	/** True or False in case of Frame only */
 	private Boolean withStand;
+	
+	private Map<String, String> qualityPriceMap;
 
 	public String getType() {
 		return type;
@@ -70,6 +74,14 @@ public class Master extends BasePojo  {
 	/** True or False in case of Frame Type only */
 	public void setWithStand(Boolean withStand) {
 		this.withStand = withStand;
+	}
+
+	public Map<String, String> getQualityPriceMap() {
+		return qualityPriceMap;
+	}
+
+	public void setQualityPriceMap(Map<String, String> qualityPriceMap) {
+		this.qualityPriceMap = qualityPriceMap;
 	}
 	
 	

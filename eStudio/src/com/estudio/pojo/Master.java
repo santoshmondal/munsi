@@ -6,31 +6,15 @@ import java.util.Map;
 public class Master extends BasePojo  {
 	private static final long serialVersionUID = 1L;
 
+	/** Photo, Frame, Lamination */
 	private String _id;
 	
-	/** Photo, Frame, Lamination */
-	private String type;
-	
 	private String size;
-	
-	/** Estimated price */
-	private String price;
-	
-	/** Glass or Metal in case of Frame and Lamination */
-	private String quality;
 	
 	/** True or False in case of Frame only */
 	private Boolean withStand;
 	
 	private Map<String, String> qualityPriceMap;
-
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public String getSize() {
 		return size;
@@ -38,24 +22,6 @@ public class Master extends BasePojo  {
 
 	public void setSize(String size) {
 		this.size = size;
-	}
-
-	public String getPrice() {
-		return price;
-	}
-
-	public void setPrice(String price) {
-		this.price = price;
-	}
-
-	/** Glass or Metal in case of Frame and Lamination Type*/
-	public String getQuality() {
-		return quality;
-	}
-
-	/** Glass or Metal in case of Frame and Lamination Type*/
-	public void setQuality(String quality) {
-		this.quality = quality;
 	}
 
 	public String get_id() {
@@ -82,7 +48,6 @@ public class Master extends BasePojo  {
 
 	public void setQualityPriceMap(Map<String, String> qualityPriceMap) {
 		this.qualityPriceMap = qualityPriceMap;
-	}
-	
+	}	
 	
 }

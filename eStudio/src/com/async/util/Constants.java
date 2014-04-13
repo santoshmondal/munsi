@@ -22,7 +22,8 @@ public class Constants {
 		// @formatter:off
 		ACCESS_USER("access_user"),
 		CUSTOMER("customer"),
-		MASTER("master");
+		MASTER("master"),
+		INVOICE("invoice");
 		// @formatter:on
 
 		private final String collectionName;

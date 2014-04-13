@@ -10,14 +10,13 @@ import com.async.util.CommonUtil;
 import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
 import com.estudio.dao.AccessUserDao;
+import com.estudio.pojo.AccessUser;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import com.estudio.pojo.AccessUser;
 
 public class MongoAccessUserDao implements AccessUserDao{
 	private static final Logger LOG = Logger.getLogger(MongoAccessUserDao.class);
@@ -35,7 +34,6 @@ public class MongoAccessUserDao implements AccessUserDao{
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
 			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
-
 			return accessUser;
 
 		} catch (Exception exception) {
@@ -57,13 +55,8 @@ public class MongoAccessUserDao implements AccessUserDao{
 			String jsonString = CommonUtil.objectToJson(accessUser);
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
-
-			WriteResult writeResult = collection.insert(dbObject);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
-
+			collection.insert(dbObject);
+			return true;
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -86,12 +79,9 @@ public class MongoAccessUserDao implements AccessUserDao{
 
 			DBObject update = new BasicDBObject("$set", dbObject);
 
-			WriteResult writeResult = collection.update(query, update);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
-
+			collection.update(query, update);
+			return true;
+			
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -107,11 +97,8 @@ public class MongoAccessUserDao implements AccessUserDao{
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
 			DBObject updateObj = new BasicDBObject("$set", update);
-			WriteResult writeResult = collection.update(query, updateObj);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -160,34 +147,4 @@ public class MongoAccessUserDao implements AccessUserDao{
 		return null;
 	}
 
-	/*
-	@Override
-	public List<String[]> getIdName() {
-		try {
-			DBCollection collection = mongoDB.getCollection(collAccessUser);
-			DBObject dbKey = new BasicDBObject("name", 1);
-
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
-
-			List<String[]> areaList = new ArrayList<>();
-
-			while (dbCursor.hasNext()) {
-
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-
-				String[] idName = new String[] { _id, name };
-				areaList.add(idName);
-			}
-
-			return areaList;
-
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return null;
-	}
-	*/
 }

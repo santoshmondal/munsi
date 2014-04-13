@@ -1,19 +1,17 @@
 package com.estudio.pojo;
 
+import java.util.Date;
+
 public class Customer extends BasePojo {
 	private static final long serialVersionUID = 1L;
 	
+	/** Mobile number */
 	private String _id;
 	private String name;
 	private String address;
-	private String pin;
-	private String mobile;
-	private String phone;
-	private String city;
-	private String state;
-	private String customerClass;
-	private Boolean blackList;
-	private Float discount;
+	private Date marriageDate;
+	private Date dob;
+	private String emailId;
 	
 	public String get_id() {
 		return _id;
@@ -39,70 +37,28 @@ public class Customer extends BasePojo {
 		this.address = address;
 	}
 
-	public String getPin() {
-		return pin;
+	public Date getMarriageDate() {
+		return marriageDate;
 	}
 
-	public void setPin(String pin) {
-		this.pin = pin;
+	public void setMarriageDate(Date marriageDate) {
+		this.marriageDate = marriageDate;
 	}
 
-	public String getMobile() {
-		return mobile;
+	public Date getDob() {
+		return dob;
 	}
 
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
+	public void setDob(Date dob) {
+		this.dob = dob;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getEmailId() {
+		return emailId;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getCustomerClass() {
-		return customerClass;
-	}
-
-	public void setCustomerClass(String customerClass) {
-		this.customerClass = customerClass;
-	}
-
-	public Float getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(Float discount) {
-		this.discount = discount;
-	}
-
-	
-	
-	public Boolean getBlackList() {
-		return blackList;
-	}
-
-	public void setBlackList(Boolean blackList) {
-		this.blackList = blackList;
-	}
-	
-	public String getCity() {
-		return city;
-	}
-
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getState() {
-		return state;
-	}
-
-	public void setState(String state) {
-		this.state = state;
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
 	}
 
 	@Override

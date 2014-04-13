@@ -19,6 +19,7 @@ public class Invoice extends BasePojo {
 	private PhotoDetails photoDetails;
 	private FrameDetails frameDetails;
 	private LaminationDetails laminationDetails;
+	
 	public String get_id() {
 		return _id;
 	}

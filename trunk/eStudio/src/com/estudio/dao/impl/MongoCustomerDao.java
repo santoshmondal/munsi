@@ -11,14 +11,13 @@ import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
 import com.estudio.dao.AccessUserDao;
 import com.estudio.dao.CustomerDao;
+import com.estudio.pojo.Customer;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import com.estudio.pojo.Customer;
 
 public class MongoCustomerDao implements CustomerDao{
 	private static final Logger LOG = Logger.getLogger(MongoCustomerDao.class);
@@ -32,19 +31,14 @@ public class MongoCustomerDao implements CustomerDao{
 			Date date = new Date();
 			customer.setCtime(date);
 			customer.setUtime(date);
-			Integer _id = MongoUtil.getNextSequence(DBCollectionEnum.CUSTOMER);
-			customer.set_id(_id+"");
-
+			
 			DBCollection collection = mongoDB.getCollection(collCustomer);
 			String jsonString = CommonUtil.objectToJson(customer);
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 
-			WriteResult writeResult = collection.insert(dbObject);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.insert(dbObject);
+			return true;
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
@@ -68,11 +62,8 @@ public class MongoCustomerDao implements CustomerDao{
 
 			DBObject update = new BasicDBObject("$set", dbObject);
 
-			WriteResult writeResult = collection.update(query, update);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.update(query, update);
+			return true;
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
@@ -89,11 +80,8 @@ public class MongoCustomerDao implements CustomerDao{
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
 			DBObject updateObj = new BasicDBObject("$set", update);
-			WriteResult writeResult = collection.update(query, updateObj);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -142,36 +130,6 @@ public class MongoCustomerDao implements CustomerDao{
 		return null;
 	}
 
-	/*
-	@Override
-	public List<String[]> getIdName() {
-		try {
-			DBCollection collection = mongoDB.getCollection(collCustomer);
-			DBObject dbKey = new BasicDBObject("name", 1);
-
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
-
-			List<String[]> areaList = new ArrayList<>();
-
-			while (dbCursor.hasNext()) {
-
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-
-				String[] idName = new String[] { _id, name };
-				areaList.add(idName);
-			}
-
-			return areaList;
-
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return null;
-	}
-	*/
 	
 	public static void main(String[] args) {
 		MongoCustomerDao mcd = new MongoCustomerDao();

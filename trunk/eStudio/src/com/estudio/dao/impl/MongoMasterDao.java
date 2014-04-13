@@ -19,7 +19,6 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 
 public class MongoMasterDao implements MasterDao{
@@ -34,19 +33,13 @@ public class MongoMasterDao implements MasterDao{
 			Date date = new Date();
 			master.setCtime(date);
 			master.setUtime(date);
-			Integer _id = MongoUtil.getNextSequence(DBCollectionEnum.MASTER);
-			master.set_id(_id+"");
-
+			
 			DBCollection collection = mongoDB.getCollection(collMaster);
 			String jsonString = CommonUtil.objectToJson(master);
-
+			
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 
-			WriteResult writeResult = collection.insert(dbObject);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.insert(dbObject);
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
@@ -70,11 +63,7 @@ public class MongoMasterDao implements MasterDao{
 
 			DBObject update = new BasicDBObject("$set", dbObject);
 
-			WriteResult writeResult = collection.update(query, update);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.update(query, update);
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
@@ -91,11 +80,7 @@ public class MongoMasterDao implements MasterDao{
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
 			DBObject updateObj = new BasicDBObject("$set", update);
-			WriteResult writeResult = collection.update(query, updateObj);
-
-			if (writeResult.getN() > 0) {
-				return true;
-			}
+			collection.update(query, updateObj);
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -144,36 +129,6 @@ public class MongoMasterDao implements MasterDao{
 		return null;
 	}
 
-	/*
-	@Override
-	public List<String[]> getIdName() {
-		try {
-			DBCollection collection = mongoDB.getCollection(collCustomer);
-			DBObject dbKey = new BasicDBObject("name", 1);
-
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
-
-			List<String[]> areaList = new ArrayList<>();
-
-			while (dbCursor.hasNext()) {
-
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-
-				String[] idName = new String[] { _id, name };
-				areaList.add(idName);
-			}
-
-			return areaList;
-
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return null;
-	}
-	*/
 	
 	public static void main(String[] args) {
 		Master master = new Master();

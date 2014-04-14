@@ -46,10 +46,8 @@
             myGrid = $("#grid-table-data");
 
         myGrid.jqGrid({
-        	url: "${pageContext.request.contextPath}/customer.action?op=view_all",
-			//datatype:'local',
-			datatype:'json',
-            //data: myData,
+            datatype:'local',
+            data: myData,
 			colNames:['id','Customer Name','Mobile No.','Model','Variant','VIN','Engine No.','Reg No./Veh no.','Inv. Date Sale','Veh. Delivery Date','Dealer Name','Dealer State','Dealer City','Odometer Reading','Status',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},

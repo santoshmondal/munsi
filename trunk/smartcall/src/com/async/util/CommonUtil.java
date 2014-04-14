@@ -6,13 +6,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
 import com.async.util.Constants.DBCollectionEnum;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -24,6 +27,7 @@ import com.mongodb.util.JSON;
 
 public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger( CommonUtil.class );
+	private static final ObjectMapper mapper = new ObjectMapper();
 
 	private static Map<String,String> vatTypemap = new LinkedHashMap<>();
 	private static Map<String,String> locationMap = new LinkedHashMap<>();
@@ -31,6 +35,9 @@ public class CommonUtil {
 	private static Map<String,String> schemeTypeMap = new LinkedHashMap<>();
 	
 	static {
+		mapper.setSerializationInclusion(Include.NON_NULL); 
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		
 		// Put value in location map
 		locationMap.put("TE+", "TE+ Trading Expense +ve");
 		locationMap.put("TE-", "TE- Trading Expense -ve");
@@ -60,10 +67,8 @@ public class CommonUtil {
 	}
 	
 	public static Object jsonToObject(String json, String fullyQualifiedClassName) {
-        ObjectMapper mapper = new ObjectMapper();
 
         try {
-    		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES,false);
     	    Class<?> jsonClass = Class.forName(fullyQualifiedClassName);
     	    
     	    return mapper.readValue(json, jsonClass);
@@ -81,20 +86,11 @@ public class CommonUtil {
 
 	public static String objectToJson(Object object) {
 		
-		ObjectMapper mapper = new ObjectMapper();
-		
-        try {
-        	mapper.setSerializationInclusion(Inclusion.NON_NULL);
-        	mapper.setSerializationInclusion(Inclusion.NON_EMPTY);
-        	
-                return mapper.writeValueAsString(object);
-        } catch (JsonGenerationException e) {
-                LOG.error(e);
-        } catch (JsonMappingException e) {
-                LOG.error(e);
-        } catch (IOException e) {
-                LOG.error(e);
-        }
+		try {
+			return mapper.writeValueAsString(object);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
 
         return null;
 	}

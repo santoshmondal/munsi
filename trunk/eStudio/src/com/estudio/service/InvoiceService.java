@@ -5,6 +5,7 @@ import java.util.List;
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
 import com.estudio.dao.InvoiceDao;
+import com.estudio.pojo.Customer;
 import com.estudio.pojo.Invoice;
 
 public class InvoiceService {
@@ -38,4 +39,19 @@ public class InvoiceService {
 		return invoiceDao.updateStatus(_id, status);
 	}
 	
+	
+	public static void main(String[] args) {
+		InvoiceService iSerice = (InvoiceService)ObjectFactory.getInstance(ObjectEnum.INVOICE_SERVICE);
+		
+		Customer customer =  new Customer();
+		customer.set_id("1");
+		
+		Invoice invoice = new Invoice();
+		invoice.setStatus("ENUM_STATUS");
+		invoice.setCustomer(customer);
+		
+		
+		iSerice.create(invoice);
+		
+	}
 }

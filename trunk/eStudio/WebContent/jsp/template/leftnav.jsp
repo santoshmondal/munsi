@@ -29,11 +29,40 @@
 	<!-- #sidebar-shortcuts -->
 
 	<ul class="nav nav-list">
-		<li class="active"><a href="#"> <i class="icon-dashboard"></i>
-				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
-					Dashboard </span>
+		<li class="active"><a href="#"> <i class="icon-film"></i>
+				<span class="menu-text" data-href="/jsp/studio/newinvoice.jsp">
+					New Invoice </span>
 		</a></li>
+	
+		<li><a href="#" class="dropdown-toggle"> <i class="icon-book"></i>
+				<span class="menu-text"> Orderbook </span> <b
+				class="arrow icon-angle-down"></b>
+		</a>
 
+			<ul class="submenu">
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp"> <i
+						class="icon-double-angle-right"></i> All
+				</a></li>
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+						<i class="icon-double-angle-right"></i> Delivered
+				</a></li>
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+						<i class="icon-double-angle-right"></i> Sent to Print
+				</a></li>
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+						<i class="icon-double-angle-right"></i> Raw Data
+				</a></li>
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+						<i class="icon-double-angle-right"></i> Final Data
+				</a></li>
+				
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+						<i class="icon-double-angle-right"></i> Received from Print
+				</a></li>
+				
+			</ul>
+		</li>
+		
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-list-alt"></i> <span class="menu-text"> Master </span> <b
 				class="arrow icon-angle-down"></b>
@@ -59,28 +88,13 @@
 				</a></li>
 			</ul>
 		</li>
-		<li><a href="#" class="dropdown-toggle"> <i class="icon-book"></i>
-				<span class="menu-text"> Data Entry </span> <b
-				class="arrow icon-angle-down"></b>
-		</a>
-
-			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp"> <i
-						class="icon-double-angle-right"></i> Data Entry 1
-				</a></li>
-
-				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp">
-						<i class="icon-double-angle-right"></i> Data Entry 2
-				</a></li>
-			</ul>
-		</li>
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 				<b class="arrow icon-angle-down"></b>
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp"> <i
+				<li><a href="#" data-href="/jsp/studio/invoiceprint.jsp"> <i
 						class="icon-double-angle-right"></i> Report 1
 				</a></li>
 

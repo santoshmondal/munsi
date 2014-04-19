@@ -13,7 +13,7 @@
 	<jsp:include page='/jsp/template/cssandjs.jsp' />
 	
 </head>
-<body class="navbar-fixed" onload="async.util.noBack();" onpageshow="if (event.persisted) async.util.noBack();" onunload="">
+<body class="navbar-fixed skin-3" onload="async.util.noBack();" onpageshow="if (event.persisted) async.util.noBack();" onunload="">
 
 	<div class="navbar navbar-default navbar-fixed-top" id="navbar">
 			<script type="text/javascript">
@@ -24,8 +24,7 @@
 				<div class="navbar-header pull-left">
 					<a href="#" class="navbar-brand">
 						
-						<small class='munsi_logo'>
-							Smart<b class="icon-phone"></b>all </small>
+							e-studi<b class="icon-camera"></b>
 						
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->
@@ -34,14 +33,14 @@
 					<ul class="nav ace-nav">
 						<li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="icon-tasks"></i>
-								<span class="badge badge-grey">4</span>
+								<i class="icon-bell-alt icon-animated-bell"></i>
+								<span class="badge badge-grey">8</span>
 							</a>
 
 							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 								<li class="dropdown-header">
 									<i class="icon-ok"></i>
-									4 Recent Activities
+									Estimated todays deliveries
 								</li>
 
 								<li>
@@ -105,71 +104,8 @@
 							</ul>
 						</li>
 
-						<li class="purple">
-							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
-								<i class="icon-bell-alt icon-animated-bell"></i>
-								<span class="badge badge-important">8</span>
-							</a>
 
-							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
-									<i class="icon-warning-sign"></i>
-									8 Alerts & Notifications
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">
-												<i class="btn btn-xs no-hover btn-pink icon-comment"></i>
-												New Comments
-											</span>
-											<span class="pull-right badge badge-info">+12</span>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<i class="btn btn-xs btn-primary icon-user"></i>
-										Bob just signed up as an editor ...
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">
-												<i class="btn btn-xs no-hover btn-success icon-shopping-cart"></i>
-												New Orders
-											</span>
-											<span class="pull-right badge badge-success">+8</span>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">
-												<i class="btn btn-xs no-hover btn-info icon-twitter"></i>
-												Followers
-											</span>
-											<span class="pull-right badge badge-info">+11</span>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										See all notifications
-										<i class="icon-arrow-right"></i>
-									</a>
-								</li>
-							</ul>
-						</li>
-
-						<li class="light-blue">
+						<li class="grey">
 							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
 								<i class="icon-user"></i>
 								<span class="user-info">

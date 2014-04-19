@@ -71,13 +71,9 @@
 						{name:'pack',index:'pack',  sorttype:"int", sortable:true,hidden:true, editrules:{required:false, edithidden:true}, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'lockItem',index:'lockItem', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'batchyn',index:'batchyn', editable: true,edittype:"checkbox",hidden:true, editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'1taxList',index:'taxList', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_TAX, "_id", "name") %>", size: 3}},
-
+						
 						{name:'vatType',index:'vatType', editable: true, hidden:true,editrules:{required:false, edithidden:true}, edittype:"select", formatter:'select',editoptions:{  dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getVatTypeJSON() %>"}},
 						{name:'serviceCharge',index:'serviceCharge', sorttype:"int",hidden:true,editrules:{required:false, edithidden:true}, sortable:true,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'1manufacturer',index:'manufacturer', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_MANUFACTURER, "_id", "name") %>"}},
-						{name:'1productGroup',index:'productGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'1'}") %>"}},
-						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'2'}") %>"}},
 						
 						{name:'openingStock',width:165, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_opening_stock">Click here</a>';}},
 						{name:'scheme', width:130,editable: false, formatter:function(){ return '<a href="action=manage_scheme">Click here</a>';}},

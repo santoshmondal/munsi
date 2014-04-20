@@ -359,7 +359,7 @@
 
 													<hr />
 													<div class="row-fluid wizard-actions">
-														<h3 class="pull-left" style="margin:0 10px">Total : <span class="red" id="idTotaltext">Rs 450.00 </span></h3>
+														<h3 class="pull-left" style="margin:0 10px">Total : <span class="red" id="idTotaltext">Rs 00.00 </span></h3>
 														<button class="btn btn-sm btn-prev">
 															<i class="icon-arrow-left"></i>
 															Prev

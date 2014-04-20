@@ -40,7 +40,7 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp"> <i
+				<li><a href="#" data-href="/jsp/studio/orderbookall.jsp"> <i
 						class="icon-double-angle-right"></i> All
 				</a></li>
 				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
@@ -98,7 +98,7 @@
 						class="icon-double-angle-right"></i> Report 1
 				</a></li>
 
-				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp">
+				<li><a href="#" data-href="/jsp/studio/invoicedetail.jsp">
 						<i class="icon-double-angle-right"></i> Report 2
 				</a></li>
 			</ul></li>

@@ -14,9 +14,13 @@ public class PhotoDetails implements Serializable {
 	private String size;
 	
 	private String price;
+
+	private String quality;
 	
 	private Integer quantity;
 
+	private String remark;
+	
 	public String getPhotoNumber() {
 		return photoNumber;
 	}
@@ -55,6 +59,22 @@ public class PhotoDetails implements Serializable {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getQuality() {
+		return quality;
+	}
+
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	

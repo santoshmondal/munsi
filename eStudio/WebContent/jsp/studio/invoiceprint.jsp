@@ -1,3 +1,7 @@
+<%@page import="com.estudio.pojo.LaminationDetails"%>
+<%@page import="com.estudio.pojo.FrameDetails"%>
+<%@page import="com.estudio.pojo.PhotoDetails"%>
+<%@page import="com.estudio.pojo.Invoice"%>
 <style>
 <!--
 @media print
@@ -20,7 +24,9 @@ body * { visibility: hidden; }
 
 								<div class="space-6">
 								</div>
-
+								<%
+								 Invoice newInvoice = (Invoice)request.getAttribute("NEW_INVOICE_DETAIL");
+								%>
 								<div class="row">
 									<div class="col-sm-10 col-sm-offset-1">
 										<div class="widget-box transparent invoice-box">
@@ -32,11 +38,11 @@ body * { visibility: hidden; }
 
 												<div class="widget-toolbar no-border invoice-info">
 													<span class="invoice-info-label">Invoice:</span>
-													<span class="red">#121212</span>
+													<span class="red"><%=newInvoice.get_id()%></span>
 
 													<br />
 													<span class="invoice-info-label">Date:</span>
-													<span class="blue">03/03/2013</span>
+													<span class="blue"><%=newInvoice.getInvoiceDate() %></span>
 												</div>
 
 												<div class="widget-toolbar hidden-480">
@@ -97,12 +103,12 @@ body * { visibility: hidden; }
 																<ul class="list-unstyled  spaced">
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Name
+																		Name : <%=newInvoice.getCustomer().getName() %>
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Mobile
+																		Mobile : <%=newInvoice.getCustomer().get_id() %>
 																	</li>
 																</ul>
 															</div>
@@ -134,19 +140,27 @@ body * { visibility: hidden; }
 															</thead>
 
 															<tbody>
+															<%
+																PhotoDetails phDt = newInvoice.getPhotoDetails();
+																if(phDt != null){
+															%>
 																<tr>
 																	<td class="center">1</td>
 
 																	<td>
-																		CloseUp Photo
+																		Photo
 																	</td>
 																	<td class="hidden-xs">
-																		5 year domain registration
+																		Photo Source <%=phDt.getPhotoSource() %> and  Quality is <%=phDt.getQuality() %> 
 																	</td>
-																	<td class="hidden-480"> 50 </td>
-																	<td>150.00</td>
+																	<td class="hidden-480"> <%=phDt.getQuantity() %> </td>
+																	<td><%=phDt.getPrice() %> </td>
 																</tr>
-
+															<%
+																}
+																FrameDetails frDt = newInvoice.getFrameDetails();
+																if(frDt != null){
+															%>
 																<tr>
 																	<td class="center">2</td>
 
@@ -154,21 +168,26 @@ body * { visibility: hidden; }
 																		Photo Frame
 																	</td>
 																	<td class="hidden-xs">
-																		5 year domain registration
+																		Quality is <%=frDt.getQuality() %>
 																	</td>
-																	<td class="hidden-480"> 2</td>
-																	<td>200.00</td>
+																	<td class="hidden-480"> <%=frDt.getQuantity() %> </td>
+																	<td><%=frDt.getPrice() %> </td>
 																</tr>
-
+															<%
+																}
+																LaminationDetails lamDt = newInvoice.getLaminationDetails();
+																if(lamDt != null){
+															%>
 																<tr>
 																	<td class="center">3</td>
 																	<td>Lamination</td>
 																	<td class="hidden-xs">
-																		1 year basic hosting
+																		Quality is <%=lamDt.getQuality() %>
 																	</td>
-																	<td class="hidden-480"> 10 </td>
-																	<td>100.00</td>
+																	<td class="hidden-480"> <%=lamDt.getQuantity() %></td>
+																	<td><%=lamDt.getPrice() %></td>
 																</tr>
+																<%} %>
 															</tbody>
 														</table>
 													</div>
@@ -186,7 +205,7 @@ body * { visibility: hidden; }
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Total amount :
-																<span class="green">Rs 450.00</span>
+																<span class="green">Rs <%=newInvoice.getTotalAmount() %></span>
 															</h4>
 														</div>
 														
@@ -203,7 +222,7 @@ body * { visibility: hidden; }
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Balance amount :
-																<span class="red">Rs 450.00</span>
+																<span class="red">Rs <%=newInvoice.getTotalAmount() %></span>
 															</h4>
 														</div>
 													</div>

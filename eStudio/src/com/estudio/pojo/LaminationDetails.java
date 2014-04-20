@@ -15,6 +15,8 @@ public class LaminationDetails implements Serializable {
 
 	private Integer quantity;
 
+	private String remark;
+	
 	public String getSize() {
 		return size;
 	}
@@ -45,6 +47,14 @@ public class LaminationDetails implements Serializable {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	

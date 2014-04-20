@@ -153,12 +153,23 @@
 																	</div>
 																</div>
 																<div class="form-group">
+																	<label for="idPhotoSource" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Source</label>
+
+																	<div class="col-xs-12 col-sm-5">
+																		<select id="idPhotoSource" name="fPhotoSource" class="select2 width-100" data-placeholder="Click to Choose...">
+																			<option value="studio">Studio</option>
+																			<option value="mediaprint">Media Print</option>
+																			<option value="scanprint">Scan Print</option>
+																			<option value="reprint">Re-Print</option>
+																		</select>
+																	</div>
+																</div>
+																<div class="form-group">
 																	<label for="idNoPhoto" class="col-xs-12 col-sm-3 control-label no-padding-right">Number of copies</label>
 
 																	<div class="col-xs-12 col-sm-5">
 																		<span class="block input-icon input-icon-right">
 																			<input type="text" id="idNoPhoto" name="fNoPhoto" class="width-100 spinner" />
-																			
 																		</span>
 																	</div>
 																</div>
@@ -194,7 +205,15 @@
 																		</div>
 																	</div>
 																</div>
-																<h4 class="col-lg-12">Photo cost : <span class="red">Rs 150.00 </span></h4>
+																<div class="form-group">
+																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idPhotoCost"><h4>Photo cost (Rs)</h4></label>
+																	<div class="col-xs-12 col-sm-5">
+																		<span class="block input-icon input-icon-right red">
+																			<input type="text" id="idPhotoCost" name="fPhotoCost" class="width-100 spinner red" style="font-size: large; " />
+																		</span>
+																	</div>
+																</div>
+																
 															</form>
 															</div>
 															
@@ -243,7 +262,14 @@
 																			</div>
 																		</div>
 																	</div>
-																	<h4 class="col-lg-12">Frame cost : <span class="red">Rs 150.00 </span></h4>
+																	<div class="form-group">
+																		<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idFrameCost"><h4>Frame cost (Rs)</h4></label>
+																		<div class="col-xs-12 col-sm-5">
+																			<span class="block input-icon input-icon-right red">
+																				<input type="text" id="idFrameCost" name="fFrameCost" class="width-100 spinner red" style="font-size: large; " />
+																			</span>
+																		</div>
+																	</div>
 																</form>
 															</div>
 															
@@ -294,7 +320,14 @@
 																			</div>
 																		</div>
 																	</div>
-																	<h4 class="col-lg-12">Lamination cost : <span class="red">Rs 150.00 </span></h4>
+																	<div class="form-group">
+																		<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idLamCost"><h4>Lamination cost (Rs)</h4></label>
+																		<div class="col-xs-12 col-sm-5">
+																			<span class="block input-icon input-icon-right red">
+																				<input type="text" id="idLamCost" name="fLamCost" class="width-100 spinner red" style="font-size: large; " />
+																			</span>
+																		</div>
+																	</div>
 																</form>
 															</div>
 															<div class="row-fluid col-lg-5 col-md-4 col-sm-4 hidden-xs">
@@ -307,7 +340,7 @@
 														<div class="step-pane" id="step5">
 															<div class="center">
 																<h3 class="green">Congrats!</h3>
-																Your product is ready to ship! Click finish to continue!
+																Your invoice is ready to print! Click generate to continue!
 																<!-- <form class="form-horizontal" id="formFinal">
 																	<div class="form-group">
 																		<label for="idUrgent" class="col-xs-6 col-sm-6 control-label no-padding-right">Urgent Photo</label>
@@ -368,9 +401,11 @@
 						}
 					}
 				}); */
+				var frm = $(document.forms);
+				//console.log(JSON.stringify(frm.serialize()));
 				var hrefEle  = "/jsp/studio/invoiceprint.jsp";
-				var URL = "embedpage.action";
-				var DATA = {reqPage:hrefEle};
+				var URL = "invoiceaction.do?op=ADD&"+frm.serialize();
+				var DATA = {};
 				var embedInElement = "id_EmbedPage";
 				async.munsi.ajaxCall(URL,DATA,embedInElement);
 

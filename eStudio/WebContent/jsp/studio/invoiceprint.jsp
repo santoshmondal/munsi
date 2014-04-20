@@ -41,7 +41,7 @@ body * { visibility: hidden; }
 
 												<div class="widget-toolbar hidden-480">
 													
-													<a href="#">
+													<a href="#" id="idSaveInvoice">
 														<i class="icon-save red"></i>
 													</a>
 													<a href="#">
@@ -229,5 +229,27 @@ body * { visibility: hidden; }
 			$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
 				$(this).prev().focus();
 			});
+			
+			
+			$("#idSaveInvoice").click(function(e) {
+                
+				var frm = $(document.forms);
+				//console.log(JSON.stringify(frm.serialize()));
+				var URL = "invoiceaction.do?op=save&"+frm.serialize();
+				var DATA = {};
+				var embedInElement = "";
+				async.munsi.ajaxCall(URL,DATA,embedInElement);
+
+				
+				var hash=e.currentTarget.hash;// string like "#?id=0"
+                if (hash.substring(0,5) === '#?id=') {
+                    var id = hash.substring(5,hash.length);
+                    if(hash.indexOf('action=manage_beat') > -1){
+                    	showBeatDialog(id);
+                    }
+                }
+                e.preventDefault();
+            });
+
 	});
 	</script>

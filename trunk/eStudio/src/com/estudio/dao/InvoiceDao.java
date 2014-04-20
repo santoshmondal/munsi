@@ -6,7 +6,7 @@ import com.estudio.pojo.Invoice;
 
 public interface InvoiceDao {
 
-	public Boolean create(Invoice invoice);
+	public Invoice create(Invoice invoice);
 
 	public Boolean update(Invoice invoice);
 

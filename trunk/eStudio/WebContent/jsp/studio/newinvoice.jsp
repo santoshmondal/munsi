@@ -328,11 +328,11 @@
 																			</span>
 																		</div>
 																	</div>
+																	<input type="hidden" name="fTotalAmount" id="idTotalAmount"> 
 																</form>
 															</div>
 															<div class="row-fluid col-lg-5 col-md-4 col-sm-4 hidden-xs">
 																<img src="${pageContext.request.contextPath}/assets/images/Picture3.png" class="img-responsive" alt="Responsive image">
-																	
 															</div>
 															
 														</div>
@@ -359,7 +359,7 @@
 
 													<hr />
 													<div class="row-fluid wizard-actions">
-														<h3 class="pull-left" style="margin:0 10px">Total : <span class="red">Rs 450.00 </span></h3>
+														<h3 class="pull-left" style="margin:0 10px">Total : <span class="red" id="idTotaltext">Rs 450.00 </span></h3>
 														<button class="btn btn-sm btn-prev">
 															<i class="icon-arrow-left"></i>
 															Prev
@@ -532,5 +532,12 @@
 			$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
 				$(this).prev().focus();
 			});
+			
+			$("#idPhotoCost,#idLamCost,#idFrameCost").on('change keyup paste', function() {
+				var toAm = $("#idTotalAmount").val();
+			 	$("#idTotalAmount").val(Number($("#idPhotoCost").val()) + Number($("#idLamCost").val()) + Number($("#idFrameCost").val()));
+			 	$("#idTotaltext").html("Rs "+$("#idTotalAmount").val());
+			});
+			
 	});
 	</script>

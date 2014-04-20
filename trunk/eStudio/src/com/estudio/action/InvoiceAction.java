@@ -87,7 +87,7 @@ public class InvoiceAction extends HttpServlet {
 			switch (opEnum) {
 			case ADD:
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-				
+				invoice.setTotalAmount(Float.parseFloat(request.getParameter("fTotalAmount")));
 				Customer customer = new Customer();
 					customer.set_id(request.getParameter("fMobile"));
 					customer.setName(request.getParameter("fName"));
@@ -98,9 +98,9 @@ public class InvoiceAction extends HttpServlet {
 				invoice.setCustomer(customer);
 				
 				PhotoDetails photoDetails = new PhotoDetails();
-					photoDetails.setPhotoNumber(request.getParameter("fNoPhoto"));
-					//photoDetails.setQuantity(Integer.parseInt(request.getParameter("fQuality")));
-					//photoDetails.setQuantity(quantity);
+					//photoDetails.setPhotoNumber(request.getParameter("fNoPhoto"));
+					photoDetails.setQuantity(Integer.parseInt(request.getParameter("fNoPhoto")));
+					photoDetails.setQuality(request.getParameter("fQuality"));
 					photoDetails.setSize(request.getParameter("fSize"));
 					photoDetails.setPhotoSource(request.getParameter("fPhotoSource"));
 					photoDetails.setPrice(request.getParameter("fPhotoCost"));
@@ -118,12 +118,14 @@ public class InvoiceAction extends HttpServlet {
 					laminationDetails.setPrice(request.getParameter("fLamCost"));
 				invoice.setLaminationDetails(laminationDetails);
 				
-				invoiceService.create(invoice);
+				//TODO check for the valid insert
+				Invoice newInvoice = invoiceService.create(invoice);
+				if (newInvoice != null){
+					request.setAttribute("NEW_INVOICE_DETAIL", newInvoice);
+					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
+					rd.forward(request, response);
+				}
 				
-				
-				RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
-				// RequestDispatcher rd = request.getRequestDispatcher("/jsp/studio/invoiceprint.jsp");
-				rd.forward(request, response);
 				break;
 			/*case EDIT :
 					if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {

@@ -31,7 +31,8 @@ public class MongoInvoiceDao implements InvoiceDao{
 	private final DB mongoDB = MongoUtil.getDB();
 
 	@Override
-	public Boolean create(Invoice invoice) {
+	public Invoice create(Invoice invoice) {
+		Invoice toReturn = null;
 		try {
 			Date date = new Date();
 			invoice.setCtime(date);
@@ -47,11 +48,13 @@ public class MongoInvoiceDao implements InvoiceDao{
 			DBRef custRef = new DBRef(mongoDB, collCustomer, invoice.getCustomer().get_id());
 			dbObject.put(KEY_CUSTOMER_XID, custRef);
 			collection.insert(dbObject);
+			
+			toReturn = get(_id + "");
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
-		return false;
+		return toReturn;
 	}
 
 	@Override

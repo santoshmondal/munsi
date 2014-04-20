@@ -22,6 +22,8 @@ public class FrameDetails implements Serializable {
 	
 	private Integer quantity;
 
+	private String remark;
+	
 	public String getFrameNumber() {
 		return frameNumber;
 	}
@@ -76,6 +78,14 @@ public class FrameDetails implements Serializable {
 
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 	

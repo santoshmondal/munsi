@@ -15,7 +15,7 @@ public class InvoiceService {
 		invoiceDao = (InvoiceDao) ObjectFactory.getInstance(ObjectEnum.INVOICE_DAO);
 	}
 	
-	public Boolean create(Invoice invoice){
+	public Invoice create(Invoice invoice){
 		return invoiceDao.create(invoice);
 	}
 	

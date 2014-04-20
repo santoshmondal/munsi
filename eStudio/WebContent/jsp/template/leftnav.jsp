@@ -43,10 +43,10 @@
 				<li><a href="#" data-href="/jsp/studio/orderbookall.jsp"> <i
 						class="icon-double-angle-right"></i> All
 				</a></li>
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+				<li><a href="#" data-href="/jsp/studio/delivered.jsp">
 						<i class="icon-double-angle-right"></i> Delivered
 				</a></li>
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+				<li><a href="#" data-href="/jsp/studio/senttoprint.jsp">
 						<i class="icon-double-angle-right"></i> Sent to Print
 				</a></li>
 				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">

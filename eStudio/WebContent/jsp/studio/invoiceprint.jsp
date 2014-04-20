@@ -42,7 +42,7 @@ body * { visibility: hidden; }
 
 													<br />
 													<span class="invoice-info-label">Date:</span>
-													<span class="blue"><%=newInvoice.getInvoiceDate() %></span>
+													<span class="blue"><%=newInvoice.getCtime() %></span>
 												</div>
 
 												<div class="widget-toolbar hidden-480">
@@ -50,12 +50,12 @@ body * { visibility: hidden; }
 													<a href="#" id="idSaveInvoice">
 														<i class="icon-save red"></i>
 													</a>
-													<a href="#">
+													<a href="#" onclick="javascript:window.print()">
 														<i class="icon-print"></i>
 													</a>
 												</div>
 											</div>
-
+											<form>
 											<div class="widget-body">
 												<div class="widget-main padding-24">
 													<div class="row">
@@ -103,12 +103,12 @@ body * { visibility: hidden; }
 																<ul class="list-unstyled  spaced">
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Name : <%=newInvoice.getCustomer().getName() %>
+																		Name : Tom Smith <% // newInvoice.getCustomer().getName() %>
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Mobile : <%=newInvoice.getCustomer().get_id() %>
+																		Mobile : 5542015213 <% // newInvoice.getCustomer().get_id() %>
 																	</li>
 																</ul>
 															</div>
@@ -198,14 +198,14 @@ body * { visibility: hidden; }
 														<div class="col-sm-7 pull-left">
 															
 																Extra information :
-																<span>Urgent photo copy</span>
+																<!-- <span>Urgent photo copy</span> -->
 															
 														</div>
 														
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Total amount :
-																<span class="green">Rs <%=newInvoice.getTotalAmount() %></span>
+																<span class="green">Rs <span id="idTotAmt"><%=newInvoice.getTotalAmount() %></span></span>
 															</h4>
 														</div>
 														
@@ -222,7 +222,7 @@ body * { visibility: hidden; }
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Balance amount :
-																<span class="red">Rs <%=newInvoice.getTotalAmount() %></span>
+																<span class="red" id="idBalText">Rs <%=newInvoice.getTotalAmount() %></span>
 															</h4>
 														</div>
 													</div>
@@ -232,6 +232,7 @@ body * { visibility: hidden; }
 													</div>
 												</div>
 											</div>
+											</form>
 										</div>
 									</div>
 								</div>
@@ -269,6 +270,12 @@ body * { visibility: hidden; }
                 }
                 e.preventDefault();
             });
-
+			
+			$("#idAdvPaid").on('change keyup paste', function() {
+				//var toAm = $("#idTotalAmount").val();
+			 	//$("#idTotalAmount").val(Number($("#idPhotoCost").val()) + Number($("#idLamCost").val()) + Number($("#idFrameCost").val()));
+			 	$("#idBalText").html("Rs "+(Number($("#idTotAmt").html()) - Number($("#idAdvPaid").val())));
+			});
+			
 	});
 	</script>

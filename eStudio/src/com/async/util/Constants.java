@@ -49,4 +49,10 @@ public class Constants {
 	}
 	
 	
+	public enum ServiceEnum {
+		// @formatter:off
+		PHOTO_DETAILS, FRAME_DETAILS, LAMINATION_DETAILS 
+		// @formatter:on
+	}
+	
 }

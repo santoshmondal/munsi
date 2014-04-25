@@ -139,81 +139,104 @@
 														</div>
 														
 														<div class="step-pane" id="step2">
-															<h3 class="lighter block green">Enter photo detail</h3>
 															<div  class="row-fluid col-lg-7 col-md-8 col-sm-8 col-xs-12">
 															<form class="form-horizontal" id="formPhoto">
-																<div class="form-group">
-																	<label for="idUrgent" class="col-xs-12 col-sm-3 control-label no-padding-right">Urgent Photo</label>
-
-																	<div class="col-xs-12 col-sm-5">
-																		<span class="block" >
-																			<input class="ace ace-switch ace-switch-5" type="checkbox" name="fUrgent" />
-																			<span class="lbl"></span>
-																		</span>
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label for="idPhotoSource" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Source</label>
-
-																	<div class="col-xs-12 col-sm-5">
-																		<select id="idPhotoSource" name="fPhotoSource" class="select2 width-100" data-placeholder="Click to Choose...">
-																			<option value="studio">Studio</option>
-																			<option value="mediaprint">Media Print</option>
-																			<option value="scanprint">Scan Print</option>
-																			<option value="reprint">Re-Print</option>
-																		</select>
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label for="idNoPhoto" class="col-xs-12 col-sm-3 control-label no-padding-right">Number of copies</label>
-
-																	<div class="col-xs-12 col-sm-5">
-																		<span class="block input-icon input-icon-right">
-																			<input type="text" id="idNoPhoto" name="fNoPhoto" class="width-100 spinner" />
-																		</span>
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idSize">Photo Size</label>
-
-																	<div class="col-xs-12 col-sm-5">
-																		<select id="idSize" name="fSize" class="select2 width-100" data-placeholder="Click to Choose...">
-																			<option value="">&nbsp;</option>
-																			<option value="4x6">4x6</option>
-																			<option value="8x12">8x12</option>
-																			<option value="Landsacpe">Landscape</option>
-																		</select>
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idQuality">Photo Quality</label>
-
-																	<div class="col-xs-12 col-sm-5">
-																		<select id="idQuality" name="fQuality" class="select2 width-100" data-placeholder="Click to Choose...">
-																			<option value="">&nbsp;</option>
-																			<option value="4x6">4x6</option>
-																			<option value="8x12">8x12</option>
-																			<option value="Landsacpe">Landscape</option>
-																		</select>
-																	</div>
-																</div>
-																<div class="form-group">
-																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idRemark">Remark</label>
-																	<div class="col-xs-12 col-sm-5">
-																		<div class="clearfix">
-																			<textarea class="input-xlarge" cols="50" name="fRemark" id="idRemark"></textarea>
+																<div class="tabbable">
+																	<ul class="nav nav-tabs" id="myPhotoTab">
+																		<li id='myPhotoTabLi' class="active">
+																			<a data-toggle="tab" href="#photo1">
+																				Photo 1
+																			</a>
+																		</li>
+																		<a id="idAddPhoto" class="btn btn-sm btn-primary"><span class="icon-plus"></span></a>
+																	</ul>
+																	
+																	<div class="tab-content">
+																		<div id="photo1" class="tab-pane in active">
+																			<div>
+																				<div class="form-group">
+																					<label for="idUrgent" class="col-xs-12 col-sm-3 control-label no-padding-right">Urgent Photo</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block" >
+																							<input class="ace ace-switch ace-switch-5" type="checkbox" name="fUrgent" />
+																							<span class="lbl"></span>
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idPhotoNumber" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Number</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<input id="idPhotoNumber" class="width-100" type="text" name="fPhotoNumber" />
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idPhotoSource" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Source</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<select id="idPhotoSource" name="fPhotoSource" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<option value="studio">Studio</option>
+																							<option value="mediaprint">Media Print</option>
+																							<option value="scanprint">Scan Print</option>
+																							<option value="reprint">Re-Print</option>
+																						</select>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idNoPhoto" class="col-xs-12 col-sm-3 control-label no-padding-right">Number of copies</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right">
+																							<input type="text" id="idNoPhoto" name="fNoPhoto" class="width-100 spinner" />
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idSize">Photo Size</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<select id="idSize" name="fSize" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<option value="">&nbsp;</option>
+																							<option value="4x6">4x6</option>
+																							<option value="8x12">8x12</option>
+																							<option value="Landsacpe">Landscape</option>
+																						</select>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idQuality">Photo Quality</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<select id="idQuality" name="fQuality" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<option value="">&nbsp;</option>
+																							<option value="4x6">4x6</option>
+																							<option value="8x12">8x12</option>
+																							<option value="Landsacpe">Landscape</option>
+																						</select>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idRemark">Remark</label>
+																					<div class="col-xs-12 col-sm-5">
+																						<div class="clearfix">
+																							<textarea class="input-xlarge" cols="50" name="fRemark" id="idRemark"></textarea>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idPhotoCost"><h4>Photo cost (Rs)</h4></label>
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right red">
+																							<input type="text" id="idPhotoCost" name="fPhotoCost" class="width-100 spinner red costfield" style="font-size: large; " />
+																						</span>
+																					</div>
+																				</div>
+																			  </div>
 																		</div>
 																	</div>
 																</div>
-																<div class="form-group">
-																	<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idPhotoCost"><h4>Photo cost (Rs)</h4></label>
-																	<div class="col-xs-12 col-sm-5">
-																		<span class="block input-icon input-icon-right red">
-																			<input type="text" id="idPhotoCost" name="fPhotoCost" class="width-100 spinner red" style="font-size: large; " />
-																		</span>
-																	</div>
-																</div>
-																
+															
 															</form>
 															</div>
 															
@@ -266,7 +289,7 @@
 																		<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idFrameCost"><h4>Frame cost (Rs)</h4></label>
 																		<div class="col-xs-12 col-sm-5">
 																			<span class="block input-icon input-icon-right red">
-																				<input type="text" id="idFrameCost" name="fFrameCost" class="width-100 spinner red" style="font-size: large; " />
+																				<input type="text" id="idFrameCost" name="fFrameCost" class="costfield width-100 spinner red" style="font-size: large; " />
 																			</span>
 																		</div>
 																	</div>
@@ -324,7 +347,7 @@
 																		<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idLamCost"><h4>Lamination cost (Rs)</h4></label>
 																		<div class="col-xs-12 col-sm-5">
 																			<span class="block input-icon input-icon-right red">
-																				<input type="text" id="idLamCost" name="fLamCost" class="width-100 spinner red" style="font-size: large; " />
+																				<input type="text" id="idLamCost" name="fLamCost" class="costfield width-100 spinner red" style="font-size: large; " />
 																			</span>
 																		</div>
 																	</div>
@@ -379,13 +402,6 @@
 
 	<script type="text/javascript">
 	jQuery(function($) {
-			$('[data-rel=tooltip]').tooltip();
-			
-			$(".select2").css('width','200px').select2({allowClear:true})
-			.on('change', function(){
-				$(this).closest('form').validate().element($(this));
-			}); 
-		
 			var $validation = false;
 			$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
 				if(info.step == 1 && $validation) {
@@ -408,136 +424,188 @@
 				var DATA = {};
 				var embedInElement = "id_EmbedPage";
 				async.munsi.ajaxCall(URL,DATA,embedInElement);
-
+	
 			}).on('stepclick', function(e){
 				//return false;//prevent clicking on steps
 			});
 			
+			function callAllFunctions(){
+				$('[data-rel=tooltip]').tooltip();
+				
+				$("select.select2").css('width','200px').select2({allowClear:true})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				}); 
 			
-			//documentation : http://docs.jquery.com/Plugins/Validation/validate
+				
+				
+				
+				//documentation : http://docs.jquery.com/Plugins/Validation/validate
+				
+				
+				$.mask.definitions['~']='[+-]';
+				$('#phone').mask('(999) 999-9999');
 			
+				jQuery.validator.addMethod("phone", function (value, element) {
+					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
+				}, "Enter a valid phone number.");
 			
-			$.mask.definitions['~']='[+-]';
-			$('#phone').mask('(999) 999-9999');
-		
-			jQuery.validator.addMethod("phone", function (value, element) {
-				return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
-			}, "Enter a valid phone number.");
-		
-			$('#validation-form').validate({
-				errorElement: 'div',
-				errorClass: 'help-block',
-				focusInvalid: false,
-				rules: {
-					email: {
-						required: true,
-						email:true
+				$('#validation-form').validate({
+					errorElement: 'div',
+					errorClass: 'help-block',
+					focusInvalid: false,
+					rules: {
+						email: {
+							required: true,
+							email:true
+						},
+						password: {
+							required: true,
+							minlength: 5
+						},
+						password2: {
+							required: true,
+							minlength: 5,
+							equalTo: "#password"
+						},
+						name: {
+							required: true
+						},
+						phone: {
+							required: true,
+							phone: 'required'
+						},
+						url: {
+							required: true,
+							url: true
+						},
+						comment: {
+							required: true
+						},
+						state: {
+							required: true
+						},
+						platform: {
+							required: true
+						},
+						subscription: {
+							required: true
+						},
+						gender: 'required',
+						agree: 'required'
 					},
-					password: {
-						required: true,
-						minlength: 5
+			
+					messages: {
+						email: {
+							required: "Please provide a valid email.",
+							email: "Please provide a valid email."
+						},
+						password: {
+							required: "Please specify a password.",
+							minlength: "Please specify a secure password."
+						},
+						subscription: "Please choose at least one option",
+						gender: "Please choose gender",
+						agree: "Please accept our policy"
 					},
-					password2: {
-						required: true,
-						minlength: 5,
-						equalTo: "#password"
+			
+					invalidHandler: function (event, validator) { //display error alert on form submit   
+						$('.alert-danger', $('.login-form')).show();
 					},
-					name: {
-						required: true
+			
+					highlight: function (e) {
+						$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
 					},
-					phone: {
-						required: true,
-						phone: 'required'
+			
+					success: function (e) {
+						$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
+						$(e).remove();
 					},
-					url: {
-						required: true,
-						url: true
+			
+					errorPlacement: function (error, element) {
+						if(element.is(':checkbox') || element.is(':radio')) {
+							var controls = element.closest('div[class*="col-"]');
+							if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
+							else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+						}
+						else if(element.is('.select2')) {
+							error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+						}
+						else if(element.is('.chosen-select')) {
+							error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
+						}
+						else error.insertAfter(element.parent());
 					},
-					comment: {
-						required: true
+			
+					submitHandler: function (form) {
 					},
-					state: {
-						required: true
-					},
-					platform: {
-						required: true
-					},
-					subscription: {
-						required: true
-					},
-					gender: 'required',
-					agree: 'required'
-				},
-		
-				messages: {
-					email: {
-						required: "Please provide a valid email.",
-						email: "Please provide a valid email."
-					},
-					password: {
-						required: "Please specify a password.",
-						minlength: "Please specify a secure password."
-					},
-					subscription: "Please choose at least one option",
-					gender: "Please choose gender",
-					agree: "Please accept our policy"
-				},
-		
-				invalidHandler: function (event, validator) { //display error alert on form submit   
-					$('.alert-danger', $('.login-form')).show();
-				},
-		
-				highlight: function (e) {
-					$(e).closest('.form-group').removeClass('has-info').addClass('has-error');
-				},
-		
-				success: function (e) {
-					$(e).closest('.form-group').removeClass('has-error').addClass('has-info');
-					$(e).remove();
-				},
-		
-				errorPlacement: function (error, element) {
-					if(element.is(':checkbox') || element.is(':radio')) {
-						var controls = element.closest('div[class*="col-"]');
-						if(controls.find(':checkbox,:radio').length > 1) controls.append(error);
-						else error.insertAfter(element.nextAll('.lbl:eq(0)').eq(0));
+					invalidHandler: function (form) {
 					}
-					else if(element.is('.select2')) {
-						error.insertAfter(element.siblings('[class*="select2-container"]:eq(0)'));
+				});
+				
+				//spinner
+				var spinner = $( ".spinner" ).spinner({
+					create: function( event, ui ) {
+						//add custom classes and icons
+						$(this)
+						.next().addClass('btn btn-success').html('<i class="icon-plus"></i>')
+						.next().addClass('btn btn-danger').html('<i class="icon-minus"></i>')
+						
+						//larger buttons on touch devices
+						if(ace.click_event == "tap") $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
 					}
-					else if(element.is('.chosen-select')) {
-						error.insertAfter(element.siblings('[class*="chosen-container"]:eq(0)'));
-					}
-					else error.insertAfter(element.parent());
-				},
-		
-				submitHandler: function (form) {
-				},
-				invalidHandler: function (form) {
-				}
-			});
+				});
+				$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
+					$(this).prev().focus();
+				});
+				
+				$(".costfield").on('change keyup paste', function() {
+					var toAm = 0;
+					$(".costfield").each(function(){
+						toAm = toAm + Number($(this).val());
+					});
+					//var toAm = $("#idTotalAmount").val();
+				 	$("#idTotalAmount").val(toAm);
+				 	$("#idTotaltext").html("Rs "+$("#idTotalAmount").val());
+				});
+				$(".closeLI").on('click',function(){
+					   var closeLi = $(this).closest('li');
+					   var idLi = closeLi.attr('id');
+					   var numb = idLi.replace("idli","");
+					   var closeContent = $("#photo"+numb);
+					   closeLi.remove();
+					   closeContent.remove();
+					   $("#myPhotoTab li:last-child a").click();
+				});
+			}
+			var c = 1;
+			var cloned;
+			var clonedHeader;
 			
-			//spinner
-			var spinner = $( ".spinner" ).spinner({
-				create: function( event, ui ) {
-					//add custom classes and icons
-					$(this)
-					.next().addClass('btn btn-success').html('<i class="icon-plus"></i>')
-					.next().addClass('btn btn-danger').html('<i class="icon-minus"></i>')
-					
-					//larger buttons on touch devices
-					if(ace.click_event == "tap") $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
-				}
+			$("#idAddPhoto").on('click',function(){
+			   cloned = $('#photo1');
+			   clonedHeader = $("#myPhotoTabLi");
+			   $( ".spinner" ).spinner( "destroy" );
+			   $("#myPhotoTabLi").clone().removeClass('active').attr('id','idli'+(c+1)).insertBefore("#idAddPhoto").find('a').attr({'href':'#photo'+(c+1)}).html('Photo '+ (c+1) + ' <a class="badge badge-grey closeLI" id="idClose'+(c+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
+			   $("#photo1").clone().attr('id', 'photo'+(++c) ).insertAfter( cloned );
+
+			   $("#idli"+(c)+ " a").click();
+			   $("#photo"+c).find("[id*=s2id_]").remove();
+			   $("#photo"+c).find("[id]").each(function() {
+				   var eleID = $( this ).attr('id');
+				   var eleName = $( this ).attr('name');
+				   $( this ).attr({'id':eleID+c,'name':eleName+c});
+			   });
+			   clearForm($("#photo"+c));
+			   callAllFunctions();
 			});
-			$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
-				$(this).prev().focus();
-			});
+
+			function clearForm(pElement)
+			{
+				pElement.find(':input').not(':button, :submit, :reset, :hidden, :checkbox, :radio').val('');
+				pElement.find(':checkbox, :radio').prop('checked', false);
+			}
 			
-			$("#idPhotoCost,#idLamCost,#idFrameCost").on('change keyup paste', function() {
-				var toAm = $("#idTotalAmount").val();
-			 	$("#idTotalAmount").val(Number($("#idPhotoCost").val()) + Number($("#idLamCost").val()) + Number($("#idFrameCost").val()));
-			 	$("#idTotaltext").html("Rs "+$("#idTotalAmount").val());
-			});
-			
+			callAllFunctions();
 	});
 	</script>

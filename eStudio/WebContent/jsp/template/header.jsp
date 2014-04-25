@@ -4,7 +4,7 @@
 <head lang="en">
 
 	<meta charset="utf-8" />
-	<title>Insert title here</title>
+	<title>E-Studio</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="overview &amp; stats" />

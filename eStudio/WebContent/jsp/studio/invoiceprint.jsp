@@ -170,7 +170,7 @@ body * { visibility: hidden; }
 																	<td class="hidden-xs">
 																		Quality is <%=frDt.getQuality() %>
 																	</td>
-																	<td class="hidden-480"> <%=frDt.getQuantity() %> </td>
+																	<td class="hidden-480"> 1 <% //frDt.getQuantity() %> </td>
 																	<td><%=frDt.getPrice() %> </td>
 																</tr>
 															<%
@@ -184,7 +184,7 @@ body * { visibility: hidden; }
 																	<td class="hidden-xs">
 																		Quality is <%=lamDt.getQuality() %>
 																	</td>
-																	<td class="hidden-480"> <%=lamDt.getQuantity() %></td>
+																	<td class="hidden-480"> 1 <% //lamDt.getQuantity() %></td>
 																	<td><%=lamDt.getPrice() %></td>
 																</tr>
 																<%} %>

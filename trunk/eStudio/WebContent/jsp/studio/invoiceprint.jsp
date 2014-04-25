@@ -1,3 +1,4 @@
+<%@page import="java.util.List"%>
 <%@page import="com.estudio.pojo.LaminationDetails"%>
 <%@page import="com.estudio.pojo.FrameDetails"%>
 <%@page import="com.estudio.pojo.PhotoDetails"%>
@@ -141,8 +142,8 @@ body * { visibility: hidden; }
 
 															<tbody>
 															<%
-																PhotoDetails phDt = newInvoice.getPhotoDetails();
-																if(phDt != null){
+																List<PhotoDetails> phDt = newInvoice.getPhotoDetailsList();
+																if(phDt != null && phDt.size()>0 ){
 															%>
 																<tr>
 																	<td class="center">1</td>
@@ -151,15 +152,15 @@ body * { visibility: hidden; }
 																		Photo
 																	</td>
 																	<td class="hidden-xs">
-																		Photo Source <%=phDt.getPhotoSource() %> and  Quality is <%=phDt.getQuality() %> 
+																		Photo Source <%=phDt.get(0).getPhotoSource() %> and  Quality is <%=phDt.get(0).getQuality() %> 
 																	</td>
-																	<td class="hidden-480"> <%=phDt.getQuantity() %> </td>
-																	<td><%=phDt.getPrice() %> </td>
+																	<td class="hidden-480"> <%=phDt.get(0).getQuantity() %> </td>
+																	<td><%=phDt.get(0).getPrice() %> </td>
 																</tr>
 															<%
 																}
-																FrameDetails frDt = newInvoice.getFrameDetails();
-																if(frDt != null){
+																List<FrameDetails> frDt = newInvoice.getFrameDetailsList();
+																if(frDt != null && frDt.size()>0 ){
 															%>
 																<tr>
 																	<td class="center">2</td>
@@ -168,24 +169,24 @@ body * { visibility: hidden; }
 																		Photo Frame
 																	</td>
 																	<td class="hidden-xs">
-																		Quality is <%=frDt.getQuality() %>
+																		Quality is <%=frDt.get(0).getQuality() %>
 																	</td>
 																	<td class="hidden-480"> 1 <% //frDt.getQuantity() %> </td>
-																	<td><%=frDt.getPrice() %> </td>
+																	<td><%=frDt.get(0).getPrice() %> </td>
 																</tr>
 															<%
 																}
-																LaminationDetails lamDt = newInvoice.getLaminationDetails();
-																if(lamDt != null){
+																List<LaminationDetails> lamDt = newInvoice.getLaminationDetailsList();
+																if(lamDt != null && lamDt.size()>0 ){
 															%>
 																<tr>
 																	<td class="center">3</td>
 																	<td>Lamination</td>
 																	<td class="hidden-xs">
-																		Quality is <%=lamDt.getQuality() %>
+																		Quality is <%=lamDt.get(0).getQuality() %>
 																	</td>
 																	<td class="hidden-480"> 1 <% //lamDt.getQuantity() %></td>
-																	<td><%=lamDt.getPrice() %></td>
+																	<td><%=lamDt.get(0).getPrice() %></td>
 																</tr>
 																<%} %>
 															</tbody>

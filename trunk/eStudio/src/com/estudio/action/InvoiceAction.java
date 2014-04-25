@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.async.util.CommonUtil;
 import com.async.util.Constants;
+import com.async.util.Constants.ServiceEnum;
 import com.async.util.Constants.UIOperations;
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
@@ -35,19 +38,20 @@ public class InvoiceAction extends HttpServlet {
 	private static final Logger LOG = Logger.getLogger(InvoiceAction.class);
 	private static final long serialVersionUID = 1L;
 	private InvoiceService invoiceService;
-	
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		Object object = ObjectFactory.getInstance(ObjectEnum.INVOICE_SERVICE);
 		if (object instanceof InvoiceService) {
-			invoiceService= (InvoiceService) object;
+			invoiceService = (InvoiceService) object;
 		}
-		
+
 	}
-	
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcessWithException(request, response);
@@ -55,77 +59,66 @@ public class InvoiceAction extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcessWithException(request, response);
 	}
 
-	private void doProcessWithException(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-		try{
+	private void doProcessWithException(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
 			doProcess(request, response);
-		} catch(RuntimeException me) {
+		} catch (RuntimeException me) {
 			LOG.error(me);
-		} catch(Exception e){
+		} catch (Exception e) {
 			LOG.error(e);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 
 		PrintWriter out = response.getWriter();
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
-		
-		if(operation != null && invoiceService != null){
+
+		if (operation != null && invoiceService != null) {
 			//String id = request.getParameter(Constants.COLLECTION_KEY);
-			
-			Invoice invoice =  new Invoice();
+
+			Invoice invoice = new Invoice();
 			//BeanUtils.populate(area, request.getParameterMap() );
-			
-			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
+
+			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:
 				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 				invoice.setTotalAmount(Float.parseFloat(request.getParameter("fTotalAmount")));
 				Customer customer = new Customer();
-					customer.set_id(request.getParameter("fMobile"));
-					customer.setName(request.getParameter("fName"));
-					customer.setEmailId(request.getParameter("fEmail"));
-					customer.setDob(formatter.parse(request.getParameter("fDOB")));
-					customer.setMarriageDate(formatter.parse(request.getParameter("fMAnniversary")));
-					customer.setAddress(request.getParameter("fAddress"));
+				customer.set_id(request.getParameter("fMobile"));
+				customer.setName(request.getParameter("fName"));
+				customer.setEmailId(request.getParameter("fEmail"));
+				customer.setDob(formatter.parse(request.getParameter("fDOB")));
+				customer.setMarriageDate(formatter.parse(request.getParameter("fMAnniversary")));
+				customer.setAddress(request.getParameter("fAddress"));
 				invoice.setCustomer(customer);
-				
-				PhotoDetails photoDetails = new PhotoDetails();
-					//photoDetails.setPhotoNumber(request.getParameter("fNoPhoto"));
-					photoDetails.setQuantity(Integer.parseInt(request.getParameter("fNoPhoto")));
-					photoDetails.setQuality(request.getParameter("fQuality"));
-					photoDetails.setSize(request.getParameter("fSize"));
-					photoDetails.setPhotoSource(request.getParameter("fPhotoSource"));
-					photoDetails.setPrice(request.getParameter("fPhotoCost"));
-				invoice.setPhotoDetails(photoDetails);
-				
-				FrameDetails frameDetails = new FrameDetails();
-					frameDetails.setSize(request.getParameter("fFrameSize"));
-					frameDetails.setQuality(request.getParameter("fFrameQuality"));
-					frameDetails.setPrice(request.getParameter("fFrameCost"));
-				invoice.setFrameDetails(frameDetails);
 
-				LaminationDetails laminationDetails = new LaminationDetails();
-					laminationDetails.setSize(request.getParameter("fLamSize"));
-					laminationDetails.setQuality(request.getParameter("fLamQuality"));
-					laminationDetails.setPrice(request.getParameter("fLamCost"));
-				invoice.setLaminationDetails(laminationDetails);
-				
+				List<PhotoDetails> photoDetailsList = (List<PhotoDetails>) getServiceDetailsList(Constants.ServiceEnum.PHOTO_DETAILS, request.getParameterMap());
+				List<FrameDetails> frameDetailsList = (List<FrameDetails>) getServiceDetailsList(Constants.ServiceEnum.FRAME_DETAILS, request.getParameterMap());
+				List<LaminationDetails> laminationDetailsList = (List<LaminationDetails>) getServiceDetailsList(Constants.ServiceEnum.LAMINATION_DETAILS, request.getParameterMap());
+
+				invoice.setPhotoDetailsList(photoDetailsList);
+				invoice.setFrameDetailsList(frameDetailsList);
+				invoice.setLaminationDetailsList(laminationDetailsList);
+
 				//TODO check for the valid insert
 				Invoice newInvoice = invoiceService.create(invoice);
-				if (newInvoice != null){
+				if (newInvoice != null) {
 					request.setAttribute("NEW_INVOICE_DETAIL", newInvoice);
 					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
 					rd.forward(request, response);
 				}
-				
+
 				break;
 			/*case EDIT :
 					if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
@@ -144,19 +137,49 @@ public class InvoiceAction extends HttpServlet {
 				
 				break;	
 				*/
-			case VIEW_ALL :
-				
+			case VIEW_ALL:
+
 				List<Invoice> invList = invoiceService.getAll();
 				json = CommonUtil.objectToJson(invList);
 				json = json.replaceAll("_id", "id");
 				break;
-				
+
 			default:
 				break;
 			}
 		}
-		
+
 		out.write(json);
 		out.close();
+	}
+
+	private List<?> getServiceDetailsList(ServiceEnum photoDetails, Map<String, String[]> parameterMap) {
+		List<?> serviceDetailList = null;
+
+		switch (photoDetails) {
+		case PHOTO_DETAILS:
+			List<PhotoDetails> photoDetailList = new ArrayList<PhotoDetails>();
+
+			PhotoDetails pDetails = new PhotoDetails();
+			photoDetailList.add(pDetails);
+
+			serviceDetailList = photoDetailList;
+			break;
+		case FRAME_DETAILS:
+			List<FrameDetails> frameDetailList = new ArrayList<FrameDetails>();
+
+			serviceDetailList = frameDetailList;
+			break;
+
+		case LAMINATION_DETAILS:
+			List<LaminationDetails> laminationDetailList = new ArrayList<LaminationDetails>();
+
+			serviceDetailList = laminationDetailList;
+			break;
+		default:
+			break;
+		}
+
+		return serviceDetailList;
 	}
 }

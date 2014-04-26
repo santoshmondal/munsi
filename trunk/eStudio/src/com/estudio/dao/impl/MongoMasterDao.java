@@ -2,18 +2,15 @@ package com.estudio.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import com.async.util.CommonUtil;
 import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
-import com.estudio.dao.AccessUserDao;
 import com.estudio.dao.MasterDao;
-import com.estudio.pojo.Master;
+import com.estudio.pojo.master.Master;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -35,6 +32,8 @@ public class MongoMasterDao implements MasterDao{
 			master.setUtime(date);
 			
 			DBCollection collection = mongoDB.getCollection(collMaster);
+			Integer id = MongoUtil.getNextSequence(DBCollectionEnum.MASTER);
+			master.set_id(id+"");
 			String jsonString = CommonUtil.objectToJson(master);
 			
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
@@ -88,6 +87,51 @@ public class MongoMasterDao implements MasterDao{
 
 	}
 
+	
+	
+	//@Override
+	public List<Master> getPhotoAll() {
+		return getByType("photo");
+	}
+
+	//@Override
+	public List<Master> getLaminationAll() {
+		return getByType("photo");
+	}
+	
+	//@Override
+	public List<Master> getFrameAll() {
+		return getByType("photo");
+	}
+	
+	public List<Master> getByType(String type) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collMaster);
+			DBObject query = new BasicDBObject("type", type);
+			DBCursor dbCursor = collection.find(query);
+			List<Master> masterList = new ArrayList<>();
+
+			while (dbCursor.hasNext()) {
+				DBObject dbObject = dbCursor.next();
+				String jsonString = JSON.serialize(dbObject);
+				Master master = (Master) CommonUtil.jsonToObject(jsonString, Master.class.getName());
+				masterList.add(master);
+			}
+
+			
+			return masterList;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 	@Override
 	public Master get(String _id) {
 		try {
@@ -117,7 +161,7 @@ public class MongoMasterDao implements MasterDao{
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				Master master = (Master) CommonUtil.jsonToObject(jsonString, AccessUserDao.class.getName());
+				Master master = (Master) CommonUtil.jsonToObject(jsonString, Master.class.getName());
 				areaList.add(master);
 			}
 
@@ -132,15 +176,6 @@ public class MongoMasterDao implements MasterDao{
 	
 	public static void main(String[] args) {
 		Master master = new Master();
-		master.set_id("PHOTO_MASTER");
-		master.setSize("1x4");
-		Map<String, String> qpMap = new HashMap<String, String>();
-		qpMap.put("ABC", "100");
-		qpMap.put("ABCD", "100");
-		master.setQualityPriceMap(qpMap);
-		
 		MongoMasterDao mmd = new MongoMasterDao();
-		mmd.create(master);	
-		
 	}
 }

@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import com.async.util.CommonUtil;
 import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
-import com.estudio.dao.AccessUserDao;
 import com.estudio.dao.InvoiceDao;
 import com.estudio.pojo.Invoice;
 import com.mongodb.BasicDBObject;
@@ -167,7 +166,7 @@ public class MongoInvoiceDao implements InvoiceDao{
 				dbObject.put(KEY_CUSTOMER, custRef);
 
 				String jsonString = JSON.serialize(dbObject);
-				Invoice invoice = (Invoice) CommonUtil.jsonToObject(jsonString, AccessUserDao.class.getName());
+				Invoice invoice = (Invoice) CommonUtil.jsonToObject(jsonString, Invoice.class.getName());
 				areaList.add(invoice);
 			}
 

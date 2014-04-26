@@ -2,7 +2,7 @@ package com.estudio.dao;
 
 import java.util.List;
 
-import com.estudio.pojo.Master;
+import com.estudio.pojo.master.Master;
 
 public interface MasterDao {
 

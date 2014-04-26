@@ -135,7 +135,7 @@ public class MongoAccessUserDao implements AccessUserDao{
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUserDao.class.getName());
+				AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
 				areaList.add(accessUser);
 			}
 

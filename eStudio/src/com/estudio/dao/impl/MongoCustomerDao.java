@@ -118,7 +118,7 @@ public class MongoCustomerDao implements CustomerDao{
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				Customer customer = (Customer) CommonUtil.jsonToObject(jsonString, AccessUserDao.class.getName());
+				Customer customer = (Customer) CommonUtil.jsonToObject(jsonString, Customer.class.getName());
 				areaList.add(customer);
 			}
 

@@ -47,7 +47,8 @@ public class Constants {
 		ADD,
 		EDIT,
 		DELETE,
-		SAVE;
+		SAVE,
+		FETCH;
 		// @formatter:on
 	}
 	

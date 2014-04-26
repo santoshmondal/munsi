@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -84,23 +85,18 @@ public class InvoiceAction extends HttpServlet {
 		String operation = request.getParameter(Constants.OPERATION);
 
 		if (operation != null && invoiceService != null) {
-			//String id = request.getParameter(Constants.COLLECTION_KEY);
 
 			Invoice invoice = new Invoice();
-			//BeanUtils.populate(area, request.getParameterMap() );
 
 			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
-			switch (opEnum) {
+			switch (opEnum){
 			case ADD:
-				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 				invoice.setTotalAmount(Float.parseFloat(request.getParameter("fTotalAmount")));
-				Customer customer = new Customer();
-				customer.set_id(request.getParameter("fMobile"));
-				customer.setName(request.getParameter("fName"));
-				customer.setEmailId(request.getParameter("fEmail"));
-				customer.setDob(formatter.parse(request.getParameter("fDOB")));
-				customer.setMarriageDate(formatter.parse(request.getParameter("fMAnniversary")));
-				customer.setAddress(request.getParameter("fAddress"));
+				invoice.setAdvanceBal(Float.parseFloat(request.getParameter("fAdvPaid")));
+				SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+				invoice.setDelivaryDate(formatter.parse(request.getParameter("fEstDeliveryDate")));
+
+				Customer customer = getCustomerDetails(request.getParameterMap());
 				invoice.setCustomer(customer);
 
 				List<PhotoDetails> photoDetailsList = (List<PhotoDetails>) getServiceDetailsList(Constants.ServiceEnum.PHOTO_DETAILS, request.getParameterMap());
@@ -113,8 +109,9 @@ public class InvoiceAction extends HttpServlet {
 
 				//TODO check for the valid insert
 				Invoice newInvoice = invoiceService.create(invoice);
+				
 				if (newInvoice != null) {
-					request.setAttribute("NEW_INVOICE_DETAIL", newInvoice);
+					request.setAttribute("NEW_INVOICE_DETAIL", invoice); //newInvoice);
 					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
 					rd.forward(request, response);
 				}
@@ -136,12 +133,21 @@ public class InvoiceAction extends HttpServlet {
 			case VIEW :
 				
 				break;	
+				op:save
+fEstDeliveryDate:25/04/2014
+fAdvPaid:900
+fInvoiceNo
 				*/
 			case VIEW_ALL:
 
 				List<Invoice> invList = invoiceService.getAll();
 				json = CommonUtil.objectToJson(invList);
 				json = json.replaceAll("_id", "id");
+				break;
+
+			case SAVE:
+				
+				invoiceService.getAll();
 				break;
 
 			default:
@@ -153,27 +159,130 @@ public class InvoiceAction extends HttpServlet {
 		out.close();
 	}
 
+	private Customer getCustomerDetails(Map<String, String[]> parameterMap) throws ParseException {
+		Customer customer = new Customer();
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		if(parameterMap.containsKey("fMobile"))
+			customer.set_id(parameterMap.get("fMobile")[0]);
+		if(parameterMap.containsKey("fName"))
+			customer.setName(parameterMap.get("fName")[0]);
+		if(parameterMap.containsKey("fEmail"))
+			customer.setEmailId(parameterMap.get("fEmail")[0]);
+		if(parameterMap.containsKey("fDOB") && !parameterMap.get("fDOB")[0].equals(""))
+			customer.setDob(formatter.parse(parameterMap.get("fDOB")[0]));
+		if(parameterMap.containsKey("fMAnniversary") && !parameterMap.get("fMAnniversary")[0].equals(""))
+			customer.setMarriageDate(formatter.parse(parameterMap.get("fMAnniversary")[0]));
+		if(parameterMap.containsKey("fAddress"))
+			customer.setAddress(parameterMap.get("fAddress")[0]);
+		return customer;
+	}
+
 	private List<?> getServiceDetailsList(ServiceEnum photoDetails, Map<String, String[]> parameterMap) {
 		List<?> serviceDetailList = null;
 
 		switch (photoDetails) {
 		case PHOTO_DETAILS:
 			List<PhotoDetails> photoDetailList = new ArrayList<PhotoDetails>();
+			int pCouter = Integer.parseInt(parameterMap.get("fPhotoCounter")[0]);
 
 			PhotoDetails pDetails = new PhotoDetails();
-			photoDetailList.add(pDetails);
-
+			if(parameterMap.containsKey("fPhotoNumber"))
+				pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber")[0]);
+			if(parameterMap.containsKey("fPhotoSource"))
+				pDetails.setPhotoSource(parameterMap.get("fPhotoSource")[0]);
+			if(parameterMap.containsKey("fNoPhoto"))
+				pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto")[0]));
+			if(parameterMap.containsKey("fQuality"))
+				pDetails.setQuality(parameterMap.get("fQuality")[0]);
+			if(parameterMap.containsKey("fSize"))
+				pDetails.setSize(parameterMap.get("fSize")[0]);
+			if(parameterMap.containsKey("fRemark"))
+				pDetails.setRemark(parameterMap.get("fRemark")[0]);
+			if(parameterMap.containsKey("fPhotoCost"))
+				pDetails.setPrice(parameterMap.get("fPhotoCost")[0]);
+				photoDetailList.add(pDetails);
+			for(int i=2; i<=pCouter; i++){
+				if(parameterMap.containsKey("fPhotoNumber"+i)){
+					pDetails = new PhotoDetails();
+					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber"+i)[0]);
+					if(parameterMap.containsKey("fPhotoSource"+i))
+						pDetails.setPhotoSource(parameterMap.get("fPhotoSource"+i)[0]);
+					if(parameterMap.containsKey("fNoPhoto"+i))
+						pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto"+i)[0]));
+					if(parameterMap.containsKey("fQuality"+i))
+						pDetails.setQuality(parameterMap.get("fQuality"+i)[0]);
+					if(parameterMap.containsKey("fSize"+i))
+						pDetails.setSize(parameterMap.get("fSize"+i)[0]);
+					if(parameterMap.containsKey("fRemark"+i))
+						pDetails.setRemark(parameterMap.get("fRemark"+i)[0]);
+					if(parameterMap.containsKey("fPhotoCost"+i))
+						pDetails.setPrice(parameterMap.get("fPhotoCost"+i)[0]);
+					photoDetailList.add(pDetails);
+				}
+			}
+			
 			serviceDetailList = photoDetailList;
 			break;
 		case FRAME_DETAILS:
 			List<FrameDetails> frameDetailList = new ArrayList<FrameDetails>();
+			int fCouter = Integer.parseInt(parameterMap.get("fFrameCounter")[0]);
+
+			FrameDetails fDetails = new FrameDetails();
+			if(parameterMap.containsKey("fFrameNumber"))
+				fDetails.setFrameNumber(parameterMap.get("fFrameNumber")[0]);
+			if(parameterMap.containsKey("fFrameSize"))
+				fDetails.setSize(parameterMap.get("fFrameSize")[0]);
+			if(parameterMap.containsKey("fFrameRemark"))
+				fDetails.setRemark(parameterMap.get("fFrameRemark")[0]);
+			if(parameterMap.containsKey("fFrameCost"))
+				fDetails.setPrice(parameterMap.get("fFrameCost")[0]);
+				frameDetailList.add(fDetails);
+			for(int i=2; i<=fCouter; i++){
+				if(parameterMap.containsKey("fFrameNumber"+i)){
+					fDetails = new FrameDetails();
+					if(parameterMap.containsKey("fFrameNumber"+i))
+						fDetails.setFrameNumber(parameterMap.get("fFrameNumber"+i)[0]);
+					if(parameterMap.containsKey("fFrameSize"+i))
+						fDetails.setSize(parameterMap.get("fFrameSize"+i)[0]);
+					if(parameterMap.containsKey("fFrameRemark"+i))
+						fDetails.setRemark(parameterMap.get("fFrameRemark"+i)[0]);
+					if(parameterMap.containsKey("fFrameCost"+i))
+						fDetails.setPrice(parameterMap.get("fFrameCost"+i)[0]);
+					frameDetailList.add(fDetails);
+				}
+			}
 
 			serviceDetailList = frameDetailList;
 			break;
 
 		case LAMINATION_DETAILS:
 			List<LaminationDetails> laminationDetailList = new ArrayList<LaminationDetails>();
+			int lCouter = Integer.parseInt(parameterMap.get("fLamCounter")[0]);
 
+			LaminationDetails lDetails = new LaminationDetails();
+			if(parameterMap.containsKey("fLamQuality"))
+				lDetails.setQuality(parameterMap.get("fLamQuality")[0]);
+			if(parameterMap.containsKey("fLamSize"))
+				lDetails.setSize(parameterMap.get("fLamSize")[0]);
+			if(parameterMap.containsKey("fLamRemark"))
+				lDetails.setRemark(parameterMap.get("fLamRemark")[0]);
+			if(parameterMap.containsKey("fLamCost"))
+				lDetails.setPrice(parameterMap.get("fLamCost")[0]);
+				laminationDetailList.add(lDetails);
+			for(int i=2; i<=lCouter; i++){
+				if(parameterMap.containsKey("fLamQuality"+i)){
+					lDetails = new LaminationDetails();
+					if(parameterMap.containsKey("fLamQuality"+i))
+						lDetails.setQuality(parameterMap.get("fLamQuality"+i)[0]);
+					if(parameterMap.containsKey("fLamSize"+i))
+						lDetails.setSize(parameterMap.get("fLamSize"+i)[0]);
+					if(parameterMap.containsKey("fLamRemark"+i))
+						lDetails.setRemark(parameterMap.get("fLamRemark"+i)[0]);
+					if(parameterMap.containsKey("fLamCost"+i))
+						lDetails.setPrice(parameterMap.get("fLamCost"+i)[0]);
+					laminationDetailList.add(lDetails);
+				}
+			}
 			serviceDetailList = laminationDetailList;
 			break;
 		default:

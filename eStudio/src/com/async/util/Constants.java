@@ -23,7 +23,9 @@ public class Constants {
 		ACCESS_USER("access_user"),
 		CUSTOMER("customer"),
 		MASTER("master"),
-		INVOICE("invoice");
+		INVOICE("invoice"),
+		PAPER_PURCHASE("paper_purchase"),
+		PAPER_INVENTORY("paper_inventory");
 		// @formatter:on
 
 		private final String collectionName;
@@ -56,4 +58,23 @@ public class Constants {
 		// @formatter:on
 	}
 	
+	public enum MasterTypeEnum {
+		// @formatter:off
+		PHOTO("photo"),
+		FRAME("frame"),
+		LAMINATION("lamination");
+		// @formatter:on
+
+		private final String masterType;
+
+		MasterTypeEnum(String masterType) {
+			this.masterType = masterType;
+		}
+
+		@Override
+		public String toString() {
+			return masterType;
+		}
+	}
+
 }

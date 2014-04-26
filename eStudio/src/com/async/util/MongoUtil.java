@@ -43,7 +43,7 @@ public class MongoUtil {
 		DBObject query = new BasicDBObject("_id", collectionName);
 		DBObject update = (DBObject) JSON.parse("{ $inc: { seq: 1 } }");
 
-		synchronized (query) {
+		synchronized (collection) {
 
 			DBObject dbObject = collection.findAndModify(query, update);
 

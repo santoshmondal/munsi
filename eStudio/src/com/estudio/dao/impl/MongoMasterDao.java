@@ -175,7 +175,29 @@ public class MongoMasterDao implements MasterDao{
 
 	
 	public static void main(String[] args) {
-		Master master = new Master();
 		MongoMasterDao mmd = new MongoMasterDao();
+		Master master = new Master();
+		master.setSize("6x7");
+		master.setType("photo");
+		master.setPrice(100.00f);
+		master.setQuality("glass");
+		
+		mmd.create(master);
+		
+		
+		master.setSize("5x8");
+		master.setType("photo");
+		master.setPrice(200.00f);
+		master.setQuality("glass");
+		
+		mmd.create(master);
+		
+		
+		master.setSize("6x7");
+		master.setType("photo");
+		master.setPrice(150.00f);
+		master.setQuality("metal");
+		
+		mmd.create(master);
 	}
 }

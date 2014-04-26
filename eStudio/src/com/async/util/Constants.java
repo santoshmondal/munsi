@@ -44,14 +44,15 @@ public class Constants {
 		VIEW_ALL,
 		ADD,
 		EDIT,
-		DELETE;
+		DELETE,
+		SAVE;
 		// @formatter:on
 	}
 	
 	
 	public enum ServiceEnum {
 		// @formatter:off
-		PHOTO_DETAILS, FRAME_DETAILS, LAMINATION_DETAILS 
+		PHOTO_DETAILS, FRAME_DETAILS, LAMINATION_DETAILS; 
 		// @formatter:on
 	}
 	

@@ -39,7 +39,9 @@ public class MongoInvoiceDao implements InvoiceDao{
 			invoice.setUtime(date);
 			Integer _id = MongoUtil.getNextSequence(DBCollectionEnum.INVOICE);
 			invoice.set_id(_id+"");
-
+			invoice.setInvoiceNumber(_id+"");
+			invoice.setInvoiceDate(date);
+			
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 			String jsonString = CommonUtil.objectToJson(invoice);
 
@@ -48,7 +50,7 @@ public class MongoInvoiceDao implements InvoiceDao{
 			DBRef custRef = new DBRef(mongoDB, collCustomer, invoice.getCustomer().get_id());
 			dbObject.put(KEY_CUSTOMER_XID, custRef);
 			collection.insert(dbObject);
-			
+
 			toReturn = get(_id + "");
 
 		} catch (Exception exception) {

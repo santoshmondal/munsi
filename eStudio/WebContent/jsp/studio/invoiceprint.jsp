@@ -57,6 +57,7 @@ body * { visibility: hidden; }
 												</div>
 											</div>
 											<form>
+											<%-- <input type="hidden" id="idInvoiceNo" name="fInvoiceNo" value="<%=newInvoice.get_id()%>"/> --%>
 											<div class="widget-body">
 												<div class="widget-main padding-24">
 													<div class="row">
@@ -104,12 +105,13 @@ body * { visibility: hidden; }
 																<ul class="list-unstyled  spaced">
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Name : Tom Smith <% // newInvoice.getCustomer().getName() %>
+																		Name : <%=newInvoice.getCustomer().getName() %>
+																		
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Mobile : 5542015213 <% // newInvoice.getCustomer().get_id() %>
+																		Mobile : <%=newInvoice.getCustomer().get_id() %>
 																	</li>
 																</ul>
 															</div>
@@ -120,7 +122,7 @@ body * { visibility: hidden; }
 															<h5 class="pull-right">
 																Estimated Delivery Date :
 																<span class="input-icon input-icon-right">
-																	<input type="text" id="idEstDeliveryDate" name="fEstDeliveryDate" class="width-100 date-picker" data-date-format="dd/mm/yyyy" />
+																	<label id="idEstDeliveryDate" class="width-100 date-picker"><%=newInvoice.getDelivaryDate() %></label>
 																	<i class="icon-calendar black"></i>
 																</span>
 															</h5>
@@ -143,52 +145,59 @@ body * { visibility: hidden; }
 															<tbody>
 															<%
 																List<PhotoDetails> phDt = newInvoice.getPhotoDetailsList();
+																int i=0;
 																if(phDt != null && phDt.size()>0 ){
+																	for(i=0;i<phDt.size();i++){
 															%>
 																<tr>
-																	<td class="center">1</td>
+																	<td class="center"><%=i+1%></td>
 
 																	<td>
 																		Photo
 																	</td>
 																	<td class="hidden-xs">
-																		Photo Source <%=phDt.get(0).getPhotoSource() %> and  Quality is <%=phDt.get(0).getQuality() %> 
+																		Photo #: <b><%=phDt.get(i).getPhotoNumber() %></b>,  Photo Source <b><%=phDt.get(i).getPhotoSource() %></b> and  Quality is <b><%=phDt.get(i).getQuality() %> </b>
 																	</td>
-																	<td class="hidden-480"> <%=phDt.get(0).getQuantity() %> </td>
-																	<td><%=phDt.get(0).getPrice() %> </td>
+																	<td class="hidden-480"> <%=phDt.get(i).getQuantity() %> </td>
+																	<td><%=phDt.get(i).getPrice() %> </td>
 																</tr>
-															<%
+															<%		}
 																}
 																List<FrameDetails> frDt = newInvoice.getFrameDetailsList();
+																int j =0;
 																if(frDt != null && frDt.size()>0 ){
+																	for(j=0;j<frDt.size();j++){
 															%>
 																<tr>
-																	<td class="center">2</td>
+																	<td class="center"><%=j+1+i%></td>
 
 																	<td>
 																		Photo Frame
 																	</td>
 																	<td class="hidden-xs">
-																		Quality is <%=frDt.get(0).getQuality() %>
+																		Quality is <%=frDt.get(j).getQuality() %>
 																	</td>
 																	<td class="hidden-480"> 1 <% //frDt.getQuantity() %> </td>
-																	<td><%=frDt.get(0).getPrice() %> </td>
+																	<td><%=frDt.get(j).getPrice() %> </td>
 																</tr>
-															<%
+															<%		}
 																}
 																List<LaminationDetails> lamDt = newInvoice.getLaminationDetailsList();
+																int k =0;
 																if(lamDt != null && lamDt.size()>0 ){
+																	for(k=0;k<lamDt.size();k++){
 															%>
 																<tr>
-																	<td class="center">3</td>
+																	<td class="center"><%=k+j+i+1%></td>
 																	<td>Lamination</td>
 																	<td class="hidden-xs">
-																		Quality is <%=lamDt.get(0).getQuality() %>
+																		Quality is <%=lamDt.get(k).getQuality() %>
 																	</td>
 																	<td class="hidden-480"> 1 <% //lamDt.getQuantity() %></td>
-																	<td><%=lamDt.get(0).getPrice() %></td>
+																	<td><%=lamDt.get(k).getPrice() %></td>
 																</tr>
-																<%} %>
+																<%	}
+																}%>
 															</tbody>
 														</table>
 													</div>
@@ -206,7 +215,7 @@ body * { visibility: hidden; }
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Total amount :
-																<span class="green">Rs <span id="idTotAmt"><%=newInvoice.getTotalAmount() %></span></span>
+																<span class="green"><span class="icon-inr"></span> <span id="idTotAmt"><%=newInvoice.getTotalAmount() %></span></span>
 															</h4>
 														</div>
 														
@@ -215,7 +224,8 @@ body * { visibility: hidden; }
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Advance paid :
-																<input type="text" size="8" class="blue" id="idAdvPaid" name="fAdvPaid"/>
+																<span class="green"><span class="icon-inr"></span> <span id="idAdvPaid"><%=newInvoice.getAdvanceBal() %></span></span>
+																<!-- <input type="text" size="8" class="blue" id="idAdvPaid" name="fAdvPaid"/> -->
 															</h4>
 														</div>
 													</div>
@@ -223,7 +233,7 @@ body * { visibility: hidden; }
 														<div class="col-sm-5 pull-right">
 															<h4 class="pull-right">
 																Balance amount :
-																<span class="red" id="idBalText">Rs <%=newInvoice.getTotalAmount() %></span>
+																<span class="red" id="idBalText"><span class="icon-inr"></span><%=newInvoice.getTotalAmount() %></span>
 															</h4>
 														</div>
 													</div>
@@ -272,11 +282,11 @@ body * { visibility: hidden; }
                 e.preventDefault();
             });
 			
-			$("#idAdvPaid").on('change keyup paste', function() {
+			//$("#idAdvPaid").on('change keyup paste', function() {
 				//var toAm = $("#idTotalAmount").val();
 			 	//$("#idTotalAmount").val(Number($("#idPhotoCost").val()) + Number($("#idLamCost").val()) + Number($("#idFrameCost").val()));
-			 	$("#idBalText").html("Rs "+(Number($("#idTotAmt").html()) - Number($("#idAdvPaid").val())));
-			});
+			 	$("#idBalText").html("<span class='icon-inr'></span> "+(Number($("#idTotAmt").html()) - Number($("#idAdvPaid").html())));
+			//});
 			
 	});
 	</script>

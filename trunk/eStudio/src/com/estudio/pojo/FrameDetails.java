@@ -8,8 +8,6 @@ public class FrameDetails implements Serializable {
 	
 	private String frameNumber;
 	
-	private Boolean withStand;
-	
 	/** Camera, SoftCopy, Scan */
 	private String photoSource;
 	
@@ -24,6 +22,9 @@ public class FrameDetails implements Serializable {
 
 	private String remark;
 	
+	private String frameType;
+
+	
 	public String getFrameNumber() {
 		return frameNumber;
 	}
@@ -32,12 +33,12 @@ public class FrameDetails implements Serializable {
 		this.frameNumber = frameNumber;
 	}
 
-	public Boolean getWithStand() {
-		return withStand;
+	public String getFrameType() {
+		return frameType;
 	}
 
-	public void setWithStand(Boolean withStand) {
-		this.withStand = withStand;
+	public void setFrameType(String frameType) {
+		this.frameType = frameType;
 	}
 
 	public String getPhotoSource() {

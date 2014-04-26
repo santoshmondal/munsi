@@ -5,7 +5,7 @@ import java.util.List;
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
 import com.estudio.dao.MasterDao;
-import com.estudio.pojo.Master;
+import com.estudio.pojo.master.Master;
 
 public class MasterService {
 	private MasterDao masterDao;

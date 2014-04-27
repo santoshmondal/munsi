@@ -47,7 +47,6 @@ public class InvoiceAction extends HttpServlet {
 		if (object instanceof InvoiceService) {
 			invoiceService = (InvoiceService) object;
 		}
-
 	}
 
 	/**
@@ -56,7 +55,6 @@ public class InvoiceAction extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcessWithException(request, response);
-
 	}
 
 	/**
@@ -133,10 +131,7 @@ public class InvoiceAction extends HttpServlet {
 			case VIEW :
 				
 				break;	
-				op:save
-fEstDeliveryDate:25/04/2014
-fAdvPaid:900
-fInvoiceNo
+			
 				*/
 			case VIEW_ALL:
 

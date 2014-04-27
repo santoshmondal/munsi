@@ -177,12 +177,13 @@
 																					<label for="idPhotoSource" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Source</label>
 				
 																					<div class="col-xs-12 col-sm-5">
-																						<select id="idPhotoSource" name="fPhotoSource" class="select2 width-100" data-placeholder="Click to Choose...">
+																						<!-- <select id="idPhotoSource" name="fPhotoSource" class="select2 width-100" data-placeholder="Click to Choose...">
 																							<option value="studio">Studio</option>
 																							<option value="mediaprint">Media Print</option>
 																							<option value="scanprint">Scan Print</option>
 																							<option value="reprint">Re-Print</option>
-																						</select>
+																						</select> -->
+																						<input type="hidden" id="idPhotoSource" name="fPhotoSource" style="width:300px" class="select2" />
 																					</div>
 																				</div>
 																				<div class="form-group">
@@ -198,24 +199,26 @@
 																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idSize">Photo Size</label>
 				
 																					<div class="col-xs-12 col-sm-5">
-																						<select id="idSize" name="fSize" class="select2 width-100" data-placeholder="Click to Choose...">
+																						<!-- <select id="idSize" name="fSize" class="select2 width-100" data-placeholder="Click to Choose...">
 																							<option value="">&nbsp;</option>
 																							<option value="4x6">4x6</option>
 																							<option value="8x12">8x12</option>
 																							<option value="Landsacpe">Landscape</option>
-																						</select>
+																						</select> -->
+																						<input type="hidden" id="idSize" name="fSize" style="width:300px" class="select2" />
 																					</div>
 																				</div>
 																				<div class="form-group">
 																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idQuality">Photo Quality</label>
 				
 																					<div class="col-xs-12 col-sm-5">
-																						<select id="idQuality" name="fQuality" class="select2 width-100" data-placeholder="Click to Choose...">
+																						<!-- <select id="idQuality" name="fQuality" class="select2 width-100" data-placeholder="Click to Choose...">
 																							<option value="">&nbsp;</option>
 																							<option value="4x6">4x6</option>
 																							<option value="8x12">8x12</option>
 																							<option value="Landsacpe">Landscape</option>
-																						</select>
+																						</select> -->
+																						<input type="hidden" id="idQuality" name="fQuality" style="width:300px" class="select2" />
 																					</div>
 																				</div>
 																				<div class="form-group">
@@ -436,7 +439,6 @@
 																			</span>
 																		</div>
 																	</div>
-																	
 																</form>
 																
 																Your invoice is ready to print! Click generate to continue!
@@ -493,17 +495,49 @@
 				//return false;//prevent clicking on steps
 			});
 			
+			
 			function callAllFunctions(){
 				$('[data-rel=tooltip]').tooltip();
+				
+				$("#idPhotoSource.select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
+				$("#idSize.select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
+				$("#idQuality.select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
 				
 				$("select.select2").css('width','200px').select2({allowClear:true})
 				.on('change', function(){
 					$(this).closest('form').validate().element($(this));
-				}); 
-			
-				
+				});
+
 				//documentation : http://docs.jquery.com/Plugins/Validation/validate
-				
 				
 				$.mask.definitions['~']='[+-]';
 				$('#phone').mask('(999) 999-9999');
@@ -658,6 +692,27 @@
 					   closeContent.remove();
 					   $("#myLamTab li:last-child a").click();
 				});
+				
+				$("#idQuality,#idSize").on('change keyup paste', function() {
+					var urlPath="commonaction.do?op=fetch&service=photo&get=price";
+					$.ajax({
+						type: "POST",
+						url: urlPath,
+						data:{quality:$("#idQuality").val(),size:$("#idSize").val()},
+						dataType: 'json'
+						})
+						.done(function( data ) {
+							if(data.length > 0)
+								$("#idPhotoCost").val(data[0].id);
+							else
+								$("#idPhotoCost").val("");
+							$("#idPhotoCost").trigger("change");
+						})
+						.fail(function() {
+							console.error( "error in fetching data from server....." );
+						});
+					
+				});
 			}
 			
 			// JS for Photo Tabs
@@ -735,5 +790,30 @@
 			}
 
 			callAllFunctions();
+			
+			
+		     //------------ AutoComplete Photo Size--------------
+		     <%-- var objJsonPSize = '<% //CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
+		    
+		     objJsonCustomer = JSON.parse(objJsonCustomer.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
+		     $("#idCustomer").autocomplete({
+		    	 minLength: 0,
+			     source: objJsonCustomer,
+			     focus: function( event, ui ) {
+			     $( "#idCustomer" ).val( ui.item.label );
+			     return false;
+			     },
+			     select: function( event, ui ) {
+			     $( "#idCustomer" ).val( ui.item.label );
+			     $( "#idCustomer-id" ).val( ui.item.id );
+			     
+			     return false;
+			     }
+		     })
+		     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		     return $( "<li>" )
+		     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
+		     .appendTo( ul );
+		     }; --%>
 	});
 	</script>

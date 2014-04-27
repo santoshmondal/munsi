@@ -7,7 +7,7 @@ public class SantoshCommonJson implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	private String query;
+	private String text;
 
 	public String getId() {
 		return id;
@@ -17,12 +17,12 @@ public class SantoshCommonJson implements Serializable {
 		this.id = id;
 	}
 
-	public String getQuery() {
-		return query;
+	public String getText() {
+		return text;
 	}
 
-	public void setQuery(String query) {
-		this.query = query;
+	public void setText(String query) {
+		this.text = query;
 	}
 
 }

@@ -58,7 +58,9 @@ public class EstudioUtil {
 }
 
 class CommonJson implements Serializable{
-	 String id;
+	private static final long serialVersionUID = 1L;
+	
+	String id;
 	 String text;
 	 CommonJson(){}
 	 

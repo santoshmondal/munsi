@@ -26,7 +26,7 @@ body * { visibility: hidden; }
 								<div class="space-6">
 								</div>
 								<%
-								 Invoice newInvoice = (Invoice)request.getAttribute("NEW_INVOICE_DETAIL");
+								 Invoice newInvoice = (Invoice)request.getAttribute("INVOICE_DETAIL");
 								%>
 								<div class="row">
 									<div class="col-sm-10 col-sm-offset-1">
@@ -48,9 +48,6 @@ body * { visibility: hidden; }
 
 												<div class="widget-toolbar hidden-480">
 													
-													<a href="#" id="idSaveInvoice">
-														<i class="icon-save red"></i>
-													</a>
 													<a href="#" onclick="javascript:window.print()">
 														<i class="icon-print"></i>
 													</a>
@@ -61,42 +58,10 @@ body * { visibility: hidden; }
 											<div class="widget-body">
 												<div class="widget-main padding-24">
 													<div class="row">
-														<div class="col-sm-6 hidden-xs">
+														
+														<sdiv class="col-sm-12">
 															<div class="row">
-																<div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
-																	<b>Studio Info</b>
-																</div>
-															</div>
-
-															<div class="row">
-																<ul class="list-unstyled spaced">
-																	<li>
-																		<i class="icon-caret-right blue"></i>
-																		Street, City
-																	</li>
-
-																	<li>
-																		<i class="icon-caret-right blue"></i>
-																		Zip Code
-																	</li>
-
-																	<li>
-																		<i class="icon-caret-right blue"></i>
-																		State, Country
-																	</li>
-
-																	<li>
-																		<i class="icon-caret-right blue"></i>
-																		Phone:
-																		<b class="red">111-111-111</b>
-																	</li>
-																</ul>
-															</div>
-														</div><!-- /span -->
-
-														<div class="col-sm-6">
-															<div class="row">
-																<div class="col-xs-11 label label-lg label-success arrowed-in arrowed-right">
+																<div class="col-xs-11 label label-lg label-success">
 																	<b>Customer Info</b>
 																</div>
 															</div>
@@ -105,13 +70,13 @@ body * { visibility: hidden; }
 																<ul class="list-unstyled  spaced">
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Name : <%=newInvoice.getCustomer().getName() %>
+																		Name : <% //newInvoice.getCustomer().getName() %>
 																		
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Mobile : <%=newInvoice.getCustomer().get_id() %>
+																		Mobile : <% //newInvoice.getCustomer().get_id() %>
 																	</li>
 																</ul>
 															</div>
@@ -255,13 +220,13 @@ body * { visibility: hidden; }
 	<script type="text/javascript">
 	jQuery(function($) {
 			$('[data-rel=tooltip]').tooltip();
-			
+			/* 
 			$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
 				$(this).prev().focus();
 			});
-			
-			
-			$("#idSaveInvoice").click(function(e) {
+			 */
+
+/* 			$("#idSaveInvoice").click(function(e) {
                 
 				var frm = $(document.forms);
 				//console.log(JSON.stringify(frm.serialize()));
@@ -279,7 +244,7 @@ body * { visibility: hidden; }
                     }
                 }
                 e.preventDefault();
-            });
+            }); */
 			
 			//$("#idAdvPaid").on('change keyup paste', function() {
 				//var toAm = $("#idTotalAmount").val();

@@ -33,15 +33,15 @@
 	<script type="text/javascript">
 	$(document).ready(function () {
         var myData = [
-				{'id':1,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':2,'customerName':'Ken Smith','mobileNo':5462541238,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"5/8/2010",'status':"Delivered to Customer"},
-				{'id':3,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"2/5/2010",'status':"Delivered to Customer"},
-				{'id':4,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':5,'customerName':'B Boyd','mobileNo':9946552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':6,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':7,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':8,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':9,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':31,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':22,'customerName':'Ken Smith','mobileNo':5462541238,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"5/8/2010",'status':"Delivered to Customer"},
+				{'id':23,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"2/5/2010",'status':"Delivered to Customer"},
+				{'id':24,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':25,'customerName':'B Boyd','mobileNo':9946552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':26,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':27,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':28,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':29,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
 				{'id':10,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"}
             ],
             myGrid = $("#grid-table-data");
@@ -104,18 +104,6 @@
 					updatePagerIcons(table);
 					enableTooltips(table);
 				}, 0);
-				var editparameters = {
-                		"keys" : false,
-                		"oneditfunc" : null,
-                		"successfunc" : null,
-                		"url" : null,
-                	    "extraparam" : {},
-                		"aftersavefunc" : null,
-                		"errorfunc": null,
-                		"afterrestorefunc" : null,
-                		"restoreAfterError" : true,
-                		"mtype" : "POST"
-                	};
 				var iCol = getColumnIndexByName(myGrid, 'act');
                 $(this).find(">tbody>tr.jqgrow>td:nth-child(" + (iCol + 1) + ")")
                     .each(function() {
@@ -128,8 +116,12 @@
                                 $(this).removeClass('ui-state-hover');
                             },
                             click: function(e) {
-                                alert("'Detail' button is clicked in the rowis="+
-                                    $(e.target).closest("tr.jqgrow").attr("id") +" !");
+                                console.log("'Detail' button is clicked in the rowis="+ $(e.target).closest("tr.jqgrow").attr("id") +" !");
+                                var URL = "invoiceaction.do?op=VIEW&invoiceno="+ $(e.target).closest("tr.jqgrow").attr("id");
+                				var DATA = {};
+                				var embedInElement = "id_EmbedPage";
+                				async.munsi.ajaxCall(URL,DATA,embedInElement);
+                	
                             }
                         }
                       ).css({"margin-right": "5px", float: "left", cursor: "pointer"})

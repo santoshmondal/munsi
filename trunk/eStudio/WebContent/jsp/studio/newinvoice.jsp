@@ -1,4 +1,5 @@
 
+<%@page import="com.async.simulations.SantoshUtil"%>
 <%@page import="com.async.util.Constants.DBCollectionEnum"%>
 <%@page import="com.async.util.CommonUtil"%>
 <%@page import="com.async.util.Constants"%>
@@ -271,15 +272,30 @@
 																		<div id="frame1" class="tab-pane in active">
 																			<div>
 																				<div class="form-group">
-																					<label for="idFrameNumber" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Quality/Type</label>
+																					<label for="idFrameNumber" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Number</label>
 				
 																					<div class="col-xs-12 col-sm-5">
 																						<span class="block input-icon input-icon-right">
-																							<select id="idFrameNumber" name="fFrameNumber" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<input type="hidden" id="idFrameNumber" name="fFrameNumber" class="select2" />
+																							<!-- <select id="idFrameNumber" name="fFrameNumber" class="select2 width-100" data-placeholder="Click to Choose...">
 																								<option value="">&nbsp;</option>
 																								<option value="4x6">4x6</option>
 																								<option value="8x12">8x12</option>
-																							</select>
+																							</select> -->
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idFrameType" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Quality/Type</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right">
+																							<input type="hidden" id="idFrameType" name="fFrameType" class="select2" />
+																							<!-- <select id="idFrameType" name="fFrameType" class="select2 width-100" data-placeholder="Click to Choose...">
+																								<option value="">&nbsp;</option>
+																								<option value="4x6">4x6</option>
+																								<option value="8x12">8x12</option>
+																							</select> -->
 																						</span>
 																					</div>
 																				</div>
@@ -288,12 +304,13 @@
 				
 																					<div class="col-xs-12 col-sm-5">
 																						<span class="block input-icon input-icon-right">
-																							<select id="idFrameSize" name="fFrameSize" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<input type="hidden" id="idFrameSize" name="fFrameSize" class="select2" />
+																							<!-- <select id="idFrameSize" name="fFrameSize" class="select2 width-100" data-placeholder="Click to Choose...">
 																							<option value="">&nbsp;</option>
 																							<option value="4x6">4x6</option>
 																							<option value="8x12">8x12</option>
 																							<option value="Landsacpe">Landscape</option>
-																						</select>
+																						</select> -->
 																						</span>
 																					</div>
 																				</div>
@@ -364,12 +381,13 @@
 				
 																					<div class="col-xs-12 col-sm-5">
 																						<span class="block input-icon input-icon-right">
-																							<select id="idLamSize" name="fLamSize" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<input type="hidden" id="idLamSize" name="fLamSize" class="select2" />
+																							<!-- <select id="idLamSize" name="fLamSize" class="select2 width-100" data-placeholder="Click to Choose...">
 																							<option value="">&nbsp;</option>
 																							<option value="4x6">4x6</option>
 																							<option value="8x12">8x12</option>
 																							<option value="Landsacpe">Landscape</option>
-																						</select>
+																						</select> -->
 																						</span>
 																					</div>
 																				</div>
@@ -377,12 +395,13 @@
 																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idLamQuality">Lamination Quality/Type</label>
 				
 																					<div class="col-xs-12 col-sm-5">
-																						<select id="idLamQuality" name="fLamQuality" class="select2 width-100" data-placeholder="Click to Choose...">
+																						<input type="hidden" id="idLamQuality" name="fLamQuality" class="select2" />
+																						<!-- <select id="idLamQuality" name="fLamQuality" class="select2 width-100" data-placeholder="Click to Choose...">
 																							<option value="">&nbsp;</option>
 																							<option value="4x6">4x6</option>
 																							<option value="8x12">8x12</option>
 																							<option value="Landsacpe">Landscape</option>
-																						</select>
+																						</select> -->
 																					</div>
 																				</div>
 																				<div class="form-group">
@@ -484,8 +503,7 @@
 					}
 				}); */
 				var frm = $(document.forms);
-				//console.log(JSON.stringify(frm.serialize()));
-				var hrefEle  = "/jsp/studio/invoiceprint.jsp";
+				//var hrefEle  = "/jsp/studio/invoiceprint.jsp";
 				var URL = "invoiceaction.do?op=ADD&"+frm.serialize();
 				var DATA = {};
 				var embedInElement = "id_EmbedPage";
@@ -498,8 +516,10 @@
 			
 			function callAllFunctions(){
 				$('[data-rel=tooltip]').tooltip();
+
+//----------------- Photo Size, Quality , Source
 				
-				$("#idPhotoSource.select2").css('width','200px').select2({allowClear:true,ajax: {
+				$("input[id^='idPhotoSource'].select2").css('width','200px').select2({allowClear:true,ajax: {
 			        dataType: "json",
 			        url: "\commonaction.do?op=fetch&service=photo&key=size",
 			        results: function (data) {
@@ -510,7 +530,7 @@
 					$(this).closest('form').validate().element($(this));
 				});
 
-				$("#idSize.select2").css('width','200px').select2({allowClear:true,ajax: {
+				$("input[id^='idSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
 			        dataType: "json",
 			        url: "\commonaction.do?op=fetch&service=photo&key=size",
 			        results: function (data) {
@@ -521,7 +541,7 @@
 					$(this).closest('form').validate().element($(this));
 				});
 
-				$("#idQuality.select2").css('width','200px').select2({allowClear:true,ajax: {
+				$("input[id^='idQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
 			        dataType: "json",
 			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
 			        results: function (data) {
@@ -532,6 +552,64 @@
 					$(this).closest('form').validate().element($(this));
 				});
 				
+//----------------- Frame Size, Quality and Numbers
+				$("input[id^='idFrameSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
+				$("input[id^='idFrameType'].select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+				
+				$("input[id^='idFrameNumber'].select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
+//----------------- Lamination Size, Quality and Numbers
+				$("input[id^='idLamQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+				
+				$("input[id^='idLamSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
+//----------- SELECT2 -----------
 				$("select.select2").css('width','200px').select2({allowClear:true})
 				.on('change', function(){
 					$(this).closest('form').validate().element($(this));
@@ -545,7 +623,7 @@
 				jQuery.validator.addMethod("phone", function (value, element) {
 					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
 				}, "Enter a valid phone number.");
-			
+
 				$('#validation-form').validate({
 					errorElement: 'div',
 					errorClass: 'help-block',
@@ -651,16 +729,16 @@
 						if(ace.click_event == "tap") $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
 					}
 				});
+
 				$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
-				
+
 				$(".costfield").on('change keyup paste', function() {
 					var toAm = 0;
 					$(".costfield").each(function(){
 						toAm = toAm + Number($(this).val());
 					});
-					//var toAm = $("#idTotalAmount").val();
 				 	$("#idTotalAmount").val(toAm);
 				 	$("#idTotaltext").html("<span class='icon-inr red'></span> "+$("#idTotalAmount").val());
 				});
@@ -669,6 +747,9 @@
 					   var idLi = closeLi.attr('id');
 					   var numb = idLi.replace("idli","");
 					   var closeContent = $("#photo"+numb);
+					   clearForm($("#photo"+numb));
+					   $("#idPhotoCost"+numb).trigger("change");
+
 					   closeLi.remove();
 					   closeContent.remove();
 					   $("#myPhotoTab li:last-child a").click();
@@ -678,6 +759,9 @@
 					   var idLi = closeLi.attr('id');
 					   var numb = idLi.replace("idliFrame","");
 					   var closeContent = $("#frame"+numb);
+					   clearForm($("#frame"+numb));
+					   $("#idFrameCost"+numb).trigger("change");
+					   
 					   closeLi.remove();
 					   closeContent.remove();
 					   $("#myFrameTab li:last-child a").click();
@@ -688,25 +772,34 @@
 					   var idLi = closeLi.attr('id');
 					   var numb = idLi.replace("idliLam","");
 					   var closeContent = $("#lam"+numb);
+					   clearForm($("#lam"+numb));
+					   $("#idLamCost"+numb).trigger("change");
+
 					   closeLi.remove();
 					   closeContent.remove();
 					   $("#myLamTab li:last-child a").click();
 				});
 				
-				$("#idQuality,#idSize").on('change keyup paste', function() {
-					var urlPath="commonaction.do?op=fetch&service=photo&get=price";
+				$("input[id^='idQuality'],input[id^='idSize']").on('change keyup paste', function() {
+					var urlPath = "commonaction.do?op=fetch&service=photo&get=price";
+					var tabNo = $(this).closest("div[id^='photo']").data('tabNo');
+					if(tabNo){
+						
+					}else
+						tabNo = '';
+					
 					$.ajax({
 						type: "POST",
 						url: urlPath,
-						data:{quality:$("#idQuality").val(),size:$("#idSize").val()},
+						data:{quality:$("#idQuality"+tabNo).val(),size:$("#idSize"+tabNo).val()},
 						dataType: 'json'
 						})
 						.done(function( data ) {
 							if(data.length > 0)
-								$("#idPhotoCost").val(data[0].id);
+								$("#idPhotoCost"+tabNo).val(data[0].id);
 							else
-								$("#idPhotoCost").val("");
-							$("#idPhotoCost").trigger("change");
+								$("#idPhotoCost"+tabNo).val("");
+							$("#idPhotoCost"+tabNo).trigger("change");
 						})
 						.fail(function() {
 							console.error( "error in fetching data from server....." );
@@ -721,36 +814,48 @@
 			var clonedHeader;
 			
 			$("#idAddPhoto").on('click',function(){
+
+			   $( ".spinner" ).spinner( "destroy" );
+			   $( "#idPhotoSource.select2").select2("destroy");
+			   $( "#idSize.select2").select2("destroy");
+			   $( "#idQuality.select2").select2("destroy");
 			   cloned = $('#photo1');
 			   clonedHeader = $("#myPhotoTabLi");
-			   $( ".spinner" ).spinner( "destroy" );
 			   $("#myPhotoTabLi").clone().removeClass('active').attr('id','idli'+(c+1)).insertBefore("#idAddPhoto").find('a').attr({'href':'#photo'+(c+1)}).html('Photo '+ (c+1) + ' <a class="badge badge-grey closeLI" id="idClose'+(c+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
 			   $("#photo1").clone().attr('id', 'photo'+(++c) ).insertAfter( cloned );
-
+			   
+			   $("#photo"+c).data("tabNo",c);
+			   
 			   $("#idli"+(c)+ " a").click();
-			   $("#photo"+c).find("[id*=s2id_]").remove();
 			   $("#photo"+c).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
 				   $( this ).attr({'id':eleID+c,'name':eleName+c});
 			   });
+			   
 			   $("#idPhotoCounter").val(c);
 			   clearForm($("#photo"+c));
 			   callAllFunctions();
-			});
-			
+			});	
+
 			// JS for Frame Tabs
 			var f = 1;
-			
+
 			$("#idAddFrame").on('click',function(){
+				$( ".spinner" ).spinner( "destroy" );
+				$( "#idFrameNumber.select2").select2("destroy");
+				$( "#idFrameType.select2").select2("destroy");
+				$( "#idFrameSize.select2").select2("destroy");
+
 			   cloned = $('#frame1');
 			   clonedHeader = $("#myFrameTabLi");
-			   $( ".spinner" ).spinner( "destroy" );
+
 			   $("#myFrameTabLi").clone().removeClass('active').attr('id','idliFrame'+(f+1)).insertBefore("#idAddFrame").find('a').attr({'href':'#frame'+(f+1)}).html('Frame '+ (f+1) + ' <a class="badge badge-grey closeLIFrame" id="idCloseFrame'+(f+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
 			   $("#frame1").clone().attr('id', 'frame'+(++f) ).insertAfter( cloned );
 
+			   $("#frame"+f).data("tabNo",f);
+
 			   $("#idliFrame"+(f)+ " a").click();
-			   $("#frame"+f).find("[id*=s2id_]").remove();
 			   $("#frame"+f).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
@@ -765,14 +870,19 @@
 			var l = 1;
 
 			$("#idAddLam").on('click',function(){
-			   cloned = $('#lam1');
+			   
+				$( ".spinner" ).spinner( "destroy" );
+				$( "#idLamSize.select2").select2("destroy");
+				$( "#idLamQuality.select2").select2("destroy");
+				   
+				cloned = $('#lam1');
 			   clonedHeader = $("#myLamTabLi");
-			   $( ".spinner" ).spinner( "destroy" );
 			   $("#myLamTabLi").clone().removeClass('active').attr('id','idliLam'+(l+1)).insertBefore("#idAddLam").find('a').attr({'href':'#lam'+(l+1)}).html('Lamination '+ (l+1) + ' <a class="badge badge-grey closeLILam" id="idCloseLam'+(l+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
 			   $("#lam1").clone().attr('id', 'lam'+(++l) ).insertAfter( cloned );
 
+			   $("#lam"+l).data("tabNo",l);
+
 			   $("#idliLam"+(l)+ " a").click();
-			   $("#lam"+l).find("[id*=s2id_]").remove();
 			   $("#lam"+l).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
@@ -792,28 +902,55 @@
 			callAllFunctions();
 			
 			
-		     //------------ AutoComplete Photo Size--------------
-		     <%-- var objJsonPSize = '<% //CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
-		    
-		     objJsonCustomer = JSON.parse(objJsonCustomer.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
-		     $("#idCustomer").autocomplete({
+		     //------------ AutoComplete Customer Form--------------
+		     
+		     var objJsonCustomer= '<%=SantoshUtil.getIdLabelJSON(DBCollectionEnum.CUSTOMER, "_id", "name", "") %>';
+		     
+		     objJsonCustomer = JSON.parse(objJsonCustomer.replace(/"_id"/g,"\"id\"").replace(/"name"/g,"\"label\""));
+		     
+		     $("#idMobile").autocomplete({
 		    	 minLength: 0,
-			     source: objJsonCustomer,
+			     source: function( request, response ) {
+			          var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( request.term ), "i" );
+			          response( $.grep( objJsonCustomer, function( item ){
+			              return matcher.test( item.id );
+			          }) );
+			      },
 			     focus: function( event, ui ) {
-			     $( "#idCustomer" ).val( ui.item.label );
+			     $( "#idMobile" ).val( ui.item.id );
 			     return false;
 			     },
 			     select: function( event, ui ) {
-			     $( "#idCustomer" ).val( ui.item.label );
-			     $( "#idCustomer-id" ).val( ui.item.id );
+			     $( "#idMobile" ).val( ui.item.id );
+			     $( "#idName" ).val( ui.item.label );
+			     
+			     $.ajax({
+						type: "POST",
+						url: "commonaction.do?op=fetch&service=customer&get=all",
+						data:{cust_mobile:$("#idMobile").val()},
+						dataType: 'json'
+						})
+						.done(function( data ) {
+							$("#idEmail").val('');
+							$("#idAddress").val('');
+							$("#idDOB").val('');
+							$("#idMAnniversary").val('');
+							$("#idEmail").val(data[0].emailId);
+							$("#idAddress").val(data[0].address);
+							$("#idDOB").val(data[0].dob);
+							$("#idMAnniversary").val(data[0].marriageDate);
+						})
+						.fail(function() {
+							console.error( "error in fetching data from server....." );
+						});
 			     
 			     return false;
 			     }
 		     })
 		     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
 		     return $( "<li>" )
-		     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
+		     .append( "<a>" + item.id + "<span class='badge badge-primary pull-right'>"+ item.label +"</span>"+ "</a>" )
 		     .appendTo( ul );
-		     }; --%>
+		     };
 	});
 	</script>

@@ -104,6 +104,20 @@ public class InvoiceAction extends HttpServlet {
 				invoice.setLaminationDetailsList(laminationDetailsList);
 
 				//TODO check for the valid insert
+				Boolean isValid = true;
+				if (invoice.getCustomer().get_id() == null || invoice.getCustomer().get_id().trim().isEmpty()) {
+					isValid = false;
+				}
+
+				if (photoDetailsList.size() == 0 && frameDetailsList.size() == 0 && laminationDetailsList.size() == 0) {
+					isValid = false;
+				}
+
+				if (!isValid) {
+					response.sendRedirect("");
+					return;
+				}
+
 				Invoice newInvoice = invoiceService.create(invoice);
 
 				if (newInvoice != null) {
@@ -183,14 +197,18 @@ public class InvoiceAction extends HttpServlet {
 		switch (photoDetails) {
 		case PHOTO_DETAILS:
 			List<PhotoDetails> photoDetailList = new ArrayList<PhotoDetails>();
-			int pCouter = Integer.parseInt(parameterMap.get("fPhotoCounter")[0]);
+			int pCouter = 0;
+			try {
+				pCouter = Integer.parseInt(parameterMap.get("fPhotoCounter")[0]);
+			} catch (Exception e) {
 
+			}
 			PhotoDetails pDetails = new PhotoDetails();
 			if (parameterMap.containsKey("fPhotoNumber"))
 				pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber")[0]);
 			if (parameterMap.containsKey("fPhotoSource"))
 				pDetails.setPhotoSource(parameterMap.get("fPhotoSource")[0]);
-			if (parameterMap.containsKey("fNoPhoto"))
+			if (parameterMap.containsKey("fNoPhoto") && parameterMap.get("fNoPhoto")[0] != null && !parameterMap.get("fNoPhoto")[0].trim().isEmpty())
 				pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto")[0]));
 			if (parameterMap.containsKey("fQuality"))
 				pDetails.setQuality(parameterMap.get("fQuality")[0]);
@@ -207,7 +225,7 @@ public class InvoiceAction extends HttpServlet {
 					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber" + i)[0]);
 					if (parameterMap.containsKey("fPhotoSource" + i))
 						pDetails.setPhotoSource(parameterMap.get("fPhotoSource" + i)[0]);
-					if (parameterMap.containsKey("fNoPhoto" + i))
+					if (parameterMap.containsKey("fNoPhoto" + i) && parameterMap.get("fNoPhoto" + i)[0] != null && !parameterMap.get("fNoPhoto" + i)[0].trim().isEmpty())
 						pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto" + i)[0]));
 					if (parameterMap.containsKey("fQuality" + i))
 						pDetails.setQuality(parameterMap.get("fQuality" + i)[0]);
@@ -225,7 +243,12 @@ public class InvoiceAction extends HttpServlet {
 			break;
 		case FRAME_DETAILS:
 			List<FrameDetails> frameDetailList = new ArrayList<FrameDetails>();
-			int fCouter = Integer.parseInt(parameterMap.get("fFrameCounter")[0]);
+			int fCouter = 0;
+			try {
+				fCouter = Integer.parseInt(parameterMap.get("fFrameCounter")[0]);
+			} catch (Exception e) {
+
+			}
 
 			FrameDetails fDetails = new FrameDetails();
 			if (parameterMap.containsKey("fFrameNumber"))
@@ -257,7 +280,13 @@ public class InvoiceAction extends HttpServlet {
 
 		case LAMINATION_DETAILS:
 			List<LaminationDetails> laminationDetailList = new ArrayList<LaminationDetails>();
-			int lCouter = Integer.parseInt(parameterMap.get("fLamCounter")[0]);
+
+			int lCouter = 0;
+			try {
+				lCouter = Integer.parseInt(parameterMap.get("fLamCounter")[0]);
+			} catch (Exception e) {
+
+			}
 
 			LaminationDetails lDetails = new LaminationDetails();
 			if (parameterMap.containsKey("fLamQuality"))

@@ -10,9 +10,9 @@ import java.util.Set;
 
 import com.async.util.CommonUtil;
 import com.async.util.Constants;
-import com.async.util.MongoUtil;
 import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.Constants.MasterTypeEnum;
+import com.async.util.MongoUtil;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -45,9 +45,9 @@ public class SantoshUtil {
 		System.out.println(getIDTextFormat(MasterTypeEnum.PHOTO.toString(), "size"));
 		Map<String, Object> whereFields = new HashMap<String, Object>();
 		whereFields.put("type", MasterTypeEnum.PHOTO.toString());
-		whereFields.put("size","6x7");
-		whereFields.put("quality","metal");
-		System.out.println(getValue(whereFields,"price"));
+		whereFields.put("size", "6x7");
+		whereFields.put("quality", "metal");
+		System.out.println(getValue(whereFields, "price"));
 	}
 
 	public static String getIDTextFormat(String type, String queryField) {
@@ -85,39 +85,38 @@ public class SantoshUtil {
 
 		return sReturn;
 	}
-	
 
-	public static String getIdLabelJSON(DBCollectionEnum dbCollectionEnum, String idKey, String lableKey, String jsonQuery){
-		try{
+	public static String getIdLabelJSON(DBCollectionEnum dbCollectionEnum, String idKey, String lableKey, String jsonQuery) {
+		try {
 			DB mongoDB = MongoUtil.getDB();
-			
-			DBCollection collection = mongoDB.getCollection(dbCollectionEnum.toString() );
-			DBObject dbKey = new BasicDBObject(idKey,1).append(lableKey, 1);
+
+			DBCollection collection = mongoDB.getCollection(dbCollectionEnum.toString());
+			DBObject dbKey = new BasicDBObject(idKey, 1).append(lableKey, 1);
 
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
-			DBObject finalQuery = deletedQuery; 
-			
-			if( jsonQuery != null && jsonQuery.length() > 0){
+			DBObject finalQuery = deletedQuery;
+
+			if (jsonQuery != null && jsonQuery.length() > 0) {
 				DBObject optionalQuery = (DBObject) JSON.parse(jsonQuery);
 				BasicDBList queryList = new BasicDBList();
 				//queryList.add(deletedQuery);
 				queryList.add(optionalQuery);
 				finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 			}
-			
+
 			DBCursor dbCursor = collection.find(finalQuery, dbKey);
-			
+
 			String sb = "[]";
-			if( dbCursor.hasNext() ) {
-				
-				sb=JSON.serialize(dbCursor).toString();
+			if (dbCursor.hasNext()) {
+
+				sb = JSON.serialize(dbCursor).toString();
 			}
-				
+
 			return sb;
-				
-			}catch( Exception exception ){
-				exception.printStackTrace();
-			}
+
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
 
 		return "";
 	}
@@ -127,11 +126,11 @@ public class SantoshUtil {
 		try {
 			String collectionName = DBCollectionEnum.MASTER.toString();
 			DB db = getDB();
-			
+
 			DBObject query = new BasicDBObject();//"type", type
-			
+
 			for (Map.Entry<String, Object> entry : whereField.entrySet()) {
-				query.put(entry.getKey(),entry.getValue());
+				query.put(entry.getKey(), entry.getValue());
 			}
 			//query.put("size", size);
 			//query.put("quality", quality);
@@ -165,28 +164,33 @@ public class SantoshUtil {
 		return sReturn;
 	}
 
-
 	public static String getAllValue(Map<String, Object> whereField) {
 		String sReturn = null;
 		try {
 			String collectionName = DBCollectionEnum.CUSTOMER.toString();
 			DB db = getDB();
-			
+
 			DBObject query = new BasicDBObject();//"type", type
-			
+
 			for (Map.Entry<String, Object> entry : whereField.entrySet()) {
-				query.put(entry.getKey(),entry.getValue());
+				query.put(entry.getKey(), entry.getValue());
 			}
 			//query.put("size", size);
 			//query.put("quality", quality);
 
 			DBCollection collection = db.getCollection(collectionName);
 			DBCursor results = collection.find(query);
-			if( results.hasNext() ) {
-				
-				sReturn=JSON.serialize(results).toString();
+			if (results.hasNext()) {
+				DBObject dbo = results.next();
+				String strDate = CommonUtil.longToStringDate((Long) dbo.get("dob"));
+				dbo.put("dob", strDate);
+
+				strDate = CommonUtil.longToStringDate((Long) dbo.get("marriageDate"));
+				dbo.put("marriageDate", strDate);
+
+				sReturn = JSON.serialize(dbo).toString();
+				sReturn = "[" + sReturn + "]";
 			}
-			//sReturn = results.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

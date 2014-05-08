@@ -203,22 +203,27 @@ public class InvoiceAction extends HttpServlet {
 			} catch (Exception e) {
 
 			}
-			PhotoDetails pDetails = new PhotoDetails();
-			if (parameterMap.containsKey("fPhotoNumber"))
-				pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber")[0]);
-			if (parameterMap.containsKey("fPhotoSource"))
-				pDetails.setPhotoSource(parameterMap.get("fPhotoSource")[0]);
-			if (parameterMap.containsKey("fNoPhoto") && parameterMap.get("fNoPhoto")[0] != null && !parameterMap.get("fNoPhoto")[0].trim().isEmpty())
-				pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto")[0]));
-			if (parameterMap.containsKey("fQuality"))
-				pDetails.setQuality(parameterMap.get("fQuality")[0]);
-			if (parameterMap.containsKey("fSize"))
-				pDetails.setSize(parameterMap.get("fSize")[0]);
-			if (parameterMap.containsKey("fRemark"))
-				pDetails.setRemark(parameterMap.get("fRemark")[0]);
-			if (parameterMap.containsKey("fPhotoCost"))
-				pDetails.setPrice(parameterMap.get("fPhotoCost")[0]);
-			photoDetailList.add(pDetails);
+			PhotoDetails pDetails = null;
+			if (parameterMap.containsKey("fPhotoNumber") && parameterMap.get("fPhotoNumber")[0] != null && !parameterMap.get("fPhotoNumber")[0].trim().isEmpty()) {
+				pDetails = new PhotoDetails();
+
+				if (parameterMap.containsKey("fPhotoNumber"))
+					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber")[0]);
+				if (parameterMap.containsKey("fPhotoSource"))
+					pDetails.setPhotoSource(parameterMap.get("fPhotoSource")[0]);
+				if (parameterMap.containsKey("fNoPhoto") && parameterMap.get("fNoPhoto")[0] != null && !parameterMap.get("fNoPhoto")[0].trim().isEmpty())
+					pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto")[0]));
+				if (parameterMap.containsKey("fQuality"))
+					pDetails.setQuality(parameterMap.get("fQuality")[0]);
+				if (parameterMap.containsKey("fSize"))
+					pDetails.setSize(parameterMap.get("fSize")[0]);
+				if (parameterMap.containsKey("fRemark"))
+					pDetails.setRemark(parameterMap.get("fRemark")[0]);
+				if (parameterMap.containsKey("fPhotoCost"))
+					pDetails.setPrice(parameterMap.get("fPhotoCost")[0]);
+				photoDetailList.add(pDetails);
+			}
+
 			for (int i = 2; i <= pCouter; i++) {
 				if (parameterMap.containsKey("fPhotoNumber" + i)) {
 					pDetails = new PhotoDetails();
@@ -249,17 +254,20 @@ public class InvoiceAction extends HttpServlet {
 			} catch (Exception e) {
 
 			}
+			FrameDetails fDetails = null;
+			if (parameterMap.containsKey("fFrameNumber") && parameterMap.get("fFrameNumber")[0] != null && !parameterMap.get("fFrameNumber")[0].trim().isEmpty()) {
+				fDetails = new FrameDetails();
+				if (parameterMap.containsKey("fFrameNumber"))
+					fDetails.setFrameNumber(parameterMap.get("fFrameNumber")[0]);
+				if (parameterMap.containsKey("fFrameSize"))
+					fDetails.setSize(parameterMap.get("fFrameSize")[0]);
+				if (parameterMap.containsKey("fFrameRemark"))
+					fDetails.setRemark(parameterMap.get("fFrameRemark")[0]);
+				if (parameterMap.containsKey("fFrameCost"))
+					fDetails.setPrice(parameterMap.get("fFrameCost")[0]);
+				frameDetailList.add(fDetails);
+			}
 
-			FrameDetails fDetails = new FrameDetails();
-			if (parameterMap.containsKey("fFrameNumber"))
-				fDetails.setFrameNumber(parameterMap.get("fFrameNumber")[0]);
-			if (parameterMap.containsKey("fFrameSize"))
-				fDetails.setSize(parameterMap.get("fFrameSize")[0]);
-			if (parameterMap.containsKey("fFrameRemark"))
-				fDetails.setRemark(parameterMap.get("fFrameRemark")[0]);
-			if (parameterMap.containsKey("fFrameCost"))
-				fDetails.setPrice(parameterMap.get("fFrameCost")[0]);
-			frameDetailList.add(fDetails);
 			for (int i = 2; i <= fCouter; i++) {
 				if (parameterMap.containsKey("fFrameNumber" + i)) {
 					fDetails = new FrameDetails();
@@ -288,16 +296,20 @@ public class InvoiceAction extends HttpServlet {
 
 			}
 
-			LaminationDetails lDetails = new LaminationDetails();
-			if (parameterMap.containsKey("fLamQuality"))
-				lDetails.setQuality(parameterMap.get("fLamQuality")[0]);
-			if (parameterMap.containsKey("fLamSize"))
-				lDetails.setSize(parameterMap.get("fLamSize")[0]);
-			if (parameterMap.containsKey("fLamRemark"))
-				lDetails.setRemark(parameterMap.get("fLamRemark")[0]);
-			if (parameterMap.containsKey("fLamCost"))
-				lDetails.setPrice(parameterMap.get("fLamCost")[0]);
-			laminationDetailList.add(lDetails);
+			LaminationDetails lDetails = null;
+			if (parameterMap.containsKey("fLamQuality") && parameterMap.get("fLamQuality")[0] != null && !parameterMap.get("fLamQuality")[0].trim().isEmpty()) {
+				lDetails = new LaminationDetails();
+				if (parameterMap.containsKey("fLamQuality"))
+					lDetails.setQuality(parameterMap.get("fLamQuality")[0]);
+				if (parameterMap.containsKey("fLamSize"))
+					lDetails.setSize(parameterMap.get("fLamSize")[0]);
+				if (parameterMap.containsKey("fLamRemark"))
+					lDetails.setRemark(parameterMap.get("fLamRemark")[0]);
+				if (parameterMap.containsKey("fLamCost"))
+					lDetails.setPrice(parameterMap.get("fLamCost")[0]);
+				laminationDetailList.add(lDetails);
+			}
+
 			for (int i = 2; i <= lCouter; i++) {
 				if (parameterMap.containsKey("fLamQuality" + i)) {
 					lDetails = new LaminationDetails();

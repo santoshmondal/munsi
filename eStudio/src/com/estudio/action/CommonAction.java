@@ -72,14 +72,20 @@ public class CommonAction extends HttpServlet {
 			case FETCH:
 				if(!((String)request.getParameter("service")).equalsIgnoreCase("")){
 					if(request.getParameter("key") != null && !((String)request.getParameter("key")).equalsIgnoreCase("")){
-						json = SantoshUtil.getIDTextFormat((String)request.getParameter("service"), (String)request.getParameter("key"));
+							json = SantoshUtil.getIDTextFormat((String)request.getParameter("service"), (String)request.getParameter("key"));
 					}
-					else if(request.getParameter("get") != null){
-						Map<String, Object> whereFields = new HashMap<String, Object>();
-						whereFields.put("type", MasterTypeEnum.PHOTO.toString());
-						whereFields.put("size",request.getParameter("size"));
-						whereFields.put("quality",request.getParameter("quality"));
-						json = SantoshUtil.getValue(whereFields, request.getParameter("get").toString());
+					else{
+						if(request.getParameter("get") != null && request.getParameter("get").equalsIgnoreCase("all")){
+							Map<String, Object> whereFields = new HashMap<String, Object>();
+							whereFields.put("_id", request.getParameter("cust_mobile"));
+							json = SantoshUtil.getAllValue(whereFields);
+						}else if(request.getParameter("get") != null ){
+							Map<String, Object> whereFields = new HashMap<String, Object>();
+							whereFields.put("type", MasterTypeEnum.PHOTO.toString());
+							whereFields.put("size",request.getParameter("size"));
+							whereFields.put("quality",request.getParameter("quality"));
+							json = SantoshUtil.getValue(whereFields, request.getParameter("get").toString());							
+						}
 					}
 				}
 				

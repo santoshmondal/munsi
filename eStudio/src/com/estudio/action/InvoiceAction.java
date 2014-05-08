@@ -127,12 +127,20 @@ public class InvoiceAction extends HttpServlet {
 					areaService.delete(id);
 				}
 				break;
-
+			*/
 			case VIEW :
+
+				//TODO check for the valid insert
+				newInvoice = invoiceService.get(request.getParameter("invoiceno"));
 				
+				if (newInvoice != null) {
+					request.setAttribute("INVOICE_DETAIL", newInvoice);
+					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/showinvoice.jsp");
+					rd.forward(request, response);
+				}
 				break;	
 			
-				*/
+				
 			case VIEW_ALL:
 
 				List<Invoice> invList = invoiceService.getAll();

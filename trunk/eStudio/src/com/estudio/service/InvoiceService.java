@@ -2,6 +2,7 @@ package com.estudio.service;
 
 import java.util.List;
 
+import com.async.util.CommonUtil;
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
 import com.estudio.dao.CustomerDao;
@@ -59,7 +60,7 @@ public class InvoiceService {
 	public static void main(String[] args) {
 		InvoiceService iSerice = (InvoiceService) ObjectFactory.getInstance(ObjectEnum.INVOICE_SERVICE);
 
-		Customer customer = new Customer();
+		/*Customer customer = new Customer();
 		customer.set_id("12345");
 		customer.setName("sameer");
 
@@ -67,7 +68,26 @@ public class InvoiceService {
 		invoice.setStatus("ENUM_STATUS");
 		invoice.setCustomer(customer);
 
-		iSerice.create(invoice);
+		iSerice.create(invoice);*/
+		List<Invoice> all = iSerice.getAll();
+
+		for (Invoice invRef : all) {
+			invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
+			invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
+
+			Customer sCustomer = invRef.getCustomer();
+			if (sCustomer != null) {
+
+				if (sCustomer.getDob() != null) {
+					sCustomer.setsDob(CommonUtil.longToStringDate(sCustomer.getDob().getTime()));
+				}
+				if (sCustomer.getMarriageDate() != null) {
+					sCustomer.setsMarriageDate(CommonUtil.longToStringDate(sCustomer.getMarriageDate().getTime()));
+				}
+			}
+		}
+
+		System.out.println(all);
 
 	}
 }

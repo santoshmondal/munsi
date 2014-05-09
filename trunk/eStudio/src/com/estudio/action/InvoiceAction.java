@@ -163,8 +163,12 @@ public class InvoiceAction extends HttpServlet {
 
 					Customer sCustomer = invRef.getCustomer();
 					if (sCustomer != null) {
-						sCustomer.setsDob(CommonUtil.longToStringDate(sCustomer.getDob().getTime()));
-						sCustomer.setsMarriageDate(CommonUtil.longToStringDate(sCustomer.getMarriageDate().getTime()));
+						if (sCustomer.getDob() != null) {
+							sCustomer.setsDob(CommonUtil.longToStringDate(sCustomer.getDob().getTime()));
+						}
+						if (sCustomer.getMarriageDate() != null) {
+							sCustomer.setsMarriageDate(CommonUtil.longToStringDate(sCustomer.getMarriageDate().getTime()));
+						}
 					}
 				}
 

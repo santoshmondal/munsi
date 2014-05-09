@@ -1,6 +1,7 @@
 package com.estudio.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.estudio.pojo.Invoice;
 
@@ -15,6 +16,8 @@ public interface InvoiceDao {
 	public Invoice get(String _id);
 
 	public List<Invoice> getAll();
+
+	public List<Invoice> getAllByField(Map<String, String> map);
 
 	public Boolean updateStatus(String _id, String status);
 

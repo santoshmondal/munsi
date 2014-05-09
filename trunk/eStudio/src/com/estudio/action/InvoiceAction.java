@@ -114,7 +114,9 @@ public class InvoiceAction extends HttpServlet {
 				}
 
 				if (!isValid) {
-					response.sendRedirect("");
+					request.setAttribute("SERVER_MESSAGE", "Fail to create invoice. Please Try Again."); 
+					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/newinvoice.jsp");
+					rd.forward(request, response);
 					return;
 				}
 

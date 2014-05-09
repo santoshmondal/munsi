@@ -65,8 +65,19 @@ public class Constants {
 
 	public enum OrderStatuEnum {
 		// @formatter:off
-		RAW_DATA, FINAL_DATA, SEND_TO_PRINT, RECEIVED_FROM_PRINT, DELIVERED;
+		RAW_DATA("Raw Data"), FINAL_DATA("Final Data"), SEND_TO_PRINT("Send to Print"), RECEIVED_FROM_PRINT("Received from Print"), DELIVERED("Delivered");
 		// @formatter:on
+
+		private final String status;
+
+		private OrderStatuEnum(String status) {
+			this.status = status;
+		}
+
+		@Override
+		public String toString() {
+			return status;
+		}
 	}
 
 }

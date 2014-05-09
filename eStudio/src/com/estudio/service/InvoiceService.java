@@ -1,6 +1,7 @@
 package com.estudio.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.async.util.CommonUtil;
 import com.async.util.ObjectFactory;
@@ -31,6 +32,10 @@ public class InvoiceService {
 
 	public List<Invoice> getAll() {
 		return invoiceDao.getAll();
+	}
+
+	public List<Invoice> getAllByField(Map<String, String> map) {
+		return invoiceDao.getAllByField(map);
 	}
 
 	public Invoice get(String _id) {

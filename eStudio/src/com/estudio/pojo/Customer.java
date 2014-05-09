@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Customer extends BasePojo {
 	private static final long serialVersionUID = 1L;
-	
+
 	/** Mobile number */
 	private String _id;
 	private String name;
@@ -12,7 +12,10 @@ public class Customer extends BasePojo {
 	private Date marriageDate;
 	private Date dob;
 	private String emailId;
-	
+
+	private String sMarriageDate;
+	private String sDob;
+
 	public String get_id() {
 		return _id;
 	}
@@ -61,15 +64,31 @@ public class Customer extends BasePojo {
 		this.emailId = emailId;
 	}
 
+	public String getsMarriageDate() {
+		return sMarriageDate;
+	}
+
+	public void setsMarriageDate(String sMarriageDate) {
+		this.sMarriageDate = sMarriageDate;
+	}
+
+	public String getsDob() {
+		return sDob;
+	}
+
+	public void setsDob(String sDob) {
+		this.sDob = sDob;
+	}
+
 	@Override
 	public int hashCode() {
 		return get_id().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		Customer customer = (Customer) obj;
-		if( get_id().equals(customer.get_id()) ){
+		if (get_id().equals(customer.get_id())) {
 			return true;
 		}
 		return false;

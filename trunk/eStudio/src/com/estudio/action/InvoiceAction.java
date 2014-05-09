@@ -161,6 +161,13 @@ public class InvoiceAction extends HttpServlet {
 					invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
 					invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
 
+					if (invRef.getInvoiceDate() != null) {
+						invRef.setsInvoiceDate(CommonUtil.longToStringDate(invRef.getInvoiceDate().getTime()));
+					}
+					if (invRef.getDelivaryDate() != null) {
+						invRef.setsDelivaryDate(CommonUtil.longToStringDate(invRef.getDelivaryDate().getTime()));
+					}
+
 					Customer sCustomer = invRef.getCustomer();
 					if (sCustomer != null) {
 						if (sCustomer.getDob() != null) {

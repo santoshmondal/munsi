@@ -17,6 +17,9 @@ public class Invoice extends BasePojo {
 	private String status;
 	private Customer customer;
 
+	private String sInvoiceDate;
+	private String sDelivaryDate;
+
 	private List<PhotoDetails> photoDetailsList;
 	private List<FrameDetails> frameDetailsList;
 	private List<LaminationDetails> laminationDetailsList;
@@ -115,6 +118,22 @@ public class Invoice extends BasePojo {
 
 	public void setLaminationDetailsList(List<LaminationDetails> laminationDetailsList) {
 		this.laminationDetailsList = laminationDetailsList;
+	}
+
+	public String getsInvoiceDate() {
+		return sInvoiceDate;
+	}
+
+	public void setsInvoiceDate(String sInvoiceDate) {
+		this.sInvoiceDate = sInvoiceDate;
+	}
+
+	public String getsDelivaryDate() {
+		return sDelivaryDate;
+	}
+
+	public void setsDelivaryDate(String sDelivaryDate) {
+		this.sDelivaryDate = sDelivaryDate;
 	}
 
 }

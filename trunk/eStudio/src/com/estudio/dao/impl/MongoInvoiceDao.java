@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import com.async.util.CommonUtil;
+import com.async.util.Constants;
 import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
 import com.estudio.dao.InvoiceDao;
@@ -19,12 +20,12 @@ import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.util.JSON;
 
-public class MongoInvoiceDao implements InvoiceDao{
+public class MongoInvoiceDao implements InvoiceDao {
 	private static final Logger LOG = Logger.getLogger(MongoInvoiceDao.class);
 
 	private final String collInvoice = DBCollectionEnum.INVOICE.toString();
 	private final String collCustomer = DBCollectionEnum.CUSTOMER.toString();
-	
+
 	private final String KEY_CUSTOMER = "customer";
 	private final String KEY_CUSTOMER_XID = "customeXid";
 	private final DB mongoDB = MongoUtil.getDB();
@@ -37,10 +38,12 @@ public class MongoInvoiceDao implements InvoiceDao{
 			invoice.setCtime(date);
 			invoice.setUtime(date);
 			Integer _id = MongoUtil.getNextSequence(DBCollectionEnum.INVOICE);
-			invoice.set_id(_id+"");
-			invoice.setInvoiceNumber(_id+"");
+			invoice.set_id(_id + "");
+			invoice.setInvoiceNumber(_id + "");
 			invoice.setInvoiceDate(date);
-			
+
+			invoice.setStatus(Constants.OrderStatuEnum.RAW_DATA.toString());
+
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 			String jsonString = CommonUtil.objectToJson(invoice);
 
@@ -69,12 +72,12 @@ public class MongoInvoiceDao implements InvoiceDao{
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 			dbObject.removeField("_id");
-			if(invoice.getCustomer() != null){
+			if (invoice.getCustomer() != null) {
 				dbObject.removeField(KEY_CUSTOMER);
 				DBRef custRef = new DBRef(mongoDB, collCustomer, invoice.getCustomer().get_id());
 				dbObject.put(KEY_CUSTOMER_XID, custRef);
 			}
-			
+
 			DBObject query = new BasicDBObject("_id", invoice.get_id());
 
 			DBObject update = new BasicDBObject("$set", dbObject);
@@ -87,17 +90,16 @@ public class MongoInvoiceDao implements InvoiceDao{
 		return false;
 
 	}
-	
+
 	@Override
 	public Boolean updateStatus(String _id, String status) {
 		try {
 			Date date = new Date();
-			
+
 			DBCollection collection = mongoDB.getCollection(collInvoice);
-			
-			DBObject dbObject = new BasicDBObject("status",status)
-								.append("utime", date);
-			
+
+			DBObject dbObject = new BasicDBObject("status", status).append("utime", date);
+
 			DBObject query = new BasicDBObject("_id", _id);
 
 			DBObject update = new BasicDBObject("$set", dbObject);
@@ -110,7 +112,6 @@ public class MongoInvoiceDao implements InvoiceDao{
 		return false;
 
 	}
-	
 
 	@Override
 	public Boolean delete(String _id) {
@@ -121,7 +122,7 @@ public class MongoInvoiceDao implements InvoiceDao{
 			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
 			DBObject updateObj = new BasicDBObject("$set", update);
 			collection.update(query, updateObj);
-			
+
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -135,10 +136,10 @@ public class MongoInvoiceDao implements InvoiceDao{
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
-			
-			DBObject custRef =  ( (DBRef)dbObject.get(KEY_CUSTOMER_XID) ).fetch();
+
+			DBObject custRef = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
 			dbObject.put(KEY_CUSTOMER, custRef);
-			
+
 			String jsonString = JSON.serialize(dbObject);
 			Invoice invoice = (Invoice) CommonUtil.jsonToObject(jsonString, Invoice.class.getName());
 
@@ -149,7 +150,6 @@ public class MongoInvoiceDao implements InvoiceDao{
 		}
 		return null;
 	}
-
 
 	@Override
 	public List<Invoice> getAll() {
@@ -162,7 +162,7 @@ public class MongoInvoiceDao implements InvoiceDao{
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 
-				DBObject custRef =  ( (DBRef)dbObject.get(KEY_CUSTOMER_XID) ).fetch();
+				DBObject custRef = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
 				dbObject.put(KEY_CUSTOMER, custRef);
 
 				String jsonString = JSON.serialize(dbObject);

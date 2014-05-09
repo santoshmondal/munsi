@@ -114,7 +114,7 @@ public class InvoiceAction extends HttpServlet {
 				}
 
 				if (!isValid) {
-					request.setAttribute("SERVER_MESSAGE", "Fail to create invoice. Please Try Again."); 
+					request.setAttribute("SERVER_MESSAGE", "Fail to create invoice. Please Try Again.");
 					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/newinvoice.jsp");
 					rd.forward(request, response);
 					return;
@@ -157,6 +157,17 @@ public class InvoiceAction extends HttpServlet {
 			case VIEW_ALL:
 
 				List<Invoice> invList = invoiceService.getAll();
+				for (Invoice invRef : invList) {
+					invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
+					invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
+
+					Customer sCustomer = invRef.getCustomer();
+					if (sCustomer != null) {
+						sCustomer.setsDob(CommonUtil.longToStringDate(sCustomer.getDob().getTime()));
+						sCustomer.setsMarriageDate(CommonUtil.longToStringDate(sCustomer.getMarriageDate().getTime()));
+					}
+				}
+
 				json = CommonUtil.objectToJson(invList);
 				json = json.replaceAll("_id", "id");
 				break;

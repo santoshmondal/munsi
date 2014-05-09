@@ -173,7 +173,7 @@ public class MongoInvoiceDao implements InvoiceDao {
 			excludeProjection.put("frameDetailsList", 0);
 			excludeProjection.put("laminationDetailsList", 0);
 
-			DBObject orderBy = new BasicDBObject("ctime", 1);
+			DBObject orderBy = new BasicDBObject("ctime", -1);
 
 			DBCursor dbCursor = collection.find(query, excludeProjection).sort(orderBy);
 

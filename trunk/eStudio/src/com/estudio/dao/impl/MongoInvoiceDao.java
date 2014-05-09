@@ -96,10 +96,15 @@ public class MongoInvoiceDao implements InvoiceDao {
 	public Boolean updateStatus(String _id, String status) {
 		try {
 			Date date = new Date();
+			Invoice invoice = new Invoice();
+			invoice.set_id(_id);
+			invoice.setUtime(date);
+			invoice.setStatus(status);
+
+			String json = CommonUtil.objectToJson(invoice);
+			DBObject dbObject = (DBObject) JSON.parse(json);
 
 			DBCollection collection = mongoDB.getCollection(collInvoice);
-
-			DBObject dbObject = new BasicDBObject("status", status).append("utime", date);
 
 			DBObject query = new BasicDBObject("_id", _id);
 

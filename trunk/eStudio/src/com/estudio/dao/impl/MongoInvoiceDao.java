@@ -155,7 +155,12 @@ public class MongoInvoiceDao implements InvoiceDao {
 	public List<Invoice> getAll() {
 		try {
 			DBCollection collection = mongoDB.getCollection(collInvoice);
-			DBCursor dbCursor = collection.find();
+			DBObject query = new BasicDBObject();
+			DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
+			excludeProjection.put("frameDetailsList", 0);
+			excludeProjection.put("laminationDetailsList", 0);
+
+			DBCursor dbCursor = collection.find(query, excludeProjection);
 
 			List<Invoice> areaList = new ArrayList<>();
 
@@ -177,5 +182,4 @@ public class MongoInvoiceDao implements InvoiceDao {
 		}
 		return null;
 	}
-
 }

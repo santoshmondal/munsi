@@ -3,6 +3,7 @@ package com.estudio.dao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -153,14 +154,27 @@ public class MongoInvoiceDao implements InvoiceDao {
 
 	@Override
 	public List<Invoice> getAll() {
+		return getAllByField(null);
+	}
+
+	@Override
+	public List<Invoice> getAllByField(Map<String, String> map) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collInvoice);
+
 			DBObject query = new BasicDBObject();
+			if (map != null) {
+				for (Map.Entry<String, String> entry : map.entrySet()) {
+					query.put(entry.getKey(), entry.getValue());
+				}
+			}
+
 			DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
 			excludeProjection.put("frameDetailsList", 0);
 			excludeProjection.put("laminationDetailsList", 0);
 
 			DBObject orderBy = new BasicDBObject("ctime", 1);
+
 			DBCursor dbCursor = collection.find(query, excludeProjection).sort(orderBy);
 
 			List<Invoice> areaList = new ArrayList<>();
@@ -183,4 +197,5 @@ public class MongoInvoiceDao implements InvoiceDao {
 		}
 		return null;
 	}
+
 }

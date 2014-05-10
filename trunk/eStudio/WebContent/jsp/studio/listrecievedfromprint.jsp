@@ -32,12 +32,7 @@
 
 	<script type="text/javascript">
 	$(document).ready(function () {
-        var myData = [
-				{'id':1,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Sent to Print"},
-				{'id':2,'customerName':'Ken Smith','mobileNo':5462541238,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"5/8/2010",'status':"Sent to Print"},
-				{'id':3,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"2/5/2010",'status':"Sent to Print"}
-            ],
-            myGrid = $("#grid-table-data");
+        var myGrid = $("#grid-table-data");
 
         myGrid.jqGrid({
 
@@ -47,8 +42,6 @@
 			gridview: true,
 			datatype: "json",
 
-            //datatype:'local',
-            //data: myData,
 			colNames:['id','Customer Name','Mobile No.','Total Amount','Balance Amount','Order Date','Estimated Date','Status',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
@@ -143,7 +136,7 @@
 			viewrecords: true,
             autowidth:true,
             sortorder: 'desc',
-            height: '366',
+            height: '380',
             editurl: "${pageContext.request.contextPath}/invoiceaction.do?op=EDIT"
         });
         myGrid.jqGrid('filterToolbar', {stringResult: true, searchOnEnter: false, defaultSearch : "cn"});

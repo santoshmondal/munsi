@@ -36,6 +36,7 @@
 					url: "${pageContext.request.contextPath}/masteraction.do?op=view_all&type=photo",
 					mtype: "POST",
 					loadonce: true,
+					rownumbers:true,
 					gridview: true,
 					datatype: "json",
 					height: 366,
@@ -50,7 +51,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/manufacturer.action?op=delete",  beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/masteraction.do?op=delete",  beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}

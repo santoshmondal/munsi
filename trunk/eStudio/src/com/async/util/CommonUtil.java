@@ -1,6 +1,8 @@
 package com.async.util;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,11 +25,13 @@ public class CommonUtil {
 		// JSON Ignore Null, and Ignore Unknow fields
 		mapper.setSerializationInclusion(Include.NON_NULL);
 		mapper.setSerializationInclusion(Include.NON_EMPTY);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+				false);
 
 	}
 
-	public static Object jsonToObject(String json, String fullyQualifiedClassName) {
+	public static Object jsonToObject(String json,
+			String fullyQualifiedClassName) {
 
 		try {
 			Class<?> jsonClass = Class.forName(fullyQualifiedClassName);
@@ -90,6 +94,33 @@ public class CommonUtil {
 			return sdf.parse(string);
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	public static void smsMsg(String toNo, String msg) {
+		String strURL = "http://api.mVaayoo.com/mvaayooapi/MessageCompose?user=padiyodi@gmail.com:isdc@1234&"
+				+ "senderID=TEST SMS&"
+				+ "receipientno="
+				+ toNo
+				+ "&dcs=0&msgtxt="
+				+ msg
+				+ "&state=4"; 
+		
+		System.out.println(" URL is :" + strURL);
+		try {
+			java.net.URL obj = new java.net.URL(strURL);
+			HttpURLConnection httpReq = (HttpURLConnection) obj.openConnection();
+			httpReq.setDoOutput(true);
+			httpReq.setInstanceFollowRedirects(true);
+			httpReq.setRequestMethod("GET");
+			int iStatus = httpReq.getResponseCode();
+			System.out.println("Status is:" + iStatus);
+		} catch (MalformedURLException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

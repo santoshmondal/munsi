@@ -35,6 +35,7 @@
 					
 					url: "${pageContext.request.contextPath}/masteraction.do?op=view_all&type=lamination",
 					mtype: "POST",
+					rownumbers:true,
 					loadonce: true,
 					gridview: true,
 					datatype: "json",
@@ -50,7 +51,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/manufacturer.action?op=delete",  beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/masteraction.do?op=delete",  beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}

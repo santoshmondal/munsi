@@ -73,18 +73,10 @@ public class MongoMasterDao implements MasterDao{
 
 	@Override
 	public Boolean delete(String _id) {
-		try {
-			DBCollection collection = mongoDB.getCollection(collMaster);
-
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update);
-			collection.update(query, updateObj);
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return false;
-
+		Master master = new Master();
+		master.set_id(_id);;
+		master.setDeleted(true);
+		return update(master);
 	}
 
 	

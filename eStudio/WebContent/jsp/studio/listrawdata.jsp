@@ -136,7 +136,7 @@
 			viewrecords: true,
             autowidth:true,
             sortorder: 'desc',
-            height: '366',
+            height: '380',
             editurl: "${pageContext.request.contextPath}/invoiceaction.do?op=EDIT"
         });
         myGrid.jqGrid('filterToolbar', {stringResult: true, searchOnEnter: false, defaultSearch : "cn"});

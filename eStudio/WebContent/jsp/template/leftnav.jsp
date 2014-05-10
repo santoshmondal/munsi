@@ -40,25 +40,26 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/studio/orderbookall.jsp"> <i
+				<li><a href="#" data-href="/jsp/studio/listorderbookall.jsp"> <i
 						class="icon-double-angle-right"></i> All
 				</a></li>
-				<li><a href="#" data-href="/jsp/studio/delivered.jsp">
+				<li><a href="#" data-href="/jsp/studio/listdelivered.jsp">
 						<i class="icon-double-angle-right"></i> Delivered
 				</a></li>
-				<li><a href="#" data-href="/jsp/studio/senttoprint.jsp">
+				
+				<li><a href="#" data-href="/jsp/studio/listrecievedfromprint.jsp">
+						<i class="icon-double-angle-right"></i> Received from Print
+				</a></li>
+				<li><a href="#" data-href="/jsp/studio/listsenttoprint.jsp">
 						<i class="icon-double-angle-right"></i> Sent to Print
 				</a></li>
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+				<li><a href="#" data-href="/jsp/studio/listrawdata.jsp">
 						<i class="icon-double-angle-right"></i> Raw Data
 				</a></li>
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
+				<li><a href="#" data-href="/jsp/studio/listfinaldata.jsp">
 						<i class="icon-double-angle-right"></i> Final Data
 				</a></li>
 				
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
-						<i class="icon-double-angle-right"></i> Received from Print
-				</a></li>
 				
 			</ul>
 		</li>

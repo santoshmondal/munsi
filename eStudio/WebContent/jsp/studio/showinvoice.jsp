@@ -58,8 +58,7 @@ body * { visibility: hidden; }
 											<div class="widget-body">
 												<div class="widget-main padding-24">
 													<div class="row">
-														
-														<sdiv class="col-sm-12">
+														<div class="col-sm-12">
 															<div class="row">
 																<div class="col-xs-11 label label-lg label-success">
 																	<b>Customer Info</b>
@@ -70,13 +69,12 @@ body * { visibility: hidden; }
 																<ul class="list-unstyled  spaced">
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Name : <% //newInvoice.getCustomer().getName() %>
-																		
+																		Name : <%=newInvoice.getCustomer().getName() %>
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right green"></i>
-																		Mobile : <% //newInvoice.getCustomer().get_id() %>
+																		Mobile : <%=newInvoice.getCustomer().get_id() %>
 																	</li>
 																</ul>
 															</div>

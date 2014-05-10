@@ -33,7 +33,7 @@
 	<script type="text/javascript">
 	$(document).ready(function () {
 
-            myGrid = $("#grid-table-data");
+            var myGrid = $("#grid-table-data");
 
         myGrid.jqGrid({
 
@@ -137,7 +137,7 @@
 			viewrecords: true,
             autowidth:true,
             sortorder: 'desc',
-            height: '366',
+            height: '380',
             editurl: "${pageContext.request.contextPath}/invoiceaction.do?op=EDIT"
         });
         myGrid.jqGrid('filterToolbar', {stringResult: true, searchOnEnter: false, defaultSearch : "cn"});

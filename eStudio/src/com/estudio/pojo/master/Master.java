@@ -11,14 +11,15 @@ public class Master extends BasePojo  {
 	private String size;
 	private String quality;
 	private Float price;
-	
+
 	private Float direct;
 	private Float mount;
 	private Float rightMount;
 	private Float leftMount;
 	private Float goldMount;
 	private Float pastting;
-	
+	private String description;
+
 	public String get_id() {
 		return _id;
 	}
@@ -85,6 +86,14 @@ public class Master extends BasePojo  {
 	}
 	public void setPastting(Float pastting) {
 		this.pastting = pastting;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

@@ -7,6 +7,7 @@ import com.estudio.dao.impl.MongoMasterDao;
 import com.estudio.service.AccessUserServeice;
 import com.estudio.service.CustomerService;
 import com.estudio.service.InvoiceService;
+import com.estudio.service.MasterService;
 
 public class ObjectFactory {
 
@@ -20,7 +21,8 @@ public class ObjectFactory {
 		// Services
 		CUSTOMER_SERVICE(CustomerService.class.getName()),
 		ACCESS_USER_SERVICE(AccessUserServeice.class.getName()),
-		INVOICE_SERVICE(InvoiceService.class.getName());
+		INVOICE_SERVICE(InvoiceService.class.getName()),
+		MASTER_SERVICE(MasterService.class.getName());
 		//@formatter:on
 
 		private final String className;

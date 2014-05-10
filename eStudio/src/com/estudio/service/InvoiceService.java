@@ -26,7 +26,8 @@ public class InvoiceService {
 	}
 
 	public Boolean update(Invoice invoice) {
-		upsertCustomer(invoice.getCustomer());
+		if(invoice.getCustomer() != null)
+			upsertCustomer(invoice.getCustomer());
 		return invoiceDao.update(invoice);
 	}
 
@@ -49,6 +50,10 @@ public class InvoiceService {
 	public Boolean updateStatus(String _id, String status) {
 		return invoiceDao.updateStatus(_id, status);
 	}
+	
+	public Boolean updateBalance(String _id, String status) {
+		return invoiceDao.updateStatus(_id, status);
+	}
 
 	public Boolean upsertCustomer(Customer customer) {
 		String customerId = customer.get_id();
@@ -65,15 +70,6 @@ public class InvoiceService {
 	public static void main(String[] args) {
 		InvoiceService iSerice = (InvoiceService) ObjectFactory.getInstance(ObjectEnum.INVOICE_SERVICE);
 
-		/*Customer customer = new Customer();
-		customer.set_id("12345");
-		customer.setName("sameer");
-
-		Invoice invoice = new Invoice();
-		invoice.setStatus("ENUM_STATUS");
-		invoice.setCustomer(customer);
-
-		iSerice.create(invoice);*/
 		List<Invoice> all = iSerice.getAll();
 
 		for (Invoice invRef : all) {

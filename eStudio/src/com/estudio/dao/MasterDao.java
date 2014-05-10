@@ -1,6 +1,7 @@
 package com.estudio.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.estudio.pojo.master.Master;
 
@@ -16,4 +17,5 @@ public interface MasterDao {
 
 	public List<Master> getAll();
 
+	public List<Master> getAllByField(Map<String, String> map);
 }

@@ -81,9 +81,13 @@ public class CommonAction extends HttpServlet {
 							json = SantoshUtil.getAllValue(whereFields);
 						}else if(request.getParameter("get") != null ){
 							Map<String, Object> whereFields = new HashMap<String, Object>();
-							whereFields.put("type", MasterTypeEnum.PHOTO.toString());
+							whereFields.put("type", (String)request.getParameter("service"));
 							whereFields.put("size",request.getParameter("size"));
-							whereFields.put("quality",request.getParameter("quality"));
+							if(request.getParameterMap().containsKey("quality"))
+								whereFields.put("quality",request.getParameter("quality"));
+							if(request.getParameterMap().containsKey("frameNumber"))
+								whereFields.put("frameNumber",request.getParameter("frameNumber"));
+								
 							json = SantoshUtil.getValue(whereFields, request.getParameter("get").toString());							
 						}
 					}

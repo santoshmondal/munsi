@@ -11,6 +11,7 @@ public class Master extends BasePojo  {
 	private String size;
 	private String quality;
 	private Float price;
+	private String frameNumber;
 
 	private Float direct;
 	private Float mount;
@@ -51,6 +52,14 @@ public class Master extends BasePojo  {
 	public void setPrice(Float price) {
 		this.price = price;
 	}
+	public String getFrameNumber() {
+		return frameNumber;
+	}
+
+	public void setFrameNumber(String frameNumber) {
+		this.frameNumber = frameNumber;
+	}
+
 	public Float getDirect() {
 		return direct;
 	}

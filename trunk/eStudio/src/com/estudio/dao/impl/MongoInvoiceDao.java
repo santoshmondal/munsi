@@ -94,45 +94,21 @@ public class MongoInvoiceDao implements InvoiceDao {
 
 	@Override
 	public Boolean updateStatus(String _id, String status) {
-		try {
-			Date date = new Date();
-			Invoice invoice = new Invoice();
-			invoice.set_id(_id);
-			invoice.setUtime(date);
-			invoice.setStatus(status);
+		Invoice invoice = new Invoice();
+		invoice.set_id(_id);
+		invoice.setStatus(status);
 
-			String json = CommonUtil.objectToJson(invoice);
-			DBObject dbObject = (DBObject) JSON.parse(json);
-
-			DBCollection collection = mongoDB.getCollection(collInvoice);
-
-			DBObject query = new BasicDBObject("_id", _id);
-
-			DBObject update = new BasicDBObject("$set", dbObject);
-
-			collection.update(query, update);
-
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return false;
+		return update(invoice);
 
 	}
 
 	@Override
 	public Boolean delete(String _id) {
-		try {
-			DBCollection collection = mongoDB.getCollection(collInvoice);
+		Invoice sRef = new Invoice();
+		sRef.set_id(_id);
+		sRef.setDeleted(true);
 
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update);
-			collection.update(query, updateObj);
-
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return false;
+		return update(sRef);
 
 	}
 

@@ -142,15 +142,44 @@ public class MasterAction extends HttpServlet {
 	}
 	
 	private String frameMasterOperation(UIOperations opEnum, Map<String, String[]> parameterMap) {
+
+		Master master = null;
+		String json = "";
 		switch (opEnum) {
 			case ADD:
+				master = new Master();
+				if(parameterMap.containsKey("size"))
+					master.setSize(parameterMap.get("size")[0]);
+				if(parameterMap.containsKey("quality"))
+					master.setQuality(parameterMap.get("quality")[0]);
+				if(parameterMap.containsKey("price"))
+					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+				if(parameterMap.containsKey("description"))
+					master.setDescription(parameterMap.get("description")[0]);
+	
+				masterService.create(master);
 				break;
 			case EDIT:
+				master = new Master();
+				if(parameterMap.containsKey("id"))
+					master.set_id(parameterMap.get("id")[0]);
+				if(parameterMap.containsKey("size"))
+					master.setSize(parameterMap.get("size")[0]);
+				if(parameterMap.containsKey("quality"))
+					master.setQuality(parameterMap.get("quality")[0]);
+				if(parameterMap.containsKey("price"))
+					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+				if(parameterMap.containsKey("description"))
+					master.setDescription(parameterMap.get("description")[0]);
+	
+				masterService.update(master);
 				break;
 			case DELETE:
 				break;
 			case VIEW_ALL:
-				break;
+				List<Master> allMaster = masterService.getAll();
+				json = CommonUtil.objectToJson(allMaster);
+				break;				
 		}
 		return null;
 	}

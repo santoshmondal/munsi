@@ -1,0 +1,66 @@
+package com.estudio.action;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.log4j.Logger;
+
+import com.async.util.ObjectFactory;
+import com.async.util.ObjectFactory.ObjectEnum;
+import com.async.util.PortalUtil;
+import com.estudio.pojo.AccessUser;
+import com.estudio.service.AccessUserServeice;
+
+/**
+ * Servlet implementation class Login
+ */
+@WebServlet("login")
+public class LoginAction extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(InvoiceAction.class);
+	private AccessUserServeice accessUserServeice;
+
+	@Override
+	public void init() throws ServletException {
+		super.init();
+		Object object = ObjectFactory.getInstance(ObjectEnum.ACCESS_USER_SERVICE);
+		if (object instanceof AccessUserServeice) {
+			accessUserServeice = (AccessUserServeice) object;
+		}
+	}
+	
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public LoginAction() {
+        super();
+    }
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		String userName = request.getParameter("userName");
+		String password = request.getParameter("password");
+		
+		AccessUser accessUser = accessUserServeice.authenticate(userName, password);
+		
+		if( accessUser == null ){
+			session.setAttribute("SERVER_MESSAGE", "Inalid credentials - authentication failed!");
+			response.sendRedirect("");
+		}
+		else{
+			PortalUtil.setLoggedUserInSession(request, accessUser);
+			response.sendRedirect("hometmp.jsp");
+			return;
+		}
+	}
+
+}

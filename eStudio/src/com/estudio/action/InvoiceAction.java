@@ -99,7 +99,7 @@ public class InvoiceAction extends HttpServlet {
 				List<PhotoDetails> photoDetailsList = (List<PhotoDetails>) getServiceDetailsList(Constants.ServiceEnum.PHOTO_DETAILS, request.getParameterMap());
 				List<FrameDetails> frameDetailsList = (List<FrameDetails>) getServiceDetailsList(Constants.ServiceEnum.FRAME_DETAILS, request.getParameterMap());
 				List<LaminationDetails> laminationDetailsList = (List<LaminationDetails>) getServiceDetailsList(Constants.ServiceEnum.LAMINATION_DETAILS, request.getParameterMap());
-
+				
 				invoice.setPhotoDetailsList(photoDetailsList);
 				invoice.setFrameDetailsList(frameDetailsList);
 				invoice.setLaminationDetailsList(laminationDetailsList);
@@ -124,6 +124,7 @@ public class InvoiceAction extends HttpServlet {
 				Invoice newInvoice = invoiceService.create(invoice);
 
 				if (newInvoice != null) {
+					CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), "Invoice No "+ newInvoice.getInvoiceNumber() +" will be delivered on " + newInvoice.getDelivaryDate().toLocaleString());
 					request.setAttribute("NEW_INVOICE_DETAIL", invoice); //newInvoice);
 					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
 					rd.forward(request, response);
@@ -144,6 +145,10 @@ public class InvoiceAction extends HttpServlet {
 						inv.setStatus(status);
 						//invoiceService.updateStatus(invId, status);
 						invoiceService.update(inv);
+						
+						if(status.equals("Received from Print"))
+							CommonUtil.smsMsg(oInv.getCustomer().get_id(), "Invoice No "+ oInv.getInvoiceNumber() +" is ready for delivery.");
+						
 					} 
 				break;	
 				/*

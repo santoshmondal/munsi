@@ -42,8 +42,6 @@
 			gridview: true,
 			datatype: "json",
 
-            //datatype:'local',
-            //data: myData,
 			colNames:['id','Customer Name','Mobile No.','Total Amount','Balance Amount','Order Date','Estimated Date','Status',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},

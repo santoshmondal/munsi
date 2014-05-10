@@ -9,7 +9,7 @@
 							<h1>Order Book
 								<small>
 									<i class="icon-double-angle-right"></i>
-									List of orders
+									List of orders that are delivered
 								</small>
 							</h1>
 						</div><!-- /.page-header -->
@@ -33,70 +33,69 @@
 	<script type="text/javascript">
 	$(document).ready(function () {
         var myData = [
-				{'id':31,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':22,'customerName':'Ken Smith','mobileNo':5462541238,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"5/8/2010",'status':"Delivered to Customer"},
-				{'id':23,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"2/5/2010",'status':"Delivered to Customer"},
-				{'id':24,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':25,'customerName':'B Boyd','mobileNo':9946552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':26,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':27,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':28,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':29,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
-				{'id':10,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"}
+				{'id':1,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':2,'customerName':'Ken Smith','mobileNo':5462541238,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"5/8/2010",'status':"Delivered to Customer"},
+				{'id':3,'customerName':'D Raxon','mobileNo':9898525421,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"2/5/2010",'status':"Delivered to Customer"},
+				{'id':4,'customerName':'Tom Smith','mobileNo':5546552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"},
+				{'id':5,'customerName':'B Boyd','mobileNo':9946552142,'totalAmount':500,'balanceAmount':200,'orderDate':"15/4/2010",'estimatedDate':"25/4/2010",'status':"Delivered to Customer"}
             ],
             myGrid = $("#grid-table-data");
 
         myGrid.jqGrid({
 
-			/* url: "${pageContext.request.contextPath}/invoiceaction.do?op=view_all",
+			url: "${pageContext.request.contextPath}/invoiceaction.do?op=view_all&column=status&value=Delivered to Customer",
 			mtype: "POST",
 			loadonce: true,
 			gridview: true,
 			datatype: "json",
-			 */
-            datatype:'local',
-            data: myData,
+
+            //datatype:'local',
+            //data: myData,
 			colNames:['id','Customer Name','Mobile No.','Total Amount','Balance Amount','Order Date','Estimated Date','Status',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
-				{name:'customerName',index:'customerName', width:170,editable: false},
-				{name:'mobileNo',index:'mobileNo', width:150,editable: false},
+				{name:'customerName',index:'customerName', width:170,editable: false, jsonmap:"customer.name"},
+				{name:'mobileNo',index:'mobileNo', width:150,editable: false, jsonmap:"customer.name"},
 				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
-				{name:'balanceAmount',index:'balanceAmount',width:100, editable: false},
-				{name:'orderDate',index:'orderDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
-                    dataInit : function (elem) {
-                        $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
+				{name:'advanceBal',index:'advanceBal',width:100, editable: false,
+				      formatter: function (cellvalue, options, rowObject) 
+				      {
+				          return rowObject["totalAmount"] - cellvalue;
+				       }},
+				{name:'sInvoiceDate',index:'sInvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
+				    dataInit : function (elem) {
+				        $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
 							
-                        		if (this.id.substr(0, 3) === "gs_") {
-                                    setTimeout(function(){
-                                    	myGrid[0].triggerToolbar();
-                                    }, 50);
-                                } else {
-                                    $(this).trigger('change');
-                                }
-                        });
-                        
-                    }},formatter:'date', formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
-				{name:'estimatedDate',index:'estimatedDate',width:130, formatter:'date',  searchoptions: {sopt: ['eq'],
-                    dataInit : function (elem) {
-                        $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
+				        		if (this.id.substr(0, 3) === "gs_") {
+				                    setTimeout(function(){
+				                    	myGrid[0].triggerToolbar();
+				                    }, 50);
+				                } else {
+				                    $(this).trigger('change');
+				                }
+				        });
+				        
+				    }},formatter:'date', formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
+				{name:'sDelivaryDate',index:'sDelivaryDate',width:130, formatter:'date',  searchoptions: {sopt: ['eq'],
+				    dataInit : function (elem) {
+				        $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
 							
-                        		if (this.id.substr(0, 3) === "gs_") {
-                                    setTimeout(function(){
-                                    	myGrid[0].triggerToolbar();
-                                    }, 50);
-                                } else {
-                                    $(this).trigger('change');
-                                }
-                        });
-                        
-                    }},formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
+				        		if (this.id.substr(0, 3) === "gs_") {
+				                    setTimeout(function(){
+				                    	myGrid[0].triggerToolbar();
+				                    }, 50);
+				                } else {
+				                    $(this).trigger('change');
+				                }
+				        });
+				        
+				    }},formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
 				{name:'status',index:'status',width:150, editable: true, search : false, formatter:'select',edittype:"select",stype:'select',editoptions:{value:"Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}, searchoptions:{value:":;Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}},
 				{ name: 'act', index: 'act', frozen : true,width:70, search:false, align: 'center', sortable: false, formatter: 'actions',
-                    formatoptions: {editbutton:true,delbutton:false,
-                        keys: false
-                    }
-                }
+				    formatoptions: {editbutton:true,delbutton:false,
+				        keys: false
+				    }
+				}
 			], 
 			loadComplete : function() {
 				var table = this;
@@ -146,7 +145,8 @@
 			viewrecords: true,
             autowidth:true,
             sortorder: 'desc',
-            height: '366'
+            height: '366',
+            editurl: "${pageContext.request.contextPath}/invoiceaction.do?op=EDIT"
         });
         myGrid.jqGrid('filterToolbar', {stringResult: true, searchOnEnter: false, defaultSearch : "cn"});
         myGrid.jqGrid('setFrozenColumns');

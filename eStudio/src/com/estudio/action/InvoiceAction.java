@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -129,13 +130,15 @@ public class InvoiceAction extends HttpServlet {
 				}
 
 				break;
-			/*case EDIT :
-					if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-						area.set_id(id);
-						areaService.update(area);
+				case EDIT :
+					String status = request.getParameter("status");
+					String invId = request.getParameter("id");
+					
+					if(status != null && invId != null) {
+						invoiceService.updateStatus(invId, status);
 					} 
 				break;	
-				
+				/*
 			case DELETE :
 				if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
 					areaService.delete(id);
@@ -156,7 +159,13 @@ public class InvoiceAction extends HttpServlet {
 
 			case VIEW_ALL:
 
-				List<Invoice> invList = invoiceService.getAll();
+				String fieldname = request.getParameter("column")!=null?request.getParameter("column"):"";
+				String value =  request.getParameter("value")!=null?request.getParameter("value"):"";
+				Map<String, String> mapC = new HashMap<String, String>();
+				if(!fieldname.equalsIgnoreCase("") || !value.equalsIgnoreCase("") )
+					mapC.put(fieldname, value);
+
+				List<Invoice> invList = invoiceService.getAllByField(mapC);
 				for (Invoice invRef : invList) {
 					invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
 					invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));

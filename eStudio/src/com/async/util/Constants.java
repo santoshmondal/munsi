@@ -79,5 +79,4 @@ public class Constants {
 			return status;
 		}
 	}
-
 }

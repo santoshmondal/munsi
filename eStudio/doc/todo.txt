@@ -1,0 +1,3 @@
+MongoInvoiceDao
+	- updateStatus( )
+		- change parameter String status to enum

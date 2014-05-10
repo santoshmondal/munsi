@@ -133,9 +133,17 @@ public class InvoiceAction extends HttpServlet {
 				case EDIT :
 					String status = request.getParameter("status");
 					String invId = request.getParameter("id");
+					String advanceBal = request.getParameter("advanceBal");
 					
-					if(status != null && invId != null) {
-						invoiceService.updateStatus(invId, status);
+					if((status != null || advanceBal != null) && invId != null) {
+						Invoice inv = new Invoice();
+						inv.set_id(invId);
+						Invoice oInv= invoiceService.get(invId);
+						float fAdvanceBal = oInv.getTotalAmount() - Float.parseFloat(advanceBal);
+						inv.setAdvanceBal(fAdvanceBal);
+						inv.setStatus(status);
+						//invoiceService.updateStatus(invId, status);
+						invoiceService.update(inv);
 					} 
 				break;	
 				/*

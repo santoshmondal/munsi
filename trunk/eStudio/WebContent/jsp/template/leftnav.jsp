@@ -70,22 +70,14 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/main_acc_master.jsp">
-						<i class="icon-double-angle-right"></i>Main Account
+				<li><a href="#" data-href="/jsp/master/photo_master.jsp">
+						<i class="icon-double-angle-right"></i>Photo Master
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/manufacturer_master.jsp">
-						<i class="icon-double-angle-right"></i> Manufacturer
+				<li><a href="#" data-href="/jsp/master/frame_master.jsp">
+						<i class="icon-double-angle-right"></i>Frame Master
 				</a></li>
-				<li><a href="#" data-href="/jsp/master/tax_master.jsp">
-						<i class="icon-double-angle-right"></i> TAX
-				</a></li>
-				<li ><a href="#" 
-					data-href="/jsp/template/under_maintenance.jsp"> <i
-						class="icon-double-angle-right"></i> <span class="menu-text">
-							Van <span class="badge badge-transparent"> <i
-								class="icon-truck green" style='font-size: 1.5em'></i>
-						</span>
-					</span>
+				<li><a href="#" data-href="/jsp/master/lamination_master.jsp">
+						<i class="icon-double-angle-right"></i>Lamination Master
 				</a></li>
 			</ul>
 		</li>

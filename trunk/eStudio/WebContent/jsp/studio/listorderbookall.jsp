@@ -48,7 +48,7 @@
 				{name:'customerName',index:'customerName', width:170,editable: false, jsonmap:"customer.name"},
 				{name:'mobileNo',index:'mobileNo', width:150,editable: false, jsonmap:"customer.name"},
 				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
-				{name:'advanceBal',index:'advanceBal',width:100, editable: false,
+				{name:'advanceBal',index:'advanceBal',width:100, editable: true,
 		              formatter: function (cellvalue, options, rowObject) 
                       {
                           return rowObject["totalAmount"] - cellvalue;
@@ -56,7 +56,6 @@
 				{name:'sInvoiceDate',index:'sInvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
-							
                         		if (this.id.substr(0, 3) === "gs_") {
                                     setTimeout(function(){
                                     	myGrid[0].triggerToolbar();
@@ -65,9 +64,8 @@
                                     $(this).trigger('change');
                                 }
                         });
-                        
-                    }},formatter:'date', formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
-				{name:'sDelivaryDate',index:'sDelivaryDate',width:130, formatter:'date',  searchoptions: {sopt: ['eq'],
+                    }},formatter:'date', formatoptions: {srcformat: 'd/m/Y', newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
+				{name:'sDelivaryDate',index:'sDelivaryDate',width:130,sorttype:'date',  formatter:'date',  searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
 							
@@ -79,8 +77,8 @@
                                     $(this).trigger('change');
                                 }
                         });
-                        
-                    }},formatoptions: {newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
+
+                    }},formatoptions: {srcformat: 'd/m/Y', newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
 				{name:'status',index:'status',width:150, editable: true, search : false, formatter:'select',edittype:"select",stype:'select',editoptions:{value:"Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}, searchoptions:{value:":;Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}},
 				{ name: 'act', index: 'act', frozen : true,width:70, search:false, align: 'center', sortable: false, formatter: 'actions',
                     formatoptions: {editbutton:true,delbutton:false,

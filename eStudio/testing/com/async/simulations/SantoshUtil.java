@@ -65,8 +65,8 @@ public class SantoshUtil {
 			while (results.hasNext()) {
 				DBObject document = results.next();
 				String queryResponse = (String) document.get(queryField);
-
-				sQResponseSet.add(queryResponse);
+				if(queryResponse != null && !queryResponse.trim().equalsIgnoreCase(""))
+					sQResponseSet.add(queryResponse);
 			}
 
 			List<SantoshCommonJson> list = new ArrayList<SantoshCommonJson>();

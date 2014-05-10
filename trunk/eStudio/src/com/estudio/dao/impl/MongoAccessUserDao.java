@@ -91,19 +91,10 @@ public class MongoAccessUserDao implements AccessUserDao{
 
 	@Override
 	public Boolean delete(String _id) {
-		try {
-			DBCollection collection = mongoDB.getCollection(collAccessUser);
-
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update);
-			collection.update(query, updateObj);
-			return true;
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return false;
-
+		AccessUser accessUser = new AccessUser();
+		accessUser.set_id(_id);
+		accessUser.setDeleted(true);
+		return update(accessUser);
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import org.apache.log4j.Logger;
 import com.async.util.CommonUtil;
 import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
-import com.estudio.dao.AccessUserDao;
 import com.estudio.dao.CustomerDao;
 import com.estudio.pojo.Customer;
 import com.mongodb.BasicDBObject;
@@ -74,19 +73,10 @@ public class MongoCustomerDao implements CustomerDao{
 
 	@Override
 	public Boolean delete(String _id) {
-		try {
-			DBCollection collection = mongoDB.getCollection(collCustomer);
-
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true).append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update);
-			collection.update(query, updateObj);
-			return true;
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return false;
-
+		Customer customer =  new Customer();
+		customer.set_id(_id);
+		customer.setDeleted(true);;
+		return update(customer);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.estudio.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
@@ -34,4 +35,9 @@ public class MasterService {
 		return masterDao.delete(_id);
 	}
 	
+
+	public List<Master> getAllByField(Map<String, String> map){
+		return masterDao.getAllByField(map);
+	}
+
 }

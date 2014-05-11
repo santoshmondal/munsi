@@ -8,6 +8,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,22 +18,10 @@ import com.async.util.Global;
 /**
  * Servlet Filter implementation class ValidationFilter
  */
-
+@WebFilter(urlPatterns = {"/login.set", "/home.jsp", "/hometmp.jsp", "*.do"})
 public class ValidationFilter implements Filter {
 
-	/**
-	 * Default constructor.
-	 */
-	public ValidationFilter() {
-		// TODO Auto-generated constructor stub
-	}
 
-	/**
-	 * @see Filter#destroy()
-	 */
-	public void destroy() {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -46,7 +35,7 @@ public class ValidationFilter implements Filter {
 			HttpSession session = request.getSession();
 			session.invalidate();
 			session = request.getSession(true);
-			session.setAttribute("SERVER_MESSAGE", "License Expire");
+			session.setAttribute("SERVER_MESSAGE", " License Expire, Please Contact Vendor.");
 			response.sendRedirect("index.jsp");
 			return;
 		}
@@ -58,7 +47,13 @@ public class ValidationFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-
 	}
+	
+	/**
+	 * @see Filter#destroy()
+	 */
+	public void destroy() {
+	}
+
 
 }

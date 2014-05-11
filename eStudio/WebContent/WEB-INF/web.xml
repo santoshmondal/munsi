@@ -17,19 +17,7 @@
     <exception-type>java.lang.Exception</exception-type>
     <location>/jsp/error/exception.jsp</location>
   </error-page>
-  
-  <filter>
-  	<filter-name>filtereval</filter-name>
-  	<filter-class>com.estudio.util.web.ValidationFilter</filter-class>	
-  </filter>
-  <filter-mapping>
-  	<filter-name>filtereval</filter-name>
-  	<url-pattern>*.do</url-pattern>
-  	<url-pattern>/home.jsp</url-pattern>
-  	<url-pattern>/hometmp.jsp</url-pattern>
-  </filter-mapping>
 
-  
   <filter>
   	<filter-name>filtersession</filter-name>
   	<filter-class>com.estudio.filter.CheckSessionFilter</filter-class>	

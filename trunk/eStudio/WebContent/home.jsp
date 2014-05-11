@@ -1,3 +1,13 @@
+<%@page import="com.async.util.PortalUtil"%>
+<%
+	Boolean isValid = PortalUtil.isValidSession(request.getSession());
+	System.out.println(isValid);
+	if (!isValid) {
+		response.sendRedirect("index.jsp");
+		return;
+	}
+%>
+	
 <!-- Including Header -->
 <jsp:include page='/jsp/template/header.jsp'></jsp:include>
 <div class="main-container" id="main-container">

@@ -37,7 +37,7 @@ public class MasterAction extends HttpServlet {
 		super.init();
 		Object object = ObjectFactory.getInstance(ObjectEnum.MASTER_SERVICE);
 		if (object instanceof MasterService) {
-			masterService= (MasterService) object;
+			masterService = (MasterService) object;
 		}
 	}
 
@@ -78,18 +78,18 @@ public class MasterAction extends HttpServlet {
 
 			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
 			Constants.MasterTypeEnum typeEnum = null;
-			if(request.getParameter("type") != null)
+			if (request.getParameter("type") != null)
 				typeEnum = Constants.MasterTypeEnum.valueOf(request.getParameter("type").toUpperCase());
-			
+
 			switch (typeEnum) {
 			case PHOTO:
-				json = photoMasterOperation(opEnum,request.getParameterMap());
+				json = photoMasterOperation(opEnum, request.getParameterMap());
 				break;
 			case FRAME:
-				json = frameMasterOperation(opEnum,request.getParameterMap());
+				json = frameMasterOperation(opEnum, request.getParameterMap());
 				break;
 			case LAMINATION:
-				json = laminationMasterOperation(opEnum,request.getParameterMap());
+				json = laminationMasterOperation(opEnum, request.getParameterMap());
 				break;
 			default:
 				break;
@@ -104,116 +104,122 @@ public class MasterAction extends HttpServlet {
 		Master master = null;
 		String json = "";
 		switch (opEnum) {
-			case ADD:
-				master = new Master();
-				if(parameterMap.containsKey("size"))
-					master.setSize(parameterMap.get("size")[0]);
-				if(parameterMap.containsKey("quality"))
-					master.setQuality(parameterMap.get("quality")[0]);
-				if(parameterMap.containsKey("price"))
-					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
-				if(parameterMap.containsKey("description"))
-					master.setDescription(parameterMap.get("description")[0]);
-				master.setType(Constants.MasterTypeEnum.PHOTO.toString());
-				masterService.create(master);
-				break;
-			case EDIT:
-				master = new Master();
-				if(parameterMap.containsKey("id"))
-					master.set_id(parameterMap.get("id")[0]);
-				if(parameterMap.containsKey("size"))
-					master.setSize(parameterMap.get("size")[0]);
-				if(parameterMap.containsKey("quality"))
-					master.setQuality(parameterMap.get("quality")[0]);
-				if(parameterMap.containsKey("price"))
-					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
-				if(parameterMap.containsKey("description"))
-					master.setDescription(parameterMap.get("description")[0]);
+		case ADD:
+			master = new Master();
+			if (parameterMap.containsKey("size"))
+				master.setSize(parameterMap.get("size")[0]);
+			if (parameterMap.containsKey("quality"))
+				master.setQuality(parameterMap.get("quality")[0]);
+			if (parameterMap.containsKey("price"))
+				master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+			if (parameterMap.containsKey("description"))
+				master.setDescription(parameterMap.get("description")[0]);
+			master.setType(Constants.MasterTypeEnum.PHOTO.toString());
+			masterService.create(master);
+			break;
+		case EDIT:
+			master = new Master();
+			if (parameterMap.containsKey("id"))
+				master.set_id(parameterMap.get("id")[0]);
+			if (parameterMap.containsKey("size"))
+				master.setSize(parameterMap.get("size")[0]);
+			if (parameterMap.containsKey("quality"))
+				master.setQuality(parameterMap.get("quality")[0]);
+			if (parameterMap.containsKey("price"))
+				master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+			if (parameterMap.containsKey("description"))
+				master.setDescription(parameterMap.get("description")[0]);
 
-				masterService.update(master);
-				break;
-			case DELETE:
-				break;
-			case VIEW_ALL:
-				Map<String,String> map = new HashMap<String, String>();
-				map.put("type", Constants.MasterTypeEnum.PHOTO.toString());
-				List<Master> allMaster = masterService.getAllByField(map);
-				json = CommonUtil.objectToJson(allMaster);
-				json = json.replaceAll("_id", "id");
-				break;
+			masterService.update(master);
+			break;
+		case DELETE:
+			if (parameterMap.containsKey("id")) {
+				masterService.delete(parameterMap.get("id")[0]);
+			}
+			break;
+		case VIEW_ALL:
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("type", Constants.MasterTypeEnum.PHOTO.toString());
+			List<Master> allMaster = masterService.getAllByField(map);
+			json = CommonUtil.objectToJson(allMaster);
+			json = json.replaceAll("_id", "id");
+			break;
 		}
 		return json;
 	}
-	
+
 	private String frameMasterOperation(UIOperations opEnum, Map<String, String[]> parameterMap) {
 
 		Master master = null;
 		String json = "";
 		switch (opEnum) {
-			case ADD:
-				master = new Master();
-				if(parameterMap.containsKey("size"))
-					master.setSize(parameterMap.get("size")[0]);
-				if(parameterMap.containsKey("frameNumber"))
-					master.setFrameNumber(parameterMap.get("frameNumber")[0]);
-				if(parameterMap.containsKey("quality"))
-					master.setQuality(parameterMap.get("quality")[0]);
-				if(parameterMap.containsKey("price"))
-					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
-				if(parameterMap.containsKey("direct"))
-					master.setDirect(Float.parseFloat(parameterMap.get("direct")[0]));
-				if(parameterMap.containsKey("mount"))
-					master.setMount(Float.parseFloat(parameterMap.get("mount")[0]));
-				if(parameterMap.containsKey("rightMount"))
-					master.setRightMount(Float.parseFloat(parameterMap.get("rightMount")[0]));
-				if(parameterMap.containsKey("leftMount"))
-					master.setLeftMount(Float.parseFloat(parameterMap.get("leftMount")[0]));
-				if(parameterMap.containsKey("goldMount"))
-					master.setGoldMount(Float.parseFloat(parameterMap.get("goldMount")[0]));
-				if(parameterMap.containsKey("pastting"))
-					master.setPastting(Float.parseFloat(parameterMap.get("pastting")[0]));
-				if(parameterMap.containsKey("description"))
-					master.setDescription(parameterMap.get("description")[0]);
-				master.setType(Constants.MasterTypeEnum.FRAME.toString());
-				masterService.create(master);
-				break;
-			case EDIT:
-				master = new Master();
-				if(parameterMap.containsKey("id"))
-					master.set_id(parameterMap.get("id")[0]);
-				if(parameterMap.containsKey("frameNumber"))
-					master.setFrameNumber(parameterMap.get("frameNumber")[0]);
-				if(parameterMap.containsKey("size"))
-					master.setSize(parameterMap.get("size")[0]);
-				if(parameterMap.containsKey("quality"))
-					master.setQuality(parameterMap.get("quality")[0]);
-				if(parameterMap.containsKey("price"))
-					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
-				if(parameterMap.containsKey("direct"))
-					master.setDirect(Float.parseFloat(parameterMap.get("direct")[0]));
-				if(parameterMap.containsKey("mount"))
-					master.setMount(Float.parseFloat(parameterMap.get("mount")[0]));
-				if(parameterMap.containsKey("rightMount"))
-					master.setRightMount(Float.parseFloat(parameterMap.get("rightMount")[0]));
-				if(parameterMap.containsKey("leftMount"))
-					master.setLeftMount(Float.parseFloat(parameterMap.get("leftMount")[0]));
-				if(parameterMap.containsKey("goldMount"))
-					master.setGoldMount(Float.parseFloat(parameterMap.get("goldMount")[0]));
-				if(parameterMap.containsKey("pastting"))
-					master.setPastting(Float.parseFloat(parameterMap.get("pastting")[0]));
-				if(parameterMap.containsKey("description"))
-					master.setDescription(parameterMap.get("description")[0]);
-				masterService.update(master);
-				break;
-			case DELETE:
-				break;
-			case VIEW_ALL:
-				Map<String,String> map = new HashMap<String, String>();
-				map.put("type", Constants.MasterTypeEnum.FRAME.toString());
-				List<Master> allMaster = masterService.getAllByField(map);
-				json = CommonUtil.objectToJson(allMaster);
-				json = json.replaceAll("_id", "id");
-				break;				
+		case ADD:
+			master = new Master();
+			if (parameterMap.containsKey("size"))
+				master.setSize(parameterMap.get("size")[0]);
+			if (parameterMap.containsKey("frameNumber"))
+				master.setFrameNumber(parameterMap.get("frameNumber")[0]);
+			if (parameterMap.containsKey("quality"))
+				master.setQuality(parameterMap.get("quality")[0]);
+			if (parameterMap.containsKey("price"))
+				master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+			if (parameterMap.containsKey("direct"))
+				master.setDirect(Float.parseFloat(parameterMap.get("direct")[0]));
+			if (parameterMap.containsKey("mount"))
+				master.setMount(Float.parseFloat(parameterMap.get("mount")[0]));
+			if (parameterMap.containsKey("rightMount"))
+				master.setRightMount(Float.parseFloat(parameterMap.get("rightMount")[0]));
+			if (parameterMap.containsKey("leftMount"))
+				master.setLeftMount(Float.parseFloat(parameterMap.get("leftMount")[0]));
+			if (parameterMap.containsKey("goldMount"))
+				master.setGoldMount(Float.parseFloat(parameterMap.get("goldMount")[0]));
+			if (parameterMap.containsKey("pastting"))
+				master.setPastting(Float.parseFloat(parameterMap.get("pastting")[0]));
+			if (parameterMap.containsKey("description"))
+				master.setDescription(parameterMap.get("description")[0]);
+			master.setType(Constants.MasterTypeEnum.FRAME.toString());
+			masterService.create(master);
+			break;
+		case EDIT:
+			master = new Master();
+			if (parameterMap.containsKey("id"))
+				master.set_id(parameterMap.get("id")[0]);
+			if (parameterMap.containsKey("frameNumber"))
+				master.setFrameNumber(parameterMap.get("frameNumber")[0]);
+			if (parameterMap.containsKey("size"))
+				master.setSize(parameterMap.get("size")[0]);
+			if (parameterMap.containsKey("quality"))
+				master.setQuality(parameterMap.get("quality")[0]);
+			if (parameterMap.containsKey("price"))
+				master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+			if (parameterMap.containsKey("direct"))
+				master.setDirect(Float.parseFloat(parameterMap.get("direct")[0]));
+			if (parameterMap.containsKey("mount"))
+				master.setMount(Float.parseFloat(parameterMap.get("mount")[0]));
+			if (parameterMap.containsKey("rightMount"))
+				master.setRightMount(Float.parseFloat(parameterMap.get("rightMount")[0]));
+			if (parameterMap.containsKey("leftMount"))
+				master.setLeftMount(Float.parseFloat(parameterMap.get("leftMount")[0]));
+			if (parameterMap.containsKey("goldMount"))
+				master.setGoldMount(Float.parseFloat(parameterMap.get("goldMount")[0]));
+			if (parameterMap.containsKey("pastting"))
+				master.setPastting(Float.parseFloat(parameterMap.get("pastting")[0]));
+			if (parameterMap.containsKey("description"))
+				master.setDescription(parameterMap.get("description")[0]);
+			masterService.update(master);
+			break;
+		case DELETE:
+			if (parameterMap.containsKey("id")) {
+				masterService.delete(parameterMap.get("id")[0]);
+			}
+			break;
+		case VIEW_ALL:
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("type", Constants.MasterTypeEnum.FRAME.toString());
+			List<Master> allMaster = masterService.getAllByField(map);
+			json = CommonUtil.objectToJson(allMaster);
+			json = json.replaceAll("_id", "id");
+			break;
 		}
 		return json;
 	}
@@ -222,43 +228,46 @@ public class MasterAction extends HttpServlet {
 		Master master = null;
 		String json = "";
 		switch (opEnum) {
-			case ADD:
-				master = new Master();
-				if(parameterMap.containsKey("size"))
-					master.setSize(parameterMap.get("size")[0]);
-				if(parameterMap.containsKey("quality"))
-					master.setQuality(parameterMap.get("quality")[0]);
-				if(parameterMap.containsKey("price"))
-					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
-				if(parameterMap.containsKey("description"))
-					master.setDescription(parameterMap.get("description")[0]);
-				master.setType(Constants.MasterTypeEnum.LAMINATION.toString());
-				masterService.create(master);
-				break;
-			case EDIT:
-				master = new Master();
-				if(parameterMap.containsKey("id"))
-					master.set_id(parameterMap.get("id")[0]);
-				if(parameterMap.containsKey("size"))
-					master.setSize(parameterMap.get("size")[0]);
-				if(parameterMap.containsKey("quality"))
-					master.setQuality(parameterMap.get("quality")[0]);
-				if(parameterMap.containsKey("price"))
-					master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
-				if(parameterMap.containsKey("description"))
-					master.setDescription(parameterMap.get("description")[0]);
+		case ADD:
+			master = new Master();
+			if (parameterMap.containsKey("size"))
+				master.setSize(parameterMap.get("size")[0]);
+			if (parameterMap.containsKey("quality"))
+				master.setQuality(parameterMap.get("quality")[0]);
+			if (parameterMap.containsKey("price"))
+				master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+			if (parameterMap.containsKey("description"))
+				master.setDescription(parameterMap.get("description")[0]);
+			master.setType(Constants.MasterTypeEnum.LAMINATION.toString());
+			masterService.create(master);
+			break;
+		case EDIT:
+			master = new Master();
+			if (parameterMap.containsKey("id"))
+				master.set_id(parameterMap.get("id")[0]);
+			if (parameterMap.containsKey("size"))
+				master.setSize(parameterMap.get("size")[0]);
+			if (parameterMap.containsKey("quality"))
+				master.setQuality(parameterMap.get("quality")[0]);
+			if (parameterMap.containsKey("price"))
+				master.setPrice(Float.parseFloat(parameterMap.get("price")[0]));
+			if (parameterMap.containsKey("description"))
+				master.setDescription(parameterMap.get("description")[0]);
 
-				masterService.update(master);
-				break;
-			case DELETE:
-				break;
-			case VIEW_ALL:
-				Map<String,String> map = new HashMap<String, String>();
-				map.put("type", Constants.MasterTypeEnum.LAMINATION.toString());
-				List<Master> allMaster = masterService.getAllByField(map);
-				json = CommonUtil.objectToJson(allMaster);
-				json = json.replaceAll("_id", "id");
-				break;
+			masterService.update(master);
+			break;
+		case DELETE:
+			if (parameterMap.containsKey("id")) {
+				masterService.delete(parameterMap.get("id")[0]);
+			}
+			break;
+		case VIEW_ALL:
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("type", Constants.MasterTypeEnum.LAMINATION.toString());
+			List<Master> allMaster = masterService.getAllByField(map);
+			json = CommonUtil.objectToJson(allMaster);
+			json = json.replaceAll("_id", "id");
+			break;
 		}
 		return json;
 	}

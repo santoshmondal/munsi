@@ -18,7 +18,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
 
-public class MongoAccessUserDao implements AccessUserDao{
+public class MongoAccessUserDao implements AccessUserDao {
 	private static final Logger LOG = Logger.getLogger(MongoAccessUserDao.class);
 
 	private final String collAccessUser = DBCollectionEnum.ACCESS_USER.toString();
@@ -28,9 +28,8 @@ public class MongoAccessUserDao implements AccessUserDao{
 	public AccessUser authenticate(String userName, String password) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collAccessUser);
-			DBObject query = new BasicDBObject("userName", userName)
-								.append("password", "password");
-			
+			DBObject query = new BasicDBObject("userName", userName).append("password", password);
+
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
 			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
@@ -41,7 +40,7 @@ public class MongoAccessUserDao implements AccessUserDao{
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Boolean create(AccessUser accessUser) {
 		try {
@@ -74,14 +73,14 @@ public class MongoAccessUserDao implements AccessUserDao{
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 			dbObject.removeField("_id");
-			
+
 			DBObject query = new BasicDBObject("_id", accessUser.get_id());
 
 			DBObject update = new BasicDBObject("$set", dbObject);
 
 			collection.update(query, update);
 			return true;
-			
+
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -113,7 +112,6 @@ public class MongoAccessUserDao implements AccessUserDao{
 		}
 		return null;
 	}
-
 
 	@Override
 	public List<AccessUser> getAll() {

@@ -75,7 +75,7 @@
 
 										<div class="space-6"></div>
 
-										<form action="login" method="post" >
+										<form action="login.set" method="post" >
 											<fieldset>
 												<label class="block clearfix">
 													<span class="block input-icon input-icon-right">
@@ -86,7 +86,7 @@
 
 												<label class="block clearfix">
 													<span class="block input-icon input-icon-right">
-														<input type="password" class="form-control" placeholder="Password" />
+														<input name='password' type="password" class="form-control" placeholder="Password" />
 														<i class="icon-lock"></i>
 													</span>
 												</label>
@@ -99,10 +99,8 @@
 														<span class="lbl"> Remember Me</span>
 													</label> -->
 
-													<a href="${pageContext.request.contextPath}/hometmp.jsp" class="width-35 pull-right btn btn-sm btn-primary">
-														<i class="icon-key"></i>
-														Login
-													</a>
+													<input type="submit" class="width-35 pull-right btn btn-sm btn-primary" value="Login"/>
+														
 												</div>
 
 												<div class="space-4"></div>

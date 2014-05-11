@@ -24,9 +24,11 @@
   </filter>
   <filter-mapping>
   	<filter-name>filtereval</filter-name>
-  	<url-pattern>/*</url-pattern>
+  	<url-pattern>*.do</url-pattern>
+  	<url-pattern>/home.jsp</url-pattern>
+  	<url-pattern>/hometmp.jsp</url-pattern>
   </filter-mapping>
-  
+
   
   <filter>
   	<filter-name>filtersession</filter-name>
@@ -34,7 +36,7 @@
   </filter>
   <filter-mapping>
   	<filter-name>filtersession</filter-name>
-  	<url-pattern>/*</url-pattern>
+  	<url-pattern>*.do</url-pattern>
   </filter-mapping>
   
 </web-app>

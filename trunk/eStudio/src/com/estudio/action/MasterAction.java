@@ -67,7 +67,6 @@ public class MasterAction extends HttpServlet {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
 
 		PrintWriter out = response.getWriter();

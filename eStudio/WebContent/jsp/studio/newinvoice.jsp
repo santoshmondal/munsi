@@ -13,7 +13,16 @@
 						</div>/.page-header -->
 
 						<div class="row-fluid">
-									<div class="span12">
+						<% String srvmsg = (String)(request.getAttribute("SERVER_MESSAGE")!=null?request.getAttribute("SERVER_MESSAGE"):"");
+						if(srvmsg != null && !srvmsg.trim().equalsIgnoreCase("")){ %>
+							<div class="alert alert-block alert-danger">
+								<button class="close" data-dismiss="alert" type="button">
+									<i class="icon-remove"></i>
+								</button>
+								<i class="icon-warning red"></i><%= srvmsg%> 
+							</div>
+							<%} %>
+								<div class="span12">
 										<div class="widget-box">
 											<div class="widget-header widget-header-blue widget-header-flat">
 												<h4 class="lighter">New Invoice</h4>

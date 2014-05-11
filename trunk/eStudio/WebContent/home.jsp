@@ -54,19 +54,24 @@
 				<!-- <div class="space"></div><div class="space"></div>
 				 -->
 				<div id="id_EmbedPage">
-					<jsp:include page="/jsp/studio/newinvoice.jsp"></jsp:include>
+				
 				</div>
 			</div>
 			<!-- /.page-content -->
-
-
-
-
 
 		</div>
 		<!-- /.main-content -->
 	</div>
 	<!-- /.main-container-inner -->
 	</div><!-- /.main-container -->
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var URL = "embedpage.action";
+			var DATA = {reqPage:"/jsp/studio/newinvoice.jsp"};
+			var embedInElement = "id_EmbedPage";
+	
+			async.munsi.ajaxCall(URL,DATA,embedInElement);
+		});
+	</script>
 	<!-- Including Footer -->
 	<jsp:include page="/jsp/template/footer.jsp"></jsp:include>

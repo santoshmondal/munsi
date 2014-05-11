@@ -1,6 +1,15 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="com.async.util.PortalUtil"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+	Boolean isValid = PortalUtil.isValidSession(request.getSession());
+	System.out.println(isValid);
+	if (isValid) {
+		response.sendRedirect("hometmp.jsp");
+		return;
+	}
+%>    
 <html>
 <head>
 	<jsp:include page='/jsp/template/cssandjs.jsp' />
@@ -63,7 +72,14 @@
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
 					<div class="login-container">
-
+					 <% String srvmsg = (String)(session.getAttribute("SERVER_MESSAGE")!=null?session.getAttribute("SERVER_MESSAGE"):"");
+						if(srvmsg != null && !srvmsg.trim().equalsIgnoreCase("")){ %>
+							<div class="space-6"></div>
+							<div class="alert alert-block alert-danger">
+								
+								<i class="icon-call red"></i><b><%= srvmsg%></b> 
+							</div>
+							<%} %>
 						<div class="position-relative">
 							<div id="login-box" class="login-box visible widget-box no-border">
 								<div class="widget-body">

@@ -133,7 +133,7 @@
 								<li class="divider"></li>
 
 								<li>
-									<a href="${pageContext.request.contextPath}/index.jsp">
+									<a href="${pageContext.request.contextPath}/login.set?operation=logout">
 										<i class="icon-off"></i>
 										Logout
 									</a>

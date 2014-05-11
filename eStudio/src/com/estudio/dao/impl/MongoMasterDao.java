@@ -150,9 +150,9 @@ public class MongoMasterDao implements MasterDao {
 				for (Map.Entry<String, String> entry : map.entrySet()) {
 					query.put(entry.getKey(), entry.getValue());
 				}
+				DBObject checkExists = new BasicDBObject("$exists", false);
+				query.put("deleted", checkExists);
 			}
-			DBObject checkExists = new BasicDBObject("$exists", false);
-			query.put("deleted", checkExists);
 
 			DBCursor dbCursor = collection.find(query);
 

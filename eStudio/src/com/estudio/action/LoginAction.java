@@ -20,7 +20,7 @@ import com.estudio.service.AccessUserServeice;
 /**
  * Servlet implementation class Login
  */
-@WebServlet("/login")
+@WebServlet("/login.set")
 public class LoginAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(LoginAction.class);
@@ -43,25 +43,36 @@ public class LoginAction extends HttpServlet {
 		super();
 	}
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
+	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		String userName = request.getParameter("userName");
-		String password = request.getParameter("password");
 
-		AccessUser accessUser = accessUserServeice.authenticate(userName, password);
-
-		if (accessUser == null) {
-			session.setAttribute("SERVER_MESSAGE", "Inalid credentials - authentication failed!");
+		String operation = request.getParameter("operation");
+		if (operation != null && operation.equalsIgnoreCase("logout")) {
+			session.invalidate();
 			response.sendRedirect("");
-		} else {
-			PortalUtil.setLoggedUserInSession(request, accessUser);
-			response.sendRedirect("hometmp.jsp");
 			return;
+		} else {
+			String userName = request.getParameter("userName");
+			String password = request.getParameter("password");
+
+			AccessUser accessUser = accessUserServeice.authenticate(userName, password);
+
+			if (accessUser == null) {
+				session.setAttribute("SERVER_MESSAGE", "Inalid credentials - authentication failed!");
+				response.sendRedirect("");
+			} else {
+				PortalUtil.setLoggedUserInSession(request, accessUser);
+				response.sendRedirect("hometmp.jsp");
+				return;
+			}
 		}
 	}
-
 }

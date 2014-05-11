@@ -21,7 +21,7 @@ import com.estudio.service.AccessUserServeice;
 @WebServlet("/setup")
 public class SetupAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(InvoiceAction.class);
+	private static final Logger LOG = Logger.getLogger(InvoiceAction.class);
 	private AccessUserServeice accessUserServeice;
 
 	@Override
@@ -33,26 +33,28 @@ public class SetupAction extends HttpServlet {
 		}
 	}
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public SetupAction() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public SetupAction() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		Long count = accessUserServeice.getCount();
-		
-		if( count == 0){
+
+		if (count == 0) {
 			AccessUser accessUser = new AccessUser();
 			accessUser.setApproved(true);
 			accessUser.setPassword("Welcome@123");
 			accessUser.setUserName("admin");
+			accessUser.setName("Admin");
 			accessUser.setRole("ADMIN");
 			accessUserServeice.create(accessUser);
 		}
@@ -60,7 +62,8 @@ public class SetupAction extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);

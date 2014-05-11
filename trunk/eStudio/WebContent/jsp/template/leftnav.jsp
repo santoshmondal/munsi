@@ -87,11 +87,11 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/studio/invoiceprint.jsp"> <i
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp"> <i
 						class="icon-double-angle-right"></i> Report 1
 				</a></li>
 
-				<li><a href="#" data-href="/jsp/studio/invoicedetail.jsp">
+				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
 						<i class="icon-double-angle-right"></i> Report 2
 				</a></li>
 			</ul></li>

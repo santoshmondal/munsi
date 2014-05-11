@@ -18,7 +18,7 @@ import com.async.util.Global;
 /**
  * Servlet Filter implementation class ValidationFilter
  */
-@WebFilter("/")
+
 public class ValidationFilter implements Filter {
 
     /**
@@ -44,8 +44,8 @@ public class ValidationFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) res;
 		
 		
-		if ( !request.getRequestURI().endsWith("error_page") ){
-			if ( !Global.isLicenseExpired()){
+		if ( !request.getRequestURI().contains("error_page.jsp") ){
+			if ( Global.isLicenseExpired()){
 				HttpSession session = request.getSession();
 				session.invalidate();
 				session = request.getSession(true);

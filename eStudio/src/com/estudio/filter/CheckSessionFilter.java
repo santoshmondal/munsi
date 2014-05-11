@@ -44,8 +44,12 @@ public class CheckSessionFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		System.out.println( request.getRequestURI() );
+		String servlet = request.getServletPath();
+		System.out.println( servlet );
 		
-		if ( !request.getRequestURI().endsWith("login") ){
+		if ( !request.getRequestURI().endsWith("estudio/") && 
+				!servlet.contains("index.jsp") &&
+				!request.getRequestURI().endsWith("estudio/") ){
 			
 			Boolean isValid = PortalUtil.isValidSession( request.getSession() );
 			if( !isValid ){

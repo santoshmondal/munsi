@@ -44,8 +44,7 @@
 				<!-- <div class="space"></div><div class="space"></div>
 				 -->
 				<div id="id_EmbedPage">
-				
-					
+					<jsp:include page="/jsp/studio/newinvoice.jsp"></jsp:include>
 				</div>
 			</div>
 			<!-- /.page-content -->

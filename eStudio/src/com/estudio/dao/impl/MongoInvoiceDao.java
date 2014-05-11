@@ -148,6 +148,8 @@ public class MongoInvoiceDao implements InvoiceDao {
 				for (Map.Entry<String, String> entry : map.entrySet()) {
 					query.put(entry.getKey(), entry.getValue());
 				}
+				DBObject checkExists = new BasicDBObject("$exists", false);
+				query.put("deleted", checkExists);
 			}
 
 			DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);

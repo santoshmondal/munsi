@@ -18,4 +18,6 @@ public interface AccessUserDao {
 
 	public AccessUser authenticate(String userName, String password);
 
+	public Long getCount();
+
 }

@@ -138,4 +138,17 @@ public class MongoAccessUserDao implements AccessUserDao{
 		return null;
 	}
 
+	@Override
+	public Long getCount() {
+		try {
+			DBCollection collection = mongoDB.getCollection(collAccessUser);
+			Long count = collection.count();
+			return count;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return -1l;
+	}
+
 }

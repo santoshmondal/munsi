@@ -174,7 +174,9 @@ body * { visibility: hidden; }
 																		Photo Frame
 																	</td>
 																	<td class="hidden-xs">
-																		Quality is <%=frDt.get(j).getQuality() %>
+																		Frame number is <%=frDt.get(j).getFrameNumber() %>,
+																		Size is <%=frDt.get(j).getSize() %>
+
 																	</td>
 																	<td class="hidden-480"> 1 <% //frDt.getQuantity() %> </td>
 																	<td><%=frDt.get(j).getPrice() %> </td>

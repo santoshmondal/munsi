@@ -40,17 +40,29 @@
 	<script src="assets/js/html5shiv.js"></script>
 	<script src="assets/js/respond.min.js"></script>
 	<![endif]-->
+	<style type="text/css">
+		html, body {
+		    height: 100%;
+		}
+
+		html {
+		    display: table;
+		    margin: auto;
+		}
+
+		body {
+		    display: block;
+		    vertical-align: middle;
+		}
+	</style>
 </head>
 
-<body class="login-layout"  onload="async.util.noBack();" onpageshow="if (event.persisted) async.util.noBack();" onunload="">
+<body class="login-layout" style='background-color:lightgrey !important'  onload="async.util.noBack();" onpageshow="if (event.persisted) async.util.noBack();" onunload="">
 	<div class="main-container">
 		<div class="main-content">
 			<div class="row">
 				<div class="col-sm-10 col-sm-offset-1">
 					<div class="login-container">
-						
-
-						<div class="space-6"></div>
 
 						<div class="position-relative">
 							<div id="login-box" class="login-box visible widget-box no-border">
@@ -58,7 +70,7 @@
 									<div class="widget-main">
 										<h4 class="header blue lighter bigger">
 											<i class="icon-coffee green"></i>
-											Please Enter Your Information
+											Please Enter Your Credentials
 										</h4>
 
 										<div class="space-6"></div>
@@ -82,10 +94,10 @@
 												<div class="space"></div>
 
 												<div class="clearfix">
-													<label class="inline">
+													<!-- <label class="inline">
 														<input type="checkbox" class="ace" />
 														<span class="lbl"> Remember Me</span>
-													</label>
+													</label> -->
 
 													<a href="${pageContext.request.contextPath}/hometmp.jsp" class="width-35 pull-right btn btn-sm btn-primary">
 														<i class="icon-key"></i>
@@ -99,8 +111,7 @@
 
 										
 									</div><!-- /widget-main -->
-
-									<div class="toolbar clearfix">
+								<!-- <div class="toolbar clearfix">
 										<div>
 											<a href="#" onclick="show_box('forgot-box'); return false;" class="forgot-password-link">
 												<i class="icon-arrow-left"></i>
@@ -114,7 +125,7 @@
 												<i class="icon-arrow-right"></i>
 											</a>
 										</div>
-									</div>
+									</div> -->
 								</div><!-- /widget-body -->
 							</div><!-- /login-box -->
 

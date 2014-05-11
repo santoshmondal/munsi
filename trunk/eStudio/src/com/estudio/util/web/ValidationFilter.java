@@ -43,8 +43,12 @@ public class ValidationFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 		
+		String servlet = request.getServletPath();
+		System.out.println( servlet );
 		
-		if ( !request.getRequestURI().contains("error_page.jsp") ){
+		if ( !request.getRequestURI().contains("error_jsp") 
+				&& servlet.contains("error_jsp") ){
+			
 			if ( Global.isLicenseExpired()){
 				HttpSession session = request.getSession();
 				session.invalidate();

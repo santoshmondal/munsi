@@ -51,7 +51,7 @@
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/masteraction.do?op=delete",  beforeShowForm:beforeDeleteCallback},
+								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/masteraction.do?op=delete&type=lamination",  beforeShowForm:beforeDeleteCallback},
 								//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 							}
 						}

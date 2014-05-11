@@ -44,4 +44,8 @@ public class AccessUserServeice {
 		return accessUserDao.authenticate(userName, password);
 	}
 
+	public Long getCount() {
+		return accessUserDao.getCount();
+	}
+
 }

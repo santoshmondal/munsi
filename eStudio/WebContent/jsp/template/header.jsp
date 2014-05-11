@@ -31,7 +31,7 @@
 
 				<div class="navbar-header pull-right" role="navigation">
 					<ul class="nav ace-nav">
-						<li class="grey">
+						<!-- <li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-bell-alt icon-animated-bell"></i>
 								<span class="badge badge-grey">8</span>
@@ -102,7 +102,7 @@
 									</a>
 								</li>
 							</ul>
-						</li>
+						</li> -->
 
 
 						<li class="grey">
@@ -117,7 +117,7 @@
 							</a>
 
 							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-								<li>
+								<!-- <li>
 									<a href="#">
 										<i class="icon-cog"></i>
 										Settings
@@ -129,8 +129,7 @@
 										<i class="icon-user"></i>
 										Profile
 									</a>
-								</li>
-
+								</li>-->
 								<li class="divider"></li>
 
 								<li>

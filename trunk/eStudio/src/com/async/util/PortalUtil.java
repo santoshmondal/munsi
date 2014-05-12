@@ -15,6 +15,7 @@ public class PortalUtil {
 	public static String KEY_USER_ID = "userId";
 	public static String KEY_USER_ROLE = "role";
 	public static String KEY_USER_NAME = "userName";
+	public static String KEY_NAME = "name";
 
 	public static String getLoggedUserId(HttpServletRequest request) {
 		return (String) request.getSession().getAttribute(KEY_USER_ID);
@@ -28,7 +29,8 @@ public class PortalUtil {
 		HttpSession session = request.getSession(true);
 		session.invalidate();
 		session = request.getSession(true);
-		session.setAttribute(KEY_USER_NAME, user.getName());
+		session.setAttribute(KEY_USER_NAME, user.getUserName());
+		session.setAttribute(KEY_NAME, user.getName());
 		session.setAttribute(KEY_USER_ROLE, user.getRole());
 		session.setAttribute(KEY_USER_ID, user.get_id());
 		session.setAttribute("SESSION_SET", true);

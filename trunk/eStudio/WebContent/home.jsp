@@ -1,7 +1,6 @@
 <%@page import="com.async.util.PortalUtil"%>
 <%
 	Boolean isValid = PortalUtil.isValidSession(request.getSession());
-	System.out.println(isValid);
 	if (!isValid) {
 		response.sendRedirect("index.jsp");
 		return;

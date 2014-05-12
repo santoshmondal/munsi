@@ -1,3 +1,4 @@
+<%@page import="com.async.util.Config"%>
 <%@page import="java.util.List"%>
 <%@page import="com.estudio.pojo.LaminationDetails"%>
 <%@page import="com.estudio.pojo.FrameDetails"%>
@@ -72,23 +73,23 @@ body * { visibility: hidden; }
 																<ul class="list-unstyled spaced">
 																	<li>
 																		<i class="icon-caret-right blue"></i>
-																		Street, City
+																		<strong><%=Config.getProperty("studio.name") %></strong>
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right blue"></i>
-																		Zip Code
+																		<%=Config.getProperty("studio.address") %>
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right blue"></i>
-																		State, Country
+																		Pincode - <%=Config.getProperty("studio.pincode") %>
 																	</li>
 
 																	<li>
 																		<i class="icon-caret-right blue"></i>
 																		Phone:
-																		<b class="red">111-111-111</b>
+																		<b class="red"><%=Config.getProperty("studio.phone") %></b>
 																	</li>
 																</ul>
 															</div>

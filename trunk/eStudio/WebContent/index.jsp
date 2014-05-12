@@ -4,7 +4,6 @@
     pageEncoding="ISO-8859-1"%>
 <%
 	Boolean isValid = PortalUtil.isValidSession(request.getSession());
-	System.out.println(isValid);
 	if (isValid) {
 		response.sendRedirect("hometmp.jsp");
 		return;

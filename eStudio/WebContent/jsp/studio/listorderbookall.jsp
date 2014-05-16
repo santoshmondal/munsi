@@ -46,7 +46,7 @@
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 				{name:'customerName',index:'customerName', width:170,editable: false, jsonmap:"customer.name"},
-				{name:'mobileNo',index:'mobileNo', width:150,editable: false, jsonmap:"customer.name"},
+				{name:'mobileNo',index:'mobileNo', width:150,editable: false, jsonmap:"customer.id"},
 				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
 				{name:'advanceBal',index:'advanceBal',width:100, editable: true,
 		              formatter: function (cellvalue, options, rowObject) 

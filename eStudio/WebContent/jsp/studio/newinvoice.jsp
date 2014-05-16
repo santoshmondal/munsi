@@ -67,22 +67,21 @@
 																<form class="form-horizontal" id="sample-form">
 																	
 																	<div class="form-group">
-																		<label for="idName" class="col-xs-12 col-sm-3 control-label no-padding-right">Name</label>
-	
-																		<div class="col-xs-12 col-sm-5">
-																			<span class="block input-icon input-icon-right">
-																				<input type="text" id="idName" name="fName" class="width-100" />
-																				<i class="icon-user blue"></i>
-																			</span>
-																		</div>
-																	</div>
-																	<div class="form-group">
 																		<label for="idMobile" class="col-xs-12 col-sm-3 control-label no-padding-right">Mobile</label>
 	
 																		<div class="col-xs-12 col-sm-5">
 																			<span class="block input-icon input-icon-right">
 																				<input type="text" id="idMobile" name="fMobile" class="width-100" />
 																				<i class="icon-phone green"></i>
+																			</span>
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label for="idName" class="col-xs-12 col-sm-3 control-label no-padding-right">Name</label>
+																		<div class="col-xs-12 col-sm-5">
+																			<span class="block input-icon input-icon-right">
+																				<input type="text" id="idName" name="fName" class="width-100" />
+																				<i class="icon-user blue"></i>
 																			</span>
 																		</div>
 																	</div>

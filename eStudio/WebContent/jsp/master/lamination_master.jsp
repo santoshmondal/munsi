@@ -40,7 +40,7 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Quality','Size','Price','Description',' '],
+					colNames:['id','Quality','Size (inches)','Price (Rs)','Description',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'quality',index:'quality', width:110, editrules:{required:true}, editable: true},
@@ -349,5 +349,13 @@
 					}
 			    });
 				
+			});
+			
+
+			$.extend($.jgrid.edit, {
+			    beforeSubmit: function () {
+			        $(this).jqGrid("setGridParam", {datatype: "json"});
+			        return [true,"",""];
+			    }
 			});
 		</script>

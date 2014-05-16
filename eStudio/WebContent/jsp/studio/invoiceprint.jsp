@@ -48,10 +48,10 @@ body * { visibility: hidden; }
 												</div>
 
 												<div class="widget-toolbar hidden-480">
-													
+													<!-- 
 													<a href="#" id="idSaveInvoice">
 														<i class="icon-save red"></i>
-													</a>
+													</a> -->
 													<a href="#" onclick="javascript:window.print()">
 														<i class="icon-print"></i>
 													</a>

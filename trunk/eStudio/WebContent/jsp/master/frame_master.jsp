@@ -39,7 +39,7 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Frame Number','Size','Price','Direct','Mount','R Mount','L Mount','Gold Mount','Pastting','Description',' '],
+					colNames:['id','Frame Number','Size (inches)','Price (Rs)','Direct (Rs)','Mount (Rs)','R Mount (Rs)','L Mount (Rs)','Gold Mount (Rs)','Pastting (Rs)','Description',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'frameNumber',index:'frameNumber', width:110, editrules:{required:true}, editable: true},
@@ -164,7 +164,7 @@
 						closeAfterAdd: true,
 						recreateForm: true,
 						url: "${pageContext.request.contextPath}/masteraction.do?op=add&type=frame",
-						top:(($(window).height() - 200) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
+						top:(($(window).height() - 450) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {
@@ -354,5 +354,12 @@
 					}
 			    });
 				
+			});
+			
+			$.extend($.jgrid.edit, {
+			    beforeSubmit: function () {
+			        $(this).jqGrid("setGridParam", {datatype: "json"});
+			        return [true,"",""];
+			    }
 			});
 		</script>

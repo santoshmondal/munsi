@@ -18,13 +18,13 @@ public class Config {
 	static {
 		properties = new Properties();
 		try {
-			// String currentClasspath = getCurrentClasspath();
-			// String fullConfigFilePath = currentClasspath + File.separator + CONFIG_FILE_NAME;
-			// properties.load(new FileInputStream(new File(fullConfigFilePath)));
+			 String currentClasspath = getCurrentClasspath();
+			 String fullConfigFilePath = currentClasspath + File.separator + CONFIG_FILE_NAME;
+			 properties.load(new FileInputStream(new File(fullConfigFilePath)));
 			
 			//HARINDRA (test this)
-			InputStream inputStream = Config.class.getResourceAsStream(File.separator + CONFIG_FILE_NAME);
-			properties.load(inputStream);
+			//InputStream inputStream = Config.class.getResourceAsStream(File.separator + CONFIG_FILE_NAME);
+			//properties.load(inputStream);
 			
 		} catch (Exception e) {
 			LOG.error(e);

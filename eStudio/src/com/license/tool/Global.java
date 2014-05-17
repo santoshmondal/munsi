@@ -1,4 +1,4 @@
-package com.async.util;
+package com.license.tool;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -22,7 +22,5 @@ public class Global {
     	}
     	
     	return false;
-    	
-    	
 	}
 }

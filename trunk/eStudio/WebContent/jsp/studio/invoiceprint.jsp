@@ -62,7 +62,7 @@ body * { visibility: hidden; }
 											<div class="widget-body">
 												<div class="widget-main padding-24">
 													<div class="row">
-														<div class="col-sm-6 hidden-xs">
+														<div class="col-sm-6">
 															<div class="row">
 																<div class="col-xs-11 label label-lg label-info arrowed-in arrowed-right">
 																	<b>Studio Info</b>
@@ -136,7 +136,7 @@ body * { visibility: hidden; }
 																<tr>
 																	<th class="center">#</th>
 																	<th>Particulars</th>
-																	<th class="hidden-xs">Description</th>
+																	<th>Description</th>
 																	<th class="hidden-480">Units</th>
 																	<th>Total</th>
 																</tr>
@@ -155,7 +155,15 @@ body * { visibility: hidden; }
 																	<td>
 																		Photo
 																	</td>
-																	<td class="hidden-xs">
+																	<td>
+																		<%
+																			if(phDt.get(i).isUrgent())
+																			{
+																				%>
+																				<span class="red">Urgent</span>
+																				<%
+																			}
+																		%>
 																		Photo #: <b><%=phDt.get(i).getPhotoNumber() %></b>,  Photo Source <b><%=phDt.get(i).getPhotoSource() %></b> and  Quality is <b><%=phDt.get(i).getQuality() %> </b>
 																	</td>
 																	<td class="hidden-480"> <%=phDt.get(i).getQuantity() %> </td>
@@ -174,7 +182,7 @@ body * { visibility: hidden; }
 																	<td>
 																		Photo Frame
 																	</td>
-																	<td class="hidden-xs">
+																	<td>
 																		Frame number is <%=frDt.get(j).getFrameNumber() %>,
 																		Size is <%=frDt.get(j).getSize() %>
 
@@ -192,7 +200,7 @@ body * { visibility: hidden; }
 																<tr>
 																	<td class="center"><%=k+j+i+1%></td>
 																	<td>Lamination</td>
-																	<td class="hidden-xs">
+																	<td>
 																		Quality is <%=lamDt.get(k).getQuality() %>, Size is <%=lamDt.get(k).getSize() %>
 																	</td>
 																	<td class="hidden-480"> 1 <% //lamDt.getQuantity() %></td>

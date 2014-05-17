@@ -253,6 +253,10 @@ public class InvoiceAction extends HttpServlet {
 			if (parameterMap.containsKey("fPhotoNumber") && parameterMap.get("fPhotoNumber")[0] != null && !parameterMap.get("fPhotoNumber")[0].trim().isEmpty()) {
 				pDetails = new PhotoDetails();
 
+				if (parameterMap.containsKey("fUrgent")){
+					String strUrgent = parameterMap.get("fUrgent")[0];
+					pDetails.setUrgent(strUrgent.equalsIgnoreCase("ON")?true:false);
+				}
 				if (parameterMap.containsKey("fPhotoNumber"))
 					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber")[0]);
 				if (parameterMap.containsKey("fPhotoSource"))
@@ -274,6 +278,10 @@ public class InvoiceAction extends HttpServlet {
 				if (parameterMap.containsKey("fPhotoNumber" + i)) {
 					pDetails = new PhotoDetails();
 					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber" + i)[0]);
+					if (parameterMap.containsKey("fUrgent"+ i)){
+						String strUrgent = parameterMap.get("fUrgent"+ i)[0];
+						pDetails.setUrgent(strUrgent.equalsIgnoreCase("ON")?true:false);
+					}
 					if (parameterMap.containsKey("fPhotoSource" + i))
 						pDetails.setPhotoSource(parameterMap.get("fPhotoSource" + i)[0]);
 					if (parameterMap.containsKey("fNoPhoto" + i) && parameterMap.get("fNoPhoto" + i)[0] != null && !parameterMap.get("fNoPhoto" + i)[0].trim().isEmpty())

@@ -21,6 +21,8 @@ public class PhotoDetails implements Serializable {
 
 	private String remark;
 	
+	private boolean isUrgent;
+	
 	public String getPhotoNumber() {
 		return photoNumber;
 	}
@@ -75,6 +77,14 @@ public class PhotoDetails implements Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+
+	public boolean isUrgent() {
+		return isUrgent;
+	}
+
+	public void setUrgent(boolean isUrgent) {
+		this.isUrgent = isUrgent;
 	}
 
 	

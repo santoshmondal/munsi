@@ -48,7 +48,7 @@
 				{name:'customerName',index:'customerName', width:170,editable: false, jsonmap:"customer.name"},
 				{name:'mobileNo',index:'mobileNo', width:150,editable: false, jsonmap:"customer.id"},
 				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
-				{name:'advanceBal',index:'advanceBal',width:100, editable: true,
+				{name:'advanceBal',index:'advanceBal',editrules:{number:true}, width:100, editable: true,
 		              formatter: function (cellvalue, options, rowObject) 
                       {
                           return rowObject["totalAmount"] - cellvalue;
@@ -178,7 +178,14 @@
 			$('.navtable .ui-pg-button').tooltip({container:'body'});
 			$(table).find('.ui-pg-div').tooltip({container:'body'});
 		}
-	
+		
+		$.extend($.jgrid.edit, {
+		    beforeSubmit: function () {
+		        $(this).jqGrid("setGridParam", {datatype: "json"});
+		        return [true,"",""];
+		    }
+		});
+
     });
 				
 		</script>

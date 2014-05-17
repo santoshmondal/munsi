@@ -159,7 +159,7 @@
 	</div>
 	<div class="pull-right">
 		<div class="well" style="background-color: #BABABA">
-		Support No. :  +91-9969938301, +91-9969938301
+		Support No. :  +91-9969938301
 		| Customer Service - <b >customer.support@isdcgroup.in</b> 
 		| Sales - <b>sales@isdcgroup.in</b>
 		</div>

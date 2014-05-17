@@ -631,7 +631,7 @@
 				//documentation : http://docs.jquery.com/Plugins/Validation/validate
 				
 				$.mask.definitions['~']='[+-]';
-				$('#phone').mask('(999) 999-9999');
+				//$('#idMobile').mask('(999) 999-9999');
 			
 				jQuery.validator.addMethod("phone", function (value, element) {
 					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
@@ -642,58 +642,28 @@
 					errorClass: 'help-block',
 					focusInvalid: false,
 					rules: {
-						email: {
+						fEmail: {
 							required: false,
 							email:true
 						},
-						password: {
+						fMobile: {
 							required: true,
-							minlength: 5
-						},
-						password2: {
-							required: true,
-							minlength: 5,
-							equalTo: "#password"
-						},
-						name: {
-							required: true
-						},
-						phone: {
-							required: true,
-							phone: 'required'
-						},
-						url: {
-							required: true,
-							url: true
-						},
-						comment: {
-							required: true
-						},
-						state: {
-							required: true
-						},
-						platform: {
-							required: true
-						},
-						subscription: {
-							required: true
-						},
-						gender: 'required',
-						agree: 'required'
+							digits:true,
+							minlength:10,
+							maxlength:10
+						}
 					},
 			
 					messages: {
-						email: {
+						fEmail: {
 							required: "Please provide a valid email.",
 							email: "Please provide a valid email."
 						},
-						password: {
-							required: "Please specify a password.",
-							minlength: "Please specify a secure password."
-						},
-						subscription: "Please choose at least one option",
-						gender: "Please choose gender",
-						agree: "Please accept our policy"
+						fMobile: {
+							required: "Please provide a valid mobile number.",
+							minlength: "Please provide a valid mobile number.",
+							maxlength: "Please provide a valid mobile number."
+						}
 					},
 			
 					invalidHandler: function (event, validator) { //display error alert on form submit   
@@ -898,7 +868,7 @@
 				
 				$("input[id^='idLamQuality'],input[id^='idLamSize']").on('change keyup paste', function() {
 					var urlPath = "commonaction.do?op=fetch&service=lamination&get=price";
-					debugger;
+					
 					var tabNo = $(this).closest("div[id^='lam']").data('tabNo');
 					
 					if(tabNo){
@@ -988,6 +958,9 @@
 
 			$("#idAddLam").on('click',function(){
 			   
+				var bkpLamSize = $( "#idLamSize").select2("val");
+				var bkpLamQuality = $( "#idLamQuality").select2("val");
+				
 				$( ".spinner" ).spinner( "destroy" );
 				$( "#idLamSize.select2").select2("destroy");
 				$( "#idLamQuality.select2").select2("destroy");
@@ -1008,6 +981,12 @@
 			   $("#idLamCounter").val(l);
 			   clearForm($("#lam"+l));
 			   callAllFunctions();
+			  /*  $( "#idLamSize.select2").select2("open");
+			   $( "#idLamSize.select2").select2("close");
+			   $( "#idLamSize.select2").select2("val", bkpLamSize);
+			   $( "#idLamQuality.select2").select2("open");
+			   $( "#idLamQuality.select2").select2("close");
+			   $( "#idLamQuality.select2").select2("val", bkpLamQuality); */
 			});
 
 			function clearForm(pElement)
@@ -1072,12 +1051,4 @@
 		     
 	});
 
-    function isPositiveNumber(evt) {
-   	    evt = (evt) ? evt : window.event;
-   	    var charCode = (evt.which) ? evt.which : evt.keyCode;
-   	    if (charCode > 31 && (charCode < 46 || charCode > 57)) {
-   	        return false;
-   	    }
-   	    return true;
-   	};
 	</script>

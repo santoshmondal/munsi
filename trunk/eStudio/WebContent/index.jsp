@@ -59,6 +59,16 @@
 			right: 0;
 			margin: auto;
 		}
+		
+		.footer
+		{
+			position: fixed;
+			height: 70px;
+			bottom:0px;
+			width:100%;
+			padding-top:5px;
+			color:#000;
+		}
 	</style>
 </head>
 
@@ -137,7 +147,24 @@
 						</div><!-- /position-relative -->
 					</div>
 	<!-- basic scripts -->
-
+<footer class="footer" style="background-color:#c2c2c2"> 
+	<div class="col-xs-3 col-sm-1"> 
+		
+		<img width="110px" src="./custom/images/isdc_deliverable_transbg.png" style="margin-top:8px; margin-left:10px; background-color:green" class="img-responsive"/>
+		
+	</div>
+	<div class="col-xs-6 col-sm-3">
+	<font size="+1px"> Innovatory Solutions Designing & Consulting</font>
+	
+	</div>
+	<div class="pull-right">
+		<div class="well" style="background-color: #BABABA">
+		Support No. :  +91-9969938301, +91-9969938301
+		| Customer Service - <b >customer.support@isdcgroup.in</b> 
+		| Sales - <b>sales@isdcgroup.in</b>
+		</div>
+	</div>
+</footer>
 	<!--[if !IE]> -->
 
 	<script type="text/javascript">

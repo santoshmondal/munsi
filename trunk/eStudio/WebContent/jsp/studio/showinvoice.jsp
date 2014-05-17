@@ -204,6 +204,7 @@ body * { visibility: hidden; }
 													<div class="space-6"></div>
 													<div class="well">
 														Thank you for choosing us. We believe you will be satisfied by our services.
+														<div class="pull-right"><div class="col-sm-8 pull-right">developed by ISDC</div> <div class="col-sm-4 pull-right"><img width="90px" src="${pageContext.request.contextPath}/custom/images/isdc_deliverable_transbg.png" style="margin-left:10px; background-color:green" class="img-responsive"/></div></div>
 													</div>
 												</div>
 											</div>

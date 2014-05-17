@@ -1,6 +1,7 @@
 package com.async.util;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
@@ -97,24 +98,26 @@ public class CommonUtil {
 		}
 	}
 
-	public static void smsMsg(String toNo, String msg) {
+	public static void smsMsg(String toNo, String msg)
+			throws UnsupportedEncodingException {
 		String strURL = "http://api.mVaayoo.com/mvaayooapi/MessageCompose?user=padiyodi@gmail.com:isdc@1234&"
-				+ "senderID=TEST SMS&"
-				+ "receipientno="
+				+ "senderID="
+				+ java.net.URLEncoder.encode("TEST SMS", "UTF-8")
+				+ "&receipientno="
 				+ toNo
 				+ "&dcs=0&msgtxt="
-				+ msg
-				+ "&state=4"; 
-		
+				+ java.net.URLEncoder.encode(msg, "UTF-8") + "&state=4";
+
 		System.out.println(" URL is :" + strURL);
 		try {
 			java.net.URL obj = new java.net.URL(strURL);
-			HttpURLConnection httpReq = (HttpURLConnection) obj.openConnection();
+			HttpURLConnection httpReq = (HttpURLConnection) obj
+					.openConnection();
 			httpReq.setDoOutput(true);
 			httpReq.setInstanceFollowRedirects(true);
 			httpReq.setRequestMethod("GET");
-			int iStatus = httpReq.getResponseCode();
-			System.out.println("Status is:" + iStatus);
+			String iStatus = httpReq.getResponseMessage();
+			System.out.println("iStatus: " + iStatus);
 		} catch (MalformedURLException ex) {
 			ex.printStackTrace();
 		} catch (IOException ex) {

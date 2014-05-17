@@ -66,7 +66,7 @@ public class LoginAction extends HttpServlet {
 			AccessUser accessUser = accessUserServeice.authenticate(userName, password);
 
 			if (accessUser == null) {
-				session.setAttribute("SERVER_MESSAGE", "Inalid credentials - authentication failed!");
+				session.setAttribute("SERVER_MESSAGE", "Invalid credentials - authentication failed!");
 				response.sendRedirect("");
 			} else {
 				PortalUtil.setLoggedUserInSession(request, accessUser);

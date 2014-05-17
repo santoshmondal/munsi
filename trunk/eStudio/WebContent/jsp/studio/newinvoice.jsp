@@ -660,7 +660,7 @@
 							email: "Please provide a valid email."
 						},
 						fMobile: {
-							required: "Please provide a valid mobile number.",
+							required: "Please provide a mobile number.",
 							minlength: "Please provide a valid mobile number.",
 							maxlength: "Please provide a valid mobile number."
 						}

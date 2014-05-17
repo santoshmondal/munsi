@@ -64,7 +64,7 @@
 														<div class="step-pane active" id="step1">
 															<h3 class="lighter block green">Enter Customer information</h3>
 															<div class="row-fluid col-lg-7 col-md-8 col-sm-8 col-xs-12">
-																<form class="form-horizontal" id="sample-form">
+																<form class="form-horizontal" id="customer-form">
 																	
 																	<div class="form-group">
 																		<label for="idMobile" class="col-xs-12 col-sm-3 control-label no-padding-right">Mobile</label>
@@ -495,28 +495,33 @@
 
 	<script type="text/javascript">
 	jQuery(function($) {
-			var $validation = false;
+			var $validation = true;
 			$('#fuelux-wizard').ace_wizard().on('change' , function(e, info){
 				if(info.step == 1 && $validation) {
-					if(!$('#validation-form').valid()) return false;
+					if(!$('#customer-form').valid()) return false;
 				}
 			}).on('finished', function(e) {
-				/* bootbox.dialog({
-					message: "Thank you! Your information was successfully saved!", 
-					buttons: {
-						"success" : {
-							"label" : "OK",
-							"className" : "btn-sm btn-primary"
+				if(Number($("#idAdvPaid").val()) > Number($('#idTotalAmount').val()))
+				{
+					bootbox.dialog({
+						message: "Advance payment cannot exceed total amout.", 
+						title: "Validation Prompt",
+						buttons: {
+							"success" : {
+								"label" : "OK",
+								"className" : "btn-sm btn-primary"
+							}
 						}
-					}
-				}); */
-				var frm = $(document.forms);
-				//var hrefEle  = "/jsp/studio/invoiceprint.jsp";
-				var URL = "invoiceaction.do?op=ADD&"+frm.serialize();
-				var DATA = {};
-				var embedInElement = "id_EmbedPage";
-				async.munsi.ajaxCall(URL,DATA,embedInElement);
-	
+					}); 
+				}
+				else{
+					var frm = $(document.forms);
+					//var hrefEle  = "/jsp/studio/invoiceprint.jsp";
+					var URL = "invoiceaction.do?op=ADD&"+frm.serialize();
+					var DATA = {};
+					var embedInElement = "id_EmbedPage";
+					async.munsi.ajaxCall(URL,DATA,embedInElement);
+				}
 			}).on('stepclick', function(e){
 				//return false;//prevent clicking on steps
 			});
@@ -632,13 +637,13 @@
 					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
 				}, "Enter a valid phone number.");
 
-				$('#validation-form').validate({
+				$('#customer-form').validate({
 					errorElement: 'div',
 					errorClass: 'help-block',
 					focusInvalid: false,
 					rules: {
 						email: {
-							required: true,
+							required: false,
 							email:true
 						},
 						password: {
@@ -731,13 +736,24 @@
 						//add custom classes and icons
 						$(this)
 						.next().addClass('btn btn-success').html('<i class="icon-plus"></i>')
-						.next().addClass('btn btn-danger').html('<i class="icon-minus"></i>')
+						.next().addClass('btn btn-danger').html('<i class="icon-minus"></i>');
 						
 						//larger buttons on touch devices
 						if(ace.click_event == "tap") $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
+					},
+					change: function( event, ui ) {
+						$(".costfield").trigger("change");
 					}
 				});
-
+				$( ".spinner" ).spinner("option", "min", 0);
+				$( ".spinner,#idAdvPaid" ).keypress(function(evt) {
+					evt = (evt) ? evt : window.event;
+			   	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+			   	    if (charCode > 31 && (charCode < 46 || charCode > 57)) {
+			   	        return false;
+			   	    }
+			   	    return true;
+				});
 				$('.date-picker').datepicker({autoclose:true,orientation: 'left'}).next().on(ace.click_event, function(){
 					$(this).prev().focus();
 				});
@@ -1053,5 +1069,15 @@
 		     .append( "<a>" + item.id + "<span class='badge badge-primary pull-right'>"+ item.label +"</span>"+ "</a>" )
 		     .appendTo( ul );
 		     };
+		     
 	});
+
+    function isPositiveNumber(evt) {
+   	    evt = (evt) ? evt : window.event;
+   	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+   	    if (charCode > 31 && (charCode < 46 || charCode > 57)) {
+   	        return false;
+   	    }
+   	    return true;
+   	};
 	</script>

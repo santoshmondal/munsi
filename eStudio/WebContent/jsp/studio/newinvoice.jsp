@@ -170,7 +170,7 @@
 				
 																					<div class="col-xs-12 col-sm-5">
 																						<span class="block" >
-																							<input class="ace ace-switch ace-switch-5" type="checkbox" name="fUrgent" />
+																							<input class="ace ace-switch ace-switch-5" type="checkbox" id="idUrgent" name="fUrgent" />
 																							<span class="lbl"></span>
 																						</span>
 																					</div>
@@ -505,7 +505,7 @@
 				{
 					bootbox.dialog({
 						message: "Advance payment cannot exceed total amout.", 
-						title: "Validation Prompt",
+						title: "<span class='red'>Validation Prompt</span>",
 						buttons: {
 							"success" : {
 								"label" : "OK",
@@ -1035,6 +1035,7 @@
 							$("#idAddress").val(data[0].address);
 							$("#idDOB").val(data[0].dob);
 							$("#idMAnniversary").val(data[0].marriageDate);
+							g_isDirty=true;
 						})
 						.fail(function() {
 							console.error( "error in fetching data from server....." );

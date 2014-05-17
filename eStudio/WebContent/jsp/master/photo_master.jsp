@@ -45,7 +45,7 @@
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'quality',index:'quality', width:110, editrules:{required:true}, editable: true},
 						{name:'size',index:'size', width:110, editrules:{required:true}, editable: true},
-						{name:'price',index:'price', width:110, editrules:{required:true}, editable: true},
+						{name:'price',index:'price', width:110, editrules:{required:true,number:true}, editable: true},
 						{name:'description',index:'description', width:150,editable: true,editoptions:{maxlength:"200"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

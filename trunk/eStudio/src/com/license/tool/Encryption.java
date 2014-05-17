@@ -1,4 +1,4 @@
-package com.async.util;
+package com.license.tool;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -35,7 +35,7 @@ public class Encryption {
 
 	public static byte[] encryptMessage(String message, String strPK ){
 		try {
-		    byte[] privatekey = strPK.getBytes("UTF-8"); 
+			byte[] privatekey = strPK.getBytes("UTF-8"); 
 		
 		    byte[] byteArrayPlainText = message.getBytes("UTF-8");
 			
@@ -63,7 +63,7 @@ public class Encryption {
 		    cipher.init( Cipher.DECRYPT_MODE, secretKey);
 		    byte[] byteArrayMessage = cipher.doFinal(byteArrayCipherText);
 		    
-		    return new String(byteArrayMessage,"UTF-8");
+		    return new String( byteArrayMessage, "UTF-8" );
 		}
 		catch (Exception e1) {
 			   e1.printStackTrace();

@@ -163,6 +163,79 @@
 																	</ul>
 																	
 																	<div class="tab-content">
+																		<div id="photo1_tmp" class="tab-pane in active" style="display: none;">
+																			<div>
+																				<div class="form-group">
+																					<label for="idUrgent_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Urgent Photo</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block" >
+																							<input class="ace ace-switch ace-switch-5" type="checkbox" id="idUrgent_tmp" name="fUrgent_tmp" />
+																							<span class="lbl"></span>
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idPhotoNumber_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Number</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<input id="idPhotoNumber_tmp" class="width-100" type="text" name="fPhotoNumber_tmp" />
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idPhotoSource_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Source</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<select id="idPhotoSource_tmp" name="fPhotoSource_tmp" class="select2 width-100" data-placeholder="Click to Choose...">
+																							<option value="studio">Studio</option>
+																							<option value="mediaprint">Media Print</option>
+																							<option value="scanprint">Scan Print</option>
+																							<option value="reprint">Re-Print</option>
+																						</select>
+																						<!-- <input type="hidden" id="idPhotoSource" name="fPhotoSource" style="width:300px" class="select2" /> -->
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idNoPhoto_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Number of copies</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right">
+																							<input type="text" id="idNoPhoto_tmp" name="fNoPhoto_tmp" class="width-100 spinner" />
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idSize_tmp">Photo Size</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<input type="hidden" id="idSize_tmp" name="fSize_tmp" style="width:300px" class="select2" />
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idQuality_tmp">Photo Quality</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<input type="hidden" id="idQuality_tmp" name="fQuality_tmp" style="width:300px" class="select2" />
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idRemark_tmp">Remark</label>
+																					<div class="col-xs-12 col-sm-5">
+																						<div class="clearfix">
+																							<textarea class="input-xlarge" cols="50" name="fRemark_tmp" id="idRemark_tmp"></textarea>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idPhotoCost_tmp"><h4>Photo cost (<span class="icon-inr"></span>)</h4></label>
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right red">
+																							<input type="text" id="idPhotoCost_tmp" name="fPhotoCost_tmp" class="width-100 spinner red costfield" style="font-size: large; " />
+																						</span>
+																					</div>
+																				</div>
+																			  </div>
+																		</div>
 																		<div id="photo1" class="tab-pane in active">
 																			<div>
 																				<div class="form-group">
@@ -208,12 +281,6 @@
 																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idSize">Photo Size</label>
 				
 																					<div class="col-xs-12 col-sm-5">
-																						<!-- <select id="idSize" name="fSize" class="select2 width-100" data-placeholder="Click to Choose...">
-																							<option value="">&nbsp;</option>
-																							<option value="4x6">4x6</option>
-																							<option value="8x12">8x12</option>
-																							<option value="Landsacpe">Landscape</option>
-																						</select> -->
 																						<input type="hidden" id="idSize" name="fSize" style="width:300px" class="select2" />
 																					</div>
 																				</div>
@@ -221,12 +288,6 @@
 																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idQuality">Photo Quality</label>
 				
 																					<div class="col-xs-12 col-sm-5">
-																						<!-- <select id="idQuality" name="fQuality" class="select2 width-100" data-placeholder="Click to Choose...">
-																							<option value="">&nbsp;</option>
-																							<option value="4x6">4x6</option>
-																							<option value="8x12">8x12</option>
-																							<option value="Landsacpe">Landscape</option>
-																						</select> -->
 																						<input type="hidden" id="idQuality" name="fQuality" style="width:300px" class="select2" />
 																					</div>
 																				</div>
@@ -277,6 +338,60 @@
 																	</ul>
 																	
 																	<div class="tab-content">
+																		
+																		<div id="frame1_tmp" class="tab-pane in active" style="display: none;">
+																			<div>
+																				<div class="form-group">
+																					<label for="idFrameNumber_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Number</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right">
+																							<input type="hidden" id="idFrameNumber_tmp" name="fFrameNumber_tmp" class="select2" />
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label for="idFrameSize_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Size</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right">
+																							<input type="hidden" id="idFrameSize_tmp" name="fFrameSize_tmp" class="select2" />
+																						</span>
+																					</div>
+																				</div>
+																				
+																				<div class="form-group">
+																					<label for="idFrameType_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Quality/Type</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<label class="col-xs-6 col-sm-6"><input type="checkbox" name="fFrameDirect_tmp" id="idFrameTDirect_tmp" value="direct"/> Direct </label>
+																						<label class="col-xs-6 col-sm-6"><input type="checkbox" name="fFrameMount_tmp" id="idFrameTMount_tmp" value="mount"/> Mount </label>
+																						<label class="col-xs-6 col-sm-6"><input type="checkbox" name="fFrameRightMount_tmp" id="idFrameTRightMount_tmp" value="rightMount"/> Right Mount </label>
+																						<label class="col-xs-6 col-sm-6"><input type="checkbox" name="fFrameLeftMount_tmp" id="idFrameTLeftMount_tmp" value="leftMount"/> Left Mount </label>
+																						<label class="col-xs-6 col-sm-6"><input type="checkbox" name="fFrameGoldMount_tmp" id="idFrameTGoldMount_tmp" value="goldMount"/> Gold Mount </label>
+																						<label class="col-xs-6 col-sm-6"><input type="checkbox" name="fFramePastting_tmp" id="idFrameTPastting_tmp" value="pastting"/> Pastting </label> 
+																					</div>
+																				</div>
+																				
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idFrameRemark_tmp">Remark</label>
+																					<div class="col-xs-12 col-sm-5">
+																						<div class="clearfix">
+																							<textarea class="input-xlarge" cols="50" name="fFrameRemark_tmp" id="idFrameRemark_tmp"></textarea>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idFrameCost_tmp"><h4>Frame cost (<span class="icon-inr"></span>)</h4></label>
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right red">
+																							<input type="text" id="idFrameCost_tmp" name="fFrameCost_tmp" class="costfield width-100 spinner red" style="font-size: large; " />
+																						</span>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		
 																		<div id="frame1" class="tab-pane in active">
 																			<div>
 																				<div class="form-group">
@@ -311,29 +426,6 @@
 																					</div>
 																				</div>
 																				
-																				<!-- 
-																				<div class="form-group">
-																					<label for="idFrameType" class="col-xs-12 col-sm-3 control-label no-padding-right">Frame Quality/Type</label>
-				
-																					<div class="col-xs-12 col-sm-5">
-																						<span class="block input-icon input-icon-right">
-																							<input type="hidden" id="idFrameType" name="fFrameType" class="select2" />
-																						</span>
-																					</div>
-																				</div> -->
-																				
-																				<!-- <div class="form-group">
-																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idFrameQuality">Frame Quality/Type</label>
-				
-																					<div class="col-xs-12 col-sm-5">
-																						<select id="idFrameQuality" name="fFrameQuality" class="select2 width-100" data-placeholder="Click to Choose...">
-																							<option value="">&nbsp;</option>
-																							<option value="4x6">4x6</option>
-																							<option value="8x12">8x12</option>
-																							<option value="Landsacpe">Landscape</option>
-																						</select>
-																					</div>
-																				</div> -->
 																				<div class="form-group">
 																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idFrameRemark">Remark</label>
 																					<div class="col-xs-12 col-sm-5">
@@ -382,6 +474,43 @@
 																	</ul>
 																	
 																	<div class="tab-content">
+																		<div id="lam1_tmp" class="tab-pane in active" style="display: none;">
+																			<div>
+																				<div class="form-group">
+																					<label for="idLamSize_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Lamination Size</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right">
+																							<input type="hidden" id="idLamSize_tmp" name="fLamSize_tmp" class="select2" />
+																						</span>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idLamQuality_tmp">Lamination Quality/Type</label>
+				
+																					<div class="col-xs-12 col-sm-5">
+																						<input type="hidden" id="idLamQuality_tmp" name="fLamQuality_tmp" class="select2" />
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idLamRemark_tmp">Remark</label>
+																					<div class="col-xs-12 col-sm-5">
+																						<div class="clearfix">
+																							<textarea class="input-xlarge" cols="50" name="fLamRemark_tmp" id="idLamRemark_tmp"></textarea>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="form-group">
+																					<label class="control-label col-xs-12 col-sm-3 no-padding-right" for="idLamCost_tmp"><h4>Lamination cost (<span class="icon-inr"></span>)</h4></label>
+																					<div class="col-xs-12 col-sm-5">
+																						<span class="block input-icon input-icon-right red">
+																							<input type="text" id="idLamCost_tmp" name="fLamCost_tmp" class="costfield width-100 spinner red" style="font-size: large; " />
+																						</span>
+																					</div>
+																				</div>
+																			</div>
+																		</div>
+																		
 																		<div id="lam1" class="tab-pane in active">
 																			<div>
 																				<div class="form-group">
@@ -390,12 +519,6 @@
 																					<div class="col-xs-12 col-sm-5">
 																						<span class="block input-icon input-icon-right">
 																							<input type="hidden" id="idLamSize" name="fLamSize" class="select2" />
-																							<!-- <select id="idLamSize" name="fLamSize" class="select2 width-100" data-placeholder="Click to Choose...">
-																							<option value="">&nbsp;</option>
-																							<option value="4x6">4x6</option>
-																							<option value="8x12">8x12</option>
-																							<option value="Landsacpe">Landscape</option>
-																						</select> -->
 																						</span>
 																					</div>
 																				</div>
@@ -404,12 +527,6 @@
 				
 																					<div class="col-xs-12 col-sm-5">
 																						<input type="hidden" id="idLamQuality" name="fLamQuality" class="select2" />
-																						<!-- <select id="idLamQuality" name="fLamQuality" class="select2 width-100" data-placeholder="Click to Choose...">
-																							<option value="">&nbsp;</option>
-																							<option value="4x6">4x6</option>
-																							<option value="8x12">8x12</option>
-																							<option value="Landsacpe">Landscape</option>
-																						</select> -->
 																					</div>
 																				</div>
 																				<div class="form-group">
@@ -430,6 +547,7 @@
 																				</div>
 																			</div>
 																		</div>
+																		
 																	</div>
 																	</div>
 																	<input type="hidden" name="fTotalAmount" id="idTotalAmount"/> 
@@ -525,103 +643,79 @@
 			}).on('stepclick', function(e){
 				//return false;//prevent clicking on steps
 			});
+//----------------- Photo Size, Quality , Source
+
+			$("input[id^='idSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
+		        dataType: "json",
+		        url: "\commonaction.do?op=fetch&service=photo&key=size",
+		        results: function (data) {
+		            return {results: data};
+		        }
+		    }})
+			.on('change', function(){
+				$(this).closest('form').validate().element($(this));
+			});
+
+			$("input[id^='idQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
+		        dataType: "json",
+		        url: "\commonaction.do?op=fetch&service=photo&key=quality",
+		        results: function (data) {
+		            return {results: data};
+		        }
+		    }})
+			.on('change', function(){
+				$(this).closest('form').validate().element($(this));
+			});
 			
+//----------------- Frame Size, Quality and Numbers
+			$("input[id^='idFrameSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
+		        dataType: "json",
+		        url: "\commonaction.do?op=fetch&service=frame&key=size",
+		        results: function (data) {
+		            return {results: data};
+		        }
+		    }})
+			.on('change', function(){
+				$(this).closest('form').validate().element($(this));
+			});
+
+			$("input[id^='idFrameNumber'].select2").css('width','200px').select2({allowClear:true,ajax: {
+		        dataType: "json",
+		        url: "\commonaction.do?op=fetch&service=frame&key=frameNumber",
+		        results: function (data) {
+		            return {results: data};
+		        }
+		    }})
+			.on('change', function(){
+				$(this).closest('form').validate().element($(this));
+			});
+					
+			//----------------- Lamination Size, Quality and Numbers
+			$("input[id^='idLamQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
+		        dataType: "json",
+		        url: "\commonaction.do?op=fetch&service=lamination&key=quality",
+		        results: function (data) {
+		            return {results: data};
+		        }
+		    }})
+			.on('change', function(){
+				$(this).closest('form').validate().element($(this));
+			});
+			
+			$("input[id^='idLamSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
+		        dataType: "json",
+		        url: "\commonaction.do?op=fetch&service=lamination&key=size",
+		        results: function (data) {
+		            return {results: data};
+		        }
+		    }})
+			.on('change', function(){
+				$(this).closest('form').validate().element($(this));
+			});
 			
 			function callAllFunctions(){
 				$('[data-rel=tooltip]').tooltip();
-
-//----------------- Photo Size, Quality , Source
-				
-				/* $("input[id^='idPhotoSource'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=photo&key=size",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				}); */
-
-				$("input[id^='idSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=photo&key=size",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-
-				$("input[id^='idQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-				
-//----------------- Frame Size, Quality and Numbers
-				$("input[id^='idFrameSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=frame&key=size",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-
-				$("input[id^='idFrameNumber'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=frame&key=frameNumber",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-				
-				$("input[id^='idFrameNumber'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=frame&key=frameNumber",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-
-//----------------- Lamination Size, Quality and Numbers
-				$("input[id^='idLamQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=lamination&key=quality",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-				
-				$("input[id^='idLamSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=lamination&key=size",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
-					$(this).closest('form').validate().element($(this));
-				});
-
+	
 //----------- SELECT2 -----------
 				$("select.select2").css('width','200px').select2({allowClear:true})
 				.on('change', function(){
@@ -903,26 +997,54 @@
 			$("#idAddPhoto").on('click',function(){
 
 			   $( ".spinner" ).spinner( "destroy" );
-			   $( "#idPhotoSource.select2").select2("destroy");
-			   $( "#idSize.select2").select2("destroy");
-			   $( "#idQuality.select2").select2("destroy");
+			   $( "#idPhotoSource_tmp").select2("destroy");
+			   $( "#idSize_tmp").select2("destroy");
+			   $( "#idQuality_tmp").select2("destroy");
 			   cloned = $('#photo1');
 			   clonedHeader = $("#myPhotoTabLi");
 			   $("#myPhotoTabLi").clone().removeClass('active').attr('id','idli'+(c+1)).insertBefore("#idAddPhoto").find('a').attr({'href':'#photo'+(c+1)}).html('Photo '+ (c+1) + ' <a class="badge badge-grey closeLI" id="idClose'+(c+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
-			   $("#photo1").clone().attr('id', 'photo'+(++c) ).insertAfter( cloned );
-			   
+			   $("#photo1_tmp").clone().attr('id', 'photo'+(++c) ).insertAfter( cloned );
+			   $("#photo"+c).css('display', '');
 			   $("#photo"+c).data("tabNo",c);
 			   
 			   $("#idli"+(c)+ " a").click();
 			   $("#photo"+c).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
+				   eleID = eleID.replace('_tmp','');
+				   eleName = eleName.replace('_tmp','');
 				   $( this ).attr({'id':eleID+c,'name':eleName+c});
 			   });
 			   
 			   $("#idPhotoCounter").val(c);
 			   clearForm($("#photo"+c));
+
+				 //----------------- Photo Size, Quality , Source
+
+				$("#idSize"+c).css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
+				$("#idQuality"+c).css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+			   
 			   callAllFunctions();
+			   
 			});	
 
 			// JS for Frame Tabs
@@ -930,26 +1052,52 @@
 
 			$("#idAddFrame").on('click',function(){
 				$( ".spinner" ).spinner( "destroy" );
-				$( "#idFrameNumber.select2").select2("destroy");
-				$( "#idFrameType.select2").select2("destroy");
-				$( "#idFrameSize.select2").select2("destroy");
+				$( "#idFrameNumber_tmp").select2("destroy");
+				$( "#idFrameType_tmp").select2("destroy");
+				$( "#idFrameSize_tmp").select2("destroy");
 
 			   cloned = $('#frame1');
 			   clonedHeader = $("#myFrameTabLi");
 
 			   $("#myFrameTabLi").clone().removeClass('active').attr('id','idliFrame'+(f+1)).insertBefore("#idAddFrame").find('a').attr({'href':'#frame'+(f+1)}).html('Frame '+ (f+1) + ' <a class="badge badge-grey closeLIFrame" id="idCloseFrame'+(f+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
-			   $("#frame1").clone().attr('id', 'frame'+(++f) ).insertAfter( cloned );
-
+			   $("#frame1_tmp").clone().attr('id', 'frame'+(++f) ).insertAfter( cloned );
+			   $("#frame"+f).css('display', '');
 			   $("#frame"+f).data("tabNo",f);
 
 			   $("#idliFrame"+(f)+ " a").click();
 			   $("#frame"+f).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
+				   eleID = eleID.replace('_tmp','');
+				   eleName = eleName.replace('_tmp','');
 				   $( this ).attr({'id':eleID+f,'name':eleName+f});
 			   });
 			   $("#idFrameCounter").val(f);
 			   clearForm($("#frame"+f));
+				
+				//----------------- Frame Size, Quality and Numbers
+							$("#idFrameSize"+f).css('width','200px').select2({allowClear:true,ajax: {
+						        dataType: "json",
+						        url: "\commonaction.do?op=fetch&service=frame&key=size",
+						        results: function (data) {
+						            return {results: data};
+						        }
+						    }})
+							.on('change', function(){
+								$(this).closest('form').validate().element($(this));
+							});
+
+							$("#idFrameNumber"+f).css('width','200px').select2({allowClear:true,ajax: {
+						        dataType: "json",
+						        url: "\commonaction.do?op=fetch&service=frame&key=frameNumber",
+						        results: function (data) {
+						            return {results: data};
+						        }
+						    }})
+							.on('change', function(){
+								$(this).closest('form').validate().element($(this));
+							});
+			   
 			   callAllFunctions();
 			});
 
@@ -957,36 +1105,53 @@
 			var l = 1;
 
 			$("#idAddLam").on('click',function(){
-			   
-				var bkpLamSize = $( "#idLamSize").select2("val");
-				var bkpLamQuality = $( "#idLamQuality").select2("val");
 				
 				$( ".spinner" ).spinner( "destroy" );
-				$( "#idLamSize.select2").select2("destroy");
-				$( "#idLamQuality.select2").select2("destroy");
-				   
+				$( "#idLamQuality_tmp").select2("destroy");
+				$( "#idLamSize_tmp").select2("destroy");
+
 				cloned = $('#lam1');
 			   clonedHeader = $("#myLamTabLi");
 			   $("#myLamTabLi").clone().removeClass('active').attr('id','idliLam'+(l+1)).insertBefore("#idAddLam").find('a').attr({'href':'#lam'+(l+1)}).html('Lamination '+ (l+1) + ' <a class="badge badge-grey closeLILam" id="idCloseLam'+(l+1)+'" style="padding: 0px 4px 1px 3px; line-height: 14px;"><b>x</b></a>');
-			   $("#lam1").clone().attr('id', 'lam'+(++l) ).insertAfter( cloned );
-
+			  
+			   $("#lam1_tmp").clone().attr('id', 'lam'+(++l) ).insertAfter( cloned );
+			   $("#lam"+l).css('display', '');
 			   $("#lam"+l).data("tabNo",l);
 
 			   $("#idliLam"+(l)+ " a").click();
 			   $("#lam"+l).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
+				   eleID = eleID.replace('_tmp','');
+				   eleName = eleName.replace('_tmp','');
 				   $( this ).attr({'id':eleID+l,'name':eleName+l});
 			   });
 			   $("#idLamCounter").val(l);
 			   clearForm($("#lam"+l));
+			 //----------------- Lamination Size, Quality and Numbers
+			   $("#idLamQuality"+l).css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=lamination&key=quality",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+				
+				$("#idLamSize"+l).css('width','200px').select2({allowClear:true,ajax: {
+			        dataType: "json",
+			        url: "\commonaction.do?op=fetch&service=lamination&key=size",
+			        results: function (data) {
+			            return {results: data};
+			        }
+			    }})
+				.on('change', function(){
+					$(this).closest('form').validate().element($(this));
+				});
+
 			   callAllFunctions();
-			  /*  $( "#idLamSize.select2").select2("open");
-			   $( "#idLamSize.select2").select2("close");
-			   $( "#idLamSize.select2").select2("val", bkpLamSize);
-			   $( "#idLamQuality.select2").select2("open");
-			   $( "#idLamQuality.select2").select2("close");
-			   $( "#idLamQuality.select2").select2("val", bkpLamQuality); */
 			});
 
 			function clearForm(pElement)

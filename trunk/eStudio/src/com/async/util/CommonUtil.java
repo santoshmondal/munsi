@@ -9,6 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.apache.log4j.Priority;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger(CommonUtil.class);
+	private static final Logger SMS_LOG = Logger.getLogger("SMS_LOGGER");
 	private static final ObjectMapper mapper = new ObjectMapper();
 	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	static {
@@ -98,8 +100,8 @@ public class CommonUtil {
 		}
 	}
 
-	public static void smsMsg(String toNo, String msg)
-			throws UnsupportedEncodingException {
+	public static void smsMsg(String toNo, String msg)	throws UnsupportedEncodingException {
+		SMS_LOG.info("SMS :: [smsMsg] > Mobile:"+toNo +" | Text :"+msg);
 		String strURL = "http://api.mVaayoo.com/mvaayooapi/MessageCompose?user=padiyodi@gmail.com:isdc@1234&"
 				+ "senderID="
 				+ java.net.URLEncoder.encode("TEST SMS", "UTF-8")
@@ -108,8 +110,9 @@ public class CommonUtil {
 				+ "&dcs=0&msgtxt="
 				+ java.net.URLEncoder.encode(msg, "UTF-8") + "&state=4";
 
-		System.out.println(" URL is :" + strURL);
+		SMS_LOG.debug("SMS :: [smsMsg] > URL :"+ strURL);
 		try {
+			SMS_LOG.debug("SMS :: [smsMsg] > Start URL Connection:"+ new  Date());
 			java.net.URL obj = new java.net.URL(strURL);
 			HttpURLConnection httpReq = (HttpURLConnection) obj
 					.openConnection();
@@ -117,13 +120,17 @@ public class CommonUtil {
 			httpReq.setInstanceFollowRedirects(true);
 			httpReq.setRequestMethod("GET");
 			String iStatus = httpReq.getResponseMessage();
-			System.out.println("iStatus: " + iStatus);
+			SMS_LOG.debug("SMS :: [smsMsg] > End URL Connection:"+ new  Date());
+			SMS_LOG.debug("SMS :: [smsMsg] > Status: " + iStatus);
 		} catch (MalformedURLException ex) {
 			ex.printStackTrace();
+			SMS_LOG.error("SMS :: [smsMsg] > " + ex.getMessage());
 		} catch (IOException ex) {
 			ex.printStackTrace();
+			SMS_LOG.error("SMS :: [smsMsg] > " + ex.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
+			SMS_LOG.error("SMS :: [smsMsg] > " + e.getMessage());
 		}
 	}
 

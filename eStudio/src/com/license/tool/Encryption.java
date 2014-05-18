@@ -34,6 +34,7 @@ public class Encryption {
 	}
 
 	public static byte[] encryptMessage(String message, String strPK ){
+		Global.LOG.info(" Encription encryptMessage() - START ");
 		try {
 			byte[] privatekey = strPK.getBytes("UTF-8"); 
 		
@@ -44,16 +45,18 @@ public class Encryption {
 		    
 		    cipher.init( Cipher.ENCRYPT_MODE, secretKey);
 		    byte[] byteArrayMessage = cipher.doFinal(byteArrayPlainText);
+		    Global.LOG.info(" Encription encriptMessage() - END ");
 		    return byteArrayMessage;
 		}
 		catch (Exception e1) {
 			   e1.printStackTrace();
 		}
-	    
+		Global.LOG.info(" Encription encriptMessage() - END ");
 	    return null;
 	}
 
 	public static  String decryptMessage( byte[] byteArrayCipherText, String strPK ){
+		Global.LOG.info(" Encription decryptMessage() - START ");
 		try {
 		    byte[] privatekey = strPK.getBytes("UTF-8"); 
 		
@@ -63,12 +66,14 @@ public class Encryption {
 		    cipher.init( Cipher.DECRYPT_MODE, secretKey);
 		    byte[] byteArrayMessage = cipher.doFinal(byteArrayCipherText);
 		    
+		    Global.LOG.info(" Encription decryptMessage() - END ");    
 		    return new String( byteArrayMessage, "UTF-8" );
 		}
-		catch (Exception e1) {
-			   e1.printStackTrace();
+		catch (Exception e) {
+			Global.LOG.info(" Problem to decript message ", e);
+			e.printStackTrace();
 		}
-	    
+		Global.LOG.info(" Encription decryptMessage() - END ");
 	    return null;
 	}
 

@@ -15,7 +15,7 @@ import javax.xml.bind.Unmarshaller;
 public class LicenseUtil {
 	public static String ENCODING_UTF8 = "UTF-8";
 	
-	public static String licenseToXmlString(License license){
+	private static String licenseToXmlString(License license){
         try {
             
             JAXBContext jaxbContext = JAXBContext.newInstance(License.class);
@@ -25,7 +25,7 @@ public class LicenseUtil {
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             StringWriter stringWriter = new StringWriter();
             jaxbMarshaller.marshal(license, stringWriter);
-            System.out.println( stringWriter.toString() );
+            //System.out.println( stringWriter.toString() );
             return stringWriter.toString();
         }
         catch (JAXBException e) {
@@ -69,7 +69,7 @@ public class LicenseUtil {
 		FileOutputStream out = null;
 		try {
 			out =  new FileOutputStream( licenseFile );
-			String message = LicenseUtil.licenseToXmlString(license);
+			String message = licenseToXmlString(license);
 			String licenseEncKey = Encryption.md5Encrypt( LicenseUtil.getKeyEncKey() );
 			byte[] encMessage = Encryption.encryptMessage( message, licenseEncKey );
 			out.write(encMessage);
@@ -99,18 +99,21 @@ public class LicenseUtil {
 			fios.close();
 			String licenseEncKey = Encryption.md5Encrypt( LicenseUtil.getKeyEncKey() );
 			String xmlString = Encryption.decryptMessage( fileByte, licenseEncKey );
-			License license = LicenseUtil.xmlStringToLicense( xmlString );
-			return  license;
+			if( xmlString != null &&xmlString.trim().length() > 0 ){
+				License license = LicenseUtil.xmlStringToLicense( xmlString );
+				return  license;
+			}
 		}
 		catch (Exception exception) {
-			exception.printStackTrace();
+			Global.LOG.error("Problem to read license file",exception);
 		}
 		finally {
 			if(fios != null){
 				try {
 					fios.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} 
+				catch (IOException e) {
+					Global.LOG.info("Problem to close license file");
 				}
 			}
 		}

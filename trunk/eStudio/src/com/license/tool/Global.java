@@ -54,13 +54,13 @@ public class Global {
 		licenseFilePath = licenseFile;
 		
 		licenseFileFound = true;
-		License license = LicenseUtil.readLicenseFile(file);
-		if( license == null ){
+		License templicense = LicenseUtil.readLicenseFile(file);
+		if( templicense == null ){
 			licenseValid = false;
 			LOG.info("License instance is null after reading the lic file");
 			return;
 		}
-		
+		license = templicense;
 		licenseExpired = checkLicenseExpire();
 		systemDateValid = validateSyatemDate();
 		licenseValid = validateMachine();

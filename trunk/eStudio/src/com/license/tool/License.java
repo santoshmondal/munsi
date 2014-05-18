@@ -1,6 +1,4 @@
 package com.license.tool;
-import java.io.Serializable;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -8,10 +6,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name="license")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class License implements Serializable
-{
-    private static final long serialVersionUID = 1L;
-    
+public class License {
     @XmlElement private String startDate			= "";
     @XmlElement private String endDate				= "";
     @XmlElement private String hostname				= "";	
@@ -20,12 +15,13 @@ public class License implements Serializable
     @XmlElement private String osName				= "";
     @XmlElement private String osArchitecture		= "";
     @XmlElement private String osSerialNumber		= "";
-    @XmlElement private String cpuProcessorId			= "";
+    @XmlElement private String cpuProcessorId		= "";
     @XmlElement private String baseboardSerialNuber	= "";
     @XmlElement private String biosSerialNuber		= "";
     @XmlElement private String clientName			= "";
     @XmlElement private String clientAddress		= "";
     @XmlElement private String clientContactNumber	= "";
+    @XmlElement private String lastAccessDate		= "";
     
     public String getStartDate()
     {
@@ -167,8 +163,12 @@ public class License implements Serializable
         this.clientContactNumber = clientContactNumber;
     }
 
-    public static long getSerialversionuid()
-    {
-        return serialVersionUID;
-    }
+	public String getLastAccessDate() {
+		return lastAccessDate;
+	}
+
+	public void setLastAccessDate(String lastAccessDate) {
+		this.lastAccessDate = lastAccessDate;
+	}
+    
 }

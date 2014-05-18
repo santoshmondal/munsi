@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.async.util.Config;
 import com.license.tool.Global;
 
 /**
@@ -31,15 +32,26 @@ public class ValidationFilter implements Filter {
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
 
+		if ( !Global.isValidLicense() ) {
+			HttpSession session = request.getSession();
+			session.invalidate();
+			session = request.getSession(true);
+			session.setAttribute("SERVER_MESSAGE", Config.getProperty("license.invalid"));
+			response.sendRedirect("index.jsp");
+			return;
+		}
+		
 		if (Global.isLicenseExpired()) {
 			HttpSession session = request.getSession();
 			session.invalidate();
 			session = request.getSession(true);
-			session.setAttribute("SERVER_MESSAGE", " License Expire, Please Contact Vendor.");
+			session.setAttribute("SERVER_MESSAGE", Config.getProperty("license.expired"));
 			response.sendRedirect("index.jsp");
 			return;
 		}
 
+		
+		
 		chain.doFilter(request, response);
 	}
 

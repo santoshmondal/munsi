@@ -1,8 +1,8 @@
 package com.async.simulations;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,6 @@ import java.util.Set;
 import com.async.util.CommonUtil;
 import com.async.util.Constants;
 import com.async.util.Constants.DBCollectionEnum;
-import com.async.util.Constants.MasterTypeEnum;
 import com.async.util.MongoUtil;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
@@ -42,12 +41,7 @@ public class SantoshUtil {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(getIDTextFormat(MasterTypeEnum.PHOTO.toString(), "size"));
-		Map<String, Object> whereFields = new HashMap<String, Object>();
-		whereFields.put("type", MasterTypeEnum.PHOTO.toString());
-		whereFields.put("size", "6x7");
-		whereFields.put("quality", "metal");
-		System.out.println(getValue(whereFields, "price"));
+		processBacupOperation();
 	}
 
 	public static String getIDTextFormat(String type, String queryField) {
@@ -65,8 +59,9 @@ public class SantoshUtil {
 			while (results.hasNext()) {
 				DBObject document = results.next();
 				String queryResponse = (String) document.get(queryField);
-				if(queryResponse != null && !queryResponse.trim().equalsIgnoreCase(""))
+				if (queryResponse != null && !queryResponse.trim().equalsIgnoreCase("")) {
 					sQResponseSet.add(queryResponse);
+				}
 			}
 
 			List<SantoshCommonJson> list = new ArrayList<SantoshCommonJson>();
@@ -99,7 +94,7 @@ public class SantoshUtil {
 			if (jsonQuery != null && jsonQuery.length() > 0) {
 				DBObject optionalQuery = (DBObject) JSON.parse(jsonQuery);
 				BasicDBList queryList = new BasicDBList();
-				//queryList.add(deletedQuery);
+				// queryList.add(deletedQuery);
 				queryList.add(optionalQuery);
 				finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 			}
@@ -127,13 +122,13 @@ public class SantoshUtil {
 			String collectionName = DBCollectionEnum.MASTER.toString();
 			DB db = getDB();
 
-			DBObject query = new BasicDBObject();//"type", type
+			DBObject query = new BasicDBObject();// "type", type
 
 			for (Map.Entry<String, Object> entry : whereField.entrySet()) {
 				query.put(entry.getKey(), entry.getValue());
 			}
-			//query.put("size", size);
-			//query.put("quality", quality);
+			// query.put("size", size);
+			// query.put("quality", quality);
 			DBObject fetch = new BasicDBObject("_id", 0).append(queryField, 1);
 
 			DBCollection collection = db.getCollection(collectionName);
@@ -170,13 +165,13 @@ public class SantoshUtil {
 			String collectionName = DBCollectionEnum.CUSTOMER.toString();
 			DB db = getDB();
 
-			DBObject query = new BasicDBObject();//"type", type
+			DBObject query = new BasicDBObject();// "type", type
 
 			for (Map.Entry<String, Object> entry : whereField.entrySet()) {
 				query.put(entry.getKey(), entry.getValue());
 			}
-			//query.put("size", size);
-			//query.put("quality", quality);
+			// query.put("size", size);
+			// query.put("quality", quality);
 
 			DBCollection collection = db.getCollection(collectionName);
 			DBCursor results = collection.find(query);
@@ -196,5 +191,23 @@ public class SantoshUtil {
 		}
 
 		return sReturn;
+	}
+
+	public static void processBacupOperation() {
+		try {
+
+			/*File f = new File("C:/Users/santoshm/rediff/server/mongodb/bin");
+			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", "mongodump.exe", "--db", "estudio_db", "--out", "c:\\backup\\20140518");
+			pb.directory(f);
+			pb.start();
+			*/
+			ProcessBuilder pb = new ProcessBuilder("cmd", "/c", "start", "notepad.exe", "--db", "estudio_db", "--out", "c:\\backup\\20140518");
+			pb.start();
+
+			System.out.println("Backup taken!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

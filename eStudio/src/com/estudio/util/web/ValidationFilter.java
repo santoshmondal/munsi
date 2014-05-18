@@ -31,9 +31,16 @@ public class ValidationFilter implements Filter {
 
 		HttpServletRequest request = (HttpServletRequest) req;
 		HttpServletResponse response = (HttpServletResponse) res;
-
+		HttpSession session = request.getSession();
+		
+		if ( !Global.isLicenseFileExist() ) {
+			session.invalidate();
+			session = request.getSession(true);
+			session.setAttribute("SERVER_MESSAGE", Config.getProperty("license.not.found"));
+			response.sendRedirect("index.jsp");
+			return;
+		}
 		if ( !Global.isValidLicense() ) {
-			HttpSession session = request.getSession();
 			session.invalidate();
 			session = request.getSession(true);
 			session.setAttribute("SERVER_MESSAGE", Config.getProperty("license.invalid"));
@@ -41,16 +48,21 @@ public class ValidationFilter implements Filter {
 			return;
 		}
 		
-		if (Global.isLicenseExpired()) {
-			HttpSession session = request.getSession();
+		if ( !Global.isValidSyatemDate() ) {
+			session.invalidate();
+			session = request.getSession(true);
+			session.setAttribute("SERVER_MESSAGE", Config.getProperty("server.date.invalid"));
+			response.sendRedirect("index.jsp");
+			return;
+		}
+		
+		if ( Global.isLicenseExpired() ) {
 			session.invalidate();
 			session = request.getSession(true);
 			session.setAttribute("SERVER_MESSAGE", Config.getProperty("license.expired"));
 			response.sendRedirect("index.jsp");
 			return;
 		}
-
-		
 		
 		chain.doFilter(request, response);
 	}

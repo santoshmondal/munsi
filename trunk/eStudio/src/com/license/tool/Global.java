@@ -79,7 +79,7 @@ public class Global {
 		return licenseValid;
 	}
 
-	public static Boolean islicenseFileExist(){
+	public static Boolean isLicenseFileExist(){
 		return licenseFileFound;
 	}
 	
@@ -105,7 +105,7 @@ public class Global {
 		LOG.info("Last access date :"+ lastAccessDate +", Current date: "+today);
 		if( lastAccessDate.after( today ) ){
 			LOG.info("System current date is less than last access date");
-			return false;
+			return overrideFromNetwork();
 		}
 		
 		return  true;
@@ -177,13 +177,18 @@ public class Global {
 	
 	public static boolean overrideFromNetwork(){
 		Date network = getNetworkDate();
-		if ( network != null && network.before( getLicenseEndDate() ) ){
-			SimpleDateFormat sdf = new SimpleDateFormat( LIC_DATE_FORMAT );
-			String date = sdf.format(network);
-			license.setLastAccessDate( date );
-			systemDateValid = true;
-			licenseExpired = false;
-			return true;
+		try{
+			if ( network != null && network.before( getLicenseEndDate() ) ){
+				SimpleDateFormat sdf = new SimpleDateFormat( LIC_DATE_FORMAT );
+				String date = sdf.format(network);
+				license.setLastAccessDate( date );
+				systemDateValid = true;
+				licenseExpired = false;
+				return true;
+			}
+		}
+		catch(Exception exception){
+			//
 		}
 		return false;
 	}
@@ -267,5 +272,22 @@ public class Global {
 		return new Date();
 	}
 	
-	
+	/*
+	public static void main(String[] args) {
+		SimpleDateFormat sdf = new SimpleDateFormat( LIC_DATE_FORMAT);
+		try {
+			Date date = sdf.parse( "15-08-2014" );
+			Calendar calendar = Calendar.getInstance();
+			calendar.setTime(date);
+			System.out.println( date );
+			System.out.println( calendar.getTime() );
+			calendar.set(Calendar.HOUR_OF_DAY, 23);
+			calendar.set(Calendar.MINUTE, 59);
+			calendar.set(Calendar.SECOND, 59);
+			System.out.println(calendar.getTime());
+		}
+		catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}*/
 }

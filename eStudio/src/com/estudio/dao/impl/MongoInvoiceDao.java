@@ -85,6 +85,7 @@ public class MongoInvoiceDao implements InvoiceDao {
 
 			collection.update(query, update);
 
+			return true;
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}

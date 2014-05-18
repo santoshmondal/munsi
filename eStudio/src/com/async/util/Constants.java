@@ -65,7 +65,7 @@ public class Constants {
 
 	public enum OrderStatuEnum {
 		// @formatter:off
-		RAW_DATA("Raw Data"), FINAL_DATA("Final Data"), SEND_TO_PRINT("Send to Print"), RECEIVED_FROM_PRINT("Received from Print"), DELIVERED("Delivered to Customer");
+		RAW_DATA("Raw Data"), FINAL_DATA("Final Data"), SEND_TO_PRINT("Sent to Print"), RECEIVED_FROM_PRINT("Received from Print"), DELIVERED("Delivered to Customer");
 		// @formatter:on
 
 		private final String status;
@@ -78,5 +78,14 @@ public class Constants {
 		public String toString() {
 			return status;
 		}
+		
+		public static String getEnumName(String value) {
+			 for ( OrderStatuEnum d : OrderStatuEnum.values() ){
+				 if( d.toString().equals( value ) ){
+					 return d.name();
+				 }
+	         }
+			 return "";
+		 }
 	}
 }

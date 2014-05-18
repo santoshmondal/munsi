@@ -1,11 +1,20 @@
 package com.estudio.action;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +28,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.async.util.CommonUtil;
+import com.async.util.Config;
 import com.async.util.Constants;
+import com.async.util.Constants.OrderStatuEnum;
 import com.async.util.Constants.ServiceEnum;
 import com.async.util.Constants.UIOperations;
 import com.async.util.ObjectFactory;
@@ -143,11 +154,23 @@ public class InvoiceAction extends HttpServlet {
 						float fAdvanceBal = oInv.getTotalAmount() - Float.parseFloat(advanceBal);
 						inv.setAdvanceBal(fAdvanceBal);
 						inv.setStatus(status);
-						//invoiceService.updateStatus(invId, status);
-						invoiceService.update(inv);
 						
-						if(status.equals("Received from Print"))
-							CommonUtil.smsMsg(oInv.getCustomer().get_id(), "Invoice No "+ oInv.getInvoiceNumber() +" is ready for delivery.");
+						String oldStatus = oInv.getStatus();
+						String oldDirPath = Config.getProperty("dir."+ OrderStatuEnum.getEnumName(oldStatus));
+						
+						if(invoiceService.update(inv))
+						{
+							String newDirPath = Config.getProperty("dir."+OrderStatuEnum.getEnumName(status));
+							List<PhotoDetails> phDetailsList = oInv.getPhotoDetailsList();
+							Iterator<PhotoDetails> itr = phDetailsList.iterator();
+							while(itr.hasNext()){
+								PhotoDetails phdt = itr.next();
+								moveFile(phdt.getPhotoNumber(),oldDirPath,newDirPath);
+							}
+						}
+						
+						if(status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString()))
+							CommonUtil.smsMsg(oInv.getCustomer().get_id(), Config.getProperty("studio.name")+ "\n Invoice No "+ oInv.getInvoiceNumber() +" is ready for delivery.");
 						
 					} 
 				break;	
@@ -217,6 +240,26 @@ public class InvoiceAction extends HttpServlet {
 
 		out.write(json);
 		out.close();
+	}
+
+	private void moveFile(String photoNumberFileName, String oldDirPath, String newDirPath) {
+	
+	    	try{
+	    		File oldDir = new File(oldDirPath);
+	    		 for(String str : oldDir.list())
+	    	        {
+	    			 String[] splitStr = str.split("\\."); 
+	    			 	if(splitStr[0].equals(photoNumberFileName)){
+	    			 	
+	    			 		Path oldPath = FileSystems.getDefault().getPath(oldDirPath, str);
+	    			 		Path newPath = FileSystems.getDefault().getPath(newDirPath, str);
+	    	                Files.move(oldPath, newPath , StandardCopyOption.REPLACE_EXISTING);
+	    	                break;
+	    			 	}
+	    	        }
+	    	}catch(IOException e){
+	    	    e.printStackTrace();
+	    	}
 	}
 
 	private Customer getCustomerDetails(Map<String, String[]> parameterMap) throws ParseException {

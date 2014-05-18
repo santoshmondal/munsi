@@ -5,10 +5,11 @@ public class Constants {
 	public static final String DB_NAME = Config.getProperty("db.name");
 	public static final String DB_HOST = Config.getProperty("db.host");
 	public static final String DB_PORT_STRRING = Config.getProperty("db.port");
+	public static final String DB_BACUPDIR = Config.getProperty("db.backupdir");
 	public static final Integer DB_PORT;
 
 	static {
-		// DB port 
+		// DB port
 		DB_PORT = Integer.parseInt(DB_PORT_STRRING);
 	}
 
@@ -78,14 +79,14 @@ public class Constants {
 		public String toString() {
 			return status;
 		}
-		
+
 		public static String getEnumName(String value) {
-			 for ( OrderStatuEnum d : OrderStatuEnum.values() ){
-				 if( d.toString().equals( value ) ){
-					 return d.name();
-				 }
-	         }
-			 return "";
-		 }
+			for (OrderStatuEnum d : OrderStatuEnum.values()) {
+				if (d.toString().equals(value)) {
+					return d.name();
+				}
+			}
+			return "";
+		}
 	}
 }

@@ -128,12 +128,12 @@ public class Global {
 		
 		if( osName.contains("Windows") ){
 			if( licSid != null && licSid.trim().length() > 0 ){
-				String sysSid = CommandUtil.executeCommand("");
+				String sysSid = CommandUtil.executeCommand("wmic useraccount get sid /Value");
 				valid1 = matchSysProperty(sysSid, licSid);
 			}
 			if( !valid1 ){
 				if( licMachineName != null && licMachineName.trim().length() > 0 ){
-					String sysMachineName = CommandUtil.executeCommand("");
+					String sysMachineName = CommandUtil.executeCommand("wmic useraccount get domain /Value");
 					valid1 =  matchSysProperty(sysMachineName, licMachineName);
 				}
 			}
@@ -144,24 +144,24 @@ public class Global {
 			
 			if ( valid1 ){
 				if ( licBaseboardNo != null && licBaseboardNo.trim().length() >0 ){
-					String sysBaseBoardNo = CommandUtil.executeCommand("");
+					String sysBaseBoardNo = CommandUtil.executeCommand("wmic baseboard get serialNumber /Value");
 					valid2 = matchSysProperty(sysBaseBoardNo, licBaseboardNo);
 				}
 				if( !valid2 ){
-					if ( licBaseboardNo != null && licBaseboardNo.trim().length() >0 ){
-						String sysProcesseorId = CommandUtil.executeCommand("");
+					if ( licProcessorId != null && licProcessorId.trim().length() >0 ){
+						String sysProcesseorId = CommandUtil.executeCommand("wmic cpu get processorId /Value");
 						valid2 = matchSysProperty(sysProcesseorId, licProcessorId);
 					}
 				}
 				if( !valid2 ){
 					if ( licOSSerialNo != null && licOSSerialNo.trim().length() >0 ){
-						String sysOsSerialNo = CommandUtil.executeCommand("");
+						String sysOsSerialNo = CommandUtil.executeCommand("wmic os get serialNumber /Value");
 						valid2 = matchSysProperty(sysOsSerialNo,licOSSerialNo);
 					}
 				}
 				if( !valid2 ){
 					if(licBiosSerialNo != null && licBiosSerialNo.trim().length() > 0){
-						String sysBiosSerialNo = CommandUtil.executeCommand("");
+						String sysBiosSerialNo = CommandUtil.executeCommand("wmic bios get serialNumber /Value");
 						valid2 = matchSysProperty(sysBiosSerialNo,licBiosSerialNo);
 					}
 				}

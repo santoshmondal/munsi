@@ -33,7 +33,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 				+ File.separator + "config" + File.separator + "License.lic";
 
 		Global.initializeLicense(licenseFilePath);
-
+		Global.updateLastAccessTime();
 		// DB Scheduler Every 24 Hrs.
 		Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(new Runnable() {
 

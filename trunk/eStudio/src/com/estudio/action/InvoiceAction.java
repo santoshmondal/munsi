@@ -135,8 +135,18 @@ public class InvoiceAction extends HttpServlet {
 				Invoice newInvoice = invoiceService.create(invoice);
 
 				if (newInvoice != null) {
-					CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), "Invoice No "+ newInvoice.getInvoiceNumber() +" will be delivered on " + newInvoice.getDelivaryDate().toLocaleString());
+					String pattern = "dd-MM-yyyy";
+					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+					String msgNewInvoice= "Your invoice no."+ newInvoice.getInvoiceNumber() +" dated " + simpleDateFormat.format(newInvoice.getInvoiceDate()) +","
+							+ " Total Amt "+ newInvoice.getTotalAmount() +", Bal Amt "+ (newInvoice.getTotalAmount() - newInvoice.getAdvanceBal() )
+							+ ", approx delivery date " + simpleDateFormat.format(newInvoice.getDelivaryDate()) +". Thank you, "+Config.getProperty("studio.name")+" Team";
+					
+					CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), msgNewInvoice);
 					request.setAttribute("NEW_INVOICE_DETAIL", invoice); //newInvoice);
+					request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ newInvoice.getInvoiceNumber());
+					request.setAttribute("SERVER_MESSAGE_DETAIL", msgNewInvoice);
+					
 					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
 					rd.forward(request, response);
 				}
@@ -169,9 +179,13 @@ public class InvoiceAction extends HttpServlet {
 							}
 						}
 						
-						if(status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString()))
-							CommonUtil.smsMsg(oInv.getCustomer().get_id(), Config.getProperty("studio.name")+ "\n Invoice No "+ oInv.getInvoiceNumber() +" is ready for delivery.");
-						
+						if(status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString())){
+							String msgReadyDelivery = "Your invoice no."+ oInv.getInvoiceNumber() +" is ready to be delivered. Please collect it from our outlet. Thank you for choosing us, "+Config.getProperty("studio.name")+" Team";
+							CommonUtil.smsMsg(oInv.getCustomer().get_id(), msgReadyDelivery);
+							request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ oInv.getInvoiceNumber());
+							request.setAttribute("SERVER_MESSAGE_DETAIL", msgReadyDelivery);
+
+						}
 					} 
 				break;	
 				/*

@@ -5,7 +5,7 @@
 
 	<meta charset="utf-8" />
 	<title>E-Studio</title>
-	
+	<link rel="shortcut icon" href="assets/images/favicon.ico" />
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="overview &amp; stats" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />

@@ -135,12 +135,11 @@ public class InvoiceAction extends HttpServlet {
 				Invoice newInvoice = invoiceService.create(invoice);
 
 				if (newInvoice != null) {
-					String pattern = "dd-MM-yyyy";
+					String pattern = "dd/MM/yy";
 					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
-					String msgNewInvoice= "Your invoice no."+ newInvoice.getInvoiceNumber() +" dated " + simpleDateFormat.format(newInvoice.getInvoiceDate()) +","
-							+ " Total Amt "+ newInvoice.getTotalAmount() +", Bal Amt "+ (newInvoice.getTotalAmount() - newInvoice.getAdvanceBal() )
-							+ ", approx delivery date " + simpleDateFormat.format(newInvoice.getDelivaryDate()) +". Thank you, "+Config.getProperty("studio.name")+" Team";
+					String msgNewInvoice= "Your invoice no. "+ newInvoice.getInvoiceNumber() +" dated " + simpleDateFormat.format(newInvoice.getInvoiceDate()) 
+							+ " , Total Amt Rs "+ newInvoice.getTotalAmount() +" , Adv paid Rs "+ newInvoice.getAdvanceBal()+" , Bal Amt Rs "+ (newInvoice.getTotalAmount() - newInvoice.getAdvanceBal() )
+							+ " , approx. delivery dt " + simpleDateFormat.format(newInvoice.getDelivaryDate()) +" . Thank you, "+Config.getProperty("studio.name")+" Team";
 					
 					CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), msgNewInvoice);
 					request.setAttribute("NEW_INVOICE_DETAIL", invoice); //newInvoice);
@@ -180,7 +179,7 @@ public class InvoiceAction extends HttpServlet {
 						}
 						
 						if(status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString())){
-							String msgReadyDelivery = "Your invoice no."+ oInv.getInvoiceNumber() +" is ready to be delivered. Please collect it from our outlet. Thank you for choosing us, "+Config.getProperty("studio.name")+" Team";
+							String msgReadyDelivery = "Your invoice no. "+ oInv.getInvoiceNumber() +" is ready to be delivered. Please collect it from our outlet. Thank you for choosing us, "+Config.getProperty("studio.name")+" Team";
 							CommonUtil.smsMsg(oInv.getCustomer().get_id(), msgReadyDelivery);
 							request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ oInv.getInvoiceNumber());
 							request.setAttribute("SERVER_MESSAGE_DETAIL", msgReadyDelivery);

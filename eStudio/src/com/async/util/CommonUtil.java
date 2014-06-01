@@ -104,7 +104,7 @@ public class CommonUtil {
 		SMS_LOG.info("SMS :: [smsMsg] > Mobile:"+toNo +" | Text :"+msg);
 		String strURL = "http://api.mVaayoo.com/mvaayooapi/MessageCompose?user=padiyodi@gmail.com:isdc@1234&"
 				+ "senderID="
-				+ java.net.URLEncoder.encode("TEST SMS", "UTF-8")
+				+ java.net.URLEncoder.encode("ISDCSM", "UTF-8")
 				+ "&receipientno="
 				+ toNo
 				+ "&dcs=0&msgtxt="

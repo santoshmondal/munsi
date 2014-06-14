@@ -1,6 +1,5 @@
 package com.isdc.simulations;
 
-import java.io.Console;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -17,7 +16,7 @@ import com.munsi.util.Constants.UIOperations;
 /**
  * Servlet implementation class MainAccount
  */
-@WebServlet("/mainaccount.action")
+@WebServlet("/url.action")
 public class ActionTemplate extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(ActionTemplate.class);

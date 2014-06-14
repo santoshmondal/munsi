@@ -477,10 +477,13 @@
 							
 							$( "#dialog-beat" ).dialog( "open" );
 						}
-				
-			});
-			
 
-			
+						$.extend($.jgrid.edit, {
+						    beforeSubmit: function () {
+						        $(this).jqGrid("setGridParam", {datatype: "json"});
+						        return [true,"",""];
+						    }
+						});
+			});
 				
 		</script>

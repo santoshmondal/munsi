@@ -356,6 +356,12 @@
 						jQuery(grid_selector).jqGrid("setSelection", ids[0]);
 					}
 			    });
-				
+
+				$.extend($.jgrid.edit, {
+				    beforeSubmit: function () {
+				        $(this).jqGrid("setGridParam", {datatype: "json"});
+				        return [true,"",""];
+				    }
+				});
 			});
 		</script>

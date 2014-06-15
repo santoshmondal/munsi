@@ -11,11 +11,9 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.AreaDao;
 import com.munsi.pojo.master.Area;
-import com.munsi.pojo.master.Customer;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
@@ -42,12 +40,8 @@ public class MongoAreaDao implements AreaDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-			
+			collection.insert(dbObject );
+			return true;
 		}catch( Exception exception ){
 			LOG.equals(exception);
 		}
@@ -69,11 +63,8 @@ public class MongoAreaDao implements AreaDao {
 			
 			DBObject updateObj = new BasicDBObject("$set", dbObject);
 			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -84,24 +75,10 @@ public class MongoAreaDao implements AreaDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collArea );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			
-			DBObject updateObj = new BasicDBObject("$set", update);
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
-		
+		Area area = new Area();
+		area.set_id(_id);
+		area.setDeleted(true);
+		return update(area);
 	}
 	
 	

@@ -12,7 +12,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.CustomerDao;
 import com.munsi.pojo.master.Customer;
@@ -64,11 +63,8 @@ public class MongoCustomerDao implements CustomerDao {
 			dbObject.removeField(KEY_AREA);
 			dbObject.removeField(KEY_BEAT);
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.insert(dbObject );
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.error(exception);
@@ -84,32 +80,32 @@ public class MongoCustomerDao implements CustomerDao {
 			
 			DBCollection collection = mongoDB.getCollection( collCustomer );
 			String jsonString = CommonUtil.objectToJson(customer);
-			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			String mainAC_id = customer.getMainAccount().get_id();
+
+			if( customer.getMainAccount() != null ){
+				String mainAC_id = customer.getMainAccount().get_id();
+				DBRef mainACRef = new DBRef(mongoDB, collMAinAC, mainAC_id);
+				dbObject.put( KEY_MAIN_ACCOUNT_XID, mainACRef );
+				dbObject.removeField(KEY_MAIN_ACCOUNT);
+			}
+			if( customer.getArea() != null ){
+				DBRef areaRef = new DBRef(mongoDB, collArea, customer.getArea().get_id());
+				dbObject.put( KEY_AREA_XID, areaRef );
+				dbObject.removeField(KEY_AREA);
+							
+			}
+			if( customer.getBeat() != null ){
+				DBRef beatRef = new DBRef(mongoDB, collBeat, customer.getBeat().get_id());
+				dbObject.put( KEY_BEAT_XID, beatRef );
+				dbObject.removeField(KEY_BEAT);
+			}
 			
-			DBRef mainACRef = new DBRef(mongoDB, collMAinAC, mainAC_id);
-			DBRef areaRef = new DBRef(mongoDB, collArea, customer.getArea().get_id());
-			DBRef beatRef = new DBRef(mongoDB, collBeat, customer.getBeat().get_id());
-			
-			dbObject.put( KEY_MAIN_ACCOUNT_XID, mainACRef );
-			dbObject.put( KEY_AREA_XID, areaRef );
-			dbObject.put( KEY_BEAT_XID, beatRef );
-			
-			dbObject.removeField(KEY_MAIN_ACCOUNT);
-			dbObject.removeField(KEY_AREA);
-			dbObject.removeField(KEY_BEAT);
 			dbObject.removeField("_id");
-			
 			DBObject query = new BasicDBObject("_id", customer.get_id()); 
-			
 			DBObject update = new BasicDBObject("$set", dbObject); 
 			
-			WriteResult writeResult = collection.update(query, update);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, update);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.error(exception);
@@ -120,23 +116,10 @@ public class MongoCustomerDao implements CustomerDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collCustomer );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject updateKey = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			DBObject update = new BasicDBObject("$set",updateKey);
-			
-			WriteResult writeResult = collection.update(query, update);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.error(exception);
-		}
-		return false;
+		Customer customer = new Customer();
+		customer.set_id(_id);
+		customer.setDeleted(true);
+		return update(customer);
 		
 	}
 	
@@ -211,6 +194,7 @@ public class MongoCustomerDao implements CustomerDao {
 				String jsonString = JSON.serialize(dbObject);
 				Customer customer = (Customer) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
 				customerList.add(customer);
+				return customerList;
 			}
 			
 			return customerList;

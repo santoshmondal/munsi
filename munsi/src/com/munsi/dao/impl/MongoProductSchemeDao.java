@@ -14,7 +14,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.QueryOperators;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.ProductSchemeDao;
 import com.munsi.pojo.master.ProductScheme;
@@ -54,11 +53,8 @@ public class MongoProductSchemeDao implements ProductSchemeDao {
 			
 			dbObject.removeField(KEY_PRODUCT);
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.insert(dbObject );
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -76,20 +72,18 @@ public class MongoProductSchemeDao implements ProductSchemeDao {
 			String jsonString = CommonUtil.objectToJson(productScheme);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			
-			DBRef productRef = new DBRef(mongoDB, collProduct, productScheme.getProduct().get_id() );
-			dbObject.put( KEY_PRODUCT_XID, productRef);
-			dbObject.removeField(KEY_PRODUCT);
+			if( productScheme.getProduct() != null ){
+				DBRef productRef = new DBRef(mongoDB, collProduct, productScheme.getProduct().get_id() );
+				dbObject.put( KEY_PRODUCT_XID, productRef);
+				dbObject.removeField(KEY_PRODUCT);
+			}
 			dbObject.removeField("_id");
 			DBObject updateObj = new BasicDBObject("$set", dbObject); 
 
 			DBObject query = new BasicDBObject("_id", productScheme.get_id());
 			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -100,23 +94,10 @@ public class MongoProductSchemeDao implements ProductSchemeDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collProductScheme );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update); 
-			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
+		ProductScheme productScheme = new ProductScheme();
+		productScheme.set_id(_id);
+		productScheme.setDeleted(true);
+		return update(productScheme);
 		
 	}
 	

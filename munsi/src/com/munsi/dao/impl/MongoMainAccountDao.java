@@ -6,14 +6,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.QueryBuilder;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.MainAccountDao;
 import com.munsi.pojo.master.MainAccount;
@@ -43,11 +40,8 @@ public class MongoMainAccountDao implements MainAccountDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.insert(dbObject );
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -72,12 +66,8 @@ public class MongoMainAccountDao implements MainAccountDao {
 			
 			DBObject update = new BasicDBObject("$set", dbObject); 
 			
-			WriteResult writeResult = collection.update(query, update);
-			
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, update);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -88,27 +78,12 @@ public class MongoMainAccountDao implements MainAccountDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collMAinAC );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject updateKey = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			
-			DBObject update = new BasicDBObject("$set", updateKey); 
-			
-			WriteResult writeResult = collection.update(query, update);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
+		MainAccount mainAccount = new MainAccount();
+		mainAccount.set_id(_id);
+		mainAccount.setDeleted(true);
+		return update(mainAccount);
 		
 	}
-	
 	
 	@Override
 	public MainAccount get(String _id) {

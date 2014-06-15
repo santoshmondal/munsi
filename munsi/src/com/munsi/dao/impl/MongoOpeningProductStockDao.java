@@ -14,7 +14,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.QueryOperators;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.OpeningProductStockDao;
 import com.munsi.pojo.master.OpeningProductStock;
@@ -56,10 +55,8 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 			
 			dbObject.removeField(KEY_PRODUCT);
 			
-			WriteResult writeResult = collection.insert(dbObject );
+			collection.insert(dbObject );
 			
-			if ( writeResult.getN() > 0 ){
-				
 				DBCollection collectionInventry = mongoDB.getCollection( collProductInventory );
 				ProductInventory inventory = new ProductInventory();
 				String _id2 = MongoUtil.getNextSequence(DBCollectionEnum.PRODUCT_INVENTORY).toString();
@@ -79,12 +76,9 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 				invenToryDBObject.put( KEY_PRODUCT_XID, productRef);
 				invenToryDBObject.removeField(KEY_PRODUCT);
 				
-				writeResult = collectionInventry.insert( invenToryDBObject );
+				collectionInventry.insert( invenToryDBObject );
 				
 				return true;
-				
-				
-			}
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -102,20 +96,16 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 			String jsonString = CommonUtil.objectToJson(openingProductStock);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			
-			DBRef productRef = new DBRef(mongoDB, collProduct, openingProductStock.getProduct().get_id() );
-			dbObject.put( KEY_PRODUCT_XID, productRef);
-			dbObject.removeField(KEY_PRODUCT);
+			if( openingProductStock.getProduct() != null ){
+				DBRef productRef = new DBRef(mongoDB, collProduct, openingProductStock.getProduct().get_id() );
+				dbObject.put( KEY_PRODUCT_XID, productRef);
+				dbObject.removeField(KEY_PRODUCT);
+			}
 			dbObject.removeField("_id");
 			DBObject updateObj = new BasicDBObject("$set", dbObject); 
-
 			DBObject query = new BasicDBObject("_id", openingProductStock.get_id());
-			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -126,24 +116,10 @@ public class MongoOpeningProductStockDao implements OpeningProductStockDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collOpeningProductStock );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update); 
-			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
-		
+		OpeningProductStock openingProductStock = new OpeningProductStock();
+		openingProductStock.set_id(_id);
+		openingProductStock.setDeleted(true);
+		return update(openingProductStock);
 	}
 	
 	@Override

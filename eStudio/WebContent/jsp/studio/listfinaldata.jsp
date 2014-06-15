@@ -15,6 +15,7 @@
 						</div><!-- /.page-header -->
 
 						<div class="row">
+							<div id="alertArea" class="col-xs-12"></div>
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								
@@ -83,7 +84,21 @@
 				{name:'status',index:'status',width:150, editable: true, search : false, formatter:'select',edittype:"select",stype:'select',editoptions:{value:"Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}, searchoptions:{value:":;Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}},
 				{ name: 'act', index: 'act', frozen : true,width:70, search:false, align: 'center', sortable: false, formatter: 'actions',
                     formatoptions: {editbutton:true,delbutton:false,
-                        keys: false
+                        keys: false,
+                        onSuccess:function(jqXHR) {
+                        	myGrid.setGridParam({ datatype: "json" }).trigger('reloadGrid');
+                        	var msg = "";
+	                        if(jqXHR.responseText){
+	                        	var dataJson = $.parseJSON(jqXHR.responseText);
+	                        	if(dataJson.MOVE_FILE_ERROR)
+	                        		msg = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong><i class="icon-remove"></i> Oh snap! </strong>'+ dataJson.MOVE_FILE_ERROR+'<br></div>';
+	                        	if(dataJson.SMS_ERROR)
+	                        		msg = msg + '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong><i class="icon-remove"></i> Oh snap! </strong>' + dataJson.SMS_ERROR+'<br></div>';
+	                        	if(msg.length > 5)
+	                        		$("#alertArea").html(msg );
+                        	}
+                            return true;
+                        }
                     }
                 }
 			],

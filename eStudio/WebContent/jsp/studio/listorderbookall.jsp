@@ -15,6 +15,7 @@
 						</div><!-- /.page-header -->
 
 						<div class="row">
+							<div id="alertArea" class="col-xs-12"></div>
 							<div class="col-xs-12">
 								<!-- PAGE CONTENT BEGINS -->
 								
@@ -82,7 +83,21 @@
 				{name:'status',index:'status',width:150, editable: true, search : false, formatter:'select',edittype:"select",stype:'select',editoptions:{value:"Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}, searchoptions:{value:":;Raw Data:Raw Data;Final Data:Final Data;Sent to Print:Sent to Print;Received from Print:Received from Print;Delivered to Customer:Delivered to Customer"}},
 				{ name: 'act', index: 'act', frozen : true,width:70, search:false, align: 'center', sortable: false, formatter: 'actions',
                     formatoptions: {editbutton:true,delbutton:false,
-                        keys: false
+                        keys: false,
+                        onSuccess:function(jqXHR) {
+                        	myGrid.setGridParam({ datatype: "json" }).trigger('reloadGrid');
+                        	var msg = "";
+	                        if(jqXHR.responseText){
+	                        	var dataJson = $.parseJSON(jqXHR.responseText);
+	                        	if(dataJson.MOVE_FILE_ERROR)
+	                        		msg = '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong><i class="icon-remove"></i> Oh snap! </strong>'+ dataJson.MOVE_FILE_ERROR+'<br></div>';
+	                        	if(dataJson.SMS_ERROR)
+	                        		msg = msg + '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert"><i class="icon-remove"></i></button><strong><i class="icon-remove"></i> Oh snap! </strong>' + dataJson.SMS_ERROR+'<br></div>';
+	                        	if(msg.length > 5)
+	                        		$("#alertArea").html(msg );
+                        	}
+                            return true;
+                        }
                     }
                 }
 			],
@@ -137,8 +152,59 @@
             height: '380',
             editurl: "${pageContext.request.contextPath}/invoiceaction.do?op=EDIT"
         });
+        //var rowid=  myGrid.jqGrid ('getGridParam', 'selrow');
+        /* myGrid.jqGrid('editRow',rowid, 
+        		{ 
+        		    keys : true, 
+        		    succesfunc: function(response) {
+        		        alert ("edited" + response); 
+        		    }
+        		}); */
+        /* var editparameters = {
+				"keys" : true,
+				"oneditfunc" : null,
+				"successfunc" : function(response) {
+    		        debugger;
+					alert ("edited" + response); 
+    		    },
+				"url" : "${pageContext.request.contextPath}/invoiceaction.do?op=EDIT",
+			    "extraparam" : {},
+				"aftersavefunc" : function (rowid, response, options) {
+		            alert("row with rowid=" + rowid + " is successfuly modified.");
+		        },
+				"errorfunc": null,
+				"afterrestorefunc" : null,
+				"restoreAfterError" : true,
+				"mtype" : "POST"
+			};
+		myGrid.jqGrid('editRow',rowid, editparameters ); */
+		/* myGrid.jqGrid('editRow',rowid, 
+				{ 
+				    keys : true, 
+				    oneditfunc: function() {
+				        alert ("edited"); 
+				    }
+				}); */
+		/* myGrid.jqGrid('editRow', rowid, { keys: true,  
+		    aftersavefunc: function (rowida, response) { alert('after save'); }, 
+		    errorfunc: function (rowida, response) { alert('...we have a problem'); }  
+		}); 
+		 */ 
         myGrid.jqGrid('filterToolbar', {stringResult: true, searchOnEnter: false, defaultSearch : "cn"});
         myGrid.jqGrid('setFrozenColumns');
+        /* debugger;
+        $.extend($.jgrid.edit, {
+		    beforeSubmit: function () {
+		        $(this).jqGrid("setGridParam", {datatype: "json"});
+		        return [true,"",""];
+		    },
+		    afterSubmit : function(response, postdata) 
+		    { 
+		    	debugger;
+		    	alert("afterSubmit called");
+		    	return [true,"",""]; 
+		    }
+		}); */
         
         function getColumnIndexByName(grid, columnName) {
             var cm = grid.jqGrid('getGridParam', 'colModel'), i, l = cm.length;
@@ -179,13 +245,6 @@
 			$(table).find('.ui-pg-div').tooltip({container:'body'});
 		}
 	
-		$.extend($.jgrid.edit, {
-		    beforeSubmit: function () {
-		        $(this).jqGrid("setGridParam", {datatype: "json"});
-		        return [true,"",""];
-		    }
-		});
-
-    });
+    });	
 				
 		</script>

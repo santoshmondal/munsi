@@ -37,7 +37,7 @@ public class Constants {
 
 	public enum UIOperations {
 		// @formatter:off
-		VIEW, VIEW_ALL, ADD, EDIT, DELETE, SAVE, FETCH;
+		VIEW, VIEW_ALL, ADD, EDIT, DELETE, SAVE, FETCH, RESEND_SMS;
 		// @formatter:on
 	}
 

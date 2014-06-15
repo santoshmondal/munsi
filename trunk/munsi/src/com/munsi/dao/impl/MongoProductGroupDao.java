@@ -13,7 +13,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.QueryOperators;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.ProductGroupDao;
 import com.munsi.pojo.master.ProductGroup;
@@ -42,11 +41,8 @@ public class MongoProductGroupDao implements ProductGroupDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.insert(dbObject );
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -69,12 +65,8 @@ public class MongoProductGroupDao implements ProductGroupDao {
 			
 			DBObject query = new BasicDBObject("_id", productGroup.get_id());
 			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-			
+			collection.update(query, updateObj);
+			return true;			
 		}catch( Exception exception ){
 			LOG.equals(exception);
 		}
@@ -84,24 +76,10 @@ public class MongoProductGroupDao implements ProductGroupDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collProductGroup );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			
-			DBObject updateObj = new BasicDBObject("$set",update);
-						
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
+		ProductGroup productGroup = new ProductGroup();
+		productGroup.set_id(_id);
+		productGroup.setDeleted(true);
+		return update(productGroup);
 		
 	}
 	

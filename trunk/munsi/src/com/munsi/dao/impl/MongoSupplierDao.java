@@ -12,7 +12,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.SupplierDao;
 import com.munsi.pojo.master.Supplier;
@@ -49,20 +48,19 @@ public class MongoSupplierDao implements SupplierDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			/*DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
-			DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
-			
-			dbObject.put( KEY_AREA_XID, areaRef );
-			dbObject.put( KEY_BEAT_XID, beatRef );
-			
-			dbObject.removeField(KEY_AREA);
-			dbObject.removeField(KEY_BEAT);*/
-			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
+			if(supplier.getArea() != null){
+				DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
+				dbObject.put( KEY_AREA_XID, areaRef );
+				dbObject.removeField(KEY_AREA);
 			}
+			if(supplier.getBeat() != null){
+				DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
+				dbObject.put( KEY_BEAT_XID, beatRef );
+				dbObject.removeField(KEY_BEAT);
+			}
+			
+			collection.insert(dbObject );
+			
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -80,24 +78,22 @@ public class MongoSupplierDao implements SupplierDao {
 			String jsonString = CommonUtil.objectToJson(supplier);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			
-			DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
-			DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
-			
-			dbObject.put( KEY_AREA_XID, areaRef );
-			dbObject.put( KEY_BEAT_XID, beatRef );
-			
-			dbObject.removeField(KEY_AREA);
-			dbObject.removeField(KEY_BEAT);
+			if(supplier.getArea() != null){
+				DBRef areaRef = new DBRef(mongoDB, collArea, supplier.getArea().get_id());
+				dbObject.put( KEY_AREA_XID, areaRef );
+				dbObject.removeField(KEY_AREA);
+			}
+			if(supplier.getBeat() != null){
+				DBRef beatRef = new DBRef(mongoDB, collBeat, supplier.getBeat().get_id());
+				dbObject.put( KEY_BEAT_XID, beatRef );
+				dbObject.removeField(KEY_BEAT);
+			}
 			dbObject.removeField("_id");
 			DBObject updateObj = new BasicDBObject("$set", dbObject); 
 			
 			DBObject query = new BasicDBObject("_id", supplier.get_id()); 
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -108,24 +104,10 @@ public class MongoSupplierDao implements SupplierDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collSupplier );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update); 
-			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
-		
+		Supplier supplier = new Supplier();
+		supplier.set_id(_id);
+		supplier.setDeleted(true);
+		return update(supplier);
 	}
 	
 	@Override

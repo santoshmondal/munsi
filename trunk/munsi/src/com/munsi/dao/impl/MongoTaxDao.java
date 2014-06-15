@@ -11,10 +11,8 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.TaxDao;
-import com.munsi.pojo.master.Customer;
 import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
@@ -42,11 +40,8 @@ public class MongoTaxDao implements TaxDao {
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.insert(dbObject );
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -70,12 +65,8 @@ public class MongoTaxDao implements TaxDao {
 			
 			DBObject query = new BasicDBObject("_id", tax.get_id());
 			
-			WriteResult writeResult = collection.update(query, updateObje);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-			
+			collection.update(query, updateObje);
+			return true;
 		}catch( Exception exception ){
 			LOG.equals(exception);
 		}
@@ -85,24 +76,10 @@ public class MongoTaxDao implements TaxDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collTax );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			
-			DBObject updateObj = new BasicDBObject("$set", update);
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
-		
+		Tax tax = new Tax();
+		tax.set_id(_id);
+		tax.setDeleted(true);
+		return update(tax);
 	}
 	
 	@Override

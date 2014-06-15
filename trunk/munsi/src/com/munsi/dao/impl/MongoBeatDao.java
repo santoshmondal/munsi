@@ -14,7 +14,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.QueryOperators;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.BeatDao;
 import com.munsi.pojo.master.Beat;
@@ -53,12 +52,8 @@ public class MongoBeatDao implements BeatDao {
 			dbObject.put( KEY_AREA_XID, areaRef );
 			dbObject.removeField(KEY_AREA);
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-			
+			collection.insert(dbObject );
+			return true;
 		}catch( Exception exception ){
 			LOG.equals(exception);
 		}
@@ -76,21 +71,18 @@ public class MongoBeatDao implements BeatDao {
 			String jsonString = CommonUtil.objectToJson(beat);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			
-			DBRef areaRef = new DBRef(mongoDB, collArea, beat.getArea().get_id());
-			dbObject.put( KEY_AREA_XID, areaRef );
-			dbObject.removeField(KEY_AREA);
+			if( beat.getArea() != null ){
+				DBRef areaRef = new DBRef(mongoDB, collArea, beat.getArea().get_id());
+				dbObject.put( KEY_AREA_XID, areaRef );
+				dbObject.removeField(KEY_AREA);
+			}
 			dbObject.removeField("_id");
 			DBObject update = new BasicDBObject("$set", dbObject);
 			
 			DBObject query = new BasicDBObject("_id", beat.get_id());
 			
-			WriteResult writeResult = collection.update(query, update);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-			
+			collection.update(query, update);
+			return true;
 		}catch( Exception exception ){
 			LOG.equals(exception);
 		}
@@ -100,24 +92,10 @@ public class MongoBeatDao implements BeatDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collBeat );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject updateObj = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			DBObject update = new BasicDBObject("$set", updateObj);
-			
-			WriteResult writeResult = collection.update(query, update);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
-		
+		Beat beat = new  Beat();
+		beat.set_id(_id);
+		beat.setDeleted(true);
+		return update(beat);
 	}
 
 	@Override

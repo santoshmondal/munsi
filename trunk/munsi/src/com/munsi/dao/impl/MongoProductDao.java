@@ -13,7 +13,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
-import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import com.munsi.dao.ProductDao;
 import com.munsi.pojo.master.Product;
@@ -80,11 +79,8 @@ public class MongoProductDao implements ProductDao {
 			dbObject.removeField(KEY_PRODUCT_GROUP);
 			dbObject.removeField(KEY_PRODUCT_SUBGROUP);
 			
-			WriteResult writeResult = collection.insert(dbObject );
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.insert(dbObject );
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -102,38 +98,37 @@ public class MongoProductDao implements ProductDao {
 			String jsonString = CommonUtil.objectToJson(product);
 			
 			DBObject dbObject = (DBObject) JSON.parse( jsonString );
-			BasicDBList basicDBList = new BasicDBList();
 			if( product.getTaxList() != null ){
+				BasicDBList basicDBList = new BasicDBList();
 				for(Tax tax : product.getTaxList() ){
 					DBRef taxRef = new DBRef(mongoDB, collTax, tax.get_id() );
 					basicDBList.add(taxRef);
 				}
+				dbObject.put( KEY_TAX_LIST_XID, basicDBList);
+				dbObject.removeField(KEY_TAX_LIST);
 			}
-			
-			
-			DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturar().get_id() );
-			DBRef productGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductGroup().get_id());
-			DBRef productSubGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductSubGroup().get_id());
-			
-			dbObject.put( KEY_TAX_LIST_XID, basicDBList);
-			dbObject.put( KEY_MANUFACTURER_XID, manufacturerRef );
-			dbObject.put( KEY_PRODUCT_GROUP_XID, productGroupRef );
-			dbObject.put( KEY_PRODUCT_SUBGROUP_XID, productSubGroupRef );
-			
-			dbObject.removeField(KEY_MANUFACTURER);
-			dbObject.removeField(KEY_TAX_LIST);
-			dbObject.removeField(KEY_PRODUCT_GROUP);
-			dbObject.removeField(KEY_PRODUCT_SUBGROUP);
+			if( product.getManufacturar() != null ){
+				DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturar().get_id() );
+				dbObject.put( KEY_MANUFACTURER_XID, manufacturerRef );
+				dbObject.removeField(KEY_MANUFACTURER);
+			}
+			if(product.getProductGroup() != null){
+				DBRef productGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductGroup().get_id());
+				dbObject.put( KEY_PRODUCT_GROUP_XID, productGroupRef );
+				dbObject.removeField(KEY_PRODUCT_GROUP);
+			}
+			if( product.getProductSubGroup() != null ){
+				DBRef productSubGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductSubGroup().get_id());
+				dbObject.put( KEY_PRODUCT_SUBGROUP_XID, productSubGroupRef );
+				dbObject.removeField(KEY_PRODUCT_SUBGROUP);
+			}
 			dbObject.removeField("_id");
 			
 			DBObject query = new BasicDBObject("_id", product.get_id());
 			DBObject updateObj = new BasicDBObject("$set", dbObject); 
 			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
+			collection.update(query, updateObj);
+			return true;
 			
 		}catch( Exception exception ){
 			LOG.equals(exception);
@@ -144,24 +139,11 @@ public class MongoProductDao implements ProductDao {
 	
 	@Override
 	public Boolean delete(String _id) {
-		try{
-			DBCollection collection = mongoDB.getCollection( collProduct );
-			
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject update = new BasicDBObject("deleted", true)
-							.append("utime", new Date());
-			DBObject updateObj = new BasicDBObject("$set", update); 
-			
-			WriteResult writeResult = collection.update(query, updateObj);
-			
-			if ( writeResult.getN() > 0 ){
-				return true;
-			}
-		}catch( Exception exception ){
-			LOG.equals(exception);
-		}
-		return false;
-		
+		Product product = new Product();
+		product.set_id(_id);
+		product.setDeleted(true);
+		product.setUtime(new Date());
+		return update(product);
 	}
 	
 	@Override

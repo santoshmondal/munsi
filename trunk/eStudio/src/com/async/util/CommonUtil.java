@@ -100,7 +100,7 @@ public class CommonUtil {
 		}
 	}
 
-	public static void smsMsg(String toNo, String msg)	throws UnsupportedEncodingException {
+	public static void smsMsg(String toNo, String msg)	throws IOException {
 		SMS_LOG.info("SMS :: [smsMsg] > Mobile:"+toNo +" | Text :"+msg);
 		String strURL = "http://api.mVaayoo.com/mvaayooapi/MessageCompose?user=padiyodi@gmail.com:isdc@1234&"
 				+ "senderID="
@@ -114,20 +114,22 @@ public class CommonUtil {
 		try {
 			SMS_LOG.debug("SMS :: [smsMsg] > Start URL Connection:"+ new  Date());
 			java.net.URL obj = new java.net.URL(strURL);
-			HttpURLConnection httpReq = (HttpURLConnection) obj
-					.openConnection();
+			HttpURLConnection httpReq = (HttpURLConnection) obj.openConnection();
 			httpReq.setDoOutput(true);
 			httpReq.setInstanceFollowRedirects(true);
 			httpReq.setRequestMethod("GET");
 			String iStatus = httpReq.getResponseMessage();
-			SMS_LOG.debug("SMS :: [smsMsg] > End URL Connection:"+ new  Date());
+			SMS_LOG.debug("SMS :: [smsMsg] > End URL Connection:"+ new Date());
 			SMS_LOG.debug("SMS :: [smsMsg] > Status: " + iStatus);
+			
 		} catch (MalformedURLException ex) {
 			ex.printStackTrace();
 			SMS_LOG.error("SMS :: [smsMsg] > " + ex.getMessage());
+			throw ex;
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			SMS_LOG.error("SMS :: [smsMsg] > " + ex.getMessage());
+			throw ex;
 		} catch (Exception e) {
 			e.printStackTrace();
 			SMS_LOG.error("SMS :: [smsMsg] > " + e.getMessage());

@@ -298,6 +298,31 @@ body * { visibility: hidden; }
 			 	//$("#idTotalAmount").val(Number($("#idPhotoCost").val()) + Number($("#idLamCost").val()) + Number($("#idFrameCost").val()));
 			 	$("#idBalText").html("<span class='icon-inr'></span> "+(Number($("#idTotAmt").html()) - Number($("#idAdvPaid").html())));
 			//});
-			
+				<% String fail_msg = (String)request.getAttribute("SERVER_SMS_FAILED");
+				if(fail_msg != null) { 
+				%>
+			 	bootbox.dialog({
+					message: "<%=fail_msg %>", 
+					title: "<span class='red'>Retry Prompt</span>",
+					buttons: {
+						success : {
+							label : "Try Again",
+							className: "btn-sm btn-primary",
+							 callback: function() {
+								 		var URL = "commonaction.do?op=RESEND_SMS";
+										var DATA = {};
+										var embedInElement = "id_EmbedPage";
+										async.munsi.ajaxCall(URL,DATA,embedInElement);
+							 }
+						},
+					    danger: {
+					      label: "Cancel",
+					      className: "btn-sm btn-danger"
+					    }
+					}
+				});
+			 	<%
+				}
+			 	%>
 	});
 	</script>

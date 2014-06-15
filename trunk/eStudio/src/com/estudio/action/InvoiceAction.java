@@ -3,6 +3,7 @@ package com.estudio.action;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.MalformedURLException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -41,6 +43,9 @@ import com.estudio.pojo.Invoice;
 import com.estudio.pojo.LaminationDetails;
 import com.estudio.pojo.PhotoDetails;
 import com.estudio.service.InvoiceService;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * Servlet implementation class InvoiceAction
@@ -140,9 +145,15 @@ public class InvoiceAction extends HttpServlet {
 					String msgNewInvoice= "Your invoice no. "+ newInvoice.getInvoiceNumber() +" dated " + simpleDateFormat.format(newInvoice.getInvoiceDate()) 
 							+ " , Total Amt Rs "+ newInvoice.getTotalAmount() +" , Adv paid Rs "+ newInvoice.getAdvanceBal()+" , Bal Amt Rs "+ (newInvoice.getTotalAmount() - newInvoice.getAdvanceBal() )
 							+ " , approx. delivery dt " + simpleDateFormat.format(newInvoice.getDelivaryDate()) +" . Thank you, "+Config.getProperty("studio.name")+" Team";
-					
-					CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), msgNewInvoice);
-					request.setAttribute("NEW_INVOICE_DETAIL", invoice); //newInvoice);
+					try{
+						CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), msgNewInvoice);
+					}catch(Exception ex){
+						HttpSession session = request.getSession(false);
+						request.setAttribute("SERVER_SMS_FAILED", "SMS sending failed on "+newInvoice.getCustomer().get_id());
+						session.setAttribute("SMS_RETRY_MSG", msgNewInvoice);
+						session.setAttribute("NEW_INVOICE_DETAIL", invoice);
+					}
+					request.setAttribute("NEW_INVOICE_DETAIL", invoice);
 					request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ newInvoice.getInvoiceNumber());
 					request.setAttribute("SERVER_MESSAGE_DETAIL", msgNewInvoice);
 					
@@ -166,7 +177,8 @@ public class InvoiceAction extends HttpServlet {
 						
 						String oldStatus = oInv.getStatus();
 						String oldDirPath = Config.getProperty("dir."+ OrderStatuEnum.getEnumName(oldStatus));
-						
+						final JsonNodeFactory jsonfactory = JsonNodeFactory.instance;
+						ObjectNode objNode = jsonfactory.objectNode();
 						if(invoiceService.update(inv))
 						{
 							String newDirPath = Config.getProperty("dir."+OrderStatuEnum.getEnumName(status));
@@ -174,17 +186,28 @@ public class InvoiceAction extends HttpServlet {
 							Iterator<PhotoDetails> itr = phDetailsList.iterator();
 							while(itr.hasNext()){
 								PhotoDetails phdt = itr.next();
+								try{
 								moveFile(phdt.getPhotoNumber(),oldDirPath,newDirPath);
+								}catch(Exception ex){
+									objNode.set("MOVE_FILE_ERROR", jsonfactory.textNode("Can not find photo "+phdt.getPhotoNumber()+" at "+oldDirPath));
+								}
 							}
 						}
 						
 						if(status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString())){
 							String msgReadyDelivery = "Your invoice no. "+ oInv.getInvoiceNumber() +" is ready to be delivered. Please collect it from our outlet. Thank you for choosing us, "+Config.getProperty("studio.name")+" Team";
+							
+							try{
 							CommonUtil.smsMsg(oInv.getCustomer().get_id(), msgReadyDelivery);
+							}catch(Exception ex){
+								objNode.set("SMS_ERROR", jsonfactory.textNode("Problem occured while sending SMS to "+oInv.getCustomer().get_id()));
+							}
 							request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ oInv.getInvoiceNumber());
 							request.setAttribute("SERVER_MESSAGE_DETAIL", msgReadyDelivery);
-
 						}
+						response.setContentType("application/json");
+						response.getWriter().write(objNode.toString());
+						response.getWriter().flush();
 					} 
 				break;	
 				/*
@@ -255,24 +278,23 @@ public class InvoiceAction extends HttpServlet {
 		out.close();
 	}
 
-	private void moveFile(String photoNumberFileName, String oldDirPath, String newDirPath) {
+	private void moveFile(String photoNumberFileName, String oldDirPath, String newDirPath) throws IOException {
 	
-	    	try{
-	    		File oldDir = new File(oldDirPath);
-	    		 for(String str : oldDir.list())
-	    	        {
-	    			 String[] splitStr = str.split("\\."); 
-	    			 	if(splitStr[0].equals(photoNumberFileName)){
-	    			 	
-	    			 		Path oldPath = FileSystems.getDefault().getPath(oldDirPath, str);
-	    			 		Path newPath = FileSystems.getDefault().getPath(newDirPath, str);
-	    	                Files.move(oldPath, newPath , StandardCopyOption.REPLACE_EXISTING);
-	    	                break;
-	    			 	}
-	    	        }
-	    	}catch(IOException e){
-	    	    e.printStackTrace();
-	    	}
+		File oldDir = new File(oldDirPath);
+		boolean isPresent = false;
+		for(String str : oldDir.list())
+	    {
+			String[] splitStr = str.split("\\."); 
+		 	if(splitStr[0].equals(photoNumberFileName)){
+		 		Path oldPath = FileSystems.getDefault().getPath(oldDirPath, str);
+		 		Path newPath = FileSystems.getDefault().getPath(newDirPath, str);
+                Files.move(oldPath, newPath , StandardCopyOption.REPLACE_EXISTING);
+                isPresent = true;
+                break;
+		 	}
+	    }
+		if(!isPresent)
+			throw new IOException("File not present");
 	}
 
 	private Customer getCustomerDetails(Map<String, String[]> parameterMap) throws ParseException {

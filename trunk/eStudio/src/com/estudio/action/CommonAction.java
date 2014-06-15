@@ -6,17 +6,21 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
 import com.async.simulations.SantoshUtil;
+import com.async.util.CommonUtil;
 import com.async.util.Constants;
 import com.async.util.Constants.UIOperations;
+import com.estudio.pojo.Invoice;
 
 /**
  * Servlet implementation class CommonAction
@@ -97,6 +101,24 @@ public class CommonAction extends HttpServlet {
 						}
 					}
 				}
+				break;
+			case RESEND_SMS:
+				HttpSession session = request.getSession(false);
+				Invoice invoiceObj = (Invoice)session.getAttribute("NEW_INVOICE_DETAIL");
+				String msgNewInvoice = (String)session.getAttribute("SMS_RETRY_MSG");
+				try{
+					CommonUtil.smsMsg(invoiceObj.getCustomer().get_id(), msgNewInvoice);
+				}catch(Exception ex){
+					request.setAttribute("SERVER_SMS_FAILED", "SMS sending failed on "+invoiceObj.getCustomer().get_id());
+					session.setAttribute("SMS_RETRY_MSG", msgNewInvoice);
+					session.setAttribute("NEW_INVOICE_DETAIL", invoiceObj);
+				}
+				request.setAttribute("NEW_INVOICE_DETAIL", invoiceObj);
+				request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ invoiceObj.getInvoiceNumber());
+				request.setAttribute("SERVER_MESSAGE_DETAIL", msgNewInvoice);
+				
+				RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
+				rd.forward(request, response);
 
 				break;
 			default:

@@ -153,8 +153,9 @@ public class MongoInvoiceDao implements InvoiceDao {
 				query.put("deleted", checkExists);
 			}
 
-			DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
-			excludeProjection.put("frameDetailsList", 0);
+			//DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
+			//excludeProjection.put("frameDetailsList", 0);
+			DBObject excludeProjection = new BasicDBObject("frameDetailsList", 0);
 			excludeProjection.put("laminationDetailsList", 0);
 
 			DBObject orderBy = new BasicDBObject("ctime", -1);

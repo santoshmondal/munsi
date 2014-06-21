@@ -1,4 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@page import="com.async.util.Config"%>
 <%@page import="com.async.util.PortalUtil"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -73,6 +74,17 @@
 </head>
 
 <body class="login-layout" style='background-color:lightgrey !important'  onload="async.util.noBack();" onpageshow="if (event.persisted) async.util.noBack();" onunload="">
+<div class="center well" Style="padding-top:5px; padding-bottom:5px ">
+	<div class="col-sm-3">
+		<h1><span class="pull-left" style="font-stretch: wider;">e-studi<b class="icon-camera blue"></b></span></h1>
+	</div>
+	<div class="col-sm-6">
+		<span class="red" style="font-family: cursive; font-size: 25px"><%=Config.getProperty("studio.name") %></span>
+	</div>
+	<div class="">
+	<h1>  </h1>
+	</div>
+</div>
 					<div class="login-container">
 					 <% String srvmsg = (String)(session.getAttribute("SERVER_MESSAGE")!=null?session.getAttribute("SERVER_MESSAGE"):"");
 						if(srvmsg != null && !srvmsg.trim().equalsIgnoreCase("")){ %>

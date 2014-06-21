@@ -5,12 +5,7 @@
 <%@page import="com.async.util.Constants"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-						<!-- <div class="page-header">
-							
-							<h1>New Invoice
-								
-							</h1>
-						</div>/.page-header -->
+
 
 						<div class="row-fluid">
 						<% String srvmsg = (String)(request.getAttribute("SERVER_MESSAGE")!=null?request.getAttribute("SERVER_MESSAGE"):"");
@@ -177,9 +172,14 @@
 																				</div>
 																				<div class="form-group">
 																					<label for="idPhotoNumber_tmp" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Number</label>
-				
 																					<div class="col-xs-12 col-sm-5">
-																						<input id="idPhotoNumber_tmp" class="width-100" type="text" name="fPhotoNumber_tmp" />
+																						
+																						<div class="col-xs-9 col-sm-9">
+																							<input id="idPhotoNumber_tmp" class="width-100" type="text" name="fPhotoNumber_tmp" />
+																						</div>
+																						<div class="pull-right" style="width:50px; height:27px ">
+																							<input type="file" id="idFileInputName_tmp" /> 
+																						</div>
 																					</div>
 																				</div>
 																				<div class="form-group">
@@ -250,9 +250,14 @@
 																				</div>
 																				<div class="form-group">
 																					<label for="idPhotoNumber" class="col-xs-12 col-sm-3 control-label no-padding-right">Photo Number</label>
-				
 																					<div class="col-xs-12 col-sm-5">
-																						<input id="idPhotoNumber" class="width-100" type="text" name="fPhotoNumber" />
+																						
+																						<div class="col-xs-9 col-sm-9">
+																							<input id="idPhotoNumber" class="width-100" type="text" name="fPhotoNumber" />
+																						</div>
+																						<div class="pull-right" style="width:50px; height:27px ">
+																							<input type="file" id="idFileInputName" /> 
+																						</div>
 																					</div>
 																				</div>
 																				<div class="form-group">
@@ -643,29 +648,34 @@
 			}).on('stepclick', function(e){
 				//return false;//prevent clicking on steps
 			});
+			
 //----------------- Photo Size, Quality , Source
+			var JSON_photoSize= "undefined";
+			var JSON_photoQuality= "undefined";
 
-			$("input[id^='idSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
-		        dataType: "json",
-		        url: "\commonaction.do?op=fetch&service=photo&key=size",
-		        results: function (data) {
-		            return {results: data};
-		        }
-		    }})
-			.on('change', function(){
-				$(this).closest('form').validate().element($(this));
-			});
-
-			$("input[id^='idQuality'].select2").css('width','200px').select2({allowClear:true,ajax: {
-		        dataType: "json",
-		        url: "\commonaction.do?op=fetch&service=photo&key=quality",
-		        results: function (data) {
-		            return {results: data};
-		        }
-		    }})
-			.on('change', function(){
-				$(this).closest('form').validate().element($(this));
-			});
+			if(JSON_photoSize == "undefined"){
+				$.ajax("\commonaction.do?op=fetch&service=photo&key=size", {
+                       dataType: "json"
+                }).done(function (data) { JSON_photoSize = data; 
+	                $("input[id^='idSize'].select2").css('width','200px').select2({allowClear:true,
+	    				data: JSON_photoSize})
+	    			.on('change', function(){
+	    				$(this).closest('form').validate().element($(this));
+	    			});
+                });
+			}
+			
+			if(JSON_photoQuality == "undefined"){
+				$.ajax("\commonaction.do?op=fetch&service=photo&key=quality", {
+                       dataType: "json"
+                }).done(function (data) { JSON_photoQuality = data; 
+	                $("input[id^='idQuality'].select2").css('width','200px').select2({allowClear:true,
+	    				data: JSON_photoQuality})
+	    			.on('change', function(){
+	    				$(this).closest('form').validate().element($(this));
+	    			});
+                });
+			}
 			
 //----------------- Frame Size, Quality and Numbers
 			$("input[id^='idFrameSize'].select2").css('width','200px').select2({allowClear:true,ajax: {
@@ -712,8 +722,9 @@
 			.on('change', function(){
 				$(this).closest('form').validate().element($(this));
 			});
-			
+						
 			function callAllFunctions(){
+				
 				$('[data-rel=tooltip]').tooltip();
 	
 //----------- SELECT2 -----------
@@ -721,12 +732,13 @@
 				.on('change', function(){
 					$(this).closest('form').validate().element($(this));
 				});
-
-				//documentation : http://docs.jquery.com/Plugins/Validation/validate
 				
-				$.mask.definitions['~']='[+-]';
+				//$.mask.definitions['~']='[+-]';
 				//$('#idMobile').mask('(999) 999-9999');
-			
+
+				
+				//documentation : http://docs.jquery.com/Plugins/Validation/validate
+
 				jQuery.validator.addMethod("phone", function (value, element) {
 					return this.optional(element) || /^\(\d{3}\) \d{3}\-\d{4}( x\d{1,6})?$/.test(value);
 				}, "Enter a valid phone number.");
@@ -1006,45 +1018,61 @@
 			   $("#photo1_tmp").clone().attr('id', 'photo'+(++c) ).insertAfter( cloned );
 			   $("#photo"+c).css('display', '');
 			   $("#photo"+c).data("tabNo",c);
-			   
+
 			   $("#idli"+(c)+ " a").click();
 			   $("#photo"+c).find("[id]").each(function() {
 				   var eleID = $( this ).attr('id');
 				   var eleName = $( this ).attr('name');
 				   eleID = eleID.replace('_tmp','');
-				   eleName = eleName.replace('_tmp','');
-				   $( this ).attr({'id':eleID+c,'name':eleName+c});
-			   });
-			   
+				   if(eleName){
+				   	eleName = eleName.replace('_tmp','');
+				    $( this ).attr({'id':eleID+c,'name':eleName+c});
+				   }else
+					   $( this ).attr({'id':eleID+c});
+			    });
+
 			   $("#idPhotoCounter").val(c);
-			   clearForm($("#photo"+c));
+			  // clearForm($("#photo"+c));
 
-				 //----------------- Photo Size, Quality , Source
+			  
+		     $('#idFileInputName'+c).ace_file_input({
+		    	   icon_remove:'',
+		    	   no_icon:'',
+		    	   btn_change:'Copy',/* we don't need it */
+		    	   thumbnail:'fit',
+				   btn_choose:'Copy'
+				}).on('change', function(){
+					var files = $(this).data('ace_input_files');
+					$("#idPhotoNumber"+c).val(files[0].name.substr(0, files[0].name.lastIndexOf('.')) || files[0].name);
+				});
+			  
+			  //----------------- Photo Size, Quality , Source
 
-				$("#idSize"+c).css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=photo&key=size",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
+				$("#idSize"+c).css('width','200px').select2({allowClear:true,
+					data: JSON_photoSize}).on('change', function(){
 					$(this).closest('form').validate().element($(this));
 				});
 
-				$("#idQuality"+c).css('width','200px').select2({allowClear:true,ajax: {
-			        dataType: "json",
-			        url: "\commonaction.do?op=fetch&service=photo&key=quality",
-			        results: function (data) {
-			            return {results: data};
-			        }
-			    }})
-				.on('change', function(){
+				$("#idQuality"+c).css('width','200px').select2({allowClear:true,
+					data: JSON_photoQuality}).on('change', function(){
 					$(this).closest('form').validate().element($(this));
 				});
-			   
-			   callAllFunctions();
-			   
+
+				callAllFunctions();
+
+			  //-------- Copying Values from 1st tab. 
+
+			  $("#idPhotoSource"+c).select2("val", $("#idPhotoSource").select2("val"));
+			  $("#idUrgent"+c).val($("#idUrgent").val());
+			  $("#idUrgent"+c).prop('checked', $("#idUrgent").prop('checked')?true : false);
+			  //$("#idPhotoNumber"+c).val($("#idPhotoNumber").val());
+			  $("#idNoPhoto"+c).val($("#idNoPhoto").val());
+			  $("#idSize"+c).select2("data", $("#idSize").select2("data"));
+			  $("#idQuality"+c).select2("data", $("#idQuality").select2("data"));
+			  $("#idRemark"+c).val($("#idRemark").val());
+			  $("#idPhotoCost"+c).val($("#idPhotoCost").val());
+
+			   $("#idPhotoCost"+c).trigger("change");
 			});	
 
 			// JS for Frame Tabs
@@ -1214,7 +1242,18 @@
 		     .append( "<a>" + item.id + "<span class='badge badge-primary pull-right'>"+ item.label +"</span>"+ "</a>" )
 		     .appendTo( ul );
 		     };
-		     
+
+		     $('#idFileInputName').ace_file_input({
+		    	   icon_remove:'',
+		    	   no_icon:'',
+		    	   btn_change:'Copy',/* we don't need it */
+		    	   thumbnail:'fit',
+				   btn_choose:'Copy'
+				}).on('change', function(){
+					var files = $(this).data('ace_input_files');
+					$("#idPhotoNumber").val(files[0].name.substr(0, files[0].name.lastIndexOf('.')) || files[0].name);
+				});
+	  
 	});
 
 	</script>

@@ -43,17 +43,18 @@
 			gridview: true,
 			datatype: "json",
 			
-			colNames:['id','Customer Name','Mobile No.','Total Amount','Balance Amount','Order Date','Estimated Date','Status',' '],
+			colNames:['id','Customer Name','Mobile No.','Total Amount','Balance Amount','Photo No.','Order Date','Estimated Date','Status',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 				{name:'customerName',index:'customerName', width:170,editable: false, jsonmap:"customer.name"},
 				{name:'mobileNo',index:'mobileNo', width:150,editable: false, jsonmap:"customer.id"},
 				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
-				{name:'advanceBal',index:'advanceBal',editrules:{number:true}, width:100, editable: true,
+				{name:'advanceBal',index:'advanceBal',editrules:{number:true}, width:120, editable: true,
 		              formatter: function (cellvalue, options, rowObject) 
                       {
                           return rowObject["totalAmount"] - cellvalue;
                        }},
+                {name:'photoNos',index:'photoNos',width:80},
 				{name:'sInvoiceDate',index:'sInvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
@@ -101,6 +102,20 @@
                     }
                 }
 			],
+			beforeProcessing: function (data) {
+		        var i, rows = data, l = rows.length, item;
+		        for (i = 0; i < l; i++) {
+		            item = rows[i];
+              			var strPN="";
+              			if(item.photoDetailsList){
+	              			$.each(item.photoDetailsList, function(idx, obj) {
+	              				strPN=strPN + obj.photoNumber+",";
+	              			});
+	              			strPN=strPN.substring(0, strPN.length-1);
+              			}
+              			item.photoNos = strPN;
+		        }
+		    },
 			loadComplete : function() {
 				var table = this;
 				setTimeout(function(){	

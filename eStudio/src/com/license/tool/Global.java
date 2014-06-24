@@ -218,7 +218,8 @@ public class Global {
 						LicenseUtil.generateLicenseFile(licenseFilePath, license);
 					}
 					try {
-						Thread.sleep(60 * 60 * 1000);
+						// h * mm * sec * mili sec
+						Thread.sleep(2 * 60 * 60 * 1000);
 						initializeLicense(licenseFilePath);
 					}
 					catch (InterruptedException e) {

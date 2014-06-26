@@ -87,12 +87,12 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp"> <i
-						class="icon-double-angle-right"></i> Report 1
+				<li><a href="commonaction.do?op=REPORT_DATE"> <i
+						class="icon-double-angle-right"></i> Daily Sales
 				</a></li>
 
-				<li><a href="#" data-href="/jsp/template/under_maintenance.jsp">
-						<i class="icon-double-angle-right"></i> Report 2
+				<li><a href="#" data-href="/jsp/report/report.jsp">
+						<i class="icon-double-angle-right"></i> Custom Report
 				</a></li>
 			</ul></li>
 		
@@ -103,6 +103,12 @@
 		<i class="icon-double-angle-left" data-icon1="icon-double-angle-left"
 			data-icon2="icon-double-angle-right"></i>
 	</div>
+	
+	<div style="position: fixed; bottom: -10px">
+      <div class="container">
+        <p class="muted credit">estudio v1.0.1.0</p>
+      </div>
+    </div>
 
 	<script type="text/javascript">
 		try {

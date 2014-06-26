@@ -1,4 +1,4 @@
-
+<link rel="shortcut icon" href="assets/images/favicon.ico" />
 <script>
 	var params = [
 			'directories=no,location=no,channelmode=no,fullscreen=no,menubar=no,resizable=yes,status=no,toolbar=no,history=no,scrollbars=yes',

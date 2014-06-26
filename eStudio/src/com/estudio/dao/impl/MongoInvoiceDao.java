@@ -1,5 +1,6 @@
 package com.estudio.dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -183,4 +184,87 @@ public class MongoInvoiceDao implements InvoiceDao {
 		return null;
 	}
 
+	public List<Invoice> getAllByField(Map<String, String> map,String sortBy) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collInvoice);
+
+			DBObject query = new BasicDBObject();
+			if (map != null) {
+				for (Map.Entry<String, String> entry : map.entrySet()) {
+					query.put(entry.getKey(), entry.getValue());
+				}
+				DBObject checkExists = new BasicDBObject("$exists", false);
+				query.put("deleted", checkExists);
+			}
+
+			//DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
+			//excludeProjection.put("frameDetailsList", 0);
+			DBObject excludeProjection = new BasicDBObject("frameDetailsList", 0);
+			excludeProjection.put("laminationDetailsList", 0);
+
+			DBObject orderBy = new BasicDBObject(sortBy, -1);
+
+			DBCursor dbCursor = collection.find(query, excludeProjection).sort(orderBy);
+
+			List<Invoice> areaList = new ArrayList<>();
+
+			while (dbCursor.hasNext()) {
+				DBObject dbObject = dbCursor.next();
+
+				DBObject custRef = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
+				dbObject.put(KEY_CUSTOMER, custRef);
+
+				String jsonString = JSON.serialize(dbObject);
+				Invoice invoice = (Invoice) CommonUtil.jsonToObject(jsonString, Invoice.class.getName());
+				areaList.add(invoice);
+			}
+
+			return areaList;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+	
+	public List<Invoice> getAllByFieldByDate(String startDate,String endDate,String sortBy) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collInvoice);
+			String pattern = "dd-MM-yy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+			
+			DBObject query = new BasicDBObject("invoiceDate", new BasicDBObject("$lt", simpleDateFormat.parse(endDate).getTime()).append("$gte", simpleDateFormat.parse(startDate).getTime()));
+			DBObject checkExists = new BasicDBObject("$exists", false);
+			query.put("deleted", checkExists);
+		
+
+			//DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
+			//excludeProjection.put("frameDetailsList", 0);
+			DBObject excludeProjection = new BasicDBObject("frameDetailsList", 0);
+			excludeProjection.put("laminationDetailsList", 0);
+
+			DBObject orderBy = new BasicDBObject(sortBy, -1);
+
+			DBCursor dbCursor = collection.find(query, excludeProjection).sort(orderBy);
+
+			List<Invoice> areaList = new ArrayList<>();
+
+			while (dbCursor.hasNext()) {
+				DBObject dbObject = dbCursor.next();
+
+				DBObject custRef = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
+				dbObject.put(KEY_CUSTOMER, custRef);
+
+				String jsonString = JSON.serialize(dbObject);
+				Invoice invoice = (Invoice) CommonUtil.jsonToObject(jsonString, Invoice.class.getName());
+				areaList.add(invoice);
+			}
+
+			return areaList;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
 }

@@ -3,17 +3,14 @@ package com.estudio.action;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.MalformedURLException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileTime;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,13 +34,14 @@ import com.async.util.Constants.ServiceEnum;
 import com.async.util.Constants.UIOperations;
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
+import com.estudio.dao.impl.MongoInvoiceDao;
 import com.estudio.pojo.Customer;
+import com.estudio.pojo.FlatInvoice;
 import com.estudio.pojo.FrameDetails;
 import com.estudio.pojo.Invoice;
 import com.estudio.pojo.LaminationDetails;
 import com.estudio.pojo.PhotoDetails;
 import com.estudio.service.InvoiceService;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
@@ -299,7 +297,6 @@ public class InvoiceAction extends HttpServlet {
 
 	private Customer getCustomerDetails(Map<String, String[]> parameterMap) throws ParseException {
 		Customer customer = new Customer();
-		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		if (parameterMap.containsKey("fMobile"))
 			customer.set_id(parameterMap.get("fMobile")[0]);
 		if (parameterMap.containsKey("fName"))
@@ -463,5 +460,62 @@ public class InvoiceAction extends HttpServlet {
 		}
 
 		return serviceDetailList;
+	}
+	
+	
+	
+	public static Collection<FlatInvoice> getAllByFieldByDate(String startDate,String endDate){
+		
+		MongoInvoiceDao mongoInvoiceDao = new MongoInvoiceDao();
+		List<Invoice> invList = mongoInvoiceDao.getAllByFieldByDate(startDate,endDate,"status");
+		List<FlatInvoice> finvList = new ArrayList<FlatInvoice>();
+		for (Invoice invRef : invList) {
+			FlatInvoice fInv = new FlatInvoice();
+			
+			invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
+			invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
+			
+			if (invRef.getInvoiceDate() != null) {
+				invRef.setsInvoiceDate(CommonUtil.longToStringDate(invRef.getInvoiceDate().getTime()));
+			}
+			if (invRef.getDelivaryDate() != null) {
+				invRef.setsDelivaryDate(CommonUtil.longToStringDate(invRef.getDelivaryDate().getTime()));
+			}
+
+			Customer sCustomer = invRef.getCustomer();
+			if (sCustomer != null) {
+				if (sCustomer.getDob() != null) {
+					sCustomer.setsDob(CommonUtil.longToStringDate(sCustomer.getDob().getTime()));
+				}
+				if (sCustomer.getMarriageDate() != null) {
+					sCustomer.setsMarriageDate(CommonUtil.longToStringDate(sCustomer.getMarriageDate().getTime()));
+				}
+			}
+			//----------- Filling flat invoice
+			fInv.setsCtime(invRef.getsCtime());
+			fInv.setsUtime(invRef.getsUtime());
+			fInv.setsInvoiceDate(invRef.getsInvoiceDate());
+			fInv.setsDelivaryDate(invRef.getsDelivaryDate());
+			fInv.setStatus(invRef.getStatus());
+			fInv.set_id(invRef.get_id());
+			fInv.setAdvanceBal(invRef.getAdvanceBal());
+			fInv.setInvoiceNumber(invRef.getInvoiceNumber());
+			fInv.setRemainingBal(invRef.getRemainingBal());
+			fInv.setTotalAmount(invRef.getTotalAmount());
+			fInv.setCustomerName(invRef.getCustomer().getName());
+			fInv.setCustomerPhone(invRef.getCustomer().get_id());
+			//fInv.setPhotoNo(invRef.getPhotoDetailsList().);
+			String strPhotoNo="";
+			if(invRef.getPhotoDetailsList() != null)
+			for(PhotoDetails phDt : invRef.getPhotoDetailsList()){
+				strPhotoNo = strPhotoNo + phDt.getPhotoNumber()+",";
+			}
+			if(strPhotoNo.length()>0)
+				strPhotoNo=strPhotoNo.substring(1, strPhotoNo.length()-1);
+			fInv.setPhotoNo(strPhotoNo);
+			finvList.add(fInv);
+		}
+		
+		return finvList;
 	}
 }

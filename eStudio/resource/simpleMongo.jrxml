@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report246" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b454322a-97ba-4853-b06f-07ad8ae80ddb">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.callouts" value="##Sun Jun 22 12:13:17 IST 2014\ncallouts.4.text=This set of text fields are placed in the Detail band, which is printed once for each record. Each text field prints the value of an expression. In this case all the expressions refer to a fields.\ncallouts.4.bounds=17,245,209,107\ncallouts.1.text=This is a static text placed in the Title band, which is printed only once.\ncallouts.3.pins=176,101;490,89;\ncallouts.5.text=Use the Sample Database (HSQLDB test) datasource to run this report.\nTo run the database, select Help &gt; Samples &gt; Run Sample Database.\ncallouts.3.bounds=249,375,170,92\ncallouts.2.text=In the Page Footer band are present two textfields exposing the built-in variable PAGE_NUMBER using two different evaluation time to obtain the text Page X of Y. The text fields have evaluation time &quot;now&quot; and &quot;report&quot;.\ncallouts.4.pins=29,101;\ncallouts.2.bounds=579,219,209,114\ncallouts.1.pins=507,32;\ncallouts.1.bounds=634,72,169,70\ncallouts.3.text=The text fields for the date and the freight have a special pattern to format the date and the numeric value\ncallouts.2.pins=537,121;\ncallouts.5.bounds=813,96,215,83"/>
+	<queryString language="MongoDbQuery">
+		<![CDATA[{ 'collectionName' : 'mycol' }]]>
+	</queryString>
+	<field name="_id" class="java.lang.Double"/>
+	<field name="name" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="65" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="8a32eade-5bb1-43cd-977d-47446f439e01" x="60" y="14" width="455" height="51"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[eStudio]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement uuid="3a598c85-5e0a-40d7-a5b3-f53527a1c54d" x="0" y="0" width="71" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{_id}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement uuid="e2643344-4daf-40f9-817f-5ae3ffdce8f6" x="71" y="0" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="63" splitType="Stretch">
+			<textField>
+				<reportElement uuid="367f8333-7ccf-4818-9dd6-b9c8d5c441c6" x="435" y="0" width="80" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="4d1e9d8c-a7d0-4b18-abeb-c44edeaf664a" x="515" y="0" width="40" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

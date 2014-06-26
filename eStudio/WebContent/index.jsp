@@ -12,6 +12,7 @@
 %>    
 <html>
 <head>
+	<link rel="shortcut icon" href="assets/images/favicon.ico" />
 	<jsp:include page='/jsp/template/cssandjs.jsp' />
 	
 	<meta name="description" content="User login page" />

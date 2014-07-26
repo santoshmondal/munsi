@@ -1,10 +1,6 @@
 package com.isdc.simulations;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.bson.BSONObject;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -14,14 +10,11 @@ import com.mongodb.DBObject;
 import com.mongodb.DBRef;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
-import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
 import com.munsi.pojo.master.Customer;
 import com.munsi.pojo.master.MainAccount;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
-import com.munsi.util.MongoUtil;
-import com.munsi.util.Constants.DBCollectionEnum;
 
 public class MongoDemo {
 	public static DB getDB(){
@@ -131,7 +124,7 @@ public class MongoDemo {
 		ma.setName("SUNDRY CREDITORS");
 		
 		Customer customer = new Customer();
-		customer.setMainAccount( ma );
+		
 		customer.set_id("2");
 		customer.setName("Harindra");
 		

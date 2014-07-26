@@ -23,17 +23,6 @@ public interface CustomerDao {
 	public Customer get(String _id);
 
 	/**
-	 * @param _id
-	 *            customer id to be loaded
-	 * @param withReferences
-	 *            - Boolean, if true customer object load its references, if
-	 *            false customer object does not load its references. (default
-	 *            is false)
-	 * @return ArraList of customers
-	 */
-	public Customer get(String _id, Boolean withReferences);
-
-	/**
 	 * Get list of Customer instance, Customer instance does not load references
 	 * instance,
 	 * 
@@ -41,13 +30,5 @@ public interface CustomerDao {
 	 */
 	public List<Customer> getAll();
 
-	/**
-	 * @param withReferences
-	 *            - Boolean, if true customer object load its references, if
-	 *            false customer object does not load its references.(default is
-	 *            false)
-	 * @return ArraList of customers
-	 */
-	public List<Customer> getAll(Boolean withReferences);
 
 }

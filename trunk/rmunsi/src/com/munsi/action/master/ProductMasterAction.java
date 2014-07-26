@@ -80,8 +80,6 @@ public class ProductMasterAction extends HttpServlet {
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			
 			String manufacturer = request.getParameter("1manufacturer");
-			String mainGroup = request.getParameter("1productGroup");
-			String subGroup = request.getParameter("1productSubGroup");
 			String[] taxListIds = request.getParameterValues("1taxList");
 			
 			Product product =  new Product();
@@ -89,16 +87,9 @@ public class ProductMasterAction extends HttpServlet {
 			
 			if (manufacturer != null){
 				ManufacturerServeice manufServ = (ManufacturerServeice)ObjectFactory.getInstance(ObjectEnum.MANUFACTURER_SERVICE);
-				product.setManufacturar(manufServ.get(manufacturer));
+				product.setManufacturer(manufServ.get(manufacturer));
 			}
-			if (mainGroup != null){
-				ProductGroupServeice mainGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);
-				product.setProductGroup(mainGrpServ.get(mainGroup));
-			}
-			if (subGroup != null){
-				ProductGroupServeice subGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);
-				product.setProductSubGroup(subGrpServ.get(subGroup));
-			}
+
 			if(taxListIds != null){
 				Set<Tax> taxList = new HashSet<Tax>();
 				String taxids[] = taxListIds[0].split(","); 

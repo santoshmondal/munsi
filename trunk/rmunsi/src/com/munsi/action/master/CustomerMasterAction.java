@@ -75,25 +75,9 @@ public class CustomerMasterAction extends HttpServlet {
 		if(operation != null && customerService  != null){
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			
-			String area = request.getParameter("1area");
-			String beat = request.getParameter("1beat");
-			String mainAccount = request.getParameter("1mainAccount");
-
 			Customer ma =  new Customer();
 			BeanUtils.populate(ma, request.getParameterMap() );
-			if (area != null){
-				AreaServeice areaServ = (AreaServeice)ObjectFactory.getInstance(ObjectEnum.AREA_SERVICE);
-				ma.setArea(areaServ.get(area));
-			}
-			if (beat != null){
-				BeatServeice beatServ = (BeatServeice)ObjectFactory.getInstance(ObjectEnum.BEAT_SERVICE);
-				ma.setBeat(beatServ.get(beat));
-			}
-			if (mainAccount != null){
-				MainAccountServeice maServ = (MainAccountServeice)ObjectFactory.getInstance(ObjectEnum.MAIN_ACCOUNT_SERVICE);
-				ma.setMainAccount(maServ.get(mainAccount));
-			}
-
+			
 			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:

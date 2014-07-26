@@ -11,16 +11,9 @@ public class Customer extends BasePojo {
 	private String pin;
 	private String mobile;
 	private String phone;
-	private String category;
-	private String customerClass;
-	private String blackList;
-	private Float discount;
 	private Integer creditDays;
-	private Double creditLimit;
-	private Area area;
-	private Beat beat;
-	private Double openingBalance;
-	private MainAccount mainAccount;
+	private Float creditLimit;
+	private Float creditBalance;
 	
 	public String get_id() {
 		return _id;
@@ -36,14 +29,6 @@ public class Customer extends BasePojo {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public MainAccount getMainAccount() {
-		return mainAccount;
-	}
-
-	public void setMainAccount(MainAccount mainAccount) {
-		this.mainAccount = mainAccount;
 	}
 
 	public String getAddress() {
@@ -78,30 +63,6 @@ public class Customer extends BasePojo {
 		this.phone = phone;
 	}
 
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
-	}
-
-	public String getCustomerClass() {
-		return customerClass;
-	}
-
-	public void setCustomerClass(String customerClass) {
-		this.customerClass = customerClass;
-	}
-
-	public Float getDiscount() {
-		return discount;
-	}
-
-	public void setDiscount(Float discount) {
-		this.discount = discount;
-	}
-
 	public Integer getCreditDays() {
 		return creditDays;
 	}
@@ -110,45 +71,20 @@ public class Customer extends BasePojo {
 		this.creditDays = creditDays;
 	}
 
-	public Double getCreditLimit() {
+	public Float getCreditLimit() {
 		return creditLimit;
 	}
 
-	public void setCreditLimit(Double creditLimit) {
+	public void setCreditLimit(Float creditLimit) {
 		this.creditLimit = creditLimit;
 	}
 
-	public Area getArea() {
-		return area;
+	public Float getCreditBalance() {
+		return creditBalance;
 	}
 
-	public void setArea(Area area) {
-		this.area = area;
-	}
-
-	public Beat getBeat() {
-		return beat;
-	}
-
-	public void setBeat(Beat beat) {
-		this.beat = beat;
-	}
-	
-	
-	public String getBlackList() {
-		return blackList;
-	}
-
-	public void setBlackList(String blackList) {
-		this.blackList = blackList;
-	}
-	
-	public Double getOpeningBalance() {
-		return openingBalance;
-	}
-
-	public void setOpeningBalance(Double openingBalance) {
-		this.openingBalance = openingBalance;
+	public void setCreditBalance(Float creditBalance) {
+		this.creditBalance = creditBalance;
 	}
 
 	@Override

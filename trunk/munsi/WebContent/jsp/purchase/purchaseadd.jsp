@@ -527,7 +527,7 @@
 			     
 			     
 			     //------------ AutoComplete Supplier Name--------------
-			     var objJsonSupplier = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_SUPPLIER, "_id", "name", "") %>';
+			     var objJsonSupplier = '<%=CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_SUPPLIER, "_id", "name", "") %>';
 			    
 			     objJsonSupplier = JSON.parse(objJsonSupplier.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
 			     $("#idSupplier").autocomplete({

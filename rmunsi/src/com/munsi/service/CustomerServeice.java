@@ -35,17 +35,9 @@ public class CustomerServeice {
 		return customerDao.get(_id);
 	}
 	
-	public Customer get(String _id, Boolean withReferences) {
-		return customerDao.get(null, withReferences);
-	}
-	
 	public List<Customer> getAll() {
 		return customerDao.getAll();
 	}
-	
-	public List<Customer> getAll(Boolean withReferences) {
-		return customerDao.getAll(withReferences);
-	}
-	
+
 	
 }

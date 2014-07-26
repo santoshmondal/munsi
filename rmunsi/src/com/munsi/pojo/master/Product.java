@@ -13,182 +13,81 @@ public class Product extends BasePojo {
 	private String code;
 	private String name;
 	private String alias;
-	private Float weight;
-	private Float margin;
 	private Float mrp;
-	private Float purchaseRate;
-	private String purchaseUnit;
+	private Float costPrice;
+	private Float sellPrice;
+	private Float landingCost;
 	
-	private Float salesRate;
-	private String salesUnit;
-
-	/** Number of item in a BOX (if Purchase unit is box) */
-	private Integer pack;
-	private String lockItem;
+	private Float barCode;
 	
-	/** way of tax calculation */
-	private String vatType;
 	private Set<Tax> taxList;
 	private Manufacturer manufacturer;
-	private ProductGroup productGroup;
-	private ProductGroup productSubGroup;
-	
-	private Float serviceCharge;
 	
 	public String get_id() {
 		return _id;
 	}
-
 	public void set_id(String _id) {
 		this._id = _id;
 	}
-
 	public String getCode() {
 		return code;
 	}
-
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
-
 	public String getName() {
 		return name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	public String getAlias() {
 		return alias;
 	}
-
 	public void setAlias(String alias) {
 		this.alias = alias;
 	}
-
-	public Float getWeight() {
-		return weight;
-	}
-
-	public void setWeight(Float weight) {
-		this.weight = weight;
-	}
-
-	public Float getMargin() {
-		return margin;
-	}
-
-	public void setMargin(Float margin) {
-		this.margin = margin;
-	}
-
 	public Float getMrp() {
 		return mrp;
 	}
-
 	public void setMrp(Float mrp) {
 		this.mrp = mrp;
 	}
-
-	public Float getPurchaseRate() {
-		return purchaseRate;
+	public Float getCostPrice() {
+		return costPrice;
 	}
-
-	public void setPurchaseRate(Float purchaseRate) {
-		this.purchaseRate = purchaseRate;
+	public void setCostPrice(Float costPrice) {
+		this.costPrice = costPrice;
 	}
-
-	public String getPurchaseUnit() {
-		return purchaseUnit;
+	public Float getSellPrice() {
+		return sellPrice;
 	}
-
-	public void setPurchaseUnit(String purchaseUnit) {
-		this.purchaseUnit = purchaseUnit;
+	public void setSellPrice(Float sellPrice) {
+		this.sellPrice = sellPrice;
 	}
-
-	public Float getSalesRate() {
-		return salesRate;
+	public Float getLandingCost() {
+		return landingCost;
 	}
-
-	public void setSalesRate(Float salesRate) {
-		this.salesRate = salesRate;
+	public void setLandingCost(Float landingCost) {
+		this.landingCost = landingCost;
 	}
-
-	public String getSalesUnit() {
-		return salesUnit;
+	public Float getBarCode() {
+		return barCode;
 	}
-
-	public void setSalesUnit(String salesUnit) {
-		this.salesUnit = salesUnit;
+	public void setBarCode(Float barCode) {
+		this.barCode = barCode;
 	}
-
-	public Integer getPack() {
-		return pack;
-	}
-
-	public void setPack(Integer pack) {
-		this.pack = pack;
-	}
-
-	public String getLockItem() {
-		return lockItem;
-	}
-
-	public void setLockItem(String lockItem) {
-		this.lockItem = lockItem;
-	}
-
-	public String getVatType() {
-		return vatType;
-	}
-
-	public void setVatType(String vatType) {
-		this.vatType = vatType;
-	}
-
 	public Set<Tax> getTaxList() {
 		return taxList;
 	}
-
 	public void setTaxList(Set<Tax> taxList) {
 		this.taxList = taxList;
 	}
-
-	public Manufacturer getManufacturar() {
+	public Manufacturer getManufacturer() {
 		return manufacturer;
 	}
-
-	public void setManufacturar(Manufacturer manufacturar) {
-		this.manufacturer = manufacturar;
-	}
-
-	public ProductGroup getProductGroup() {
-		return productGroup;
-	}
-
-	public void setProductGroup(ProductGroup productGroup) {
-		this.productGroup = productGroup;
-	}
-
-
-	public Float getServiceCharge() {
-		return serviceCharge;
-	}
-
-	public void setServiceCharge(Float serviceCharge) {
-		this.serviceCharge = serviceCharge;
-	}
-
-	public ProductGroup getProductSubGroup() {
-		return productSubGroup;
-	}
-
-	public void setProductSubGroup(ProductGroup productSubGroup) {
-		this.productSubGroup = productSubGroup;
+	public void setManufacturer(Manufacturer manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 	
-	
-
 }

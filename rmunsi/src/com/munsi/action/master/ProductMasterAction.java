@@ -15,19 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.isdc.simulations.VivekSimulation;
-import com.munsi.dao.MainAccountDao;
 import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.Tax;
-import com.munsi.service.MainAccountServeice;
 import com.munsi.service.ManufacturerServeice;
 import com.munsi.service.ProductGroupServeice;
 import com.munsi.service.ProductServeice;
 import com.munsi.service.TaxServeice;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
-import com.munsi.util.ObjectFactory;
 import com.munsi.util.Constants.UIOperations;
+import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 /**
@@ -80,6 +77,8 @@ public class ProductMasterAction extends HttpServlet {
 			String id = request.getParameter(Constants.COLLECTION_KEY);
 			
 			String manufacturer = request.getParameter("1manufacturer");
+			String mainGroup = request.getParameter("1productGroup");
+			String subGroup = request.getParameter("1productSubGroup");
 			String[] taxListIds = request.getParameterValues("1taxList");
 			
 			Product product =  new Product();
@@ -89,7 +88,14 @@ public class ProductMasterAction extends HttpServlet {
 				ManufacturerServeice manufServ = (ManufacturerServeice)ObjectFactory.getInstance(ObjectEnum.MANUFACTURER_SERVICE);
 				product.setManufacturer(manufServ.get(manufacturer));
 			}
-
+			if (mainGroup != null){
+				ProductGroupServeice mainGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);
+				product.setProductGroup(mainGrpServ.get(mainGroup));
+			}
+			if (subGroup != null){
+				ProductGroupServeice subGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);
+				product.setProductSubGroup(subGrpServ.get(subGroup));
+			}
 			if(taxListIds != null){
 				Set<Tax> taxList = new HashSet<Tax>();
 				String taxids[] = taxListIds[0].split(","); 

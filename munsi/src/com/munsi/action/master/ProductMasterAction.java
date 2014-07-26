@@ -86,7 +86,7 @@ public class ProductMasterAction extends HttpServlet {
 			
 			if (manufacturer != null){
 				ManufacturerServeice manufServ = (ManufacturerServeice)ObjectFactory.getInstance(ObjectEnum.MANUFACTURER_SERVICE);
-				product.setManufacturar(manufServ.get(manufacturer));
+				product.setManufacturer(manufServ.get(manufacturer));
 			}
 			if (mainGroup != null){
 				ProductGroupServeice mainGrpServ = (ProductGroupServeice)ObjectFactory.getInstance(ObjectEnum.PRODUCT_GROUP_SERVICE);

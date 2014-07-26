@@ -1,10 +1,5 @@
 @CHARSET "ISO-8859-1";
 
-
-body{
-	
-}
-
 .munsi_logo
 {
 	text-shadow:3px -2px 4px rgba(157,186,63,1);
@@ -18,3 +13,12 @@ body{
 	margin:0px;
 	padding:0px;
 }
+/* 
+#sidebar::content{
+	background-image: url("../images/AS-watermark.png");
+	background-attachment: fixed;
+	background-repeat: no-repeat;
+	background-position: bottom right;
+	background-size: 200px 150px;
+}
+ */

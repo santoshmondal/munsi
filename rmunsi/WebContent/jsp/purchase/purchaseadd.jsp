@@ -2,10 +2,9 @@
 <%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
 <%@page import="com.munsi.util.CommonUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
 <div class="row page-header">
 
-	<div class="col-xs-4">
+	<div class="col-xs-3">
 		<h1>
 			<small> New Purchase Invoice <i
 				class="icon-double-angle-right"></i> Invoice entry.
@@ -15,17 +14,19 @@
 	<div class="col-xs-8">
 		<div class="col-xs-4">
 			<span class="input-icon input-icon-right"> <input type="text"
-				id="idSupplier" placeholder="Enter Supplier Name" /> <i
+				id="idSupplierInv" tabindex="1" placeholder="Supplier Invoice No." /> <i
+				class="icon-edit blue"></i>
+			</span>
+			
+			<span style="margin-top:3px;" class="input-icon input-icon-right"> <input type="text"
+				id="idSupplier" tabindex="2" placeholder="Enter Supplier Name" /> <i
 				class="icon-user green"></i>
 			</span>
 			<input type="hidden" id="idSupplier-id"/>
 		</div>
 		<div class="col-xs-4">
 
-			<span class="input-icon input-icon-right"> <input type="text"
-				id="idSupplierInv" placeholder="Supplier Invoice No." /> <i
-				class="icon-edit blue"></i>
-			</span>
+			
 		</div>
 		<div class="col-xs-4">
 			<button class="btn btn-sm btn-inverse pull-right" data-rel="tooltip"
@@ -35,7 +36,6 @@
 
 		</div>
 	</div>
-
 </div>
 <!-- /.page-header -->
 
@@ -118,7 +118,7 @@
 	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
 	                	calculateTotalAmount();
 	                },
-					loadComplete : function() {
+	                loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
@@ -156,13 +156,15 @@
 	                    }
 	                    
 					},
+					onSelectRow: function(id){
+					    alert('Selected row ID ' + id);
+					},
 			
 					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 20,
 					footerrow: true,
 					autowidth: true
-			
 				});
 				
 				
@@ -551,8 +553,6 @@
 				     };
 				
 			});
-			
-
 			
 				
 		</script>

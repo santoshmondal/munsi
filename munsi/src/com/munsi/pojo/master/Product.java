@@ -156,12 +156,12 @@ public class Product extends BasePojo {
 		this.taxList = taxList;
 	}
 
-	public Manufacturer getManufacturar() {
+	public Manufacturer getManufacturer() {
 		return manufacturer;
 	}
 
-	public void setManufacturar(Manufacturer manufacturar) {
-		this.manufacturer = manufacturar;
+	public void setManufacturer(Manufacturer manufacturer) {
+		this.manufacturer = manufacturer;
 	}
 
 	public ProductGroup getProductGroup() {

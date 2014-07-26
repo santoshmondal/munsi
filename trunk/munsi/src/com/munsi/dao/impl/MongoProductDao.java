@@ -65,7 +65,7 @@ public class MongoProductDao implements ProductDao {
 			}
 			
 			
-			DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturar().get_id() );
+			DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturer().get_id() );
 			DBRef productGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductGroup().get_id());
 			DBRef productSubGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductSubGroup().get_id());
 			
@@ -107,8 +107,8 @@ public class MongoProductDao implements ProductDao {
 				dbObject.put( KEY_TAX_LIST_XID, basicDBList);
 				dbObject.removeField(KEY_TAX_LIST);
 			}
-			if( product.getManufacturar() != null ){
-				DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturar().get_id() );
+			if( product.getManufacturer() != null ){
+				DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturer().get_id() );
 				dbObject.put( KEY_MANUFACTURER_XID, manufacturerRef );
 				dbObject.removeField(KEY_MANUFACTURER);
 			}

@@ -35,10 +35,26 @@ public class MongoDemo {
 	}
 
 	public static void main(String[] args) {
-		//insert1();
+		insert1();
 		//readCus();
 		//readCus2();
-		insertMAC();
+		//insertMAC();
+		
+	}
+	
+	static void test1(){
+		UserInfo uf = new UserInfo();
+		//uf._id="1";
+		//uf.username="hk";
+		//uf.mobileno="555555";
+		//uf.address="Kharghar";
+		
+		//uf._id = null;
+		
+		String str = CommonUtil.objectToJson(uf);
+		System.out.println(str);
+		//str = "{\"_id\":\"1\",\"username\":\"hk\",\"mobileno\":\"555555\", \"a\":\"b\"}";
+		//UserInfo uf2 = (UserInfo) CommonUtil.jsonToObject(str, UserInfo.class.getName() );
 	}
 	
 	public static MainAccount readMainAC() {
@@ -54,8 +70,12 @@ public class MongoDemo {
 		
 		DBCollection collection = getDB().getCollection( "customer");
 		DBObject dbKey = new BasicDBObject("name",1);
+		String str = "{\"name\":\"Harindra\"}";
+		String s= str;
+		System.out.println(s);
 		
-		DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
+		DBObject dbo = (DBObject) JSON.parse(s);
+		DBCursor dbCursor = collection.find(dbo, dbKey);
 		
 		while ( dbCursor.hasNext() ) {
 			
@@ -65,7 +85,7 @@ public class MongoDemo {
 			String name = dbObject.getString("name");
 			
 			String [] idName = new String[]{ _id, name };
-			System.out.println(idName.length);
+			//System.out.println(idName.length);
 			System.out.println(idName[0]+" : "+idName[1]);
 		}
 		
@@ -101,6 +121,7 @@ public class MongoDemo {
 		System.out.println(json);
 		DBObject dbObject = (DBObject) JSON.parse( json );
 		DBRef ref = new DBRef(getDB(), "mainaccount", "2");
+		System.out.println(ref.getRef());
 		dbObject.put("mainAccountXid", ref);
 		dbObject.removeField("mainAccount");
 		dbObject.removeField("area");

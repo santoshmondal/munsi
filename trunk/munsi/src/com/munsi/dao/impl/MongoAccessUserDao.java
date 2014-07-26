@@ -12,14 +12,13 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
-import com.munsi.dao.AccesssUserDao;
+import com.munsi.dao.AccessUserDao;
 import com.munsi.pojo.master.AccessUser;
-import com.munsi.pojo.master.Customer;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
 
-public class MongoAccessUserDao implements AccesssUserDao {
+public class MongoAccessUserDao implements AccessUserDao {
 	private static final Logger LOG = Logger.getLogger(MongoAccessUserDao.class);
 
 	private final String collAccessUser = DBCollectionEnum.MAST_ACCESS_USER.toString();
@@ -84,17 +83,12 @@ public class MongoAccessUserDao implements AccesssUserDao {
 
 	@Override
 	public AccessUser get(String _id) {
-		return get(_id, false); // _id of customer, withReferences - false
-	}
-
-	@Override
-	public AccessUser get(String _id, Boolean withReferences) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collAccessUser);
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
-			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, Customer.class.getName());
+			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
 
 			return accessUser;
 
@@ -106,11 +100,6 @@ public class MongoAccessUserDao implements AccesssUserDao {
 
 	@Override
 	public List<AccessUser> getAll() {
-		return getAll(false);
-	}
-
-	@Override
-	public List<AccessUser> getAll(Boolean withReferences) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collAccessUser);
 			DBCursor dbCursor = collection.find();
@@ -120,7 +109,7 @@ public class MongoAccessUserDao implements AccesssUserDao {
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, Customer.class.getName());
+				AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
 				areaList.add(accessUser);
 			}
 

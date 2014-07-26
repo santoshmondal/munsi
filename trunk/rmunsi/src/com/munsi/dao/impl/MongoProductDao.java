@@ -26,15 +26,20 @@ public class MongoProductDao implements ProductDao {
 	
 	public static final String KEY_MANUFACTURER_XID = "manufacturerXid";
 	public static final String KEY_TAX_LIST_XID = "taxListXid";
+	public static final String KEY_PRODUCT_GROUP_XID = "productGroupXid";
+	public static final String KEY_PRODUCT_SUBGROUP_XID = "productSubGroupXid";
 	
 	public static final String KEY_MANUFACTURER = "manufacturer";
+	public static final String KEY_PRODUCT_GROUP = "productGroup";
+	public static final String KEY_PRODUCT_SUBGROUP = "productSubGroup";
 	public static final String KEY_TAX_LIST= "taxList";
 	
 	
 	private String collProduct = DBCollectionEnum.MAST_PRODUCT.toString();
 	private String collManufacturer = DBCollectionEnum.MAST_MANUFACTURER.toString();
 	private String collTax = DBCollectionEnum.MAST_TAX.toString();
-
+	private String collProductGroup = DBCollectionEnum.MAST_PRODUCT_GROUP.toString();
+	
 	private DB mongoDB = MongoUtil.getDB();
 	
 	@Override
@@ -61,12 +66,18 @@ public class MongoProductDao implements ProductDao {
 			
 			
 			DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturer().get_id() );
+			DBRef productGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductGroup().get_id());
+			DBRef productSubGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductSubGroup().get_id());
 			
 			dbObject.put( KEY_TAX_LIST_XID, basicDBList);
 			dbObject.put( KEY_MANUFACTURER_XID, manufacturerRef );
+			dbObject.put( KEY_PRODUCT_GROUP_XID, productGroupRef );
+			dbObject.put( KEY_PRODUCT_SUBGROUP_XID, productSubGroupRef );
 			
 			dbObject.removeField(KEY_MANUFACTURER);
 			dbObject.removeField(KEY_TAX_LIST);
+			dbObject.removeField(KEY_PRODUCT_GROUP);
+			dbObject.removeField(KEY_PRODUCT_SUBGROUP);
 			
 			collection.insert(dbObject );
 			return true;
@@ -100,6 +111,16 @@ public class MongoProductDao implements ProductDao {
 				DBRef manufacturerRef = new DBRef(mongoDB, collManufacturer, product.getManufacturer().get_id() );
 				dbObject.put( KEY_MANUFACTURER_XID, manufacturerRef );
 				dbObject.removeField(KEY_MANUFACTURER);
+			}
+			if(product.getProductGroup() != null){
+				DBRef productGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductGroup().get_id());
+				dbObject.put( KEY_PRODUCT_GROUP_XID, productGroupRef );
+				dbObject.removeField(KEY_PRODUCT_GROUP);
+			}
+			if( product.getProductSubGroup() != null ){
+				DBRef productSubGroupRef = new DBRef(mongoDB, collProductGroup, product.getProductSubGroup().get_id());
+				dbObject.put( KEY_PRODUCT_SUBGROUP_XID, productSubGroupRef );
+				dbObject.removeField(KEY_PRODUCT_SUBGROUP);
 			}
 			dbObject.removeField("_id");
 			
@@ -151,12 +172,19 @@ public class MongoProductDao implements ProductDao {
 				}
 				
 				DBObject manufacturerDBO =  ( (DBRef)dbObject.get(KEY_MANUFACTURER_XID) ).fetch();
+				DBObject productGroupDBO =  ( (DBRef)dbObject.get(KEY_PRODUCT_GROUP_XID) ).fetch();
+				DBObject productSubGroupDBO =  ( (DBRef)dbObject.get(KEY_PRODUCT_SUBGROUP_XID) ).fetch();
+				
 				dbObject.put(KEY_TAX_LIST, taxDBOList);
 				dbObject.put(KEY_MANUFACTURER, manufacturerDBO);
+				dbObject.put(KEY_PRODUCT_GROUP, productGroupDBO);
+				dbObject.put(KEY_PRODUCT_SUBGROUP, productSubGroupDBO);
 			}
 			
 			dbObject.removeField(KEY_TAX_LIST_XID);
 			dbObject.removeField(KEY_MANUFACTURER_XID);
+			dbObject.removeField(KEY_PRODUCT_GROUP_XID);
+			dbObject.removeField(KEY_PRODUCT_SUBGROUP_XID);
 			
 			String jsonString = JSON.serialize(dbObject);
 			Product product = (Product) CommonUtil.jsonToObject( jsonString, Product.class.getName() );
@@ -201,13 +229,20 @@ public class MongoProductDao implements ProductDao {
 					}
 					
 					DBObject manufacturerDBO =  ( (DBRef)dbObject.get(KEY_MANUFACTURER_XID) ).fetch();
+					DBObject productGroupDBO =  ( (DBRef)dbObject.get(KEY_PRODUCT_GROUP_XID) ).fetch();
+					DBObject productSubGroupDBO =  ( (DBRef)dbObject.get(KEY_PRODUCT_SUBGROUP_XID) ).fetch();
 					
 					dbObject.put(KEY_TAX_LIST, taxDBOList);
 					dbObject.put(KEY_MANUFACTURER_XID, manufacturerDBO);
+					dbObject.put(KEY_PRODUCT_GROUP, productGroupDBO);
+					dbObject.put(KEY_PRODUCT_SUBGROUP, productSubGroupDBO);
+					
 				}
 				
 				dbObject.removeField(KEY_TAX_LIST_XID);
 				dbObject.removeField(KEY_MANUFACTURER_XID);
+				dbObject.removeField(KEY_PRODUCT_GROUP_XID);
+				dbObject.removeField(KEY_PRODUCT_SUBGROUP_XID);
 				
 				String jsonString = JSON.serialize(dbObject);
 				Product product = (Product) CommonUtil.jsonToObject( jsonString, Product.class.getName() );

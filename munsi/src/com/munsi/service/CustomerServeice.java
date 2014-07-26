@@ -47,5 +47,4 @@ public class CustomerServeice {
 		return customerDao.getAll(withReferences);
 	}
 	
-	
 }

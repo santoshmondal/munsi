@@ -2,41 +2,41 @@ package com.munsi.service;
 
 import java.util.List;
 
-import com.munsi.dao.TaxDao;
-import com.munsi.dao.impl.MongoTaxDao;
-import com.munsi.pojo.master.Tax;
+import com.munsi.dao.AccessUserDao;
+import com.munsi.pojo.master.AccessUser;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class AccessUserServeice {
 
-	private TaxDao taxDao;
+	private AccessUserDao accessUserDao;
 
 	public AccessUserServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.ACCESS_USER_DAO);
-		if (object instanceof TaxDao) {
-			taxDao = (MongoTaxDao) object;
+		if (object instanceof AccessUserDao) {
+			accessUserDao = (AccessUserDao) object;
 		}
 
 	}
 	
-	public Boolean create(Tax tax) {
-		return taxDao.create(tax);
+	public Boolean create(AccessUser accessUser) {
+		return accessUserDao.create(accessUser);
 	}
 
-	public Boolean update(Tax tax) {
-		return taxDao.update(tax);
+	public Boolean update(AccessUser accessUser) {
+		return accessUserDao.update(accessUser);
 	}
 
 	public Boolean delete(String _id) {
-		return taxDao.delete(_id);
+		return accessUserDao.delete(_id);
 	}
 
-	public Tax get(String _id) {
-		return taxDao.get(_id);
+	public AccessUser get(String _id) {
+		return accessUserDao.get(_id);
 	}
 
-	public List<Tax> getAll() {
-		return taxDao.getAll();
+	
+	public List<AccessUser> getAll() {
+		return accessUserDao.getAll();
 	}
 }

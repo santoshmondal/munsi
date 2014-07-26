@@ -3,7 +3,6 @@ package com.munsi.service;
 import java.util.List;
 
 import com.munsi.dao.ManufacturerDao;
-import com.munsi.dao.impl.MongoManufacturerDao;
 import com.munsi.pojo.master.Manufacturer;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
@@ -15,7 +14,7 @@ public class ManufacturerServeice {
 	public ManufacturerServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.MANUFACTURER_DAO);
 		if (object instanceof ManufacturerDao) {
-			manufacturerDao = (MongoManufacturerDao) object;
+			manufacturerDao = (ManufacturerDao) object;
 		}
 
 	}

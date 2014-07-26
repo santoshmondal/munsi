@@ -620,7 +620,7 @@
 					     };
 					     
 					     //------------ AutoComplete Customer Name--------------
-					     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
+					     var objJsonCustomer = '<%=CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
 					    
 					     objJsonCustomer = JSON.parse(objJsonCustomer.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
 					     $("#idCustomer").autocomplete({

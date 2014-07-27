@@ -92,16 +92,6 @@
 						</div><!-- /.row -->
 
 	<script type="text/javascript">
-			var grid_data = 
-			[ 
-				{id:"1",description:"Desktop Computer",name:"name MA 1"},
-				{id:"2",description:"Trading Income +ve",name:"name MA 2"},
-				{id:"3",description:"Trading Income +ve",name:"name MA 3"},
-				{id:"4",description:"Trading Income +ve",name:"name MA 4"},
-				{id:"5",description:"Trading Income +ve",name:"name MA 5"},
-				{id:"6",description:"Desktop Computer",name:"note"}
-				
-			];	
 			
 			jQuery(function($) {
 				var grid_selector = "#grid-table-maingroup";
@@ -132,6 +122,7 @@
 					], 
 			
 					viewrecords : true,
+					rownumbers:true,
 					rowNum:10,
 					rowList:[10,20,30],
 					pager : pager_selector,
@@ -146,7 +137,7 @@
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
-							updateActionIcons(table);
+							//updateActionIcons(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
@@ -464,6 +455,7 @@
 					], 
 			
 					viewrecords : true,
+					rownumbers:true,
 					rowNum:10,
 					rowList:[10,20,30],
 					pager : pager_selector_sub,
@@ -478,7 +470,7 @@
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
-							updateActionIcons(table);
+							//updateActionIcons(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);

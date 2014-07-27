@@ -53,28 +53,25 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Alias','Weight','Margin (%)','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Lock Item','Batch Y/N','Taxes','VAT Type','Service Charge (%)','Manufacturer','Group','Subgroup','Opening Stock','Scheme',' '],
+					colNames:['id','Name','Alias','Barcode','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Allow Negative Stock','Batch Y/N','Taxes','Manufacturer','Group','Subgroup','Opening Stock','Scheme',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 
 						{name:'name',index:'name', width:250,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'alias',index:'alias', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'weight',index:'weight', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'margin',index:'margin',width:130, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'barcode',index:'barcode', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
 
 						{name:'mrp',index:'mrp',width:120, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'salesRate',index:'salesRate',width:155,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:6, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
+						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
 
 						{name:'purchaseRate',index:'purchaseRate',width:200,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Purchase Unit', rowpos:8, colpos:2}, edittype:"select",editoptions:{value:"Box:Box;Piece:Piece;KG:KG"}},
+						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Purchase Unit', rowpos:7, colpos:2}, edittype:"select",editoptions:{value:"Box:Box;Piece:Piece;KG:KG"}},
 						{name:'pack',index:'pack',  sorttype:"int", sortable:true,hidden:true, editrules:{required:false, edithidden:true}, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'lockItem',index:'lockItem', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+						{name:'alnegstk',index:'alnegstk', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'batchyn',index:'batchyn', editable: true,edittype:"checkbox",hidden:true, editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'1taxList',index:'taxList', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_TAX, "_id", "name") %>", size: 3}},
 
-						{name:'vatType',index:'vatType', editable: true, hidden:true,editrules:{required:false, edithidden:true}, edittype:"select", formatter:'select',editoptions:{  dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getVatTypeJSON() %>"}},
-						{name:'serviceCharge',index:'serviceCharge', sorttype:"int",hidden:true,editrules:{required:false, edithidden:true}, sortable:true,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'1manufacturer',index:'manufacturer', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_MANUFACTURER, "_id", "name") %>"}},
 						{name:'1productGroup',index:'productGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'1'}") %>"}},
 						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'2'}") %>"}},
@@ -94,6 +91,7 @@
 			
 					viewrecords : true,
 					rowNum:10,
+					rownumbers:true,
 					rowList:[10,20,30],
 					pager : pager_selector,
 					altRows: true,
@@ -107,7 +105,6 @@
 						var table = this;
 						setTimeout(function(){	
 							styleCheckbox(table);
-							updateActionIcons(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
@@ -341,25 +338,6 @@
 				}
 				
 			
-				//unlike navButtons icons, action icons in rows seem to be hard-coded
-				//you can change them like this in here if you want
-				function updateActionIcons(table) {
-					/**
-					var replacement = 
-					{
-						'ui-icon-pencil' : 'icon-pencil blue',
-						'ui-icon-trash' : 'icon-trash red',
-						'ui-icon-disk' : 'icon-ok green',
-						'ui-icon-cancel' : 'icon-remove red'
-					};
-					$(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-					*/
-				}
-				
 				//replace icons with FontAwesome icons like above
 				function updatePagerIcons(table) {
 					var replacement = 
@@ -436,7 +414,6 @@
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
-							updateActionIcons(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
@@ -562,7 +539,6 @@
 								var table = this;
 								setTimeout(function(){
 									styleCheckbox(table);
-									updateActionIcons(table);
 									updatePagerIcons(table);
 									enableTooltips(table);
 								}, 0);

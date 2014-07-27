@@ -54,6 +54,7 @@
 					], 
 			
 					viewrecords : true,
+					rownumbers:true,
 					rowNum:10,
 					rowList:[10,20,30],
 					pager : pager_selector_id,

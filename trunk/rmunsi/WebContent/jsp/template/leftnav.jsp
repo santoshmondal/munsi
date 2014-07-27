@@ -40,15 +40,8 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/master/main_acc_master.jsp">
-						<i class="icon-double-angle-right"></i>Main Account
-				</a></li>
 				<li><a href="#" data-href="/jsp/master/customer_acc_master.jsp">
 						<i class="icon-double-angle-right"></i> Customer
-				</a></li>
-				
-				<li><a href="#" data-href="/jsp/master/area_master.jsp"> <i
-						class="icon-double-angle-right"></i> Area
 				</a></li>
 				
 				<li><a href="#" data-href="/jsp/master/product_master.jsp">
@@ -60,53 +53,20 @@
 				<li><a href="#" data-href="/jsp/master/supplier_master.jsp">
 						<i class="icon-double-angle-right"></i> Supplier
 				</a></li>
-				<!-- <li><a href="#" class="dropdown-toggle">
-						<i class="icon-list-alt"></i> <span class="menu-text"> Product </span> <b
-						class="arrow icon-angle-down"></b>
-					</a>
-					<ul class="submenu">
-						<li><a href="#"  data-href="/jsp/master/product_master.jsp"> <i
-								class="icon-archive"></i> Product Master
-						</a></li>
-		
-						<li><a href="#" data-href="/jsp/master/product_grouping.jsp">
-								<i class="icon-sitemap"></i> Product Grouping
-						</a></li>
-					</ul>
-				</li> 
-				<li class='disabled'><a href="#"
-					data-href="/jsp/master/product_master.jsp"> <i
-						class="icon-double-angle-right"></i> Salesman
-				</a></li> -->
 				<li><a href="#" data-href="/jsp/master/manufacturer_master.jsp">
 						<i class="icon-double-angle-right"></i> Manufacturer
 				</a></li>
 				<li><a href="#" data-href="/jsp/master/tax_master.jsp">
 						<i class="icon-double-angle-right"></i> TAX
 				</a></li>
-				<li ><a href="#" 
+<!-- 				<li ><a href="#" 
 					data-href="/jsp/template/under_maintenance.jsp"> <i
 						class="icon-double-angle-right"></i> <span class="menu-text">
 							Van <span class="badge badge-transparent"> <i
 								class="icon-truck green" style='font-size: 1.5em'></i>
 						</span>
 					</span>
-				</a></li>
-			</ul>
-		</li>
-		<li><a href="#" class="dropdown-toggle"> <i class="icon-book"></i>
-				<span class="menu-text"> Data Entry </span> <b
-				class="arrow icon-angle-down"></b>
-		</a>
-
-			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp"> <i
-						class="icon-double-angle-right"></i> Data Entry 1
-				</a></li>
-
-				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp">
-						<i class="icon-double-angle-right"></i> Data Entry 2
-				</a></li>
+				</a></li> -->
 			</ul>
 		</li>
 		<li><a href="#" data-href="/jsp/purchase/purchaseadd.jsp"> <i class="icon-star"></i>
@@ -130,70 +90,8 @@
 				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp">
 						<i class="icon-double-angle-right"></i> Report 2
 				</a></li>
-			</ul></li>
-		<!-- 		<li><a href="#"> <i class="icon-text-width"></i> <span
-				class="menu-text" data-href="/jsp/test/embed1.jsp">
-					Typography </span>
-		</a></li>
-
-		<li><a href="#" class="dropdown-toggle"> <i
-				class="icon-desktop"></i> <span class="menu-text"> UI
-					Elements </span> <b class="arrow icon-angle-down"></b>
-		</a>
-
-			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/test/embed2.jsp"> <i
-						class="icon-double-angle-right"></i> Elements
-				</a></li>
-
-				<li><a href="buttons.html"> <i
-						class="icon-double-angle-right"></i> Buttons &amp; Icons
-				</a></li>
-
-				<li><a href="treeview.html"> <i
-						class="icon-double-angle-right"></i> Treeview
-				</a></li>
-
-				<li><a href="jquery-ui.html"> <i
-						class="icon-double-angle-right"></i> jQuery UI
-				</a></li>
-
-				<li><a href="nestable-list.html"> <i
-						class="icon-double-angle-right"></i> Nestable Lists
-				</a></li>
-
-				<li><a href="#" class="dropdown-toggle"> <i
-						class="icon-double-angle-right"></i> Three Level Menu <b
-						class="arrow icon-angle-down"></b>
-				</a>
-
-					<ul class="submenu">
-						<li><a href="#"> <i class="icon-leaf"></i> Item #1
-						</a></li>
-
-						<li><a href="#" class="dropdown-toggle"> <i
-								class="icon-pencil"></i> 4th level <b
-								class="arrow icon-angle-down"></b>
-						</a>
-
-							<ul class="submenu">
-								<li><a href="#"> <i class="icon-plus"></i> Add Product
-								</a></li>
-
-								<li><a href="#"> <i class="icon-eye-open"></i> View
-										Products
-								</a></li>
-							</ul></li>
-					</ul></li>
-			</ul></li>
-
-		<li><a href="calendar.html"> <i class="icon-calendar"></i> <span
-				class="menu-text"> Calendar <span class="badge badge-transparent tooltip-error"
-							title="2&nbsp;Important&nbsp;Events"> <i
-								class="icon-warning-sign red bigger-130"></i>
-						</span>
-			</span>
-		</a></li> -->
+			</ul>
+		</li>
 	</ul>
 	<!-- /.nav-list -->
 

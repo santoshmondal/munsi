@@ -42,19 +42,13 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Main Account','Discount (%)','Remark','Category','Black Listed','Class','Credit Limit','Area','Beat','Address','City','Pin Code','Telephone',' '],
+					colNames:['id','Name','Credit Limit','Credit Days','Outstanding Amount','Address','City','Pin Code','Telephone',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'name',index:'name', width:150,editable: true,editrules:{required:true},editoptions:{size:"20",maxlength:"130"}},
-						{name:'1mainAccount',index:'mainAccount', width:110, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getIdNameString(DBCollectionEnum.MAST_MAIN_ACCOUNT, "_id", "name")%>"}},
-						{name:'discount',index:'discount', width:110,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'remark',index:'remark', width:150, sortable:false,editable: true,hidden:true,editrules:{edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
-						{name:'category',index:'category', width:110, editable: true},
-						{name:'blackList',index:'blackList', width:110, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-						{name:'customerClass',index:'customerClass', width:80, editable: true,edittype:"select",editoptions:{value:"Class A:Class A;Class B:Class B"}},
 						{name:'creditLimit',index:'creditLimit', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'1area',index:'area', width:110, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getIdNameString(DBCollectionEnum.MAST_AREA, "_id", "name")%>"}},
-						{name:'1beat',index:'beat', width:110, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getIdNameString(DBCollectionEnum.MAST_BEAT, "_id", "name")%>"}},
+						{name:'creditdays',index:'creditdays', width:110, editable: true},
+						{name:'outstandingamount',index:'outstandingamount', width:110, editable: true},
 						{name:'address',index:'address', width:150, sortable:false,editable: true,hidden:true,editrules:{edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
 						
 						{name:'city',index:'city', width:150,editable: true,editrules:{edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"130"}},
@@ -72,6 +66,7 @@
 					], 
 			
 					viewrecords : true,
+					rownumbers:true,
 					rowNum:10,
 					rowList:[10,20,30],
 					pager : pager_selector,
@@ -86,7 +81,6 @@
 						var table = this;
 						setTimeout(function(){
 							styleCheckbox(table);
-							updateActionIcons(table);
 							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
@@ -161,6 +155,7 @@
 						//closeAfterEdit: true,
 						recreateForm: true,
 						closeOnEscape:true,
+						savekey : [ true, 13 ],
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
@@ -171,6 +166,7 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
+						savekey : [ true, 13 ],
 						url: "${pageContext.request.contextPath}/customermaster.action?op=add",
 						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
@@ -301,26 +297,6 @@
 					.find('input.cbox[type=checkbox]').addClass('ace')
 					.wrap('<label />').after('<span class="lbl align-top" />');
 				*/
-				}
-				
-			
-				//unlike navButtons icons, action icons in rows seem to be hard-coded
-				//you can change them like this in here if you want
-				function updateActionIcons(table) {
-					/**
-					var replacement = 
-					{
-						'ui-icon-pencil' : 'icon-pencil blue',
-						'ui-icon-trash' : 'icon-trash red',
-						'ui-icon-disk' : 'icon-ok green',
-						'ui-icon-cancel' : 'icon-remove red'
-					};
-					$(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-					*/
 				}
 				
 				//replace icons with FontAwesome icons like above

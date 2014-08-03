@@ -26,7 +26,12 @@
 		<script src="${pageContext.request.contextPath}/assets/js/ace-elements.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/ace.min.js"></script>
 
-		
-	
+		<script type="text/javascript">
+			$(document).ready(function(){
+			    $(document).bind("contextmenu",function(e){
+			        return false;
+			    });
+			});
+		</script>
 </body>
 </html>

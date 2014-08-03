@@ -4,7 +4,7 @@
 <head lang="en">
 
 	<meta charset="utf-8" />
-	<title>Insert title here</title>
+	<title>Retail-Munsi POS</title>
 	
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<meta name="description" content="overview &amp; stats" />
@@ -26,7 +26,7 @@
 						
 							<b class="icon-barchart" style="color:red"></b>
 						<small class='munsi_logo'>
-							r-MUNSI</small>
+							R-MUNSI</small>
 						
 					</a><!-- /.brand -->
 				</div><!-- /.navbar-header -->

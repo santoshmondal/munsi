@@ -71,7 +71,7 @@
 				var grid_selector = jQuery("#grid-table_pinvoice");
 				var pager_selector = jQuery("#grid-table_pinvoice_toppager");
 				var pager_selector_id = "#grid-table_pinvoice_toppager";
-				var colModel, i, cmi, tr = "<tr>", skip = 0, ths;
+				var colModel, i, cmi, tr = "<tr>", skip = 0, ths,lastSel=-1;
 				
 			     
 				grid_selector.jqGrid({
@@ -117,6 +117,13 @@
 	                },
 	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
 	                	calculateTotalAmount();
+	                },
+	                beforeSelectRow: function(rowid) {
+	                    if (rowid !== lastSel) {
+	                    	grid_selector.jqGrid('restoreRow',lastSel);
+	                        lastSel = rowid;
+	                    }
+	                    return true;
 	                },
 	                loadComplete : function() {
 						var table = this;

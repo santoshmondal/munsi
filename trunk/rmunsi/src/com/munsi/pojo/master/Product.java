@@ -34,8 +34,6 @@ public class Product extends BasePojo {
 	private ProductGroup productSubGroup;
 	private Float serviceCharge;
 	
-	private Float costPrice;
-	private Float sellPrice;
 	private String barCode;
 	private Boolean allowNigativeStock;
 	
@@ -191,19 +189,6 @@ public class Product extends BasePojo {
 
 	public void setProductSubGroup(ProductGroup productSubGroup) {
 		this.productSubGroup = productSubGroup;
-	}
-	
-	public Float getCostPrice() {
-		return costPrice;
-	}
-	public void setCostPrice(Float costPrice) {
-		this.costPrice = costPrice;
-	}
-	public Float getSellPrice() {
-		return sellPrice;
-	}
-	public void setSellPrice(Float sellPrice) {
-		this.sellPrice = sellPrice;
 	}
 	
 	public String getBarCode() {

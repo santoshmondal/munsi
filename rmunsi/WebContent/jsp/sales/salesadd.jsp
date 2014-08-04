@@ -310,8 +310,7 @@
 			     
 			   //------------ AutoComplete Customer Name--------------
 			     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
-			    
-			     objJsonCustomer = JSON.parse(objJsonCustomer.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
+			     objJsonCustomer = JSON.parse(objJsonCustomer.replace(/_id/g,"id").replace(/name/g,"label"));
 			     $("#idCustomer").autocomplete({
 			    	 minLength: 0,
 				     source: objJsonCustomer,
@@ -327,9 +326,11 @@
 				     }
 			     })
 			     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-			     return $( "<li>" )
-			     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
-			     .appendTo( ul );
+			     var temp = $( "<li>" );
+			     console.log(item);
+			     console.log(item.label +" "+item.id);
+			     	temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" ).appendTo( ul );
+			     return temp;
 			     };
 					
 			   //-----> press alt + g for setting focus on jqgrid

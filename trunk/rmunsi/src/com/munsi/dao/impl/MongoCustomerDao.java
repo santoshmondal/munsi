@@ -114,9 +114,8 @@ public class MongoCustomerDao implements CustomerDao {
 				String jsonString = JSON.serialize(dbObject);
 				Customer customer = (Customer) CommonUtil.jsonToObject( jsonString, Customer.class.getName() );
 				customerList.add(customer);
-				return customerList;
 			}
-			
+			System.out.println( customerList.size() );
 			return customerList;
 			
 		}catch( Exception exception ){

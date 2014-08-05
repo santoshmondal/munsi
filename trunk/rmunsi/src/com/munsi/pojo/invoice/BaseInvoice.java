@@ -1,7 +1,6 @@
 package com.munsi.pojo.invoice;
 
 import java.io.Serializable;
-
 import com.munsi.pojo.BasePojo;
 
 public class BaseInvoice extends BasePojo implements Serializable{

@@ -246,19 +246,20 @@ public class CommonUtil {
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
 			DBObject finalQuery = deletedQuery; 
 			
+			BasicDBList queryList = new BasicDBList();
+			queryList.add(new BasicDBObject(idKey, new BasicDBObject("$exists", true)));
+			queryList.add(new BasicDBObject(lableKey, new BasicDBObject("$exists", true)));
 			if( jsonQuery != null && jsonQuery.length() > 0){
 				DBObject optionalQuery = (DBObject) JSON.parse(jsonQuery);
-				BasicDBList queryList = new BasicDBList();
 				queryList.add(deletedQuery);
 				queryList.add(optionalQuery);
-				finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 			}
+			finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 			
 			DBCursor dbCursor = collection.find(finalQuery, dbKey);
-			
+
 			String sb = "[]";
 			if( dbCursor.hasNext() ) {
-				
 				sb=JSON.serialize(dbCursor).toString();
 			}
 				

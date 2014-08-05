@@ -116,6 +116,8 @@
 			        	calculateTotalAmount();
 	                },
 	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
+	                	
+	                	console.log("rowid:"+rowid+", name:"+ name+", val:"+val+", iRow:"+iRow+", iCol:"+iCol);
 	                	calculateTotalAmount();
 	                },
 	                beforeSelectRow: function(rowid) {

@@ -21,10 +21,6 @@
 			<div class="grid4">
 				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> 25</span>
 				<div class="hr hr16 dotted"></div>
-				<!-- <span class="input-icon input-icon-right"> 
-					<input type="number" id="idAddDisc" placeholder="Discount" style="width:120px; text-align: center;"/> <i
-					class="icon-rupee green"></i>
-				</span> -->
 				<div class="input-group">
 				  <input type="number" class="form-control" id="idAddDisc" tabindex="3" style="text-align: center;" placeholder="Discount" >
 				  <span class="input-group-addon"><i class="icon-rupee"></i></span>
@@ -42,7 +38,7 @@
 				TAX<br/><span class="bigger-125 green"><i class="icon-rupee"></i> 12</span>
 			</div>
 			<div class="grid4">
-				<pre style="background-color:#FFB752"><span class="bigger-200"><strong>120000</strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
+				<pre style="background-color:#FFB752"><span class="bigger-200"><strong><span id="idTotalAmt">120000</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
 				Total <span class="bigger-150 red" data-rel="tooltip" title="Outstanding + Bill Amount"><i class="icon-rupee"></i> 120025</span>
 			</div>
 		</div>
@@ -90,18 +86,19 @@
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
 					cellEdit : true,
-					colNames:['id','Code','Name', 'Quantity', 'Rate', 'Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
+					colNames:['id','Barcode','Code','Name', 'Quantity', 'Rate', 'Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
-						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickAutoComplete},
-						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickAutoComplete},
+						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
+						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
+						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'rate',index:'rate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'tax',index:'tax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'discountpercent',index:'discountpercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'discountamount',index:'discountamount', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'freequantity',index:'freequantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'totalquantity',index:'totalquantity', sortable:false, align:'right', width:100,editable: true,formatter:'integer'},
+						{name:'totalquantity',index:'totalquantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
 						{name:'totalamount',index:'totalamount', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
 					], 
 			
@@ -117,15 +114,14 @@
 			        	calculateTotalAmount();
 	                },
 	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
+
+	                	console.log("rowid:"+rowid+", name:"+ name+", val:"+val+", iRow:"+iRow+", iCol:"+iCol);
+	                	getRowAndPopulate(rowid,name,val);
 	                	calculateTotalAmount();
+	                	
 	                },
 	                beforeSelectRow: function(rowid) {
-	                    /* if (rowid !== lastSel) {
-	                    	grid_selector.jqGrid('restoreRow',lastSel);
-	                        lastSel = rowid;
-	                    }
-	                    return true;
-	                         */return false;
+	                    return false;
 	                },
 	                loadComplete : function() {
 						var table = this;
@@ -223,54 +219,47 @@
 					}, 0);
 				}
 				
-				//autocomplete
-				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
+				//autocomplete for Code
+				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "code", "") %>';
 				 availableProductCode = JSON.parse(availableProductCode);
-				 debugger;
-				 var finProdCode=[];
+				 var finProdCode=[],itr=0;
 				 for(i=0;i<availableProductCode.length;i++){
-					 finProdCode[i] = availableProductCode[i].name;
-					 
+					 if(availableProductCode[i].code){
+					 	finProdCode[itr++] = availableProductCode[i].code;
+					 }
 				 }
-			     /* [
-					"ActionScript",
-					"AppleScript",
-					"Asp",
-					"BASIC",
-					"C",
-					"C++",
-					"Clojure",
-					"COBOL",
-					"ColdFusion",
-					"Erlang",
-					"Fortran",
-					"Groovy",
-					"Haskell",
-					"Java",
-					"JavaScript",
-					"Lisp",
-					"Perl",
-					"PHP",
-					"Python",
-					"Ruby",
-					"Scala",
-					"Scheme"
-				] */
-				
-				function pickAutoComplete( cellvalue, options, cell ) {
+				 //console.log(availableProductCode+"\n finProdCode::"+finProdCode);
+				function pickCodeAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
 						source: finProdCode
 					});
 					}, 0);
 				}
-			
+				
+				//autocomplete for Code
+				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
+				 availableProductName = JSON.parse(availableProductName);
+				 var finProdName=[],itr=0;
+				 for(i=0;i<availableProductName.length;i++){
+					 if(availableProductName[i].name){
+					 	finProdName[itr++] = availableProductName[i].name;
+					 }
+				 }
+
+				function pickNameAutoComplete( cellvalue, options, cell ) {
+					setTimeout(function(){
+					$(cell) .find('input[type=text]').autocomplete({
+						source: finProdName
+					});
+					}, 0);
+				}
+
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
 					$('[data-rel=tooltip]').tooltip({container:'body'});
 				}
-			
 
 				//-----> press g for setting focus on jqgrid
 				$(document).bind('keydown', 'Alt+g', function(){
@@ -314,8 +303,60 @@
                     });
 	                    
 			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',totalamount:totalAmount,tax:totalTax});
+			         $("#idTotalAmt").html(totalAmount);
 			     };
 			     
+			     function getRowAndPopulate(rowid,name,val)
+             	{
+	                	var rowData = grid_selector.jqGrid('getRowData', rowid);
+	                	
+	                	switch(name) {
+		                    case "name":
+		                        console.log("Name Switch :"+rowData);
+		                        rowData.barCode="ABC";
+		                        rowData.code="Code1";
+		                        rowData.quantity="1";
+		                        rowData.rate="50.50";
+		                        rowData.freequantity="0";
+		                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
+		                        rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "code":
+		                    	console.log("Name Switch :"+rowData);
+		                        break;
+		                    case "quantity":
+		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
+		                        rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "rate":
+		                    	rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "discountpercent":
+		                    	console.log("Name Switch :"+rowData);
+		                        break;
+		                    case "discountamount":
+		                    	rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate))-Number(rowData.discountamount);
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "freequantity":
+		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
+		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    default:
+		                        console.log("Default Switch");
+	                	}
+	                	debugger;
+	                	var gridData = grid_selector.jqGrid('getGridParam','data');
+	                	if(gridData[gridData.length-1].name){
+	                		var randId = Math.ceil(Math.random()*10000);
+	                		grid_selector.addRowData(randId,{id:randId,date:"a"}, "last");
+	                	}
+	                	/* rowData.Currency = '12321';
+	                	grid_selector.jqGrid('setRowData', rowId, rowData); */
+             	}
 			     
 			   //------------ AutoComplete Customer Name--------------
 			     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';

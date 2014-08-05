@@ -47,14 +47,13 @@
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'name',index:'name', width:150,editable: true,editrules:{required:true},editoptions:{size:"20",maxlength:"130"}},
 						{name:'creditLimit',index:'creditLimit', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'creditdays',index:'creditdays', width:110, editable: true},
-						{name:'outstandingamount',index:'outstandingamount', width:110, editable: true},
+						{name:'creditDays',index:'creditDays', width:110, editable: true},
+						{name:'outStandingAmount',index:'outStandingAmount', width:110, editable: true},
 						{name:'address',index:'address', width:150, sortable:false,editable: true,hidden:true,editrules:{edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
-						
 						{name:'city',index:'city', width:150,editable: true,editrules:{edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'pin',index:'pin', width:150,editable: true,editrules:{edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"15"}},
 						{name:'phone',index:'phone', width:150,editable: true,editoptions:{size:"20",maxlength:"15"}},
-						
+
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 

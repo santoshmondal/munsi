@@ -35,7 +35,9 @@ public class Product extends BasePojo {
 	private Float serviceCharge;
 	
 	private String barCode;
-	private Boolean allowNigativeStock;
+	private Boolean allowNegativeStock;
+	private int minStock;
+	private int maxStock;
 	
 	public String get_id() {
 		return _id;
@@ -199,12 +201,28 @@ public class Product extends BasePojo {
 		this.barCode = barCode;
 	}
 
-	public Boolean getAllowNigativeStock() {
-		return allowNigativeStock;
+	public Boolean getAllowNegativeStock() {
+		return allowNegativeStock;
 	}
 
-	public void setAllowNigativeStock(Boolean allowNigativeStock) {
-		this.allowNigativeStock = allowNigativeStock;
+	public void setAllowNegativeStock(Boolean allowNigativeStock) {
+		this.allowNegativeStock = allowNigativeStock;
+	}
+
+	public int getMinStock() {
+		return minStock;
+	}
+
+	public void setMinStock(int minStock) {
+		this.minStock = minStock;
+	}
+
+	public int getMaxStock() {
+		return maxStock;
+	}
+
+	public void setMaxStock(int maxStock) {
+		this.maxStock = maxStock;
 	}
 	
 

@@ -6,14 +6,15 @@ public class Customer extends BasePojo {
 	private static final long serialVersionUID = 1L;
 	
 	private String _id;
-	private String name;
 	private String address;
+	private String city;
+	private String name;
 	private String pin;
 	private String mobile;
 	private String phone;
 	private Integer creditDays;
 	private Float creditLimit;
-	private Float creditBalance;
+	private Float outStandingAmount;
 	
 	public String get_id() {
 		return _id;
@@ -79,14 +80,6 @@ public class Customer extends BasePojo {
 		this.creditLimit = creditLimit;
 	}
 
-	public Float getCreditBalance() {
-		return creditBalance;
-	}
-
-	public void setCreditBalance(Float creditBalance) {
-		this.creditBalance = creditBalance;
-	}
-
 	@Override
 	public int hashCode() {
 		return get_id().hashCode();
@@ -99,5 +92,21 @@ public class Customer extends BasePojo {
 			return true;
 		}
 		return false;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Float getOutStandingAmount() {
+		return outStandingAmount;
+	}
+
+	public void setOutStandingAmount(Float outStandingAmount) {
+		this.outStandingAmount = outStandingAmount;
 	}
 }

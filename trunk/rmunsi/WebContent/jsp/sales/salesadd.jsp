@@ -5,18 +5,19 @@
 
 <div class="row page-header">
 	<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding: 0px; line-height: 1.2">
-		<div class="col-xs-4 col-md-5 col-sm-3 col-lg-3">
+		<div class="center col-xs-12 col-md-3 col-sm-3 col-lg-3">
 			<div class="form-group" style="background-color:#eee;  border:1px solid #f59942; padding: 10px 0px 10px 10px">
-				<span class="input-icon input-icon-right"> 
-					<input type="text" id="idCustomer" tabindex="1" placeholder="Enter Customer Name" style="width:180px"/> <i
-					class="icon-user green"></i>
-				</span>
-				<a href="#" tabindex="2" class="btn btn-inverse btn-xs" style="margin-bottom: 3px;" data-rel="tooltip" title="Show Customer Detail">
-					<i class="icon-external-link"></i>
-				</a>
+				<div class="input-group" style="margin-right: 10px">
+				  <input type="text" id="idCustomer" class="form-control" tabindex="1" placeholder="Enter Customer Name" >
+				  <span class="input-group-addon" style="padding: 0px 10px;">
+				  	<a href="#" tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Customer Detail">
+				  		<i class="icon-user white"></i>
+				  	</a>
+				  </span>
+				</div>
 			</div>
 		</div>
-		<div class="center col-xs-7 col-md-6 col-sm-7 col-lg-7">
+		<div class="center col-xs-12 col-sm-7 col-md-7 col-lg-7">
 			<div class="grid4">
 				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> 25</span>
 				<div class="hr hr16 dotted"></div>
@@ -45,7 +46,7 @@
 				Total <span class="bigger-150 red" data-rel="tooltip" title="Outstanding + Bill Amount"><i class="icon-rupee"></i> 120025</span>
 			</div>
 		</div>
-		<div class="col-xs-3 col-md-3 col-sm-2 col-lg-2 pull-right hidden-print">
+		<div class="center col-xs-12 col-md-2 col-sm-2 col-lg-2 pull-right hidden-print">
 			<button class="btn btn-sm btn-inverse pull-right" type="button" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
 				<i class="icon-save"></i> Save
 			</button>

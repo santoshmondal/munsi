@@ -223,7 +223,15 @@
 				}
 				
 				//autocomplete
-				 var availableTags = [
+				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
+				 availableProductCode = JSON.parse(availableProductCode);
+				 debugger;
+				 var finProdCode=[];
+				 for(i=0;i<availableProductCode.length;i++){
+					 finProdCode[i] = availableProductCode[i].name;
+					 
+				 }
+			     /* [
 					"ActionScript",
 					"AppleScript",
 					"Asp",
@@ -246,12 +254,12 @@
 					"Ruby",
 					"Scala",
 					"Scheme"
-				];
+				] */
 				
 				function pickAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
-						source: availableTags
+						source: finProdCode
 					});
 					}, 0);
 				}
@@ -289,9 +297,9 @@
 			         }
 			         return -1;
 			     };
-			     
+
 				function calculateTotalAmount(){
-					
+
 			         var totalAmount = 0, totalTax = 0,
 		             i=getColumnIndexByName(grid_selector,'totalamount'); // nth-child need 1-based index so we use (i+1) below
 			         $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
@@ -342,11 +350,6 @@
 						}
 				    });
 			   
-					$('input').bind('keydown', 'return', function () {
-				    	alert("eSCAPE ");
-				        //if (e.keyCode == 13) e.keyCode = 9;
-				        return false;
-				    });
 			});
 
 			function addLastRow(){

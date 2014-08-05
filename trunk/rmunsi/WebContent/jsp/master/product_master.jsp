@@ -53,22 +53,25 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Alias','Barcode','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Allow Negative Stock','Batch Y/N','Taxes','Manufacturer','Group','Subgroup','Opening Stock','Scheme',' '],
+					colNames:['id','Name','Alias','Code','Barcode','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Allow Negative Stock','Min. Stock','Max. Stock','Batch Y/N','Taxes','Manufacturer','Group','Subgroup','Opening Stock','Scheme',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 
-						{name:'name',index:'name', width:250,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'name',index:'name', width:200,editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'alias',index:'alias', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'barcode',index:'barcode', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'code',index:'code', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'barCode',index:'barCode', width:100, editable: true,editoptions:{size:"20",maxlength:"130"}},
 
 						{name:'mrp',index:'mrp',width:120, editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'salesRate',index:'salesRate',width:155,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
+						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:6, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
 
 						{name:'purchaseRate',index:'purchaseRate',width:200,  editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Purchase Unit', rowpos:7, colpos:2}, edittype:"select",editoptions:{value:"Box:Box;Piece:Piece;KG:KG"}},
+						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Purchase Unit', rowpos:8, colpos:2}, edittype:"select",editoptions:{value:"Box:Box;Piece:Piece;KG:KG"}},
 						{name:'pack',index:'pack',  sorttype:"int", sortable:true,hidden:true, editrules:{required:false, edithidden:true}, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'alnegstk',index:'alnegstk', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+						{name:'allowNegativeStock',index:'allowNegativeStock', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+						{name:'minStock',index:'minStock',hidden:true, editable: true,editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"130"}},
+						{name:'maxStock',index:'maxStock',hidden:true, editable: true,editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"130"}},
 						{name:'batchyn',index:'batchyn', editable: true,edittype:"checkbox",hidden:true, editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'1taxList',index:'taxList', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_TAX, "_id", "name") %>", size: 3}},
 

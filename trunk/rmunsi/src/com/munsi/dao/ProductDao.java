@@ -49,6 +49,11 @@ public interface ProductDao {
 	 * @return ArraList of products
 	 */
 	public List<Product> getAll(Boolean withReferences);
+	
+	
+	public Product getProductByCode(String code, Boolean withReferences);
+	public Product getProductByBarCode(String name, Boolean withReferences);
+	public Product getProductByName(String barCode, Boolean withReferences);
 
 
 }

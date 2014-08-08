@@ -22,14 +22,18 @@
 				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> 25</span>
 				<div class="hr hr16 dotted"></div>
 				<div class="input-group">
-				  <input type="number" class="form-control" id="idAddDisc" tabindex="3" style="text-align: center;" placeholder="Discount" >
-				  <span class="input-group-addon"><i class="icon-rupee"></i></span>
+				  <input type="number" class="form-control" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" >
+				  <span class="input-group-addon">%</span>
 				</div>
 			</div>
 			<div class="grid4">
 				DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> 25</span>
 				<div class="hr hr16 dotted"></div>
-				Add. DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> 0</span>
+				<!-- Add. DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> 0</span> -->
+				<div class="input-group">
+				  <input type="number" class="form-control" id="idAddDisc" data-rel="tooltip" title="Additional Discount"  tabindex="4" style="text-align: center;" placeholder="Discount" >
+				  <span class="input-group-addon"><i class="icon-rupee"></i></span>
+				</div>
 			</div>
 			
 			<div class="grid4">
@@ -119,10 +123,10 @@
 	                	getRowAndPopulate(rowid,name,val);
 	                	calculateTotalAmount();
 	                	
-	                },
+	                }/* ,
 	                beforeSelectRow: function(rowid) {
-	                    return false;
-	                },
+	                 //   return false;
+	                } */,
 	                loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
@@ -309,37 +313,131 @@
 			     function getRowAndPopulate(rowid,name,val)
              	{
 	                	var rowData = grid_selector.jqGrid('getRowData', rowid);
-	                	
+
 	                	switch(name) {
 		                    case "name":
-		                        console.log("Name Switch :"+rowData);
-		                        rowData.barCode="ABC";
-		                        rowData.code="Code1";
-		                        rowData.quantity="1";
-		                        rowData.rate="50.50";
-		                        rowData.freequantity="0";
-		                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
-		                        rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+
+		                        var urlPath = "sales.action?op=get&fetchBy="+name+"&value="+val+"&withReferences="+true;
+								var prodData;
+								$.ajax({
+									type: "POST",
+									url: urlPath,
+									dataType: 'json',
+									async:false
+									})
+									.complete(function( data ) {
+										console.log("Data Response:" + data.responseJSON);
+										prodData = data.responseJSON;
+									})
+									.fail(function() {
+										console.error( "[async MSG]error in fetching data from server....." );
+									});
+		                        
+						        if(prodData){
+		                        	//prodData = JSON.parse(prodData);
+			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
+			                        rowData.code=prodData.code?prodData.code:"";
+			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.quantity="1";
+			                        rowData.rate=prodData.salesRate;
+			                        rowData.freequantity="0";
+			                        rowData.tax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
+			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
+			                        rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+									
+			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
+			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
+			                        rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate)) + taxValrupee;
+		                        }
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "code":
-		                    	console.log("Name Switch :"+rowData);
+		                    	var urlPath = "sales.action?op=get&fetchBy="+name+"&value="+val+"&withReferences="+true;
+								var prodData;
+								$.ajax({
+									type: "POST",
+									url: urlPath,
+									dataType: 'json',
+									async:false
+									})
+									.complete(function( data ) {
+										console.log("Data Response:" + data.responseJSON);
+										prodData = data.responseJSON;
+									})
+									.fail(function() {
+										console.error( "[async MSG]error in fetching data from server....." );
+									});
+		                        if(prodData){
+		                        	//prodData = JSON.parse(prodData);
+			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
+			                        rowData.code=prodData.code?prodData.code:"";
+			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.quantity="1";
+			                        rowData.rate=prodData.salesRate;
+			                        rowData.tax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
+			                        rowData.freequantity="0";
+			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
+			                        rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
+			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
+			                        rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate)) + taxValrupee;
+
+		                        }
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "barCode":
+		                    	var urlPath = "sales.action?op=get&fetchBy="+name+"&value="+val+"&withReferences="+true;
+								var prodData;
+								$.ajax({
+									type: "POST",
+									url: urlPath,
+									dataType: 'json',
+									async:false
+									})
+									.complete(function( data ) {
+										console.log("Data Response:" + data.responseJSON);
+										prodData = data.responseJSON;
+									})
+									.fail(function() {
+										console.error( "[async MSG]error in fetching data from server....." );
+									});
+		                        if(prodData){
+		                        	//prodData = JSON.parse(prodData);
+			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
+			                        rowData.code=prodData.code?prodData.code:"";
+			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.quantity="1";
+			                        rowData.rate=prodData.salesRate;
+			                        rowData.tax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
+			                        rowData.freequantity="0";
+			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
+			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
+			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
+			                        rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate)) + taxValrupee;
+		                        }
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "quantity":
 		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
-		                        rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+		                        var taxValpercent = rowData.tax?rowData.tax:1;
+		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
+		                        rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate)) + taxValrupee;
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "rate":
-		                    	rowData.totalamount=Number(rowData.quantity)*Number(rowData.rate);
+		                    	var taxValpercent = rowData.tax?rowData.tax:1;
+		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
+		                        rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate)) + taxValrupee;
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "discountpercent":
 		                    	console.log("Name Switch :"+rowData);
 		                        break;
 		                    case "discountamount":
-		                    	rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate))-Number(rowData.discountamount);
-		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                    	var taxValpercent = rowData.tax?rowData.tax:1;
+		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
+		                        rowData.totalamount=(Number(rowData.quantity)*Number(rowData.rate)) + taxValrupee-Number(rowData.discountamount);
+		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "freequantity":
 		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freequantity);
@@ -348,7 +446,7 @@
 		                    default:
 		                        console.log("Default Switch");
 	                	}
-	                	debugger;
+	                	
 	                	var gridData = grid_selector.jqGrid('getGridParam','data');
 	                	if(gridData[gridData.length-1].name){
 	                		var randId = Math.ceil(Math.random()*10000);
@@ -357,6 +455,7 @@
 	                	/* rowData.Currency = '12321';
 	                	grid_selector.jqGrid('setRowData', rowId, rowData); */
              	}
+			     
 			     
 			   //------------ AutoComplete Customer Name--------------
 			     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
@@ -405,4 +504,31 @@
 			        return false;
 			    });
 			});
+			
+			//-------------------------------------------
+			//------- Product Fetch Invoice -------------
+			//-------------------------------------------
+			
+
+			function ajaxProductFetch(fetchBy,value,fetchAllField){
+				
+				var urlPath = "sales.action?op=get&fetchBy="+fetchBy+"&value="+value+"&withReferences="+fetchAllField;
+				var proddata;
+				$.ajax({
+					type: "POST",
+					url: urlPath,
+					dataType: 'json',
+					async:false
+					})
+					.complete(function( data ) {
+						console.log("Data Response:" + data.responseJSON);
+						proddata = data.responseJSON;
+					})
+					.fail(function() {
+						console.error( "[async MSG]error in fetching data from server....." );
+					});
+				return proddata;
+			}
+
+
 </script>

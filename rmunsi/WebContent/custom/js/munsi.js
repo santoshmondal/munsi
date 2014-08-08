@@ -18,20 +18,21 @@ $(function(){
 				var URL = "hello.action";
 				var DATA = {reqPage:hrefEle.data("href")};
 				var embedInElement = "id_EmbedPage";
-	
+
 				async.munsi.ajaxCall(URL,DATA,embedInElement);
 			}
 		}
 	});
+
 	//-------------------------------------------
 	//----------------- HotKeys -----------------
 	//-------------------------------------------
 	
 	//-----> press g for setting focus on jqgrid
-	$(document).bind('keydown', 'm', function(){
+	$(document).bind('keydown', 'Alt+m', function(){
 	    $("#sidebar-collapse").click();
     });
-});
 
+});
 
 

@@ -288,7 +288,7 @@ public class CommonUtil {
 	
 	public static String getProductByBarCode(String barCode, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product =  instance.getProductByCode(barCode, withReferences);
+		Product product =  instance.getProductByBarCode(barCode, withReferences);
 		
 		String productJson = null;
 		if(product != null) {
@@ -300,7 +300,7 @@ public class CommonUtil {
 	
 	public static String getProductByName(String name, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product = instance.getProductByCode(name, withReferences);
+		Product product = instance.getProductByName(name, withReferences);
 		
 		String productJson = null;
 		if(product != null) {

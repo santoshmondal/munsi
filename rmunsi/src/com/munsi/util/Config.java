@@ -1,7 +1,7 @@
 package com.munsi.util;
 
 import java.io.File;
-import java.io.InputStream;
+import java.io.FileInputStream;
 import java.net.URL;
 import java.util.Properties;
 
@@ -15,12 +15,12 @@ public class Config {
 	static {
 		properties = new Properties();
 		try {
-			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			/*ClassLoader loader = Thread.currentThread().getContextClassLoader();
 			InputStream inputStream = loader.getResourceAsStream(File.separator+CONFIG_FILE_NAME);
-			properties.load(inputStream);
-			//String currentClasspath = getCurrentClasspath(); 
-			//String fullConfigFilePath = currentClasspath+File.separator+CONFIG_FILE_NAME;
-			//properties.load(new FileInputStream( new File(fullConfigFilePath) ) );
+			properties.load(inputStream);*/
+			String currentClasspath = getCurrentClasspath(); 
+			String fullConfigFilePath = currentClasspath+File.separator+CONFIG_FILE_NAME;
+			properties.load(new FileInputStream( new File(fullConfigFilePath) ) );
 		}
 		catch (Exception e) {
 			LOG.error(e);
@@ -41,5 +41,10 @@ public class Config {
 		URL resource = loader.getResource("");
 		LOG.info(resource.getPath());
 		return resource.getPath();
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(Config.getProperty("db.name"));
 	}
 }

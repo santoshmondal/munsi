@@ -20,8 +20,10 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
+import com.munsi.dao.ProductDao;
 import com.munsi.pojo.master.Product;
 import com.munsi.util.Constants.DBCollectionEnum;
+import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger( CommonUtil.class );
@@ -270,5 +272,18 @@ public class CommonUtil {
 			}
 
 		return "";
+	}
+	
+	public static Product getProductByCode(String code, Boolean withReferences){
+		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
+		return instance.getProductByCode(code, withReferences);
+	}
+	public static Product getProductByBarCode(String name, Boolean withReferences){
+		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
+		return instance.getProductByCode(name, withReferences);
+	}
+	public static Product getProductByName(String barCode, Boolean withReferences){
+		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
+		return instance.getProductByCode(barCode, withReferences);
 	}
 }

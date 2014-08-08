@@ -52,8 +52,8 @@ public interface ProductDao {
 	
 	
 	public Product getProductByCode(String code, Boolean withReferences);
-	public Product getProductByBarCode(String name, Boolean withReferences);
-	public Product getProductByName(String barCode, Boolean withReferences);
+	public Product getProductByBarCode(String barCode, Boolean withReferences);
+	public Product getProductByName(String name, Boolean withReferences);
 
 
 }

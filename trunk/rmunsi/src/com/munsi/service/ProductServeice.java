@@ -5,6 +5,8 @@ import java.util.List;
 import com.munsi.dao.ProductDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.pojo.master.Product;
+import com.munsi.pojo.master.Tax;
+import com.munsi.util.CommonUtil;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
@@ -19,7 +21,7 @@ public class ProductServeice {
 		}
 
 	}
-	
+
 	public Boolean create(Product product) {
 		return productDao.create(product);
 	}
@@ -38,5 +40,54 @@ public class ProductServeice {
 
 	public List<Product> getAll() {
 		return productDao.getAll();
+	}
+
+	public String getProductByCode(String code, Boolean withReferences) {
+		Product product = productDao.getProductByCode(code, withReferences);
+		return populateDerivedProductInfo(product);
+	}
+
+	public String getProductByBarCode(String barCode, Boolean withReferences) {
+		Product product = productDao.getProductByBarCode(barCode, withReferences);
+		return populateDerivedProductInfo(product);
+	}
+
+	public String getProductByName(String name, Boolean withReferences) {
+		Product product = productDao.getProductByName(name, withReferences);
+		return populateDerivedProductInfo(product);
+	}
+
+	private String populateDerivedProductInfo(Product product) {
+		String productJson = null;
+		if (product != null) {
+
+			// populate tax
+			Float derSumOfProudctTax = 0.0f;
+			if (product.getTaxList() != null) {
+				for (Tax tax : product.getTaxList()) {
+					if (tax.getRate() != null) {
+						try {
+							Float taxRate = Float.valueOf(tax.getRate());
+							derSumOfProudctTax += taxRate;
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+			// populate tax done
+
+			product.setDerSumOfProudctTax(derSumOfProudctTax);
+
+			// convert to json
+			productJson = CommonUtil.objectToJson(product);
+		}
+
+		return productJson;
+	}
+
+	public static void main(String[] args) {
+		ProductServeice ref = (ProductServeice) ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
+		System.out.println(ref.getProductByName("Amul Milk", true));
 	}
 }

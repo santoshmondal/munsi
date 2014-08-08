@@ -286,9 +286,9 @@ public class CommonUtil {
 		return productJson;
 	}
 	
-	public static String getProductByBarCode(String name, Boolean withReferences){
+	public static String getProductByBarCode(String barCode, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product =  instance.getProductByCode(name, withReferences);
+		Product product =  instance.getProductByCode(barCode, withReferences);
 		
 		String productJson = null;
 		if(product != null) {
@@ -298,9 +298,9 @@ public class CommonUtil {
 		return productJson;
 	}
 	
-	public static String getProductByName(String barCode, Boolean withReferences){
+	public static String getProductByName(String name, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product = instance.getProductByCode(barCode, withReferences);
+		Product product = instance.getProductByCode(name, withReferences);
 		
 		String productJson = null;
 		if(product != null) {

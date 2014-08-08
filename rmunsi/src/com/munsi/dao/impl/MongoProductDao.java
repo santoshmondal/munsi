@@ -264,14 +264,14 @@ public class MongoProductDao implements ProductDao {
 	}
 
 	@Override
-	public Product getProductByBarCode(String name, Boolean withReferences){
-		DBObject queryObject = new BasicDBObject("name", name);
+	public Product getProductByBarCode(String barCode, Boolean withReferences){
+		DBObject queryObject = new BasicDBObject("barCode", barCode);
 		return getProductByQuery(queryObject, withReferences);
 	}
 
 	@Override
-	public Product getProductByName(String barCode, Boolean withReferences){
-		DBObject queryObject = new BasicDBObject("barCode", barCode);
+	public Product getProductByName(String name, Boolean withReferences){
+		DBObject queryObject = new BasicDBObject("name", name);
 		return getProductByQuery(queryObject, withReferences);
 	}
 	

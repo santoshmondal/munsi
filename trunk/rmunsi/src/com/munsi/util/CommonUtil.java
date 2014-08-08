@@ -274,16 +274,37 @@ public class CommonUtil {
 		return "";
 	}
 	
-	public static Product getProductByCode(String code, Boolean withReferences){
+	public static String getProductByCode(String code, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		return instance.getProductByCode(code, withReferences);
+		Product product =  instance.getProductByCode(code, withReferences);
+		
+		String productJson = null;
+		if(product != null) {
+			productJson = CommonUtil.objectToJson(product);
+		}
+		
+		return productJson;
 	}
-	public static Product getProductByBarCode(String name, Boolean withReferences){
+	public static String getProductByBarCode(String name, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		return instance.getProductByCode(name, withReferences);
+		Product product =  instance.getProductByCode(name, withReferences);
+		
+		String productJson = null;
+		if(product != null) {
+			productJson = CommonUtil.objectToJson(product);
+		}
+		
+		return productJson;
 	}
-	public static Product getProductByName(String barCode, Boolean withReferences){
+	public static String getProductByName(String barCode, Boolean withReferences){
 		ProductDao instance = (ProductDao)ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		return instance.getProductByCode(barCode, withReferences);
+		Product product = instance.getProductByCode(barCode, withReferences);
+		
+		String productJson = null;
+		if(product != null) {
+			productJson = CommonUtil.objectToJson(product);
+		}
+		
+		return productJson;
 	}
 }

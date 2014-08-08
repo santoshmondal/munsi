@@ -18,14 +18,14 @@ public class Product extends BasePojo {
 	private Float mrp;
 	private Float purchaseRate;
 	private String purchaseUnit;
-	
+
 	private Float salesRate;
 	private String salesUnit;
 
 	/** Number of item in a BOX (if Purchase unit is box) */
 	private Integer pack;
 	private String lockItem;
-	
+
 	/** way of tax calculation */
 	private String vatType;
 	private Set<Tax> taxList;
@@ -33,12 +33,14 @@ public class Product extends BasePojo {
 	private ProductGroup productGroup;
 	private ProductGroup productSubGroup;
 	private Float serviceCharge;
-	
+
 	private String barCode;
 	private Boolean allowNegativeStock;
 	private int minStock;
 	private int maxStock;
-	
+
+	private Float derSumOfProudctTax;
+
 	public String get_id() {
 		return _id;
 	}
@@ -54,7 +56,6 @@ public class Product extends BasePojo {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	
 
 	public String getName() {
 		return name;
@@ -176,7 +177,6 @@ public class Product extends BasePojo {
 		this.productGroup = productGroup;
 	}
 
-
 	public Float getServiceCharge() {
 		return serviceCharge;
 	}
@@ -192,7 +192,7 @@ public class Product extends BasePojo {
 	public void setProductSubGroup(ProductGroup productSubGroup) {
 		this.productSubGroup = productSubGroup;
 	}
-	
+
 	public String getBarCode() {
 		return barCode;
 	}
@@ -224,6 +224,13 @@ public class Product extends BasePojo {
 	public void setMaxStock(int maxStock) {
 		this.maxStock = maxStock;
 	}
-	
+
+	public Float getDerSumOfProudctTax() {
+		return derSumOfProudctTax;
+	}
+
+	public void setDerSumOfProudctTax(Float derSumOfProudctTax) {
+		this.derSumOfProudctTax = derSumOfProudctTax;
+	}
 
 }

@@ -256,7 +256,68 @@ public class MongoProductDao implements ProductDao {
 		}
 		return null;
 	}
+
+	@Override
+	public Product getProductByCode(String code, Boolean withReferences){
+		DBObject queryObject = new BasicDBObject("code", code);
+		return getProductByQuery(queryObject, withReferences);
+	}
+
+	@Override
+	public Product getProductByBarCode(String name, Boolean withReferences){
+		DBObject queryObject = new BasicDBObject("name", name);
+		return getProductByQuery(queryObject, withReferences);
+	}
+
+	@Override
+	public Product getProductByName(String barCode, Boolean withReferences){
+		DBObject queryObject = new BasicDBObject("barCode", barCode);
+		return getProductByQuery(queryObject, withReferences);
+	}
 	
-	
+
+	private Product getProductByQuery(DBObject queryObject, Boolean withReferences) {
+		try{
+			DBCollection collection = mongoDB.getCollection( collProduct );
+			DBObject dbObject = collection.findOne(queryObject);
+			
+			if( withReferences == true ){
+				BasicDBList basicDBList = (BasicDBList) dbObject.get(KEY_TAX_LIST_XID);
+				
+				BasicDBList taxDBOList =  new BasicDBList();
+				if( basicDBList != null ){
+					DBRef [] taxDBRefList = (DBRef[]) basicDBList.toArray();
+					
+					for(DBRef taxDBRef : taxDBRefList ){
+						DBObject taxDBObject = taxDBRef.fetch();
+						taxDBOList.add(taxDBObject);
+					}
+				}
+				
+				DBObject manufacturerDBO =  ( (DBRef)dbObject.get(KEY_MANUFACTURER_XID) ).fetch();
+				DBObject productGroupDBO =  ( (DBRef)dbObject.get(KEY_PRODUCT_GROUP_XID) ).fetch();
+				DBObject productSubGroupDBO =  ( (DBRef)dbObject.get(KEY_PRODUCT_SUBGROUP_XID) ).fetch();
+				
+				dbObject.put(KEY_TAX_LIST, taxDBOList);
+				dbObject.put(KEY_MANUFACTURER, manufacturerDBO);
+				dbObject.put(KEY_PRODUCT_GROUP, productGroupDBO);
+				dbObject.put(KEY_PRODUCT_SUBGROUP, productSubGroupDBO);
+			}
+			
+			dbObject.removeField(KEY_TAX_LIST_XID);
+			dbObject.removeField(KEY_MANUFACTURER_XID);
+			dbObject.removeField(KEY_PRODUCT_GROUP_XID);
+			dbObject.removeField(KEY_PRODUCT_SUBGROUP_XID);
+			
+			String jsonString = JSON.serialize(dbObject);
+			Product product = (Product) CommonUtil.jsonToObject( jsonString, Product.class.getName() );
+			
+			return product;
+			
+		}catch( Exception exception ){
+			LOG.equals(exception);
+		}
+		return null;
+	}
 	
 }

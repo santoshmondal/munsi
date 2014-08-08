@@ -1,5 +1,8 @@
 package com.munsi.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.munsi.dao.impl.MongoAccessUserDao;
 import com.munsi.dao.impl.MongoAreaDao;
 import com.munsi.dao.impl.MongoBeatDao;
@@ -26,6 +29,8 @@ import com.munsi.service.SupplierServeice;
 import com.munsi.service.TaxServeice;
 
 public class ObjectFactory {
+	
+	private static final Map<ObjectEnum, Object> objectFactoryMap = new HashMap<ObjectEnum, Object>();
 
 	public static enum ObjectEnum {
 		//@formatter:off
@@ -70,10 +75,14 @@ public class ObjectFactory {
 		}
 	}
 
-	public static Object getInstance(ObjectEnum ObjectEnum) {
+	public static Object getInstance(ObjectEnum objectEnum) {
+		Object instance = null;
 		try {
-			Class<?> clazz = Class.forName(ObjectEnum.toString());
-			return clazz.newInstance();
+			instance = objectFactoryMap.get(objectEnum);
+			if(instance == null) {
+				Class<?> clazz = Class.forName(objectEnum.toString());
+				instance = clazz.newInstance(); 
+			}
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -83,7 +92,7 @@ public class ObjectFactory {
 			e.printStackTrace();
 		}
 
-		return null;
+		return instance;
 	}
 
 	/*

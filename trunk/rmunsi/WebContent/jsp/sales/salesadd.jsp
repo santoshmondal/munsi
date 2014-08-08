@@ -307,7 +307,7 @@
                     });
 	                    
 			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',totalamount:totalAmount,tax:totalTax});
-			         $("#idTotalAmt").html(totalAmount);
+			         $("#idTotalAmt").html(Number(totalAmount).toFixed(2));
 			     };
 			     
 			     function getRowAndPopulate(rowid,name,val)

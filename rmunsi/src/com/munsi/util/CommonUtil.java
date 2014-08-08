@@ -20,11 +20,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
-import com.munsi.dao.ProductDao;
 import com.munsi.pojo.master.Product;
-import com.munsi.pojo.master.Tax;
 import com.munsi.util.Constants.DBCollectionEnum;
-import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger(CommonUtil.class);
@@ -267,57 +264,4 @@ public class CommonUtil {
 		return "";
 	}
 
-	public static String getProductByCode(String code, Boolean withReferences) {
-		ProductDao instance = (ProductDao) ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product = instance.getProductByCode(code, withReferences);
-		return populateDerivedProductInfo(product);
-
-	}
-
-	public static String getProductByBarCode(String barCode, Boolean withReferences) {
-		ProductDao instance = (ProductDao) ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product = instance.getProductByBarCode(barCode, withReferences);
-		return populateDerivedProductInfo(product);
-
-	}
-
-	public static String getProductByName(String name, Boolean withReferences) {
-		ProductDao instance = (ProductDao) ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		Product product = instance.getProductByName(name, withReferences);
-		return populateDerivedProductInfo(product);
-
-	}
-
-	private static String populateDerivedProductInfo(Product product) {
-		String productJson = null;
-		if (product != null) {
-
-			// populate tax
-			Float derSumOfProudctTax = 0.0f;
-			if (product.getTaxList() != null) {
-				for (Tax tax : product.getTaxList()) {
-					if (tax.getRate() != null) {
-						try {
-							Float taxRate = Float.valueOf(tax.getRate());
-							derSumOfProudctTax += taxRate;
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				}
-			}
-			// populate tax done
-
-			product.setDerSumOfProudctTax(derSumOfProudctTax);
-
-			// convert to json
-			productJson = CommonUtil.objectToJson(product);
-		}
-
-		return productJson;
-	}
-
-	public static void main(String[] args) {
-		System.out.println(getProductByName("Amul Milk", true));
-	}
 }

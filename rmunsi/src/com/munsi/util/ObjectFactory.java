@@ -13,6 +13,7 @@ import com.munsi.dao.impl.MongoOpeningProductStockDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.dao.impl.MongoProductGroupDao;
 import com.munsi.dao.impl.MongoProductSchemeDao;
+import com.munsi.dao.impl.MongoSalesInvoiceDao;
 import com.munsi.dao.impl.MongoSupplierDao;
 import com.munsi.dao.impl.MongoTaxDao;
 import com.munsi.service.AccessUserServeice;
@@ -29,7 +30,7 @@ import com.munsi.service.SupplierServeice;
 import com.munsi.service.TaxServeice;
 
 public class ObjectFactory {
-	
+
 	private static final Map<ObjectEnum, Object> objectFactoryMap = new HashMap<ObjectEnum, Object>();
 
 	public static enum ObjectEnum {
@@ -47,6 +48,7 @@ public class ObjectFactory {
 		SUPPLIER_DAO(MongoSupplierDao.class.getName()),
 		OPENING_PRODUCT_STOCK_DAO(MongoOpeningProductStockDao.class.getName()),
 		PRODUCT_SCHEME_DAO(MongoProductSchemeDao.class.getName()),
+		SALES_INVOICE_DAO(MongoSalesInvoiceDao.class.getName()),
 		
 		// Services
 		AREA_SERVICE(AreaServeice.class.getName()),
@@ -79,9 +81,9 @@ public class ObjectFactory {
 		Object instance = null;
 		try {
 			instance = objectFactoryMap.get(objectEnum);
-			if(instance == null) {
+			if (instance == null) {
 				Class<?> clazz = Class.forName(objectEnum.toString());
-				instance = clazz.newInstance(); 
+				instance = clazz.newInstance();
 			}
 
 		} catch (ClassNotFoundException e) {

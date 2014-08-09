@@ -20,7 +20,6 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
-import com.munsi.pojo.master.Product;
 import com.munsi.util.Constants.DBCollectionEnum;
 
 public class CommonUtil {
@@ -30,6 +29,8 @@ public class CommonUtil {
 	private static Map<String, String> locationMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeOnMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeTypeMap = new LinkedHashMap<>();
+
+	public static final ObjectMapper mapper = new ObjectMapper();
 
 	static {
 		// Put value in location map
@@ -58,13 +59,16 @@ public class CommonUtil {
 		schemeOnMap.put("1", Config.getProperty("schemeOn.1"));
 		schemeOnMap.put("2", Config.getProperty("schemeOn.2"));
 
+		// JACKSON
+		mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+		mapper.setSerializationInclusion(Inclusion.NON_NULL);
+		mapper.setSerializationInclusion(Inclusion.NON_EMPTY);
 	}
 
 	public static Object jsonToObject(String json, String fullyQualifiedClassName) {
-		ObjectMapper mapper = new ObjectMapper();
 
 		try {
-			mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			Class<?> jsonClass = Class.forName(fullyQualifiedClassName);
 			return mapper.readValue(json, jsonClass);
 		} catch (JsonGenerationException e) {
@@ -80,15 +84,7 @@ public class CommonUtil {
 	}
 
 	public static String objectToJson(Object object) {
-
-		if (object instanceof Product) {
-
-		}
-		ObjectMapper mapper = new ObjectMapper();
-
 		try {
-			mapper.setSerializationInclusion(Inclusion.NON_NULL);
-			mapper.setSerializationInclusion(Inclusion.NON_EMPTY);
 
 			return mapper.writeValueAsString(object);
 		} catch (JsonGenerationException e) {

@@ -18,6 +18,7 @@
 		<script src="${pageContext.request.contextPath}/assets/js/flot/jquery.flot.pie.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/flot/jquery.flot.resize.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/date-time/bootstrap-datepicker.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/bootbox.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.js"></script>
 		<%-- <script src="${pageContext.request.contextPath}/assets/js/jqGrid/jquery.jqGrid.min.js"></script> --%>
 		<script src="${pageContext.request.contextPath}/assets/js/jqGrid/i18n/grid.locale-en.js"></script>

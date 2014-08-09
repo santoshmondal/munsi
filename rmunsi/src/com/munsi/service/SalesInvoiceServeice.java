@@ -39,8 +39,8 @@ public class SalesInvoiceServeice {
 		return sInvoiceDao.get(_id, withReferences);
 	}
 
-	public List<SalesInvoice> getAll() {
-		return sInvoiceDao.getAll();
+	public List<SalesInvoice> getAll(Boolean withReferences) {
+		return sInvoiceDao.getAll(withReferences);
 	}
 
 	public static void main(String[] args) {

@@ -1,23 +1,22 @@
 package com.munsi.util;
 
-
 public class Constants {
 
 	public static final String DB_NAME = Config.getProperty("db.name");
 	public static final String DB_HOST = Config.getProperty("db.host");
 	public static final String DB_PORT_STRRING = Config.getProperty("db.port");
 	public static final Integer DB_PORT;
-	
+
 	static {
-		// DB port 
+		// DB port
 		DB_PORT = Integer.parseInt(DB_PORT_STRRING);
 	}
-	
+
 	public static final String OPERATION = "op";
 	public static final String COLLECTION_KEY = "id";
 	public static final String JQGRID_EMPTY = "_empty";
 	public static final String JQGRID_LEVEL = "level";
-	
+
 	public enum DBCollectionEnum {
 		// @formatter:off
 		MAST_MAIN_ACCOUNT("mast_main_account"),
@@ -32,7 +31,9 @@ public class Constants {
 		MAST_SUPPLIER("mast_supplier"),
 		PRODUCT_INVENTORY("product_inventory"),
 		OPENING_PRODUCT_STOCK("opening_product_stock"),
-		MAST_PRODUCT_SCHEME("mast_product_scheme");
+		MAST_PRODUCT_SCHEME("mast_product_scheme"),
+		
+		SALES_INVOICE("sales_invoice");
 		// @formatter:on
 
 		private final String collectionName;
@@ -46,7 +47,7 @@ public class Constants {
 			return collectionName;
 		}
 	}
-	
+
 	public enum UIOperations {
 		// @formatter:off
 		VIEW,
@@ -56,6 +57,5 @@ public class Constants {
 		DELETE;
 		// @formatter:on
 	}
-	
-	
+
 }

@@ -16,6 +16,6 @@ public interface SalesInvoiceDao {
 
 	public SalesInvoice get(String _id, Boolean withReferences);
 
-	public List<SalesInvoice> getAll();
+	public List<SalesInvoice> getAll(Boolean withReferences);
 
 }

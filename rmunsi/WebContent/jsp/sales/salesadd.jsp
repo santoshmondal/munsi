@@ -19,31 +19,31 @@
 		</div>
 		<div class="center col-xs-12 col-sm-7 col-md-7 col-lg-7">
 			<div class="grid4">
-				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> 25</span>
+				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> <span id="idOutstandingAmt">100</span></span>
 				<div class="hr hr16 dotted"></div>
 				<div class="input-group">
-				  <input type="number" class="form-control" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" >
+				  <input type="number" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" >
 				  <span class="input-group-addon">%</span>
 				</div>
 			</div>
 			<div class="grid4">
-				DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> 25</span>
+				DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> <span id="idTotalDiscount">0</span></span>
 				<div class="hr hr16 dotted"></div>
 				<!-- Add. DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> 0</span> -->
 				<div class="input-group">
-				  <input type="number" class="form-control" id="idAddDisc" data-rel="tooltip" title="Additional Discount"  tabindex="4" style="text-align: center;" placeholder="Discount" >
+				  <input type="number" class="form-control invoiceField" id="idAddDisc" data-rel="tooltip" title="Additional Discount"  tabindex="4" style="text-align: center;" placeholder="Discount" >
 				  <span class="input-group-addon"><i class="icon-rupee"></i></span>
 				</div>
 			</div>
 			
 			<div class="grid4">
-				SUBTOTAL<br/><span class="bigger-125 blue"><i class="icon-rupee"></i> 120000</span>
+				SUBTOTAL<br/><span class="bigger-125 blue"><i class="icon-rupee"></i> <span id="idSubTotal">0</span></span>
 				<div class="hr hr16 dotted"></div>
-				TAX<br/><span class="bigger-125 green"><i class="icon-rupee"></i> 12</span>
+				TAX<br/><span class="bigger-125 green"><i class="icon-rupee"></i> <span id="idTotalTax">0</span></span>
 			</div>
 			<div class="grid4">
-				<pre style="background-color:#FFB752"><span class="bigger-200"><strong><span id="idTotalAmt">120000</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
-				Total <span class="bigger-150 red" data-rel="tooltip" title="Outstanding + Bill Amount"><i class="icon-rupee"></i> 120025</span>
+				<pre style="background-color:#FFB752"><span class="bigger-200"><strong> <span id="idTotalAmt">0</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
+				Total <span class="bigger-150 red" data-rel="tooltip" title="Outstanding + Bill Amount"><i class="icon-rupee"></i> <span id="idAllTotal">0</span></span>
 			</div>
 		</div>
 		<div class="center col-xs-12 col-md-2 col-sm-2 col-lg-2 pull-right hidden-print">
@@ -74,7 +74,7 @@
                    {id:"1", code:"",name:"",  quantity:"",  rate:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:''}
              ];
 
-			
+	 var totalDiscount=0,totalTax=0;
 			jQuery(function($) {
 				var grid_selector = jQuery("#grid-table_pinvoice");
 				var pager_selector = jQuery("#grid-table_pinvoice_toppager");
@@ -307,34 +307,20 @@
                     });
 	                    
 			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',totalamount:totalAmount,tax:totalTax});
-			         $("#idTotalAmt").html(Number(totalAmount).toFixed(2));
+			         $("#idSubTotal").html(Number(totalAmount).toFixed(2));
+			         var addTaxAmt = Number($("#idSubTotal").html())*Number($("#idAddTax").val())/100;
+			    	 $("#idTotalAmt").html((Number($("#idSubTotal").html())+addTaxAmt-Number($("#idAddDisc").val())).toFixed(2));
+			    	 $("#idAllTotal").html((Number($("#idTotalAmt").html()) + Number($("#idOutstandingAmt").html())).toFixed(2));
 			     };
 			     
 			     function getRowAndPopulate(rowid,name,val)
-             	{
+             	 {
 	                	var rowData = grid_selector.jqGrid('getRowData', rowid);
 
 	                	switch(name) {
 		                    case "name":
-
-		                        var urlPath = "sales.action?op=get&fetchBy="+name+"&value="+val+"&withReferences="+true;
-								var prodData;
-								$.ajax({
-									type: "POST",
-									url: urlPath,
-									dataType: 'json',
-									async:false
-									})
-									.complete(function( data ) {
-										console.log("Data Response:" + data.responseJSON);
-										prodData = data.responseJSON;
-									})
-									.fail(function() {
-										console.error( "[async MSG]error in fetching data from server....." );
-									});
-		                        
+								var prodData =ajaxProductFetch(name,val,true);
 						        if(prodData){
-		                        	//prodData = JSON.parse(prodData);
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
@@ -352,23 +338,8 @@
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "code":
-		                    	var urlPath = "sales.action?op=get&fetchBy="+name+"&value="+val+"&withReferences="+true;
-								var prodData;
-								$.ajax({
-									type: "POST",
-									url: urlPath,
-									dataType: 'json',
-									async:false
-									})
-									.complete(function( data ) {
-										console.log("Data Response:" + data.responseJSON);
-										prodData = data.responseJSON;
-									})
-									.fail(function() {
-										console.error( "[async MSG]error in fetching data from server....." );
-									});
+								var prodData =ajaxProductFetch(name,val,true);
 		                        if(prodData){
-		                        	//prodData = JSON.parse(prodData);
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
@@ -386,23 +357,8 @@
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "barCode":
-		                    	var urlPath = "sales.action?op=get&fetchBy="+name+"&value="+val+"&withReferences="+true;
-								var prodData;
-								$.ajax({
-									type: "POST",
-									url: urlPath,
-									dataType: 'json',
-									async:false
-									})
-									.complete(function( data ) {
-										console.log("Data Response:" + data.responseJSON);
-										prodData = data.responseJSON;
-									})
-									.fail(function() {
-										console.error( "[async MSG]error in fetching data from server....." );
-									});
+								var prodData =ajaxProductFetch(name,val,true);
 		                        if(prodData){
-		                        	//prodData = JSON.parse(prodData);
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
@@ -431,8 +387,9 @@
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "discountpercent":
-		                    	console.log("Name Switch :"+rowData);
-		                        break;
+			                	var discPercent = rowData.discountpercent?rowData.discountpercent:0;
+			                	rowData.totalamount=  rowData.totalamount -((Number(rowData.totalamount)*Number(discPercent))/100);
+		                		break;
 		                    case "discountamount":
 		                    	var taxValpercent = rowData.tax?rowData.tax:1;
 		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.rate)*Number(taxValpercent))/100;
@@ -452,10 +409,31 @@
 	                		var randId = Math.ceil(Math.random()*10000);
 	                		grid_selector.addRowData(randId,{id:randId,date:"a"}, "last");
 	                	}
-	                	/* rowData.Currency = '12321';
-	                	grid_selector.jqGrid('setRowData', rowId, rowData); */
+	                	
+						//------------- Sales Invoice TAX Rs Calculation
+	                	var tTemp=0;
+	                	for(i=0;i<gridData.length-1;i++){
+		                	var taxValpercent = gridData[i].tax?gridData[i].tax:0;
+	                		tTemp = tTemp + (Number(gridData[i].quantity)*Number(gridData[i].rate)*Number(taxValpercent))/100;
+		                }
+	                	$("#idTotalTax").html(Number(tTemp).toFixed(2));
+	                	
+	                	//------------- Sales Invoice Discount Rs Calculation
+	                	tTemp=0;
+	                	for(i=0;i<gridData.length-1;i++){
+		                	var discPercent = gridData[i].discountpercent?gridData[i].discountpercent:0;
+		                	var discountAmt = gridData[i].discountamount?gridData[i].discountamount:0;
+	                		tTemp = tTemp + ((Number(gridData[i].totalamount)*Number(discPercent))/100) + Number(gridData[i].discountamount);
+		                }
+		                $("#idTotalDiscount").html(Number(tTemp).toFixed(2));
              	}
 			     
+			     //------- Sales Invoice addition of tax and additional discount
+			     $( "input.invoiceField" ).change(function() {
+			    	 var addTaxAmt = Number($("#idSubTotal").html())*Number($("#idAddTax").val())/100;
+			    	 $("#idTotalAmt").html((Number($("#idSubTotal").html())+addTaxAmt-Number($("#idAddDisc").val())).toFixed(2));
+			    	 $("#idAllTotal").html((Number($("#idTotalAmt").html()) + Number($("#idOutstandingAmt").html())).toFixed(2));
+			     });
 			     
 			   //------------ AutoComplete Customer Name--------------
 			     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
@@ -491,27 +469,25 @@
 						}
 				    });
 			   
-			});
-
-			function addLastRow(){
-				jQuery("#grid-table_pinvoice").jqGrid('addRowData','myrowid'+ (Math.floor(Math.random() * (100 - 1)) + 1), { code:"",name:"",  quantity:"",  rate:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:''}, 'last');
-			}
+			});			
 			
-			$(document).ready(function () {
-			    $('#gridDiv').bind('keydown', 'return', function () {
-			    	alert(e);
-			        //if (e.keyCode == 13) e.keyCode = 9;
+			// ENTER Event to TAB 
+			/* $(document).ready(function () {
+			    $('#gridDiv').bind('keydown', 'return', function (e) {
+			    	//alert(e);
+			        if (e.keyCode == 13) e.keyCode = 9;
 			        return false;
 			    });
 			});
-			
+			 */
+			 
+			 
 			//-------------------------------------------
 			//------- Product Fetch Invoice -------------
 			//-------------------------------------------
 			
 
 			function ajaxProductFetch(fetchBy,value,fetchAllField){
-				
 				var urlPath = "sales.action?op=get&fetchBy="+fetchBy+"&value="+value+"&withReferences="+fetchAllField;
 				var proddata;
 				$.ajax({

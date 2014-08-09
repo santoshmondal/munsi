@@ -40,7 +40,7 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 			Date date = new Date();
 			pInvoice.setCtime(date);
 			pInvoice.setUtime(date);
-			String _id = MongoUtil.getNextSequence(DBCollectionEnum.SALES_INVOICE).toString();
+			String _id = MongoUtil.getNextSequence(DBCollectionEnum.PURCHASE_INVOICE).toString();
 			pInvoice.set_id(_id);
 
 			DBCollection collection = mongoDB.getCollection(pInvoiceCollection);

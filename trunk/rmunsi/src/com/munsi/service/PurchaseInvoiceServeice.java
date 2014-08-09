@@ -1,10 +1,14 @@
 package com.munsi.service;
 
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.munsi.dao.PurchaseInvoiceDao;
 import com.munsi.dao.impl.MongoPurchaseInvoiceDao;
 import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
+import com.munsi.pojo.invoice.purchase.PurchaseProduct;
+import com.munsi.pojo.master.Customer;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
@@ -45,7 +49,44 @@ public class PurchaseInvoiceServeice {
 
 	public static void main(String[] args) {
 		PurchaseInvoiceServeice ref = (PurchaseInvoiceServeice) ObjectFactory.getInstance(ObjectEnum.PURCHASE_INVOICE_SERVICE);
-		System.out.println(ref);
+		// create test
+		PurchaseInvoice pInvoice = testPurchaseInvoice();
+		ref.create(pInvoice);
+
+		// get test
+		/*PurchaseInvoice pInvoice = ref.get("1", true);
+		System.out.println(pInvoice);*/
+
+		// get all test
+		List<PurchaseInvoice> all = ref.getAll(true);
+		System.out.println(all);
+
+		// delete test
+		// ref.delete("2");
+
+		System.out.println("DONE");
 	}
 
+	private static PurchaseInvoice testPurchaseInvoice() {
+		PurchaseInvoice pInvoice = new PurchaseInvoice();
+
+		Set<PurchaseProduct> pProductList = new LinkedHashSet<PurchaseProduct>();
+		for (int i = 0; i < 5; i++) {
+			PurchaseProduct pProduct = new PurchaseProduct();
+			pProduct.set_id("id_" + i);
+			pProduct.setName("name_" + i);
+			pProduct.setCode("code_" + i);
+			pProduct.setBarCode("barcode_" + i);
+
+			pProductList.add(pProduct);
+		}
+
+		Customer sCustomer = new Customer();
+		sCustomer.set_id("7");
+
+		pInvoice.setCustomer(sCustomer);
+		pInvoice.setPurchaseProductList(pProductList);
+
+		return pInvoice;
+	}
 }

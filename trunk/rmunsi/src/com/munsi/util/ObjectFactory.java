@@ -26,6 +26,7 @@ import com.munsi.service.OpeningProductStockService;
 import com.munsi.service.ProductGroupServeice;
 import com.munsi.service.ProductSchemeService;
 import com.munsi.service.ProductServeice;
+import com.munsi.service.SalesInvoiceServeice;
 import com.munsi.service.SupplierServeice;
 import com.munsi.service.TaxServeice;
 
@@ -62,7 +63,8 @@ public class ObjectFactory {
 		TAX_SERVICE(TaxServeice.class.getName()),
 		MAIN_ACCOUNT_SERVICE(MainAccountServeice.class.getName()),
 		OPENING_PRODUCT_STOCK_SERVICE(OpeningProductStockService.class.getName()),
-		PRODUCT_SCHEME_SERVICE(ProductSchemeService.class.getName());		
+		PRODUCT_SCHEME_SERVICE(ProductSchemeService.class.getName()),	
+		SALES_INVOICE_SERVICE(SalesInvoiceServeice.class.getName());
 		//@formatter:on
 
 		private final String className;

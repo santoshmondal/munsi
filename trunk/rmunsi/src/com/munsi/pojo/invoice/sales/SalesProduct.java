@@ -3,18 +3,22 @@ package com.munsi.pojo.invoice.sales;
 import com.munsi.pojo.master.Product;
 
 public class SalesProduct extends Product {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	private Integer quantity;
 	private Integer freeQuantity;
 	private Integer totalQuantity; // quantity + freeQuintity
-	
+
 	private Double derTaxPrice;
 	private Double derPrice; // MRP * quantity
 	private Double derDiscountPrice;
-	
-	//   ( derPrice + derTaxPrice ) - derDiscountPrice //
+
+	private Double rawDiscountPrice;
+	private Double rawDiscountPercent;
+
+	// ( derPrice + derTaxPrice ) - derDiscountPrice //
+
 	private Double netPaybleProductPrice;
 
 	public Integer getQuantity() {
@@ -69,17 +73,30 @@ public class SalesProduct extends Product {
 		this.derDiscountPrice = derDiscountPrice;
 	}
 
-	/** ( derPrice + derTaxPrice ) - derDiscountPrice  */
+	/** ( derPrice + derTaxPrice ) - derDiscountPrice */
 	public Double getNetPaybleProductPrice() {
 		return netPaybleProductPrice;
 	}
 
-	/** ( derPrice + derTaxPrice ) - derDiscountPrice  */
+	/** ( derPrice + derTaxPrice ) - derDiscountPrice */
 	public void setNetPaybleProductPrice(Double netPaybleProductPrice) {
 		this.netPaybleProductPrice = netPaybleProductPrice;
 	}
-	
-	
-	
+
+	public Double getRawDiscountPrice() {
+		return rawDiscountPrice;
+	}
+
+	public void setRawDiscountPrice(Double rawDiscountPrice) {
+		this.rawDiscountPrice = rawDiscountPrice;
+	}
+
+	public Double getRawDiscountPercent() {
+		return rawDiscountPercent;
+	}
+
+	public void setRawDiscountPercent(Double rawDiscountPercent) {
+		this.rawDiscountPercent = rawDiscountPercent;
+	}
 
 }

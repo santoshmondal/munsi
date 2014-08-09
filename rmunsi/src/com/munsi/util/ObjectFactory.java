@@ -13,6 +13,7 @@ import com.munsi.dao.impl.MongoOpeningProductStockDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.dao.impl.MongoProductGroupDao;
 import com.munsi.dao.impl.MongoProductSchemeDao;
+import com.munsi.dao.impl.MongoPurchaseInvoiceDao;
 import com.munsi.dao.impl.MongoSalesInvoiceDao;
 import com.munsi.dao.impl.MongoSupplierDao;
 import com.munsi.dao.impl.MongoTaxDao;
@@ -26,7 +27,9 @@ import com.munsi.service.OpeningProductStockService;
 import com.munsi.service.ProductGroupServeice;
 import com.munsi.service.ProductSchemeService;
 import com.munsi.service.ProductServeice;
+import com.munsi.service.PurchaseInvoiceServeice;
 import com.munsi.service.SalesInvoiceServeice;
+import com.munsi.service.SalesPurchaseRuleManager;
 import com.munsi.service.SupplierServeice;
 import com.munsi.service.TaxServeice;
 
@@ -50,6 +53,7 @@ public class ObjectFactory {
 		OPENING_PRODUCT_STOCK_DAO(MongoOpeningProductStockDao.class.getName()),
 		PRODUCT_SCHEME_DAO(MongoProductSchemeDao.class.getName()),
 		SALES_INVOICE_DAO(MongoSalesInvoiceDao.class.getName()),
+		PURCHASE_INVOICE_DAO(MongoPurchaseInvoiceDao.class.getName()),
 		
 		// Services
 		AREA_SERVICE(AreaServeice.class.getName()),
@@ -64,7 +68,10 @@ public class ObjectFactory {
 		MAIN_ACCOUNT_SERVICE(MainAccountServeice.class.getName()),
 		OPENING_PRODUCT_STOCK_SERVICE(OpeningProductStockService.class.getName()),
 		PRODUCT_SCHEME_SERVICE(ProductSchemeService.class.getName()),	
-		SALES_INVOICE_SERVICE(SalesInvoiceServeice.class.getName());
+		SALES_INVOICE_SERVICE(SalesInvoiceServeice.class.getName()),
+		PURCHASE_INVOICE_SERVICE(PurchaseInvoiceServeice.class.getName()),
+		
+		SALES_PURCHASE_RULE(SalesPurchaseRuleManager.class.getName());
 		//@formatter:on
 
 		private final String className;

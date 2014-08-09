@@ -33,7 +33,8 @@ public class Constants {
 		OPENING_PRODUCT_STOCK("opening_product_stock"),
 		MAST_PRODUCT_SCHEME("mast_product_scheme"),
 		
-		SALES_INVOICE("sales_invoice");
+		SALES_INVOICE("sales_invoice"),
+		PURCHASE_INVOICE("purchase_invoice");
 		// @formatter:on
 
 		private final String collectionName;

@@ -17,7 +17,6 @@ public class SalesInvoiceServeice {
 
 	private SalesInvoiceDao sInvoiceDao;
 	private CustomerServeice customerService;
-	private ProductServeice productService;
 	private SalesPurchaseRuleManager ruleManager;
 
 	public SalesInvoiceServeice() {
@@ -27,7 +26,6 @@ public class SalesInvoiceServeice {
 		}
 
 		customerService = (CustomerServeice) ObjectFactory.getInstance(ObjectEnum.CUSTOMER_SERVICE);
-		productService = (ProductServeice) ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
 
 		ruleManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
 	}

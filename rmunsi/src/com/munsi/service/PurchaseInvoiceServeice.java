@@ -9,6 +9,7 @@ import com.munsi.dao.impl.MongoPurchaseInvoiceDao;
 import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
 import com.munsi.pojo.invoice.purchase.PurchaseProduct;
 import com.munsi.pojo.master.Supplier;
+import com.munsi.util.CommonUtil;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
@@ -41,15 +42,31 @@ public class PurchaseInvoiceServeice {
 	}
 
 	public PurchaseInvoice get(String _id) {
-		return pInvoiceDao.get(_id);
+
+		PurchaseInvoice pInvoice = pInvoiceDao.get(_id);
+		pInvoice.setSctime(CommonUtil.longToStringDate(pInvoice.getCtime().getTime()));
+		pInvoice.setSutime(CommonUtil.longToStringDate(pInvoice.getUtime().getTime()));
+
+		return pInvoice;
 	}
 
 	public PurchaseInvoice get(String _id, Boolean withReferences) {
-		return pInvoiceDao.get(_id, withReferences);
+		PurchaseInvoice pInvoice = pInvoiceDao.get(_id, withReferences);
+
+		pInvoice.setSctime(CommonUtil.longToStringDate(pInvoice.getCtime().getTime()));
+		pInvoice.setSutime(CommonUtil.longToStringDate(pInvoice.getUtime().getTime()));
+
+		return pInvoice;
 	}
 
 	public List<PurchaseInvoice> getAll(Boolean withReferences) {
-		return pInvoiceDao.getAll(withReferences);
+		List<PurchaseInvoice> pInvoiceList = pInvoiceDao.getAll(withReferences);
+		for (PurchaseInvoice pInvoice : pInvoiceList) {
+			pInvoice.setSctime(CommonUtil.longToStringDate(pInvoice.getCtime().getTime()));
+			pInvoice.setSutime(CommonUtil.longToStringDate(pInvoice.getUtime().getTime()));
+		}
+
+		return pInvoiceList;
 	}
 
 	public static void main(String[] args) {

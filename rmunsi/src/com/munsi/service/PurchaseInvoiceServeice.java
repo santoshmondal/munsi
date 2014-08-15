@@ -15,19 +15,24 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 public class PurchaseInvoiceServeice {
 
 	private PurchaseInvoiceDao pInvoiceDao;
+	private SalesPurchaseRuleManager rManager;
 
 	public PurchaseInvoiceServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.PURCHASE_INVOICE_DAO);
 		if (object instanceof PurchaseInvoiceDao) {
 			pInvoiceDao = (MongoPurchaseInvoiceDao) object;
 		}
+
+		rManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
 	}
 
 	public Boolean create(PurchaseInvoice pInvoice) {
+		rManager.applyPurchaseInvoiceRule(pInvoice);
 		return pInvoiceDao.create(pInvoice);
 	}
 
 	public Boolean update(PurchaseInvoice pInvoice) {
+		rManager.applyPurchaseInvoiceRule(pInvoice);
 		return pInvoiceDao.update(pInvoice);
 	}
 

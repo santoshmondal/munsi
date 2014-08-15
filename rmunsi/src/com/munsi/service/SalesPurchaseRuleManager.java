@@ -2,6 +2,7 @@ package com.munsi.service;
 
 import org.apache.log4j.Logger;
 
+import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
@@ -20,7 +21,7 @@ public class SalesPurchaseRuleManager {
 
 	}
 
-	public void applyPurchaseInvoiceRule() {
+	public void applyPurchaseInvoiceRule(PurchaseInvoice pInvoice) {
 
 	}
 

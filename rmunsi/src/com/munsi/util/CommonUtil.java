@@ -242,9 +242,9 @@ public class CommonUtil {
 			}
 
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
-			DBObject finalQuery = deletedQuery;
+			queryList.add(deletedQuery);
 
-			finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
+			DBObject finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 
 			DBCursor dbCursor = collection.find(finalQuery, dbKey);
 

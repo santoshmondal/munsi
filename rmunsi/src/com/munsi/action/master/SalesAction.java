@@ -92,12 +92,20 @@ public class SalesAction extends HttpServlet {
 				switch (operation.toUpperCase()) {
 				case "SAVE":
 					String custId = request.getParameter("custid");
-					String invoiceAddTaxPrice = request.getParameter("invoiceAddTaxPrice");
+					String invoiceAddTaxPercent = request.getParameter("invoiceAddTaxPrice");
 					String invoiceAddDiscountPrice = request.getParameter("invoiceAddDiscountPrice");
 					String salesProductJSON = request.getParameter("salesProductJSON");
+
+					invoiceAddTaxPercent = invoiceAddTaxPercent != null && !invoiceAddTaxPercent.isEmpty() ? invoiceAddTaxPercent : "0";
+					invoiceAddDiscountPrice = invoiceAddDiscountPrice != null && !invoiceAddDiscountPrice.isEmpty() ? invoiceAddDiscountPrice : "0";
+
 					Customer customer = customerService.get(custId);
 					SalesInvoice sInvoice = new SalesInvoice();
 					sInvoice.setCustomer(customer);
+
+					sInvoice.setInvoiceDiscountPrice(Double.valueOf(invoiceAddDiscountPrice));
+					sInvoice.setInvoiceTaxPercent(Double.valueOf(invoiceAddTaxPercent));
+
 					try {
 						List<SalesProduct> salesProductList = CommonUtil.mapper.readValue(salesProductJSON, CommonUtil.mapper.getTypeFactory().constructCollectionType(List.class, SalesProduct.class));
 						Set<SalesProduct> salesProductSet = new HashSet<SalesProduct>(salesProductList);

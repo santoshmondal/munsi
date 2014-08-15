@@ -95,6 +95,10 @@ public class SalesPurchaseRuleManager {
 		}
 	}
 
+	public void applySupplierUpdates(PurchaseInvoice pInvoice) {
+
+	}
+
 	public void applyInventoryUpdates(Object sInvoice, Boolean isSalesOrPurchase) {
 		try {
 			Set<? extends Product> productList = null;

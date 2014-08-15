@@ -11,14 +11,12 @@ public class SalesProduct extends Product {
 	private Integer totalQuantity; // quantity + freeQuintity
 
 	private Double derTaxPrice;
-	private Double derPrice; // MRP * quantity
+	private Double derPrice; // Sale Price * quantity
 	private Double derDiscountPrice;
 
-	private Double rawDiscountPrice;
 	private Double rawDiscountPercent;
 
 	// ( derPrice + derTaxPrice ) - derDiscountPrice //
-
 	private Double netPaybleProductPrice;
 
 	public Integer getQuantity() {
@@ -81,14 +79,6 @@ public class SalesProduct extends Product {
 	/** ( derPrice + derTaxPrice ) - derDiscountPrice */
 	public void setNetPaybleProductPrice(Double netPaybleProductPrice) {
 		this.netPaybleProductPrice = netPaybleProductPrice;
-	}
-
-	public Double getRawDiscountPrice() {
-		return rawDiscountPrice;
-	}
-
-	public void setRawDiscountPrice(Double rawDiscountPrice) {
-		this.rawDiscountPrice = rawDiscountPrice;
 	}
 
 	public Double getRawDiscountPercent() {

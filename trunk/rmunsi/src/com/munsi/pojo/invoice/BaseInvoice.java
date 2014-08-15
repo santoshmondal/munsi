@@ -1,25 +1,25 @@
 package com.munsi.pojo.invoice;
 
 import java.io.Serializable;
+
 import com.munsi.pojo.BasePojo;
 
-public class BaseInvoice extends BasePojo implements Serializable{
-	
+public class BaseInvoice extends BasePojo implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	private String _id;
 	private String invoiceNumber;
 	private Double invoiceDiscountPrice;
 	private Double invoiceTaxPrice;
-	
-	private Double sumOfNetPaybleProductPrice;
-	
-	// sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice 
-	private Double netPayblePrice;
-	
-	private Integer sumOfTotalQuantity;
 
-	
+	private Double sumOfNetPaybleProductPrice;
+
+	// sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice
+	private Double netPayblePrice;
+
+	private Integer numberOfItem;
+
 	public String get_id() {
 		return _id;
 	}
@@ -52,12 +52,12 @@ public class BaseInvoice extends BasePojo implements Serializable{
 		this.invoiceTaxPrice = invoiceTaxPrice;
 	}
 
-	/** sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice  */
+	/** sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice */
 	public Double getSumOfNetPaybleProductPrice() {
 		return sumOfNetPaybleProductPrice;
 	}
 
-	/** sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice  */
+	/** sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice */
 	public void setSumOfNetPaybleProductPrice(Double sumOfNetPaybleProductPrice) {
 		this.sumOfNetPaybleProductPrice = sumOfNetPaybleProductPrice;
 	}
@@ -70,14 +70,12 @@ public class BaseInvoice extends BasePojo implements Serializable{
 		this.netPayblePrice = netPayblePrice;
 	}
 
-	public Integer getSumOfTotalQuantity() {
-		return sumOfTotalQuantity;
+	public Integer getNumberOfItem() {
+		return numberOfItem;
 	}
 
-	public void setSumOfTotalQuantity(Integer sumOfTotalQuantity) {
-		this.sumOfTotalQuantity = sumOfTotalQuantity;
+	public void setNumberOfItem(Integer numberOfItem) {
+		this.numberOfItem = numberOfItem;
 	}
-	
-	
-	
+
 }

@@ -8,7 +8,7 @@ import com.munsi.dao.PurchaseInvoiceDao;
 import com.munsi.dao.impl.MongoPurchaseInvoiceDao;
 import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
 import com.munsi.pojo.invoice.purchase.PurchaseProduct;
-import com.munsi.pojo.master.Customer;
+import com.munsi.pojo.master.Supplier;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
@@ -86,10 +86,10 @@ public class PurchaseInvoiceServeice {
 			pProductList.add(pProduct);
 		}
 
-		Customer sCustomer = new Customer();
-		sCustomer.set_id("7");
+		Supplier sSupplier = new Supplier();
+		sSupplier.set_id("7");
 
-		pInvoice.setCustomer(sCustomer);
+		pInvoice.setSupplier(sSupplier);
 		pInvoice.setPurchaseProductList(pProductList);
 
 		return pInvoice;

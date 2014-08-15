@@ -24,10 +24,10 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 
 	private String pInvoiceCollection = DBCollectionEnum.PURCHASE_INVOICE.toString();
 
-	// ReferecenCustomer collection, Reference customer xid, and reference  customer
-	private String refCustomerCollection = DBCollectionEnum.MAST_CUSTOMER.toString();
-	private static final String KEY_CUSTOMER_XID = "customerXid";
-	private static final String KEY_CUSTOMER = "customer";
+	// ReferecenCustomer collection, Reference supplier xid, and reference  customer
+	private String refSupplierCollection = DBCollectionEnum.MAST_SUPPLIER.toString();
+	private static final String KEY_SUPPLIER_XID = "supplierXid";
+	private static final String KEY_SUPPLIER = "supplier";
 
 	private DB mongoDB = MongoUtil.getDB();
 
@@ -48,10 +48,10 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 
-			// HANDLING Customer reference
-			DBRef refCustomrObject = new DBRef(mongoDB, refCustomerCollection, pInvoice.getCustomer().get_id());
-			dbObject.put(KEY_CUSTOMER_XID, refCustomrObject);
-			dbObject.removeField(KEY_CUSTOMER);
+			// HANDLING Supplier reference
+			DBRef refCustomrObject = new DBRef(mongoDB, refSupplierCollection, pInvoice.getSupplier().get_id());
+			dbObject.put(KEY_SUPPLIER_XID, refCustomrObject);
+			dbObject.removeField(KEY_SUPPLIER);
 
 			collection.insert(dbObject);
 
@@ -78,11 +78,11 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 			dbObject.removeField("_id");
 
-			// Handling customer reference
-			if (pInvoice.getCustomer() != null) {
-				DBRef refCustomrObject = new DBRef(mongoDB, refCustomerCollection, pInvoice.getCustomer().get_id());
-				dbObject.put(KEY_CUSTOMER_XID, refCustomrObject);
-				dbObject.removeField(KEY_CUSTOMER);
+			// Handling supplier reference
+			if (pInvoice.getSupplier() != null) {
+				DBRef refCustomrObject = new DBRef(mongoDB, refSupplierCollection, pInvoice.getSupplier().get_id());
+				dbObject.put(KEY_SUPPLIER_XID, refCustomrObject);
+				dbObject.removeField(KEY_SUPPLIER);
 			}
 
 			DBObject query = new BasicDBObject("_id", pInvoice.get_id());
@@ -155,12 +155,12 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 
 				if (withReferences == true) {
 					// Handle customer reference
-					DBObject refCustomrObject = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
-					dbObject.put(KEY_CUSTOMER, refCustomrObject);
+					DBObject refCustomrObject = ((DBRef) dbObject.get(KEY_SUPPLIER_XID)).fetch();
+					dbObject.put(KEY_SUPPLIER, refCustomrObject);
 				}
 
-				// customer ref continues.
-				dbObject.removeField(KEY_CUSTOMER_XID);
+				// supplier ref continues.
+				dbObject.removeField(KEY_SUPPLIER_XID);
 
 				String jsonString = JSON.serialize(dbObject);
 				PurchaseInvoice pInvoice = (PurchaseInvoice) CommonUtil.jsonToObject(jsonString, PurchaseInvoice.class.getName());
@@ -181,13 +181,13 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 			DBObject dbObject = collection.findOne(queryObject);
 
 			if (withReferences == true) {
-				// Handle customer reference
-				DBObject refCustomrObject = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
-				dbObject.put(KEY_CUSTOMER, refCustomrObject);
+				// Handle supplier reference
+				DBObject refCustomrObject = ((DBRef) dbObject.get(KEY_SUPPLIER_XID)).fetch();
+				dbObject.put(KEY_SUPPLIER, refCustomrObject);
 			}
 
-			// customer ref continues.
-			dbObject.removeField(KEY_CUSTOMER_XID);
+			// supplier ref continues.
+			dbObject.removeField(KEY_SUPPLIER_XID);
 
 			String jsonString = JSON.serialize(dbObject);
 			pInvoice = (PurchaseInvoice) CommonUtil.jsonToObject(jsonString, PurchaseInvoice.class.getName());

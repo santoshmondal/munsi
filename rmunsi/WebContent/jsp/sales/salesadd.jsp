@@ -398,7 +398,7 @@
 		                		break;
 		                    case "rawDiscountPrice":
 	 	                    	var taxValpercent = rowData.tax?rowData.tax:1;
-		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+		                        taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
 		                        var discPrice = rowData.rawDiscountPrice?rowData.rawDiscountPrice:0;
 			                	rowData.rawDiscountPercent = (discPrice*100)/Number(rowData.netPaybleProductPrice);
 			                	//rowData.netPaybleProductPrice=  Number(rowData.netPaybleProductPrice) - Number(rowData.rawDiscountPrice);

@@ -41,6 +41,7 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 			sInvoice.setUtime(date);
 			String _id = MongoUtil.getNextSequence(DBCollectionEnum.SALES_INVOICE).toString();
 			sInvoice.set_id(_id);
+			sInvoice.setInvoiceNumber(CommonUtil.getFormatedDate(CommonUtil.DATE_FORMAT_YY_MM_DD) + _id);
 
 			DBCollection collection = mongoDB.getCollection(sInvoiceCollection);
 			String jsonString = CommonUtil.objectToJson(sInvoice);

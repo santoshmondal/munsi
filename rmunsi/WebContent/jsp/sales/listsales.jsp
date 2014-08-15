@@ -37,8 +37,8 @@
 			colNames:['id','Invoice Number','Invoice Date','Customer Name','Invoice Amount',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
-				{name:'invoiceNumber',index:'invoiceNumber', width:170,editable: false},
-				{name:'sctime',index:'sctime',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
+				{name:'invoiceNumber',index:'invoiceNumber', sorttype:"int", sortable:true, width:170,editable: false},
+				{name:'sctime',index:'sctime',width:100, sorttype:'date', searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
                         		if (this.id.substr(0, 3) === "gs_") {
@@ -91,16 +91,17 @@
                        .append('<span class="icon-eye-open bigger-120" style="color:black"></span>')
                        .prependTo($(this).children("div"));
                 });
+                
 			},
 			gridComplete : function() {
 				myGrid.find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
 			},
-			rowNum:10,
+			rowNum:20,
             rowList:[10,20,30],
             pager: '#grid-pager-data',
             ignoreCase:true,
             rownumbers:true,
-            sortname: 'invdate',
+            sortname: "invoiceNumber",
             scrollOffset: 18,
 			altRows: true,
 			viewrecords: true,

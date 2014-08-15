@@ -85,7 +85,7 @@ public class SalesPurchaseRuleManager {
 			if (plusMinusAmount > 0) {
 				outStandingAmount = (float) (outStandingAmount - plusMinusAmount);
 			} else {
-				outStandingAmount = (float) (outStandingAmount + plusMinusAmount);
+				outStandingAmount = (float) (outStandingAmount + Math.abs(plusMinusAmount));
 			}
 
 			sInvoice.getCustomer().setOutStandingAmount(outStandingAmount);

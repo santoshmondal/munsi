@@ -13,7 +13,7 @@
 				<div class="profile-info-row">
 					<div class="profile-info-name"> Invoice No </div>
 					<div class="profile-info-value">
-						<span class="" ><%=sInvoice.getInvoiceNumber() %></span>
+						<span class="bigger-110" ><b><%=sInvoice.getInvoiceNumber() %></b></span>
 					</div>
 				</div>
 				<div class="profile-info-row">
@@ -40,7 +40,7 @@
 		</div>
 		<div class="center col-xs-12 col-sm-7 col-md-7 col-lg-7">
 			<div class="grid4">
-				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> <span id="idOutstandingAmt">100</span></span>
+				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> <span id="idOutstandingAmt"><%=sInvoice.getCustomer().getOutStandingAmount() %></span></span>
 				<div class="hr hr16 dotted"></div>
 				<div class="input-group">
 				  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" value='<%=sInvoice.getInvoiceTaxPercent() %>'>
@@ -64,12 +64,11 @@
 			</div>
 			<div class="grid4">
 				<pre style="background-color:#FFB752"><span class="bigger-200"><strong> <span id="idTotalAmt"><%=sInvoice.getNetPayblePrice() %></span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
-				Total <span class="bigger-150 red" data-rel="tooltip" title="Outstanding + Bill Amount"><i class="icon-rupee"></i> <span id="idAllTotal">0</span></span>
 			</div>
 		</div>
 		<div class="center col-xs-12 col-md-1 col-sm-1 col-lg-1 hidden-print">
 			
-			<button class="btn btn-sm btn-light pull-right" onclick="" type="button" tabindex="4" data-rel="tooltip" title="Pay Bill" data-placement="bottom">
+			<button class="btn btn-sm btn-light pull-right" onclick="" type="button" tabindex="4" data-rel="tooltip" title="Print Bill" data-placement="bottom">
 				Print <i class="icon-print"></i> 
 			</button>
 		</div>
@@ -115,7 +114,7 @@
 						{name:'name',index:'name', width:250, sortable:false},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90, formatter:'integer', sorttype:'int'},
 						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right',formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'tax',index:'tax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
+						{name:'derSumOfProudctTax',index:'derSumOfProudctTax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right',formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right',formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90, formatter:'integer', sorttype:'int'},

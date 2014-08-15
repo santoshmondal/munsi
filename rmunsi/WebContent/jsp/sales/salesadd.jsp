@@ -20,7 +20,7 @@
 		</div>
 		<div class="center col-xs-12 col-sm-7 col-md-7 col-lg-7">
 			<div class="grid4">
-				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> <span id="idOutstandingAmt">100</span></span>
+				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> <span id="idOutstandingAmt">0</span></span>
 				<div class="hr hr16 dotted"></div>
 				<div class="input-group">
 				  <input type="number" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" >
@@ -72,7 +72,7 @@
 
 <script type="text/javascript">
 	 var mydata = [
-                   {id:"1", code:"",name:"",  quantity:"",  salesRate:"",derSumOfProudctTax:"",rawDiscountPercent:"",rawDiscountPrice:"",freeQuantity:"",totalquantity:'',netPaybleProductPrice:''}
+                   {id:"1", code:"",name:"",  quantity:"",  salesRate:"",derSumOfProudctTax:"",rawDiscountPercent:"",rawDiscountPrice:"",freeQuantity:"",totalQuantity:'',netPaybleProductPrice:''}
              ];
 	 var gridDisc,gridTax;
 	 
@@ -103,7 +103,7 @@
 						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'totalQuantity',index:'totalquantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
+						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
 						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
 					], 
 			
@@ -302,16 +302,14 @@
 			        	 totalAmount += Number(getTextFromCell(this));
 			         });
 
-                    i=getColumnIndexByName(grid_selector,'derSumOfProudctTax');
-                    $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
-                        totalTax += Number(getTextFromCell(this));
-                    });
 	                    
-			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',netPaybleProductPrice:totalAmount,derSumOfProudctTax:totalTax});
+			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',netPaybleProductPrice:totalAmount});
 			         $("#idSubTotal").html(Number(totalAmount).toFixed(2));
 			         var addTaxAmt = Number($("#idSubTotal").html())*Number($("#idAddTax").val())/100;
 			    	 $("#idTotalAmt").html((Number($("#idSubTotal").html())+addTaxAmt-Number($("#idAddDisc").val())).toFixed(2));
 			    	 $("#idAllTotal").html((Number($("#idTotalAmt").html()) + Number($("#idOutstandingAmt").html())).toFixed(2));
+			    	 $("#idTotalDiscount").html(Math.round((Number(gridDisc) + Number($("#idAddDisc").val()))*100)/100);
+			    	 $("#idTotalTax").html(Math.round((Number(gridTax) + Number(addTaxAmt))*100)/100);
 			     };
 			     
 			     function getRowAndPopulate(rowid,name,val)
@@ -330,7 +328,7 @@
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.freeQuantity="0";
 			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
-			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.salesRate);
 									
 			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
@@ -350,7 +348,7 @@
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
 			                        rowData.freeQuantity="0";
-			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.salesRate);
 			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
 			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
@@ -370,7 +368,7 @@
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
 			                        rowData.freeQuantity="0";
-			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
 			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
 			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
@@ -378,7 +376,7 @@
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "quantity":
-		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+		                    	rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 		                        var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
 		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
 		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
@@ -410,7 +408,7 @@
 		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "freeQuantity":
-		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+		                    	rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    default:
@@ -453,7 +451,7 @@
 			     });
 			     
 			   //------------ AutoComplete Customer Name--------------
-			     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
+			     var objJsonCustomer = '<%= CommonUtil.getJSONColumns(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "outStandingAmount") %>';
 			     objJsonCustomer = JSON.parse(objJsonCustomer.replace(/_id/g,"id").replace(/name/g,"label"));
 			     $("#idCustomer").autocomplete({
 			    	 minLength: 0,
@@ -465,7 +463,7 @@
 				     select: function( event, ui ) {
 				     $( "#idCustomer" ).val( ui.item.label );
 				     $( "#idCustomerID" ).val( ui.item.id );
-				     
+				     $( "#idOutstandingAmt" ).html( ui.item.outStandingAmount );
 				     return false;
 				     }
 			     })

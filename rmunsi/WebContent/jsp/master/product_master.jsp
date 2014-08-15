@@ -53,7 +53,7 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Alias','Code','Barcode','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Allow Negative Stock','Min. Stock','Max. Stock','Batch Y/N','Taxes','Manufacturer','Group','Subgroup','Opening Stock','Scheme',' '],
+					colNames:['id','Name','Alias','Code','Barcode','M.R.P. (Rs)','Sale Rate (Rs)','Sale Unit','Purchase Rate (Rs)','Purchase Unit','Pack','Allow Negative Stock','Min. Stock','Max. Stock','Current Stock','Batch Y/N','Taxes','Manufacturer','Group','Subgroup','Opening Stock',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 
@@ -72,6 +72,7 @@
 						{name:'allowNegativeStock',index:'allowNegativeStock', editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'minStock',index:'minStock',hidden:true, editable: true,editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"130"}},
 						{name:'maxStock',index:'maxStock',hidden:true, editable: true,editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"130"}},
+						{name:'currentStock',index:'currentStock',hidden:false, editable: true,editrules:{required:false, edithidden:true},editoptions:{size:"20",maxlength:"130"}},
 						{name:'batchyn',index:'batchyn', editable: true,edittype:"checkbox",hidden:true, editoptions: {value:"Yes:No"},unformat: aceSwitch},
 						{name:'1taxList',index:'taxList', editable: true, edittype:"select", hidden:true, editrules:{required:false, edithidden:true},editoptions:{ dataInit: function(elem) {$(elem).width(160);}, multiple: true,  value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_TAX, "_id", "name") %>", size: 3}},
 
@@ -80,7 +81,6 @@
 						{name:'1productSubGroup',index:'productSubGroup', width:150,editable: true,edittype:"select", hidden:true,editrules:{required:false, edithidden:true},editoptions:{dataInit: function(elem) {$(elem).width(160);}, value:"<%=CommonUtil.getIdNameString(DBCollectionEnum.MAST_PRODUCT_GROUP, "_id", "name","{'level':'2'}") %>"}},
 						
 						{name:'openingStock',width:165, sortable:false,editable: false,formatter:function(){ return '<a href="action=manage_opening_stock">Click here</a>';}},
-						{name:'scheme', width:130,editable: false, formatter:function(){ return '<a href="action=manage_scheme">Click here</a>';}},
 						
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

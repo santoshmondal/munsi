@@ -49,7 +49,18 @@ public class SalesInvoiceServeice {
 	}
 
 	public Boolean update(SalesInvoice sInvoice) {
+		// Rules for calculating TAXs, Discount, Bill Amount etc.
 		ruleManager.applySalesInvoiceRule(sInvoice);
+
+		// Updating Customer Object [Outstanding Amount]
+		ruleManager.applyCustomerUpdates(sInvoice);
+
+		// update inventory
+		ruleManager.applyInventoryUpdates(sInvoice, true);
+
+		// Object update and creation
+		customerService.update(sInvoice.getCustomer());
+
 		return sInvoiceDao.update(sInvoice);
 	}
 

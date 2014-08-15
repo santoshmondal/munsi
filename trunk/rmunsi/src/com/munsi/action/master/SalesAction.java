@@ -2,10 +2,8 @@ package com.munsi.action.master;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.RequestDispatcher;
@@ -95,16 +93,19 @@ public class SalesAction extends HttpServlet {
 					String invoiceAddTaxPercent = request.getParameter("invoiceAddTaxPrice");
 					String invoiceAddDiscountPrice = request.getParameter("invoiceAddDiscountPrice");
 					String salesProductJSON = request.getParameter("salesProductJSON");
+					String paidAmount = request.getParameter("paidAmount");
 
 					invoiceAddTaxPercent = invoiceAddTaxPercent != null && !invoiceAddTaxPercent.isEmpty() ? invoiceAddTaxPercent : "0";
 					invoiceAddDiscountPrice = invoiceAddDiscountPrice != null && !invoiceAddDiscountPrice.isEmpty() ? invoiceAddDiscountPrice : "0";
 
 					Customer customer = customerService.get(custId);
-					SalesInvoice sInvoice = new SalesInvoice();
-					sInvoice.setCustomer(customer);
 
+					SalesInvoice sInvoice = new SalesInvoice();
+
+					sInvoice.setCustomer(customer);
 					sInvoice.setInvoiceDiscountPrice(Double.valueOf(invoiceAddDiscountPrice));
 					sInvoice.setInvoiceTaxPercent(Double.valueOf(invoiceAddTaxPercent));
+					sInvoice.setPaidAmount(Double.valueOf(paidAmount));
 
 					try {
 						List<SalesProduct> salesProductList = CommonUtil.mapper.readValue(salesProductJSON, CommonUtil.mapper.getTypeFactory().constructCollectionType(List.class, SalesProduct.class));
@@ -113,10 +114,11 @@ public class SalesAction extends HttpServlet {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
+
 					salesInvoiceService.create(sInvoice);
 					break;
 				case "VIEW":
-					SalesInvoice newInvoice = salesInvoiceService.get(request.getParameter("invoiceno"));
+					SalesInvoice newInvoice = salesInvoiceService.get(request.getParameter("invoiceid"));
 
 					if (newInvoice != null) {
 						request.setAttribute("INVOICE_DETAIL", newInvoice);
@@ -127,24 +129,7 @@ public class SalesAction extends HttpServlet {
 
 				case "VIEW_ALL":
 
-					String fieldname = request.getParameter("column") != null ? request.getParameter("column") : "";
-					value = request.getParameter("value") != null ? request.getParameter("value") : "";
-					Map<String, String> mapC = new HashMap<String, String>();
-					if (!fieldname.equalsIgnoreCase("") || !value.equalsIgnoreCase(""))
-						mapC.put(fieldname, value);
-
 					List<SalesInvoice> invList = salesInvoiceService.getAll(true);
-					for (SalesInvoice invRef : invList) {
-						// invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
-						// invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
-
-						if (invRef.getUtime() != null) {
-							// invRef.setsInvoiceDate(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
-						}
-
-						Customer sCustomer = invRef.getCustomer();
-
-					}
 
 					json = CommonUtil.objectToJson(invList);
 					json = json.replaceAll("_id", "id");

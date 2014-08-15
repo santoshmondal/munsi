@@ -11,6 +11,10 @@ public class BasePojo implements Serializable {
 	private Date utime;
 	private Boolean deleted;
 
+	//Date format for UI
+	private String sctime;
+	private String sutime;
+
 	public Date getCtime() {
 		return ctime;
 	}
@@ -34,5 +38,21 @@ public class BasePojo implements Serializable {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
-	
+
+	public String getSctime() {
+		return sctime;
+	}
+
+	public void setSctime(String sctime) {
+		this.sctime = sctime;
+	}
+
+	public String getSutime() {
+		return sutime;
+	}
+
+	public void setSutime(String sutime) {
+		this.sutime = sutime;
+	}
+
 }

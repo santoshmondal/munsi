@@ -36,8 +36,9 @@ public class Product extends BasePojo {
 
 	private String barCode;
 	private Boolean allowNegativeStock;
-	private int minStock;
-	private int maxStock;
+	private Integer minStock;
+	private Integer maxStock;
+	private Integer currentStock;
 
 	private Float derSumOfProudctTax;
 
@@ -231,6 +232,14 @@ public class Product extends BasePojo {
 
 	public void setDerSumOfProudctTax(Float derSumOfProudctTax) {
 		this.derSumOfProudctTax = derSumOfProudctTax;
+	}
+
+	public Integer getCurrentStock() {
+		return currentStock;
+	}
+
+	public void setCurrentStock(Integer currentStock) {
+		this.currentStock = currentStock;
 	}
 
 }

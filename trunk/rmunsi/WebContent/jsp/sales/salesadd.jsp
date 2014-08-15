@@ -567,9 +567,9 @@
 						alert("saved successfully");
 					})
 					.fail(function() {
-						console.error( "[async MSG]error in fetching data from server....." );
+						console.error( "[async MSG]:saveAndPrintInvoice > error in fetching data from server....." );
 					});
 					
-					 
+				g_isDirty=false;					 
 			 }
 </script>

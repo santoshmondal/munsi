@@ -27,8 +27,8 @@ public class SalesPurchaseRuleManager {
 
 				totalQuantity = sProduct.getFreeQuantity() + sProduct.getQuantity();
 				derPrice = (double) (sProduct.getSalesRate() * sProduct.getQuantity());
-				derTaxPrice = (derPrice * sProduct.getDerSumOfProudctTax()) / 100;
-				derDiscountPrice = ((derTaxPrice + derPrice) * sProduct.getRawDiscountPercent()) / 100;
+				derTaxPrice = (derPrice * sProduct.getDerSumOfProudctTax()) / 100.0;
+				derDiscountPrice = ((derTaxPrice + derPrice) * sProduct.getRawDiscountPercent()) / 100.0;
 				netPaybleProductPrice = derPrice + derTaxPrice - derDiscountPrice;
 
 				sProduct.setTotalQuantity(totalQuantity);
@@ -40,7 +40,7 @@ public class SalesPurchaseRuleManager {
 				sumOfNetPaybleProductPrice += netPaybleProductPrice;
 			}
 
-			Double invoiceTaxPrice = sInvoice.getInvoiceTaxPrice();
+			Double invoiceTaxPrice = (sumOfNetPaybleProductPrice * sInvoice.getInvoiceTaxPercent()) / 100.0;
 			Double invoiceDiscountPrice = sInvoice.getInvoiceDiscountPrice();
 			Integer numberOfItem = sInvoice.getSalesProductList().size();
 			Double netPayblePrice = sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice;

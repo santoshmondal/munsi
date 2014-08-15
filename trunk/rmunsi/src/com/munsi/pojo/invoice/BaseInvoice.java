@@ -11,7 +11,7 @@ public class BaseInvoice extends BasePojo implements Serializable {
 	private String _id;
 	private String invoiceNumber;
 	private Double invoiceDiscountPrice;
-	private Double invoiceTaxPrice;
+	private Double invoiceTaxPercent;
 
 	private Double sumOfNetPaybleProductPrice;
 
@@ -44,12 +44,12 @@ public class BaseInvoice extends BasePojo implements Serializable {
 		this.invoiceDiscountPrice = invoiceDiscountPrice;
 	}
 
-	public Double getInvoiceTaxPrice() {
-		return invoiceTaxPrice;
+	public Double getInvoiceTaxPercent() {
+		return invoiceTaxPercent;
 	}
 
-	public void setInvoiceTaxPrice(Double invoiceTaxPrice) {
-		this.invoiceTaxPrice = invoiceTaxPrice;
+	public void setInvoiceTaxPercent(Double invoiceTaxPercent) {
+		this.invoiceTaxPercent = invoiceTaxPercent;
 	}
 
 	/** sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice */

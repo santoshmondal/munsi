@@ -41,33 +41,32 @@
 			<div class="clearfix">
 				<div class="grid2 fixedHeightDiv" style="padding-right: 0px; margin-right: 5px; ">
 					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="idAddFreight" data-rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" tabindex="4" style="text-align: center;" placeholder="Freight" >
+					  <input type="number" class="form-control invoiceField" id="idAddFreight" data-rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Freight" tabindex="4" style="text-align: center;" placeholder="Freight" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 	
 					<div class="input-group col-xs-6" style='padding: 0px;'>
 					  <span class="input-group-addon">%</span>
-					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  tabindex="4" style="text-align: center;" placeholder="Discount %" >
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %" >
 					</div>
 					<div class="input-group col-xs-6" style='padding: 0px;'>
-					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPrice" data-rel="tooltip" title="Discount Rs"  tabindex="4" style="text-align: center;" placeholder="Discount Rs" >
-					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
-					</div>
-					<span class="btn btn-danger btn-sm tooltip-error" data-rel="tooltip" data-placement="top" title="Top Danger">Top</span>
-					<div class="hr dotted"></div>
-					<div class="input-group">
-					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="TAX" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPrice" data-rel="tooltip" title="Discount Rs" data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount Rs" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Tax" >
+					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					</div>
+					<div class="hr dotted"></div>
+					<div class="input-group">
+					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Tax" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 				</div>
@@ -296,9 +295,9 @@
 				}
 			
 				function enableTooltips(table) {
-					$('.navtable .ui-pg-button').tooltip({'placement': 'top'});
-					$(table).find('.ui-pg-div').tooltip({'placement': 'top'});
-					$('[data-rel=tooltip]').tooltip({'placement': 'top'});
+					$('.navtable .ui-pg-button').tooltip();
+					$(table).find('.ui-pg-div').tooltip();
+					$('[data-rel=tooltip]').tooltip();
 				}
 			
 

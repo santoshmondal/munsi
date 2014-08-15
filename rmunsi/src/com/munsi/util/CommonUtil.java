@@ -229,7 +229,7 @@ public class CommonUtil {
 		return "";
 	}
 
-	public static String getIdLabelJSON(DBCollectionEnum dbCollectionEnum, String... projectionColumns) {
+	public static String getJSONColumns(DBCollectionEnum dbCollectionEnum, String... projectionColumns) {
 		try {
 			DB mongoDB = MongoUtil.getDB();
 

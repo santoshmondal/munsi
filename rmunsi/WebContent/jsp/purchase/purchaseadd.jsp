@@ -2,40 +2,90 @@
 <%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
 <%@page import="com.munsi.util.CommonUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<style>
+	.fixedHeightDiv{
+		height: 120px;
+		overflow: auto;
+	}
+	.hr{
+		margin: 2px 0 !important;
+	}
+</style>
 <div class="row page-header">
-
-	<div class="col-xs-3">
-		<h1>
-			<small> New Purchase Invoice <i
-				class="icon-double-angle-right"></i> Invoice entry.
-			</small>
-		</h1>
-	</div>
-	<div class="col-xs-8">
-		<div class="col-xs-4">
-			<span class="input-icon input-icon-right"> <input type="text"
-				id="idSupplierInv" tabindex="1" placeholder="Supplier Invoice No." /> <i
-				class="icon-edit blue"></i>
-			</span>
-			
-			<span style="margin-top:3px;" class="input-icon input-icon-right"> <input type="text"
-				id="idSupplier" tabindex="2" placeholder="Enter Supplier Name" /> <i
-				class="icon-user green"></i>
-			</span>
-			<input type="hidden" id="idSupplier-id"/>
+	<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding: 0px; line-height: 1.2">
+		<div class="center col-xs-12 col-md-3 col-sm-3 col-lg-3">
+			<div class="form-group" style="background-color:#eee;  border:1px solid #f59942; padding: 10px 0px 10px 10px">
+				<div class="input-group" style="margin-right: 10px">
+				  <input type="text" id="idSupplier" class="form-control" tabindex="1" placeholder="Enter Supplier Name" >
+				  <input type="hidden" id="idSupplier-id" >
+				  <span class="input-group-addon" style="padding: 0px 10px;">
+				  	<a href="#" onclick='showSupplierInfo()' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Supplier Detail">
+				  		<i class="icon-user white"></i>
+				  	</a>
+				  </span>
+				</div>
+			</div>
 		</div>
-		<div class="col-xs-4">
-
-			
+		<div class="center col-xs-12 col-sm-8 col-md-8 col-lg-8">
+			<div class="grid4 fixedHeightDiv">
+				<div class="input-group input-icon-right">
+				  <input type="text" class="form-control invoiceField" id="idSupplierInv" tabindex="3" style="text-align: center;" placeholder="Invoice No." >
+				  <span class="input-group-addon"><i class="icon-edit blue"></i></span>
+				</div>
+				<div class="hr dotted"></div>
+				<div class="input-group input-icon-right">
+				  <input type="text" class="form-control invoiceField datepicker" id="idSupplierInvDate" tabindex="3" style="text-align: center;" placeholder="Invoice Date" >
+				  <span class="input-group-addon"><i class="icon-calendar blue"></i></span>
+				</div>
+			</div>
+			<div class="clearfix">
+				<div class="grid2 fixedHeightDiv" style="padding-right: 0px; margin-right: 5px; ">
+					<div class="input-group">
+					  <input type="number" class="form-control invoiceField" id="idAddFreight" data-rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Tooltip on bottom" tabindex="4" style="text-align: center;" placeholder="Freight" >
+					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					</div>
+					<div class="hr dotted"></div>
+	
+					<div class="input-group col-xs-6" style='padding: 0px;'>
+					  <span class="input-group-addon">%</span>
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  tabindex="4" style="text-align: center;" placeholder="Discount %" >
+					</div>
+					<div class="input-group col-xs-6" style='padding: 0px;'>
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPrice" data-rel="tooltip" title="Discount Rs"  tabindex="4" style="text-align: center;" placeholder="Discount Rs" >
+					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					</div>
+					<span class="btn btn-danger btn-sm tooltip-error" data-rel="tooltip" data-placement="top" title="Top Danger">Top</span>
+					<div class="hr dotted"></div>
+					<div class="input-group">
+					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="TAX" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					</div>
+					<div class="hr dotted"></div>
+					<div class="input-group">
+					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					</div>
+					<div class="hr dotted"></div>
+					<div class="input-group">
+					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					</div>
+				</div>
+				<div class="grid5 fixedHeightDiv">
+					<pre style="background-color:#87B87F"><span class="bigger-200"><strong><span id="idTotalAmt">0</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
+				</div>
+			</div>
 		</div>
-		<div class="col-xs-4">
-			<button class="btn btn-sm btn-inverse pull-right" data-rel="tooltip"
-				title="Save (Alt+s)" data-placement="bottom" type="button">
+		<div class="center col-xs-12 col-md-1 col-sm-1 col-lg-1 pull-right hidden-print">
+			<button class="btn btn-sm btn-inverse pull-right" type="button" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
 				<i class="icon-save"></i> Save
-			</button>
-
+			</button><!-- 
+			<button class="btn btn-sm btn-light pull-right" onclick="saveAndPrintInvoice()" type="button" tabindex="4" data-rel="tooltip" title="Pay Bill" data-placement="bottom">
+				Pay <i class="icon-print"></i> 
+			</button> -->
 		</div>
 	</div>
+
 </div>
 <!-- /.page-header -->
 
@@ -53,23 +103,11 @@
 
 <script type="text/javascript">
 	 var mydata = [
-                   {id:"1", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"2", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"3", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"4", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"5", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"6", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"7", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"8", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"9", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''},
-                   {id:"10", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''}
+                   {id:"1", code:"",name:"",  quantity:"",  rate:"",unit:"",tax:"",discountpercent:"",discountamount:"",freequantity:"",totalquantity:'',totalamount:'',batchno:'',mfgdate:'',expdate:''}
              ];
-
-			
 			
 			jQuery(function($) {
 				var grid_selector = jQuery("#grid-table_pinvoice");
-				var pager_selector = jQuery("#grid-table_pinvoice_toppager");
 				var pager_selector_id = "#grid-table_pinvoice_toppager";
 				var colModel, i, cmi, tr = "<tr>", skip = 0, ths,lastSel=-1;
 				
@@ -79,14 +117,13 @@
 					datatype: "local",
                 	data: mydata,
                 	height: '328',
-					toppager:true,
 					cellsubmit: 'clientArray',
-					'cellEdit' : true,
+					cellEdit : true,
 					colNames:['id','Code','Name', 'Quantity', 'Rate', 'Unit','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amount','MFG Date','EXP Date','Batch Number'],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
-						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickAutoComplete},
-						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickAutoComplete},
+						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
+						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'rate',index:'rate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'unit',index:'unit',width:80, sortable:false, editable: true, edittype:"select",editoptions:{ dataInit: function(elem) {$(elem).width(160);}, value:"Box:Box;Piece:Piece;KG:KG"}},
@@ -108,7 +145,6 @@
 					recordtext: "Total Entries {2}",
 					pgbuttons: false,
 					pgtext: null,
-					pager : pager_selector_id,
 					altRows: true,
 
 					multiselect: false,
@@ -130,9 +166,6 @@
 	                loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
-							styleCheckbox(table);
-							updateActionIcons(table);
-							updatePagerIcons(table);
 							enableTooltips(table);
 						}, 0);
 						
@@ -164,9 +197,6 @@
 	                        });
 	                    }
 	                    
-					},
-					onSelectRow: function(id){
-					    alert('Selected row ID ' + id);
 					},
 			
 					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
@@ -229,268 +259,46 @@
 					}, 0);
 				}
 				
-				//autocomplete
-				 var availableTags = [
-					"ActionScript",
-					"AppleScript",
-					"Asp",
-					"BASIC",
-					"C",
-					"C++",
-					"Clojure",
-					"COBOL",
-					"ColdFusion",
-					"Erlang",
-					"Fortran",
-					"Groovy",
-					"Haskell",
-					"Java",
-					"JavaScript",
-					"Lisp",
-					"Perl",
-					"PHP",
-					"Python",
-					"Ruby",
-					"Scala",
-					"Scheme"
-				];
-				
-				function pickAutoComplete( cellvalue, options, cell ) {
+				//autocomplete for Code
+				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "code", "") %>';
+				 availableProductCode = JSON.parse(availableProductCode);
+				 var finProdCode=[],itr=0;
+				 for(i=0;i<availableProductCode.length;i++){
+					 if(availableProductCode[i].code){
+					 	finProdCode[itr++] = availableProductCode[i].code;
+					 }
+				 }
+				 //console.log(availableProductCode+"\n finProdCode::"+finProdCode);
+				function pickCodeAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
-						source: availableTags
+						source: finProdCode
 					});
 					}, 0);
 				}
 			
-				//navButtons
-				
-				
-				grid_selector.jqGrid('navGrid',pager_selector_id,
-					{ 	//navbar options
-						edit: false,
-						editicon : 'icon-pencil blue',
-						add: false,
-						addtext:"Add",
-						addtitle: "Add Entry",
-						addicon : 'icon-plus-sign purple',
-						del: false,
-						delicon : 'icon-trash red',
-						search: true,
-						searchicon : 'icon-search orange',
-						refresh: false,
-						refreshicon : 'icon-refresh green',
-						view: false,
-						viewicon : 'icon-zoom-in grey'
-					},
-					{
-						//edit record form
-						//closeAfterEdit: true,
-						recreateForm: true,
-						closeOnEscape:true,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
-							style_edit_form(form);
-						}
-					},
-					{
-						recreateForm: false,
-						closeOnEscape:true
-					},
-					{
-						//delete record form
-						recreateForm: true,
-						closeOnEscape:true,
-						beforeShowForm : function(e) {
-							var form = $(e[0]);
-							if(form.data('styled')) return false;
-							
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
-							style_delete_form(form);
-							
-							form.data('styled', true);
-						},
-						onClick : function(e) {
-							alert(1);
-						}
-					},
-					{
-						//search form
-						recreateForm: true,
-						afterShowSearch: function(e){
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
-							style_search_form(form);
-						},
-						afterRedraw: function(){
-							style_search_filters($(this));
-						}
-						,
-						multipleSearch: true,
-						closeOnEscape:true
-						/**
-						multipleGroup:true,
-						showQuery: true
-						*/
-					},
-					{
-						//view record form
-						recreateForm: true,
-						closeOnEscape:true,
-						beforeShowForm: function(e){
-							var form = $(e[0]);
-							form.closest('.ui-jqdialog').find('.ui-jqdialog-title').wrap('<div class="widget-header" />');
-						}
-					}
-				);
-				var editOptions = {
-				        keys: false,
-				        successfunc: function () {
-				            var $self = $(this);
-				            setTimeout(function () {
-				                $self.trigger("reloadGrid");
-				            }, 50);
-				        }
-				    };
-				
-				grid_selector.jqGrid("inlineNav", pager_selector_id, { 	//navbar options
-					edit: false,
-					editicon : 'icon-pencil blue',
-					add: true,
-					addtext:"Add",
-					addtitle: "Add Entry",
-					addicon : 'icon-plus-sign purple',
-					del: false,
-					delicon : 'icon-trash red',
-					search: true,
-					searchicon : 'icon-search orange',
-					refresh: false,
-					refreshicon : 'icon-refresh green',
-					view: false,
-					viewicon : 'icon-zoom-in grey',
-				    addParams: {
-				        position: "last",
-				        addRowParams: editOptions
-				    },
-				    editParams: editOptions
-				});
-			
-				
-				function style_edit_form(form) {
-					//enable datepicker on "sdate" field and switches for "stock" field
-					form.find('input[name=sdate]').datepicker({format:'dd-mm-yyyy' , autoclose:true})
-						.end().find('input[name=stock]')
-							  .addClass('ace ace-switch ace-switch-5').wrap('<label class="inline" />').after('<span class="lbl"></span>');
-			
-					//update buttons classes
-					var buttons = form.next().find('.EditButton .fm-button');
-					buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
-					buttons.eq(0).addClass('btn-primary').prepend('<i class="icon-ok"></i>');
-					buttons.eq(1).prepend('<i class="icon-remove"></i>');
-					
-					buttons = form.next().find('.navButton a');
-					buttons.find('.ui-icon').remove();
-					buttons.eq(0).append('<i class="icon-chevron-left"></i>');
-					buttons.eq(1).append('<i class="icon-chevron-right"></i>');		
-				}
-			
-				function style_delete_form(form) {
-					var buttons = form.next().find('.EditButton .fm-button');
-					buttons.addClass('btn btn-sm').find('[class*="-icon"]').remove();//ui-icon, s-icon
-					buttons.eq(0).addClass('btn-danger').prepend('<i class="icon-trash"></i>');
-					buttons.eq(1).prepend('<i class="icon-remove"></i>');
-				}
-				
-				function style_search_filters(form) {
-					form.find('.delete-rule').val('X');
-					form.find('.add-rule').addClass('btn btn-xs btn-primary');
-					form.find('.add-group').addClass('btn btn-xs btn-success');
-					form.find('.delete-group').addClass('btn btn-xs btn-danger');
-				}
-				function style_search_form(form) {
-					var dialog = form.closest('.ui-jqdialog');
-					var buttons = dialog.find('.EditTable');
-					buttons.find('.EditButton a[id*="_reset"]').addClass('btn btn-sm btn-info').find('.ui-icon').attr('class', 'icon-retweet');
-					buttons.find('.EditButton a[id*="_query"]').addClass('btn btn-sm btn-inverse').find('.ui-icon').attr('class', 'icon-comment-alt');
-					buttons.find('.EditButton a[id*="_search"]').addClass('btn btn-sm btn-purple').find('.ui-icon').attr('class', 'icon-search');
-				}
-				
-				function beforeDeleteCallback(e) {
-					var form = $(e[0]);
-					if(form.data('styled')) return false;
-					
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
-					style_delete_form(form);
-					
-					form.data('styled', true);
-				}
-				
-				function beforeEditCallback(e) {
-					var form = $(e[0]);
-					form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />');
-					style_edit_form(form);
-				}
-			
-			
-			
-				//it causes some flicker when reloading or navigating grid
-				//it may be possible to have some custom formatter to do this as the grid is being created to prevent this
-				//or go back to default browser checkbox styles for the grid
-				function styleCheckbox(table) {
-				/**
-					$(table).find('input:checkbox').addClass('ace')
-					.wrap('<label />')
-					.after('<span class="lbl align-top" />')
-			
-			
-					$('.ui-jqgrid-labels th[id*="_cb"]:first-child')
-					.find('input.cbox[type=checkbox]').addClass('ace')
-					.wrap('<label />').after('<span class="lbl align-top" />');
-				*/
-				}
-				
-			
-				//unlike navButtons icons, action icons in rows seem to be hard-coded
-				//you can change them like this in here if you want
-				function updateActionIcons(table) {
-					/**
-					var replacement = 
-					{
-						'ui-icon-pencil' : 'icon-pencil blue',
-						'ui-icon-trash' : 'icon-trash red',
-						'ui-icon-disk' : 'icon-ok green',
-						'ui-icon-cancel' : 'icon-remove red'
-					};
-					$(table).find('.ui-pg-div span.ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
-					})
-					*/
-				}
-				
-				//replace icons with FontAwesome icons like above
-				function updatePagerIcons(table) {
-					var replacement = 
-					{
-						'ui-icon-seek-first' : 'icon-double-angle-left bigger-140',
-						'ui-icon-seek-prev' : 'icon-angle-left bigger-140',
-						'ui-icon-seek-next' : 'icon-angle-right bigger-140',
-						'ui-icon-seek-end' : 'icon-double-angle-right bigger-140'
-					};
-					$('.ui-pg-table:not(.navtable) > tbody > tr > .ui-pg-button > .ui-icon').each(function(){
-						var icon = $(this);
-						var $class = $.trim(icon.attr('class').replace('ui-icon', ''));
-						
-						if($class in replacement) icon.attr('class', 'ui-icon '+replacement[$class]);
+				//autocomplete for Code
+				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
+				 availableProductName = JSON.parse(availableProductName);
+				 var finProdName=[],itr=0;
+				 for(i=0;i<availableProductName.length;i++){
+					 if(availableProductName[i].name){
+					 	finProdName[itr++] = availableProductName[i].name;
+					 }
+				 }
+
+				function pickNameAutoComplete( cellvalue, options, cell ) {
+					setTimeout(function(){
+					$(cell) .find('input[type=text]').autocomplete({
+						source: finProdName
 					});
+					}, 0);
 				}
 			
 				function enableTooltips(table) {
-					$('.navtable .ui-pg-button').tooltip({container:'body'});
-					$(table).find('.ui-pg-div').tooltip({container:'body'});
-					$('[data-rel=tooltip]').tooltip({container:'body'});
+					$('.navtable .ui-pg-button').tooltip({'placement': 'top'});
+					$(table).find('.ui-pg-div').tooltip({'placement': 'top'});
+					$('[data-rel=tooltip]').tooltip({'placement': 'top'});
 				}
 			
 
@@ -509,6 +317,7 @@
 	                            cellNode.textContent || cellNode.innerText;
                     return text.replace("Rs","").replace("%","").replace(",","");
 				};
+				
 				function getColumnIndexByName(grid,columnName) {
 			         var cm = grid.jqGrid('getGridParam','colModel');
 			         
@@ -536,11 +345,138 @@
 			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',totalamount:totalAmount,tax:totalTax});
 			     };
 			     
+
+			     function getRowAndPopulate(rowid,name,val)
+             	 {
+	                	var rowData = grid_selector.jqGrid('getRowData', rowid);
+
+	                	switch(name) {
+		                    case "name":
+								var prodData =ajaxProductFetch(name,val,true);
+						        if(prodData){
+			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
+			                        rowData.code=prodData.code?prodData.code:"";
+			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.quantity="1";
+			                        rowData.salesRate=prodData.salesRate;
+			                        rowData.freeQuantity="0";
+			                        rowData.tax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
+			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.salesRate);
+									
+			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
+			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
+		                        }
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "code":
+								var prodData =ajaxProductFetch(name,val,true);
+		                        if(prodData){
+			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
+			                        rowData.code=prodData.code?prodData.code:"";
+			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.quantity="1";
+			                        rowData.salesRate=prodData.salesRate;
+			                        rowData.tax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
+			                        rowData.freeQuantity="0";
+			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.salesRate);
+			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
+			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
+
+		                        }
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "barCode":
+								var prodData =ajaxProductFetch(name,val,true);
+		                        if(prodData){
+			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
+			                        rowData.code=prodData.code?prodData.code:"";
+			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.quantity="1";
+			                        rowData.salesRate=prodData.salesRate;
+			                        rowData.tax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
+			                        rowData.freeQuantity="0";
+			                        rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
+			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
+		                        }
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "quantity":
+		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+		                        var taxValpercent = rowData.tax?rowData.tax:1;
+		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "salesRate":
+		                    	var taxValpercent = rowData.tax?rowData.tax:1;
+		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
+		                        grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "rawDiscountPercent":
+			                	var discPercent = rowData.rawDiscountPercent?rowData.rawDiscountPercent:0;
+			                	rowData.netPaybleProductPrice=  rowData.netPaybleProductPrice -((Number(rowData.netPaybleProductPrice)*Number(discPercent))/100);
+		                		break;
+		                    case "rawDiscountPrice":
+		                    	var taxValpercent = rowData.tax?rowData.tax:1;
+		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
+		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee-Number(rowData.rawDiscountPrice);
+		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    case "freeQuantity":
+		                    	rowData.totalquantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
+		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
+		                        break;
+		                    default:
+		                        console.log("Default Switch");
+	                	}
+	                	
+	                	var gridData = grid_selector.jqGrid('getGridParam','data');
+	                	if(gridData[gridData.length-1].name){
+	                		var randId = Math.ceil(Math.random()*10000);
+	                		grid_selector.addRowData(randId,{id:randId,date:"a"}, "last");
+	                	}
+	                	
+						//------------- Sales Invoice TAX Rs Calculation
+	                	var tTemp=0;
+	                	for(i=0;i<gridData.length-1;i++){
+		                	var taxValpercent = gridData[i].tax?gridData[i].tax:0;
+	                		tTemp = tTemp + (Number(gridData[i].quantity)*Number(gridData[i].salesRate)*Number(taxValpercent))/100;
+		                }
+	                	gridTax=Number(tTemp).toFixed(2);
+	                	$("#idTotalTax").html(Number(tTemp).toFixed(2));
+	                	
+	                	//------------- Sales Invoice Discount Rs Calculation
+	                	tTemp=0;
+	                	for(i=0;i<gridData.length-1;i++){
+		                	var discPercent = gridData[i].rawDiscountPercent?gridData[i].rawDiscountPercent:0;
+		                	var discountAmt = gridData[i].rawDiscountPrice?gridData[i].rawDiscountPrice:0;
+	                		tTemp = tTemp + ((Number(gridData[i].netPaybleProductPrice)*Number(discPercent))/100) + Number(gridData[i].rawDiscountPrice);
+		                }
+	                	gridDisc=Number(tTemp).toFixed(2);
+		                $("#idTotalDiscount").html(Number(tTemp).toFixed(2));
+		                g_isDirty=true;
+             	}
 			     
+			     //------- Sales Invoice addition of tax and additional discount
+			     $( "input.invoiceField" ).change(function() {
+			    	 var addTaxAmt = Number($("#idSubTotal").html())*Number($("#idAddTax").val())/100;
+			    	 $("#idTotalAmt").html((Number($("#idSubTotal").html())+addTaxAmt-Number($("#idAddDisc").val())).toFixed(2));
+			    	 $("#idAllTotal").html((Number($("#idTotalAmt").html()) + Number($("#idOutstandingAmt").html())).toFixed(2));
+			    	 $("#idTotalDiscount").html((Number(gridDisc) + Number($("#idAddDisc").val())).toFixed(2));
+			    	 $("#idTotalTax").html((Number(gridTax) + Number(addTaxAmt)).toFixed(2));
+			     });
+			      
 			     //------------ AutoComplete Supplier Name--------------
 			     var objJsonSupplier = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_SUPPLIER, "_id", "name", "") %>';
 			    
-			     objJsonSupplier = JSON.parse(objJsonSupplier.replace("\"_id\"","\"id\"","gm").replace("\"name\"","\"label\"","gm"));
+			     objJsonSupplier = JSON.parse(objJsonSupplier.replace(/_id/g,"id").replace(/name/g,"label"));
 			     $("#idSupplier").autocomplete({
 					     minLength: 0,
 					     source: objJsonSupplier,
@@ -560,8 +496,11 @@
 				     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
 				     .appendTo( ul );
 				     };
+				     
+				     $('.datepicker').datepicker({format:'dd-mm-yyyy' , autoclose:true});
 				
 			});
 			
 				
 		</script>
+		

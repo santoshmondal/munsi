@@ -10,7 +10,7 @@
 		<!--[if lte IE 8]>
 		  <script src="${pageContext.request.contextPath}/assets/js/excanvas.min.js"></script>
 		<![endif]-->
-		<script src="${pageContext.request.contextPath}/assets/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/jquery-ui-1.10.4.custom.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/jquery.ui.touch-punch.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/jquery.slimscroll.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/jquery.easy-pie-chart.min.js"></script>

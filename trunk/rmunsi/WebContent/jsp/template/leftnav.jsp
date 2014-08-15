@@ -78,6 +78,21 @@
 			</a>
 		</li>
 		<li><a href="#" class="dropdown-toggle"> <i
+				class="icon-inbox"></i> <span class="menu-text"> Invoice Register </span> <b
+				class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li><a href="#" data-href="/jsp/purchase/listpurchase.jsp">
+						<i class="icon-double-angle-right"></i> Purchase Invoices
+				</a></li>
+				
+				<li><a href="#" data-href="/jsp/sales/listsales.jsp">
+						<i class="icon-double-angle-right"></i> Sales Invoices
+				</a></li>
+			</ul>
+		</li>
+		
+		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 				<b class="arrow icon-angle-down"></b>
 		</a>

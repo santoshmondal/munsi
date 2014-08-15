@@ -1,6 +1,9 @@
 package com.munsi.util;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,7 +32,7 @@ public class CommonUtil {
 	private static Map<String, String> locationMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeOnMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeTypeMap = new LinkedHashMap<>();
-
+	private static final String DATE_FORMAT = "dd/MM/yyyy";
 	public static final ObjectMapper mapper = new ObjectMapper();
 
 	static {
@@ -260,4 +263,37 @@ public class CommonUtil {
 		return "";
 	}
 
+	public static String longToStringDate(Long longValue) {
+		return longToStringDate(longValue, DATE_FORMAT);
+	}
+
+	public static String longToStringDate(Long longValue, String format) {
+		String strDate = "";
+		try {
+			Date d = null;
+			Calendar cal = Calendar.getInstance();
+			cal.setTimeInMillis(longValue);
+			d = cal.getTime();
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			strDate = sdf.format(d);
+		} catch (Exception e) {
+
+		}
+
+		return strDate;
+	}
+
+	public static Date stringToDate(String string) {
+		return stringToDate(string, DATE_FORMAT);
+	}
+
+	public static Date stringToDate(String string, String format) {
+
+		try {
+			SimpleDateFormat sdf = new SimpleDateFormat(format);
+			return sdf.parse(string);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 }

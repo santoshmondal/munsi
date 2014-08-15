@@ -2,10 +2,13 @@ package com.munsi.action.master;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -103,6 +106,40 @@ public class SalesAction extends HttpServlet {
 						e.printStackTrace();
 					}
 					salesInvoiceService.create(sInvoice);
+					break;
+				case "VIEW":
+					SalesInvoice newInvoice = salesInvoiceService.get(request.getParameter("invoiceno"));
+
+					if (newInvoice != null) {
+						request.setAttribute("INVOICE_DETAIL", newInvoice);
+						RequestDispatcher rd = request.getRequestDispatcher("/hello.action?reqPage=/jsp/sales/salesdetailview.jsp");
+						rd.forward(request, response);
+					}
+					break;
+
+				case "VIEW_ALL":
+
+					String fieldname = request.getParameter("column") != null ? request.getParameter("column") : "";
+					value = request.getParameter("value") != null ? request.getParameter("value") : "";
+					Map<String, String> mapC = new HashMap<String, String>();
+					if (!fieldname.equalsIgnoreCase("") || !value.equalsIgnoreCase(""))
+						mapC.put(fieldname, value);
+
+					List<SalesInvoice> invList = salesInvoiceService.getAll(true);
+					for (SalesInvoice invRef : invList) {
+						// invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
+						// invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
+
+						if (invRef.getUtime() != null) {
+							// invRef.setsInvoiceDate(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
+						}
+
+						Customer sCustomer = invRef.getCustomer();
+
+					}
+
+					json = CommonUtil.objectToJson(invList);
+					json = json.replaceAll("_id", "id");
 					break;
 
 				default:

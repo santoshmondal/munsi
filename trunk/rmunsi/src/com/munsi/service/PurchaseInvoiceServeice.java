@@ -16,7 +16,9 @@ import com.munsi.util.ObjectFactory.ObjectEnum;
 public class PurchaseInvoiceServeice {
 
 	private PurchaseInvoiceDao pInvoiceDao;
-	private SalesPurchaseRuleManager rManager;
+	private SalesPurchaseRuleManager ruleManager;
+
+	private SupplierServeice supplierService;
 
 	public PurchaseInvoiceServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.PURCHASE_INVOICE_DAO);
@@ -24,16 +26,40 @@ public class PurchaseInvoiceServeice {
 			pInvoiceDao = (MongoPurchaseInvoiceDao) object;
 		}
 
-		rManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
+		ruleManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
+
+		supplierService = (SupplierServeice) ObjectFactory.getInstance(ObjectEnum.SUPPLIER_SERVICE);
 	}
 
 	public Boolean create(PurchaseInvoice pInvoice) {
-		rManager.applyPurchaseInvoiceRule(pInvoice);
+		// Rules for calculating TAXs, Discount, Bill Amount etc.
+		ruleManager.applyPurchaseInvoiceRule(pInvoice);
+
+		// Updating Supplier Object [Outstanding Amount]
+		ruleManager.applySupplierUpdates(pInvoice);
+
+		// update inventory
+		ruleManager.applyInventoryUpdates(pInvoice, false);
+
+		// Object update and creation
+		supplierService.update(pInvoice.getSupplier());
+
 		return pInvoiceDao.create(pInvoice);
 	}
 
 	public Boolean update(PurchaseInvoice pInvoice) {
-		rManager.applyPurchaseInvoiceRule(pInvoice);
+		// Rules for calculating TAXs, Discount, Bill Amount etc.
+		ruleManager.applyPurchaseInvoiceRule(pInvoice);
+
+		// Updating Supplier Object [Outstanding Amount]
+		ruleManager.applySupplierUpdates(pInvoice);
+
+		// update inventory
+		ruleManager.applyInventoryUpdates(pInvoice, false);
+
+		// Object update and creation
+		supplierService.update(pInvoice.getSupplier());
+
 		return pInvoiceDao.update(pInvoice);
 	}
 

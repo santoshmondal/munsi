@@ -26,19 +26,19 @@
         var mydata=[{'id':'01','sInvoiceNumber':'IX1230','sInvoiceDate':'12/2/2014','customerName':'Tom Smith','totalAmount':'12345'}];
         
         myGrid.jqGrid({
-			//url: "${pageContext.request.contextPath}/sales.action?op=view_all",
-			//mtype: "POST",
-			data: mydata,
+			url: "${pageContext.request.contextPath}/sales.action?op=view_all",
+			mtype: "POST",
+			//data: mydata,
 			loadonce: true,
 			gridview: true,
-			datatype: "local",//"json",
+			datatype: "json",//"local"
 			viewrecords : true,
 			
 			colNames:['id','Invoice Number','Invoice Date','Customer Name','Invoice Amount',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
-				{name:'sInvoiceNumber',index:'sInvoiceNumber', width:170,editable: false},
-				{name:'sInvoiceDate',index:'sInvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
+				{name:'invoiceNumber',index:'invoiceNumber', width:170,editable: false},
+				{name:'sctime',index:'sctime',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
                         		if (this.id.substr(0, 3) === "gs_") {
@@ -50,8 +50,8 @@
                                 }
                         });
                     }},formatter:'date', formatoptions: {srcformat: 'd/m/Y', newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
-                {name:'customerName',index:'customerName', width:170,editable: false},
-				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
+                {name:'customerName',index:'customerName', width:170,editable: false, jsonmap:"customer.name"},
+				{name:'netPayblePrice',index:'netPayblePrice', width:100, editable: false},
 				{ name: 'act', index: 'act', frozen : true,width:70, search:false, align: 'center', sortable: false, formatter: 'actions',
                     formatoptions: {editbutton:false,delbutton:false,
                         keys: false}
@@ -79,7 +79,7 @@
                             },
                             click: function(e) {
                                 console.log("'Detail' button is clicked in the rowis="+ $(e.target).closest("tr.jqgrow").attr("id") +" !");
-                                var URL = "sales.action?op=VIEW&invoiceno="+ $(e.target).closest("tr.jqgrow").attr("id");
+                                var URL = "sales.action?op=VIEW&invoiceid="+ $(e.target).closest("tr.jqgrow").attr("id");
                 				var DATA = {};
                 				var embedInElement = "id_EmbedPage";
                 				async.munsi.ajaxCall(URL,DATA,embedInElement);

@@ -117,7 +117,7 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 	public SalesInvoice get(String _id) {
 		SalesInvoice sInvoice = null;
 		try {
-			sInvoice = get(_id, false);
+			sInvoice = get(_id, true);
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -131,6 +131,8 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 		try {
 			DBObject queryObject = new BasicDBObject("_id", _id);
 			sInvoice = getSalesInvoiceByQuery(queryObject, withReferences);
+			sInvoice.setSctime(CommonUtil.longToStringDate(sInvoice.getCtime().getTime()));
+			sInvoice.setSutime(CommonUtil.longToStringDate(sInvoice.getUtime().getTime()));
 		} catch (Exception e) {
 			LOG.error(e);
 		}

@@ -9,13 +9,16 @@ import com.munsi.dao.impl.MongoSalesInvoiceDao;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.pojo.invoice.sales.SalesProduct;
 import com.munsi.pojo.master.Customer;
+import com.munsi.util.CommonUtil;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class SalesInvoiceServeice {
 
 	private SalesInvoiceDao sInvoiceDao;
-	private SalesPurchaseRuleManager rManager;
+	private CustomerServeice customerService;
+	private ProductServeice productService;
+	private SalesPurchaseRuleManager ruleManager;
 
 	public SalesInvoiceServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.SALES_INVOICE_DAO);
@@ -23,16 +26,30 @@ public class SalesInvoiceServeice {
 			sInvoiceDao = (MongoSalesInvoiceDao) object;
 		}
 
-		rManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
+		customerService = (CustomerServeice) ObjectFactory.getInstance(ObjectEnum.CUSTOMER_SERVICE);
+		productService = (ProductServeice) ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
+
+		ruleManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
 	}
 
 	public Boolean create(SalesInvoice sInvoice) {
-		rManager.applySalesInvoiceRule(sInvoice);
+		// Rules for calculating TAXs, Discount, Bill Amount etc.
+		ruleManager.applySalesInvoiceRule(sInvoice);
+
+		// Updating Customer Object [Outstanding Amount]
+		ruleManager.applyCustomerUpdates(sInvoice);
+
+		// update inventory
+		ruleManager.applyInventoryUpdates(sInvoice, true);
+
+		// Object update and creation
+		customerService.update(sInvoice.getCustomer());
+
 		return sInvoiceDao.create(sInvoice);
 	}
 
 	public Boolean update(SalesInvoice sInvoice) {
-		rManager.applySalesInvoiceRule(sInvoice);
+		ruleManager.applySalesInvoiceRule(sInvoice);
 		return sInvoiceDao.update(sInvoice);
 	}
 
@@ -49,7 +66,13 @@ public class SalesInvoiceServeice {
 	}
 
 	public List<SalesInvoice> getAll(Boolean withReferences) {
-		return sInvoiceDao.getAll(withReferences);
+		List<SalesInvoice> sInvoiceList = sInvoiceDao.getAll(withReferences);
+		for (SalesInvoice invoice : sInvoiceList) {
+			invoice.setSctime(CommonUtil.longToStringDate(invoice.getCtime().getTime()));
+			invoice.setSutime(CommonUtil.longToStringDate(invoice.getUtime().getTime()));
+		}
+
+		return sInvoiceList;
 	}
 
 	public static void main(String[] args) {

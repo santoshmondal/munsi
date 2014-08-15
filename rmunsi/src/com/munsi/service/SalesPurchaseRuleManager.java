@@ -1,16 +1,25 @@
 package com.munsi.service;
 
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 
 import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
+import com.munsi.pojo.invoice.purchase.PurchaseProduct;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.pojo.invoice.sales.SalesProduct;
+import com.munsi.pojo.master.Product;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class SalesPurchaseRuleManager {
 
 	private static final Logger LOG = Logger.getLogger(SalesPurchaseRuleManager.class);
+	private ProductServeice productService;
+
+	public SalesPurchaseRuleManager() {
+		productService = (ProductServeice) ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
+	}
 
 	public void applySalesInvoiceRule(SalesInvoice sInvoice) {
 
@@ -63,8 +72,63 @@ public class SalesPurchaseRuleManager {
 		}
 	}
 
+	public void applyCustomerUpdates(SalesInvoice sInvoice) {
+		try {
+			Double netPayblePrice = sInvoice.getNetPayblePrice();
+			Double paidAmount = sInvoice.getPaidAmount();
+
+			Float outStandingAmount = sInvoice.getCustomer().getOutStandingAmount();
+			outStandingAmount = outStandingAmount != null ? outStandingAmount : 0.0f;
+
+			Double plusMinusAmount = paidAmount - netPayblePrice;
+
+			if (plusMinusAmount > 0) {
+				outStandingAmount = (float) (outStandingAmount - plusMinusAmount);
+			} else {
+				outStandingAmount = (float) (outStandingAmount + plusMinusAmount);
+			}
+
+			sInvoice.getCustomer().setOutStandingAmount(outStandingAmount);
+
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+	}
+
+	public void applyInventoryUpdates(Object sInvoice, Boolean isSalesOrPurchase) {
+		try {
+			Set<? extends Product> productList = null;
+			// if true imples Sales, false implies Purchase
+			if (isSalesOrPurchase) {
+				SalesInvoice salesInvoice = (SalesInvoice) sInvoice;
+				productList = salesInvoice.getSalesProductList();
+
+			} else {
+				PurchaseInvoice purchaseInvoice = (PurchaseInvoice) sInvoice;
+				productList = purchaseInvoice.getPurchaseProductList();
+			}
+
+			for (Product product : productList) {
+				Product productMaster = productService.get(product.get_id());
+				Integer currentMasterStock = productMaster.getCurrentStock();
+				if (isSalesOrPurchase) {
+					SalesProduct salesProduct = (SalesProduct) product;
+					currentMasterStock -= salesProduct.getTotalQuantity();
+				} else {
+					PurchaseProduct purchaseProduct = (PurchaseProduct) product;
+					currentMasterStock += purchaseProduct.getTotalQuantity();
+				}
+				productService.update(productMaster);
+			}
+
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+	}
+
 	public static void main(String[] args) {
 		SalesPurchaseRuleManager rManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
 		rManager.applySalesInvoiceRule(null);
 	}
+
 }

@@ -1,21 +1,41 @@
 
+<%@page import="com.munsi.pojo.invoice.sales.SalesInvoice"%>
 <%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
 <%@page import="com.munsi.util.CommonUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<% SalesInvoice sInvoice = (SalesInvoice)request.getAttribute("INVOICE_DETAIL"); %>
+
 <div class="row page-header">
 	<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding: 0px; line-height: 1.2">
-		<div class="center col-xs-12 col-md-3 col-sm-3 col-lg-3">
-			<div class="form-group" style="background-color:#eee;  border:1px solid #f59942; padding: 10px 0px 10px 10px">
-				<div class="input-group" style="margin-right: 10px">
-				  <input type="text" id="idCustomer" class="form-control" tabindex="1" placeholder="Enter Customer Name" >
-				  <input type="hidden" id="idCustomerID" >
-				  <span class="input-group-addon" style="padding: 0px 10px;">
-				  	<a href="#" onclick='showCustomerInfo()' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Customer Detail">
-				  		<i class="icon-user white"></i>
-				  	</a>
-				  </span>
+		<div class="center col-xs-12 col-md-4 col-sm-4 col-lg-4">
+			<div class="profile-user-info profile-user-info-striped">
+				<div class="profile-info-row">
+					<div class="profile-info-name"> Invoice No </div>
+					<div class="profile-info-value">
+						<span class="" ><%=sInvoice.getInvoiceNumber() %></span>
+					</div>
 				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name"> Invoice Date </div>
+					<div class="profile-info-value">
+						<span class="" ><%=sInvoice.getSctime() %></span>
+					</div>
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name"> Customer </div>
+					<div class="profile-info-value">
+						<span class="" ><%=sInvoice.getCustomer().getName() %></span>
+					</div>
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name"> Phone </div>
+					<div class="profile-info-value">
+						<i class="icon-phone light-orange bigger-110"></i>
+						<span class="" ><%=sInvoice.getCustomer().getPhone() %></span>
+					</div>
+				</div>
+				
 			</div>
 		</div>
 		<div class="center col-xs-12 col-sm-7 col-md-7 col-lg-7">
@@ -23,7 +43,7 @@
 				Outstanding Amount <br> <span class="bigger-125 blue"> <i class="icon-rupee"></i> <span id="idOutstandingAmt">100</span></span>
 				<div class="hr hr16 dotted"></div>
 				<div class="input-group">
-				  <input type="number" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" >
+				  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Additional TAX" tabindex="3" style="text-align: center;" placeholder="Tax" value='<%=sInvoice.getInvoiceTaxPercent() %>'>
 				  <span class="input-group-addon">%</span>
 				</div>
 			</div>
@@ -32,27 +52,25 @@
 				<div class="hr hr16 dotted"></div>
 				<!-- Add. DISCOUNT<br> <span class="bigger-125 blue"><i class="icon-rupee"></i> 0</span> -->
 				<div class="input-group">
-				  <input type="number" class="form-control invoiceField" id="idAddDisc" data-rel="tooltip" title="Additional Discount"  tabindex="4" style="text-align: center;" placeholder="Discount" >
+				  <input type="number" class="form-control invoiceField" readonly="readonly" id="idAddDisc" data-rel="tooltip" title="Additional Discount"  tabindex="4" style="text-align: center;" placeholder="Discount"  value='<%=sInvoice.getInvoiceDiscountPrice() %>'>
 				  <span class="input-group-addon"><i class="icon-rupee"></i></span>
 				</div>
 			</div>
 			
 			<div class="grid4">
-				SUBTOTAL<br/><span class="bigger-125 blue"><i class="icon-rupee"></i> <span id="idSubTotal">0</span></span>
+				SUBTOTAL<br/><span class="bigger-125 blue"><i class="icon-rupee"></i> <span id="idSubTotal"></span></span>
 				<div class="hr hr16 dotted"></div>
 				TAX<br/><span class="bigger-125 green"><i class="icon-rupee"></i> <span id="idTotalTax">0</span></span>
 			</div>
 			<div class="grid4">
-				<pre style="background-color:#FFB752"><span class="bigger-200"><strong> <span id="idTotalAmt">0</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
+				<pre style="background-color:#FFB752"><span class="bigger-200"><strong> <span id="idTotalAmt"><%=sInvoice.getNetPayblePrice() %></span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
 				Total <span class="bigger-150 red" data-rel="tooltip" title="Outstanding + Bill Amount"><i class="icon-rupee"></i> <span id="idAllTotal">0</span></span>
 			</div>
 		</div>
-		<div class="center col-xs-12 col-md-2 col-sm-2 col-lg-2 pull-right hidden-print">
-			<button class="btn btn-sm btn-inverse pull-right" type="button" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
-				<i class="icon-save"></i> Save
-			</button>
-			<button class="btn btn-sm btn-light pull-right" onclick="saveAndPrintInvoice()" type="button" tabindex="4" data-rel="tooltip" title="Pay Bill" data-placement="bottom">
-				Pay <i class="icon-print"></i> 
+		<div class="center col-xs-12 col-md-1 col-sm-1 col-lg-1 hidden-print">
+			
+			<button class="btn btn-sm btn-light pull-right" onclick="" type="button" tabindex="4" data-rel="tooltip" title="Pay Bill" data-placement="bottom">
+				Print <i class="icon-print"></i> 
 			</button>
 		</div>
 	</div>
@@ -71,9 +89,7 @@
 <!-- /.row -->
 
 <script type="text/javascript">
-	 var mydata = [
-                   {id:"1", code:"",name:"",  quantity:"",  salesRate:"",tax:"",rawDiscountPercent:"",rawDiscountPrice:"",freeQuantity:"",totalquantity:'',netPaybleProductPrice:''}
-             ];
+	 var mydata = <%=CommonUtil.objectToJson(sInvoice.getSalesProductList()).replaceAll("_id", "id") %>;
 	 var gridDisc,gridTax;
 	 
 			jQuery(function($) {
@@ -90,19 +106,19 @@
                 	height: '328',
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
-					cellEdit : true,
+					cellEdit : false,
 					colNames:['id','Barcode','Code','Name', 'Quantity', 'Rate', 'Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
-						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
-						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
-						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
-						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'barCode',index:'barCode', width:100, sortable:false},
+						{name:'code',index:'code', width:100, sortable:false},
+						{name:'name',index:'name', width:250, sortable:false},
+						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90, formatter:'integer', sorttype:'int'},
+						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right',formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'tax',index:'tax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
-						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
-						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
+						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right',formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
+						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right',formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90, formatter:'integer', sorttype:'int'},
 						{name:'totalQuantity',index:'totalquantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
 						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
 					], 
@@ -223,43 +239,6 @@
 								.datepicker({format:'dd-mm-yyyy' , autoclose:true}); 
 					}, 0);
 				}
-				
-				//autocomplete for Code
-				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "code", "") %>';
-				 availableProductCode = JSON.parse(availableProductCode);
-				 var finProdCode=[],itr=0;
-				 for(i=0;i<availableProductCode.length;i++){
-					 if(availableProductCode[i].code){
-					 	finProdCode[itr++] = availableProductCode[i].code;
-					 }
-				 }
-				 //console.log(availableProductCode+"\n finProdCode::"+finProdCode);
-				function pickCodeAutoComplete( cellvalue, options, cell ) {
-					setTimeout(function(){
-					$(cell) .find('input[type=text]').autocomplete({
-						source: finProdCode
-					});
-					}, 0);
-				}
-				
-				//autocomplete for Code
-				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
-				 availableProductName = JSON.parse(availableProductName);
-				 var finProdName=[],itr=0;
-				 for(i=0;i<availableProductName.length;i++){
-					 if(availableProductName[i].name){
-					 	finProdName[itr++] = availableProductName[i].name;
-					 }
-				 }
-
-				function pickNameAutoComplete( cellvalue, options, cell ) {
-					setTimeout(function(){
-					$(cell) .find('input[type=text]').autocomplete({
-						source: finProdName
-					});
-					}, 0);
-				}
-
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
@@ -448,32 +427,7 @@
 			    	 $("#idTotalDiscount").html(Math.round((Number(gridDisc) + Number($("#idAddDisc").val()))*100)/100);
 			    	 $("#idTotalTax").html(Math.round((Number(gridTax) + Number(addTaxAmt))*100)/100);
 			     });
-			     
-			   //------------ AutoComplete Customer Name--------------
-			     var objJsonCustomer = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_CUSTOMER, "_id", "name", "") %>';
-			     objJsonCustomer = JSON.parse(objJsonCustomer.replace(/_id/g,"id").replace(/name/g,"label"));
-			     $("#idCustomer").autocomplete({
-			    	 minLength: 0,
-				     source: objJsonCustomer,
-				     focus: function( event, ui ) {
-				     $( "#idCustomer" ).val( ui.item.label );
-				     return false;
-				     },
-				     select: function( event, ui ) {
-				     $( "#idCustomer" ).val( ui.item.label );
-				     $( "#idCustomerID" ).val( ui.item.id );
-				     
-				     return false;
-				     }
-			     })
-			     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-			     var temp = $( "<li>" );
-			     console.log(item);
-			     console.log(item.label +" "+item.id);
-			     	temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" ).appendTo( ul );
-			     return temp;
-			     };
-					
+			     					
 			   //-----> press alt + g for setting focus on jqgrid
 					$(document).bind('keydown', 'Alt+g', function(){
 					    var	ids = grid_selector.jqGrid("getDataIDs");

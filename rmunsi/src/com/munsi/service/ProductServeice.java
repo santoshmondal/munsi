@@ -1,6 +1,7 @@
 package com.munsi.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.munsi.dao.ProductDao;
 import com.munsi.dao.impl.MongoProductDao;
@@ -28,6 +29,21 @@ public class ProductServeice {
 
 	public Boolean update(Product product) {
 		return productDao.update(product);
+	}
+
+	public Boolean updateAll(Set<? extends Product> productList) {
+		Boolean sReturn = false;
+		try {
+			for (Product product : productList) {
+				productDao.update(product);
+			}
+
+			sReturn = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return sReturn;
 	}
 
 	public Boolean delete(String _id) {

@@ -20,6 +20,8 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	private Integer numberOfItem;
 
+	private Double paidAmount;
+
 	public String get_id() {
 		return _id;
 	}
@@ -76,6 +78,14 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	public void setNumberOfItem(Integer numberOfItem) {
 		this.numberOfItem = numberOfItem;
+	}
+
+	public Double getPaidAmount() {
+		return paidAmount;
+	}
+
+	public void setPaidAmount(Double paidAmount) {
+		this.paidAmount = paidAmount;
 	}
 
 }

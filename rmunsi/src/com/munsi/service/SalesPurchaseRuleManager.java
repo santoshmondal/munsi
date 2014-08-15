@@ -111,6 +111,8 @@ public class SalesPurchaseRuleManager {
 			for (Product product : productList) {
 				Product productMaster = productService.get(product.get_id());
 				Integer currentMasterStock = productMaster.getCurrentStock();
+				currentMasterStock = currentMasterStock != null ? currentMasterStock : 0;
+
 				if (isSalesOrPurchase) {
 					SalesProduct salesProduct = (SalesProduct) product;
 					currentMasterStock -= salesProduct.getTotalQuantity();
@@ -118,6 +120,7 @@ public class SalesPurchaseRuleManager {
 					PurchaseProduct purchaseProduct = (PurchaseProduct) product;
 					currentMasterStock += purchaseProduct.getTotalQuantity();
 				}
+				productMaster.setCurrentStock(currentMasterStock);
 				productService.update(productMaster);
 			}
 

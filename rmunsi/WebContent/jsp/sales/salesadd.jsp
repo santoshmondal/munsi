@@ -93,7 +93,7 @@
 					cellEdit : true,
 					colNames:['id','Barcode','Code','Name', 'Quantity', 'Rate', 'Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
-						{name:'id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
+						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
 						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
 						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
@@ -322,6 +322,7 @@
 		                    case "name":
 								var prodData =ajaxProductFetch(name,val,true);
 						        if(prodData){
+						        	rowData._id=prodData._id?prodData._id:1;
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
@@ -341,6 +342,7 @@
 		                    case "code":
 								var prodData =ajaxProductFetch(name,val,true);
 		                        if(prodData){
+						        	rowData._id=prodData._id?prodData._id:1;
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
@@ -360,6 +362,7 @@
 		                    case "barCode":
 								var prodData =ajaxProductFetch(name,val,true);
 		                        if(prodData){
+						        	rowData._id=prodData._id?prodData._id:1;
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";

@@ -210,19 +210,19 @@ public class Product extends BasePojo {
 		this.allowNegativeStock = allowNigativeStock;
 	}
 
-	public int getMinStock() {
+	public Integer getMinStock() {
 		return minStock;
 	}
 
-	public void setMinStock(int minStock) {
+	public void setMinStock(Integer minStock) {
 		this.minStock = minStock;
 	}
 
-	public int getMaxStock() {
+	public Integer getMaxStock() {
 		return maxStock;
 	}
 
-	public void setMaxStock(int maxStock) {
+	public void setMaxStock(Integer maxStock) {
 		this.maxStock = maxStock;
 	}
 

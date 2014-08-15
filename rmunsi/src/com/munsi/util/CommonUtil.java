@@ -32,7 +32,9 @@ public class CommonUtil {
 	private static Map<String, String> locationMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeOnMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeTypeMap = new LinkedHashMap<>();
-	private static final String DATE_FORMAT = "dd/MM/yyyy";
+	public static final String DATE_FORMAT = "dd/MM/yyyy";
+	public static final String DATE_FORMAT_YY_MM_DD = "yyMMdd";
+
 	public static final ObjectMapper mapper = new ObjectMapper();
 
 	static {
@@ -295,5 +297,19 @@ public class CommonUtil {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+	public static String getFormatedDate(String pattern) {
+		String sReturn = "";
+		try {
+			Calendar insatnce = Calendar.getInstance();
+
+			SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+			sReturn = sdf.format(insatnce.getTime());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return sReturn;
 	}
 }

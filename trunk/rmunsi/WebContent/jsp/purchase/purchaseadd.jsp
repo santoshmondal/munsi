@@ -50,23 +50,19 @@
 					  <span class="input-group-addon">%</span>
 					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %" >
 					</div>
+					
 					<div class="input-group col-xs-6" style='padding: 0px;'>
 					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPrice" data-rel="tooltip" title="Discount Rs" data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount Rs" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Tax" >
-					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
-					</div>
-					<div class="hr dotted"></div>
-					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="" data-rel="tooltip" title="TAX" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Tax" >
+					  <input type="number" class="form-control invoiceField" id="idRounding" data-rel="tooltip" title="Enter a positive or a negative value to round the Total" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Round off Amount" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 				</div>

@@ -229,6 +229,39 @@ public class CommonUtil {
 		return "";
 	}
 
+	public static String getIdLabelJSON(DBCollectionEnum dbCollectionEnum, String... projectionColumns) {
+		try {
+			DB mongoDB = MongoUtil.getDB();
+
+			DBCollection collection = mongoDB.getCollection(dbCollectionEnum.toString());
+			DBObject dbKey = new BasicDBObject();
+			BasicDBList queryList = new BasicDBList();
+			for (String sColumn : projectionColumns) {
+				dbKey.put(sColumn, 1);
+				queryList.add(new BasicDBObject(sColumn, new BasicDBObject("$exists", true)));
+			}
+
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+			DBObject finalQuery = deletedQuery;
+
+			finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
+
+			DBCursor dbCursor = collection.find(finalQuery, dbKey);
+
+			String sb = "[]";
+			if (dbCursor.hasNext()) {
+				sb = JSON.serialize(dbCursor).toString();
+			}
+
+			return sb;
+
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+
+		return "";
+	}
+
 	public static String getIdLabelJSON(DBCollectionEnum dbCollectionEnum, String idKey, String lableKey, String jsonQuery) {
 		try {
 			DB mongoDB = MongoUtil.getDB();

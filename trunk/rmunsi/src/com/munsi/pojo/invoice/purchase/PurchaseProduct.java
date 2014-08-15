@@ -10,6 +10,15 @@ public class PurchaseProduct extends Product {
 	private Integer freeQuantity;
 	private Integer totalQuantity; // quantity + freeQuintity
 
+	private Double derTaxPrice;
+	private Double derPrice; // Sale Price * quantity
+	private Double derDiscountPrice;
+
+	private Double rawDiscountPercent;
+
+	// ( derPrice + derTaxPrice ) - derDiscountPrice //
+	private Double netPaybleProductPrice;
+
 	public Integer getQuantity() {
 		return quantity;
 	}

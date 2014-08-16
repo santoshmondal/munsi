@@ -68,7 +68,7 @@
 				</div>
 				<div class="grid5 fixedHeightDiv">
 					<pre style="background-color:#87B87F"><span class="bigger-200"><strong><span id="idTotalAmt">0</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
-					<span id="idSubTotal" ></span>
+					<span id="idSubTotal" style="display: none" ></span>
 				</div>
 			</div>
 		</div>

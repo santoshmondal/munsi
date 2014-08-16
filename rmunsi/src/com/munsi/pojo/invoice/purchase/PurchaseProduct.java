@@ -43,4 +43,44 @@ public class PurchaseProduct extends Product {
 		this.totalQuantity = totalQuantity;
 	}
 
+	public Double getDerTaxPrice() {
+		return derTaxPrice;
+	}
+
+	public void setDerTaxPrice(Double derTaxPrice) {
+		this.derTaxPrice = derTaxPrice;
+	}
+
+	public Double getDerPrice() {
+		return derPrice;
+	}
+
+	public void setDerPrice(Double derPrice) {
+		this.derPrice = derPrice;
+	}
+
+	public Double getDerDiscountPrice() {
+		return derDiscountPrice;
+	}
+
+	public void setDerDiscountPrice(Double derDiscountPrice) {
+		this.derDiscountPrice = derDiscountPrice;
+	}
+
+	public Double getRawDiscountPercent() {
+		return rawDiscountPercent;
+	}
+
+	public void setRawDiscountPercent(Double rawDiscountPercent) {
+		this.rawDiscountPercent = rawDiscountPercent;
+	}
+
+	public Double getNetPaybleProductPrice() {
+		return netPaybleProductPrice;
+	}
+
+	public void setNetPaybleProductPrice(Double netPaybleProductPrice) {
+		this.netPaybleProductPrice = netPaybleProductPrice;
+	}
+
 }

@@ -14,7 +14,11 @@ public class BaseInvoice extends BasePojo implements Serializable {
 	private Date invoiceDate;
 
 	private Double invoiceDiscountPrice;
+	private Double invoiceDiscountPercent;
+
 	private Double invoiceTaxPercent;
+	private Double invoiceTaxPrice;
+
 	private Double sumOfNetPaybleProductPrice;
 
 	// sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice
@@ -112,6 +116,22 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	public void setRoundOfAmount(Double roundOfAmount) {
 		this.roundOfAmount = roundOfAmount;
+	}
+
+	public Double getInvoiceDiscountPercent() {
+		return invoiceDiscountPercent;
+	}
+
+	public void setInvoiceDiscountPercent(Double invoiceDiscountPercent) {
+		this.invoiceDiscountPercent = invoiceDiscountPercent;
+	}
+
+	public Double getInvoiceTaxPrice() {
+		return invoiceTaxPrice;
+	}
+
+	public void setInvoiceTaxPrice(Double invoiceTaxPrice) {
+		this.invoiceTaxPrice = invoiceTaxPrice;
 	}
 
 }

@@ -1,7 +1,11 @@
 
+<%@page import="com.munsi.pojo.invoice.purchase.PurchaseInvoice"%>
 <%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
 <%@page import="com.munsi.util.CommonUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<% PurchaseInvoice pInvoice = (PurchaseInvoice)request.getAttribute("INVOICE_DETAIL"); %>
+
 <style>
 	.fixedHeightDiv{
 		height: 120px;
@@ -14,55 +18,59 @@
 <div class="row page-header">
 	<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding: 0px; line-height: 1.2">
 		<div class="center col-xs-12 col-md-3 col-sm-3 col-lg-3">
-			<div class="form-group" style="background-color:#eee;  border:1px solid #f59942; padding: 10px 0px 10px 10px">
-				<div class="input-group" style="margin-right: 10px">
-				  <input type="text" id="idSupplier" class="form-control" tabindex="1" placeholder="Enter Supplier Name" >
-				  <input type="hidden" id="idSupplier-id" >
-				  <span class="input-group-addon" style="padding: 0px 10px;">
-				  	<a href="#" onclick='showSupplierInfo()' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Supplier Detail">
-				  		<i class="icon-user white"></i>
-				  	</a>
-				  </span>
+			<div class="profile-user-info profile-user-info-striped">
+				<div class="profile-info-row">
+					<div class="profile-info-name"> Supplier </div>
+					<div class="profile-info-value">
+						<span class="" ><%=pInvoice.getSupplier().getName() %></span>
+					</div>
+				</div>
+				<div class="profile-info-row">
+					<div class="profile-info-name"> Phone </div>
+					<div class="profile-info-value">
+						<i class="icon-phone light-orange bigger-110"></i>
+						<span class="" ><%=pInvoice.getSupplier().getPhone() %></span>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="center col-xs-12 col-sm-8 col-md-8 col-lg-8">
 			<div class="grid4 fixedHeightDiv">
 				<div class="input-group input-icon-right">
-				  <input type="text" class="form-control invoiceField" id="idSupplierInv" tabindex="3" style="text-align: center;" placeholder="Invoice No." >
+				  <input type="text" class="form-control invoiceField" id="idSupplierInv" readonly="readonly" tabindex="3" style="text-align: center;" placeholder="Invoice No." value="<%=pInvoice.getInvoiceNumber() %>" >
 				  <span class="input-group-addon"><i class="icon-edit blue"></i></span>
 				</div>
 				<div class="hr dotted"></div>
 				<div class="input-group input-icon-right">
-				  <input type="text" class="form-control invoiceField datepicker" id="idSupplierInvDate" tabindex="3" style="text-align: center;" placeholder="Invoice Date" >
+				  <input type="text" class="form-control invoiceField datepicker" id="idSupplierInvDate" readonly="readonly" tabindex="3" style="text-align: center;" placeholder="Invoice Date"  value="<%=pInvoice.getSctime() %>" >
 				  <span class="input-group-addon"><i class="icon-calendar blue"></i></span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<div class="grid2 fixedHeightDiv" style="padding-right: 0px; margin-right: 5px; ">
 					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="idAddFreight" data-rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Freight" tabindex="4" style="text-align: center;" placeholder="Freight" >
+					  <input type="number" class="form-control invoiceField" id="idAddFreight" readonly="readonly" data-rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Freight" tabindex="4" style="text-align: center;" placeholder="Freight"  value="<%=pInvoice.getFreight() %>" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 	
 					<div class="input-group col-xs-6" style='padding: 0px;'>
 					  <span class="input-group-addon">%</span>
-					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %" >
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" readonly="readonly" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %" >
 					</div>
 					
 					<div class="input-group col-xs-6" style='padding: 0px;'>
-					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPrice" data-rel="tooltip" title="Discount Rs" data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount Rs" >
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPrice" readonly="readonly" data-rel="tooltip" title="Discount Rs" data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount Rs" value="<%=pInvoice.getInvoiceDiscountPrice() %>" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" value="<%=pInvoice.getInvoiceTaxPercent() %>" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="idRounding" data-rel="tooltip" title="Enter a positive or a negative value to round the Total" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Round off Amount" >
+					  <input type="number" class="form-control invoiceField" id="idRounding" data-rel="tooltip" title="Enter a positive or a negative value to round the Total" readonly="readonly" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Round off Amount" value="<%=pInvoice.getRoundOfAmount() %>" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 				</div>
@@ -72,11 +80,11 @@
 				</div>
 			</div>
 		</div>
-		<div class="center col-xs-12 col-md-1 col-sm-1 col-lg-1 pull-right hidden-print">
-			<button class="btn btn-sm btn-inverse pull-right" type="button" onclick="saveAndPrintInvoice()" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
+		<!-- <div class="center col-xs-12 col-md-1 col-sm-1 col-lg-1 pull-right hidden-print">
+			<button class="btn btn-sm btn-inverse pull-right" type="button" onclick="" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
 				<i class="icon-save"></i> Save
 			</button>
-		</div>
+		</div> -->
 	</div>
 
 </div>
@@ -95,9 +103,7 @@
 <!-- /.row -->
 
 <script type="text/javascript">
-	 var mydata = [
-                   {id:"1", code:"",name:"",  quantity:"",  purchaseRate:"",unit:"",derSumOfProudctTax:"",rawDiscountPercent:"",rawDiscountPrice:"",freeQuantity:"",totalQuantity:'',netPaybleProductPrice:''}
-             ];
+	 var mydata =  <%=CommonUtil.objectToJson(pInvoice.getPurchaseProductList()).replaceAll("_id", "id") %>;
 	 var gridDisc,gridTax;
 			jQuery(function($) {
 				var grid_selector = jQuery("#grid-table_pinvoice");
@@ -116,68 +122,20 @@
 					colNames:['id','Barcode','Code','Name', 'Qty', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
-						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
-						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
-						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
-						{name:'quantity',index:'quantity', sortable:false, align:'right', width:70,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'purchaseRate',index:'purchaseRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'mrp',index:'mrp', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'barCode',index:'barCode', width:100, sortable:false, editable: false},
+						{name:'code',index:'code', width:100, sortable:false, editable: false},
+						{name:'name',index:'name', width:250, sortable:false, editable: false},
+						{name:'quantity',index:'quantity', sortable:false, align:'right', width:70,editable: false, formatter:'integer', sorttype:'int'},
+						{name:'purchaseRate',index:'purchaseRate', width:90, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'mrp',index:'mrp', width:90, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'derSumOfProudctTax',index:'derSumOfProudctTax', editable: false, width:80, sortable:false, align:'right', formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
-						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
-						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int',editoptions: {
-                            dataEvents: [
-                                         {
-                                             type: 'keydown',
-                                             fn: function (e) {
-                                            
-                                            	 var key = e.charCode || e.keyCode;
-                                                 if (key == 9 || key == 15)//tab
-                                                 {
-                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
-														
-                                                     }else{
-                                                    	 
-	                                                     //Enter edit row for next row in grid
-	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
-	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
-	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                     ]
-                                 }},
+						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
+						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: false, formatter:'integer', sorttype:'int'},
 						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
 						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
-/* 						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'expdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'batchno',index:'batchno', sortable:false, width:150, editable: true,editoptions: {
-                            dataEvents: [
-                                         {
-                                             type: 'keydown',
-                                             fn: function (e) {
-                                            
-                                            	 var key = e.charCode || e.keyCode;
-                                                 if (key == 9 || key == 15)//tab
-                                                 {
-                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
-														
-                                                     }else{
-                                                    	 
-	                                                     //Enter edit row for next row in grid
-	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
-	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
-	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                     ]
-                                 }
-						}
- */					], 
+					], 
 			
 					viewrecords : true,
 					rowNum:1000,
@@ -213,29 +171,7 @@
 						//---- Setting Auto Total in Footer --
 						calculateTotalAmount();
 	                    
-					},
-					afterEditCell: function(rowid, cellname, value, iRow, iCol) {
-					    // Get a handle to the actual input field
-					    var inputControl = jQuery('#' + (iRow) + '_' + cellname);
-					    curCellname=cellname;
-					    curRow = iRow;
-					    // Listen for enter (and shift-enter)
-					    inputControl.bind("keydown",function(e) {
-
-					      if (e.keyCode === 13) {  // Enter key:
-					        var increment = e.shiftKey ? -1 : 1;
-
-					        // Do not go out of bounds
-					        //var lastRowInd = grid_selector.jqGrid("getGridParam","reccount");
-					        //if ( iRow+increment == 0 || iRow+increment == lastRowInd+1)
-					        //  return;   // we could re-edit current cell or wrap
-					        //else
-					        	grid_selector.jqGrid("editCell",iRow,iCol+increment,true);
-					        
-					      }
-					    }); // End keydown binding
-					  },
-					  
+					},					  
 					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",
 					scrollOffset: 20,
@@ -295,43 +231,6 @@
 								.datepicker({format:'dd-mm-yyyy' , autoclose:true}); 
 					}, 0);
 				}
-				
-				//autocomplete for Code
-				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "code", "") %>';
-				 availableProductCode = JSON.parse(availableProductCode);
-				 var finProdCode=[],itr=0;
-				 for(i=0;i<availableProductCode.length;i++){
-					 if(availableProductCode[i].code){
-					 	finProdCode[itr++] = availableProductCode[i].code;
-					 }
-				 }
-				 //console.log(availableProductCode+"\n finProdCode::"+finProdCode);
-				function pickCodeAutoComplete( cellvalue, options, cell ) {
-					setTimeout(function(){
-					$(cell) .find('input[type=text]').autocomplete({
-						source: finProdCode
-					});
-					}, 0);
-				}
-			
-				//autocomplete for Code
-				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
-				 availableProductName = JSON.parse(availableProductName);
-				 var finProdName=[],itr=0;
-				 for(i=0;i<availableProductName.length;i++){
-					 if(availableProductName[i].name){
-					 	finProdName[itr++] = availableProductName[i].name;
-					 }
-				 }
-
-				function pickNameAutoComplete( cellvalue, options, cell ) {
-					setTimeout(function(){
-					$(cell) .find('input[type=text]').autocomplete({
-						source: finProdName
-					});
-					}, 0);
-				}
-			
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
@@ -533,33 +432,7 @@
 			     $( "input#idAddDiscPrice").change(function() {
 			    	 $("#idAddDiscPer").val(Math.round((Number($("#idAddDiscPrice").val())*100)/Number($("#idSubTotal").html()))*100/100);
 			     });
-			     //------------ AutoComplete Supplier Name--------------
-			     var objJsonSupplier = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_SUPPLIER, "_id", "name", "") %>';
-			    
-			     objJsonSupplier = JSON.parse(objJsonSupplier.replace(/_id/g,"id").replace(/name/g,"label"));
-			     $("#idSupplier").autocomplete({
-					     minLength: 0,
-					     source: objJsonSupplier,
-					     focus: function( event, ui ) {
-					     $( "#idSupplier" ).val( ui.item.label );
-					     return false;
-					     },
-					     select: function( event, ui ) {
-					     $( "#idSupplier" ).val( ui.item.label );
-					     $( "#idSupplier-id" ).val( ui.item.id );
-					     
-					     return false;
-					     }
-				     })
-				     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-				     return $( "<li>" )
-				     .append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" )
-				     .appendTo( ul );
-				     };
-				     
-				     $('.datepicker').datepicker({format:'dd-mm-yyyy' , autoclose:true});
-				
-			});
+
 			//-------------------------------------------
 			//------- Product Fetch Invoice -------------
 			//-------------------------------------------
@@ -638,4 +511,5 @@
 					
 				g_isDirty=false;					 
 			 }
+		});
 </script>

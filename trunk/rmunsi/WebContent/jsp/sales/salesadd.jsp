@@ -80,7 +80,7 @@
 				var grid_selector = jQuery("#grid-table_pinvoice");
 				var pager_selector = jQuery("#grid-table_pinvoice_toppager");
 				var pager_selector_id = "#grid-table_pinvoice_toppager";
-				var colModel, i, cmi, tr = "<tr>", skip = 0, ths,lastSel=-1;
+				var colModel, i, cmi, tr = "<tr>", skip = 0, ths,curCellname,curRow;
 				
 			     
 				grid_selector.jqGrid({
@@ -102,7 +102,29 @@
 						{name:'derSumOfProudctTax',index:'derSumOfProudctTax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
+						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int',editoptions: {
+                            dataEvents: [
+                                         {
+                                             type: 'keydown',
+                                             fn: function (e) {
+                                            
+                                            	 var key = e.charCode || e.keyCode;
+                                                 if (key == 9 || key == 15)//tab
+                                                 {
+                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
+														
+                                                     }else{
+                                                    	 
+	                                                     //Enter edit row for next row in grid
+	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
+	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
+	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
+                                                     }
+                                                 }
+                                             }
+                                         }
+                                     ]
+                                 }},
 						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
 						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
 					], 
@@ -163,6 +185,27 @@
 	                    }
 	                    
 					},
+					afterEditCell: function(rowid, cellname, value, iRow, iCol) {
+					    // Get a handle to the actual input field
+					    var inputControl = jQuery('#' + (iRow) + '_' + cellname);
+					    curCellname=cellname;
+					    curRow = iRow;
+					    // Listen for enter (and shift-enter)
+					    inputControl.bind("keydown",function(e) {
+
+					      if (e.keyCode === 13) {  // Enter key:
+					        var increment = e.shiftKey ? -1 : 1;
+
+					        // Do not go out of bounds
+					        //var lastRowInd = grid_selector.jqGrid("getGridParam","reccount");
+					        //if ( iRow+increment == 0 || iRow+increment == lastRowInd+1)
+					        //  return;   // we could re-edit current cell or wrap
+					        //else
+					        	grid_selector.jqGrid("editCell",iRow,iCol+increment,true);
+					        
+					      }
+					    }); // End keydown binding
+					  },
 			
 					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
 					//caption: "List of areas",

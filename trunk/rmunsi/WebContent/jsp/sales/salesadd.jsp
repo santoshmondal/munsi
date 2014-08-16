@@ -2,6 +2,14 @@
 <%@page import="com.munsi.util.Constants.DBCollectionEnum"%>
 <%@page import="com.munsi.util.CommonUtil"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<style>
+	.profile-info-value{
+		margin-left: 160px;
+	}
+	.profile-info-name{
+		width: 160px;
+	}
+</style>
 
 <div class="row page-header">
 	<div class="col-xs-12 col-md-12 col-sm-12 col-lg-12" style="padding: 0px; line-height: 1.2">
@@ -566,6 +574,8 @@
 			
 			 //------------ Customer Info ------------
 			 function showCustomerInfo(){
+				 try{
+					
 				var urlPath = "customermaster.action?op=VIEW&custid="+$("#idCustomerID").val();
 				var cusomerInfo;
 				$.ajax({
@@ -582,10 +592,39 @@
 						console.error( "[async MSG]error in fetching data from server....." );
 					});
 				
-				var msgStr = "<div class='profile-user-info profile-user-info-striped'><div class='profile-info-row'><div class='profile-info-name'> Username </div><div class='profile-info-value'><span class='editable editable-click' id='username'>alexdoe</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Location </div><div class='profile-info-value'><i class='icon-map-marker light-orange bigger-110'></i><span class='editable editable-click' id='country'>Netherlands</span><span class='editable editable-click' id='city'>Amsterdam</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Age </div><div class='profile-info-value'><span class='editable editable-click' id='age'>38</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Joined </div><div class='profile-info-value'><span class='editable editable-click' id='signup'>20/06/2010</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Last Online </div><div class='profile-info-value'><span class='editable editable-click' id='login'>3 hours ago</span></div></div><div class='profile-info-row'><div class='profile-info-name'> About Me </div><div class='profile-info-value'><span class='editable editable-click' id='about'>Editable as WYSIWYG</span></div></div></div>";
-				
+				var htmlBody =  $("<div class='profile-user-info profile-user-info-striped'> \
+									<div class='profile-info-row'> \
+										<div class='profile-info-name'> Customer Name </div> \
+										<div class='profile-info-value'> \
+											<span class='' >"+ cusomerInfo.name +"</span> \
+										</div> \
+									</div> \
+									<div class='profile-info-row'> \
+										<div class='profile-info-name'> Phone </div> \
+										<div class='profile-info-value'> \
+											<i class='icon-phone light-orange bigger-110'></i> \
+											<span class='' >"+ cusomerInfo.phone +"</span> \
+										</div> \
+									</div> \
+									<div class='profile-info-row'> \
+										<div class='profile-info-name'> Address </div> \
+										<div class='profile-info-value'> \
+											<i class='icon-map-marker light-orange bigger-110'></i> \
+											<span >"+ cusomerInfo.address +"</span> \
+											<span >"+ cusomerInfo.city +"</span> \
+											<span >"+ cusomerInfo.pin +"</span> \
+										</div> \
+									</div> \
+									<div class='profile-info-row'> \
+										<div class='profile-info-name'> Outstanding Amount </div> \
+										<div class='profile-info-value'> \
+											<span class=''>"+ cusomerInfo.outStandingAmount +"</span> \
+										</div> \
+									</div> \
+								</div>");
 				 bootbox.dialog({
-						message: msgStr, 
+						message: htmlBody, 
+						onEscape: function() {},
 						title: "<span class='blue'>Customer Detail (<span class='red'>"+cusomerInfo.name+"</span>)</span>",
 						buttons: {
 						    danger: {
@@ -594,6 +633,11 @@
 						    }
 						}
 					});
+				 
+				 }catch(e){
+					console.error(e.message); 
+				 }
+				 
 			 }
 			 
 			 //-------------- Payment Dialog-----------

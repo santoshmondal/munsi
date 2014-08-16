@@ -16,7 +16,7 @@
 		<div class="center col-xs-12 col-md-3 col-sm-3 col-lg-3">
 			<div class="form-group" style="background-color:#eee;  border:1px solid #f59942; padding: 10px 0px 10px 10px">
 				<div class="input-group" style="margin-right: 10px">
-				  <input type="text" id="idSupplier" class="form-control" tabindex="1" placeholder="Enter Supplier Name" >
+				  <input type="text" id="idSupplier" class="form-control manual-tooltip tooltip-error" tabindex="1" placeholder="Enter Supplier Name" title="Please enter supplier name">
 				  <input type="hidden" id="idSupplier-id" >
 				  <span class="input-group-addon" style="padding: 0px 10px;">
 				  	<a href="#" onclick='showSupplierInfo()' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Supplier Detail">
@@ -29,12 +29,12 @@
 		<div class="center col-xs-12 col-sm-8 col-md-8 col-lg-8">
 			<div class="grid4 fixedHeightDiv">
 				<div class="input-group input-icon-right">
-				  <input type="text" class="form-control invoiceField" id="idSupplierInv" tabindex="3" style="text-align: center;" placeholder="Invoice No." >
+				  <input type="text" class="form-control invoiceField manual-tooltip tooltip-error" id="idSupplierInv" tabindex="3" style="text-align: center;" placeholder="Invoice No."  title="Please enter Invoice Number" data-placement="bottom">
 				  <span class="input-group-addon"><i class="icon-edit blue"></i></span>
 				</div>
 				<div class="hr dotted"></div>
 				<div class="input-group input-icon-right">
-				  <input type="text" class="form-control invoiceField datepicker" id="idSupplierInvDate" tabindex="3" style="text-align: center;" placeholder="Invoice Date" >
+				  <input type="text" class="form-control invoiceField datepicker manual-tooltip tooltip-error" id="idSupplierInvDate" data-init='' tabindex="3" style="text-align: center;" placeholder="Invoice Date"  title="Please enter Invoice Date" data-placement="bottom">
 				  <span class="input-group-addon"><i class="icon-calendar blue"></i></span>
 				</div>
 			</div>
@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		<div class="center col-xs-12 col-md-1 col-sm-1 col-lg-1 pull-right hidden-print">
-			<button class="btn btn-sm btn-inverse pull-right" type="button" onclick="saveAndPrintInvoice()" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
+			<button id="idSaveBtn" class="btn btn-sm btn-inverse pull-right" type="button" onclick="saveAndPrintInvoice()" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
 				<i class="icon-save"></i> Save
 			</button>
 		</div>
@@ -85,7 +85,7 @@
 <div class="row">
 	<!-- PAGE CONTENT BEGINS -->
 
-	<div class="col-xs-12">
+	<div class="col-xs-12 manual-tooltip tooltip-error" id="gridDiv" title="No PRODUCT added, please add PRODUCT" data-placement="top">
 		<table id="grid-table_pinvoice"></table>
 		<div id="grid-pager_pinvoice"></div>
 		<!-- PAGE CONTENT ENDS -->
@@ -336,6 +336,7 @@
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
 					$('[data-rel=tooltip]').tooltip({container:'body'});
+					$('.manual-tooltip').tooltip({trigger:'manual'});
 				}
 			
 
@@ -507,31 +508,26 @@
 	                	gridTax=Math.round(tTemp*100)/100;
 	                	$("#idAddTax").val(gridTax);
 	                	
-	                	/* //------------- Sales Invoice Discount Rs Calculation
-	                	tTemp=0;
-	                	for(i=0;i<gridData.length-1;i++){
-		                	var discountAmt = gridData[i].rawDiscountPrice?gridData[i].rawDiscountPrice:0;
-	                		tTemp = tTemp + Number(gridData[i].rawDiscountPrice);
-		                }
-	                	gridDisc=Math.round(tTemp*100)/100;
-		                $("#idTotalDiscount").html(gridDisc);
-		                 */
 		                 g_isDirty=true;
              	}
 			     
 			     //------- Sales Invoice addition of tax and additional discount
 			     $( "input.invoiceField" ).change(function() {
 			    	 $("#idTotalAmt").html(Math.round((Number($("#idSubTotal").html())-Number($("#idAddDiscPrice").val())+Number($("#idAddFreight").val())+Number($("#idRounding").val()))*100)/100);
+			    	 
 			     });
 			      
 			     
 			     $( "input#idAddDiscPer").change(function() {
 			    	 $("#idAddDiscPrice").val(Math.round((Number($("#idSubTotal").html())*Number($("#idAddDiscPer").val()))/100)*100/100);
+			     	//calculateTotalAmount();
+			    	 $("#idTotalAmt").html(Math.round((Number($("#idSubTotal").html())-Number($("#idAddDiscPrice").val())+Number($("#idAddFreight").val())+Number($("#idRounding").val()))*100)/100);
 			     });
 			     
 
 			     $( "input#idAddDiscPrice").change(function() {
 			    	 $("#idAddDiscPer").val(Math.round((Number($("#idAddDiscPrice").val())*100)/Number($("#idSubTotal").html()))*100/100);
+			    	 $("#idTotalAmt").html(Math.round((Number($("#idSubTotal").html())-Number($("#idAddDiscPrice").val())+Number($("#idAddFreight").val())+Number($("#idRounding").val()))*100)/100);
 			     });
 			     //------------ AutoComplete Supplier Name--------------
 			     var objJsonSupplier = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_SUPPLIER, "_id", "name", "") %>';
@@ -557,8 +553,8 @@
 				     .appendTo( ul );
 				     };
 				     
-				     $('.datepicker').datepicker({format:'dd-mm-yyyy' , autoclose:true});
-				
+				     $('.datepicker').datepicker({format:'dd-mm-yyyy', autoclose:true});
+				     $('#idSupplierInvDate').datepicker("setDate", new Date());
 			});
 			//-------------------------------------------
 			//------- Product Fetch Invoice -------------
@@ -617,25 +613,54 @@
 			 
 			 //---------- Save and Print Invoice--------
 			 function saveAndPrintInvoice(){
+				var cID =$("#idSupplier-id").val();
+				var valida=true;
+				if(!cID){
+					$("#idSupplier").tooltip('show');
+					valida =false;
+				}
+				if(!$("#idSupplierInv").val()){
+					$("#idSupplierInv").tooltip('show');
+					valida =false;
+				}
+				if(!$("#idSupplierInvDate").val()){
+					$("#idSupplierInvDate").tooltip('show');
+					valida =false;
+				}
+				
 				var gridData = $("#grid-table_pinvoice").jqGrid('getGridParam','data');
-				gridData.splice(gridData.length-1,1);
-				var urlPath = "purchase.action?op=SAVE&supplierid="+$("#idSupplier-id").val()+"&invDate="+$("#idSupplierInvDate").val()+"&invoiceTaxPrice="+$("#idAddTax").val()+"&invoiceDiscountPrice="+$("#idAddDiscPrice").val()+"&invoiceNumber="+$("#idSupplierInv").val()+"&freight="+$("#idAddFreight").val()+"&roundOfAmount="+$("#idRounding").val();
-					
-				$.ajax({
-					type: "POST",
-					url: urlPath,
-					dataType: 'json',
-					data:{purchaseProductJSON:JSON.stringify(gridData)},
-					async:false
-					})
-					.complete(function( data ) {
-						console.log("Data Response:" + data.responseJSON);
-						alert("saved successfully");
-					})
-					.fail(function() {
-						console.error( "[async MSG]:saveAndPrintInvoice > error in fetching data from server....." );
-					});
-					
-				g_isDirty=false;					 
+				if(gridData[0].name==""){
+					$("#gridDiv").tooltip('show');
+					valida = false;
+				}
+				if(valida){
+					gridData.splice(gridData.length-1,1);
+					var urlPath = "purchase.action?op=SAVE&supplierid="+$("#idSupplier-id").val()+"&invDate="+$("#idSupplierInvDate").val()+"&invoiceTaxPrice="+$("#idAddTax").val()+"&invoiceDiscountPrice="+$("#idAddDiscPrice").val()+"&invoiceNumber="+$("#idSupplierInv").val()+"&freight="+$("#idAddFreight").val()+"&roundOfAmount="+$("#idRounding").val();
+						
+					$.ajax({
+						type: "POST",
+						url: urlPath,
+						dataType: 'json',
+						data:{purchaseProductJSON:JSON.stringify(gridData)},
+						async:false
+						})
+						.complete(function( data ) {
+							console.log("Data Response:" + data.responseJSON);
+							alert("saved successfully");
+						})
+						.fail(function() {
+							console.error( "[async MSG]:saveAndPrintInvoice > error in fetching data from server....." );
+						});
+					$("#idSaveBtn").prop("disabled",true);
+					g_isDirty=false;
+				}else{
+					setTimeout(function() {
+						 $("#idSupplier").tooltip('hide');
+						 $("#gridDiv").tooltip('hide');
+						 $("#idSupplierInv").tooltip('hide');
+						 $("#idSupplierInvDate").tooltip('hide');
+					}, 5000);
+						return;
+				}
 			 }
 </script>

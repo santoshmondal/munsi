@@ -43,4 +43,3 @@ async.loadingDialog = (function () {
 
     };
 })();
-

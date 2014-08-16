@@ -11,7 +11,9 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	private String _id;
 	private String invoiceNumber;
+
 	private Date invoiceDate;
+	private String sinvoiceDate;
 
 	private Double invoiceDiscountPrice;
 	private Double invoiceDiscountPercent;
@@ -132,6 +134,14 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	public void setInvoiceTaxPrice(Double invoiceTaxPrice) {
 		this.invoiceTaxPrice = invoiceTaxPrice;
+	}
+
+	public String getSinvoiceDate() {
+		return sinvoiceDate;
+	}
+
+	public void setSinvoiceDate(String sinvoiceDate) {
+		this.sinvoiceDate = sinvoiceDate;
 	}
 
 }

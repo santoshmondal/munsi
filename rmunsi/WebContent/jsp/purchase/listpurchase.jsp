@@ -23,12 +23,10 @@
 	<script type="text/javascript">
 	$(document).ready(function () {
         var myGrid = $("#grid-table-data");
-        var mydata=[{'id':'01','sInvoiceNumber':'IX1230','sInvoiceDate':'12/2/2014','supplierName':'Jonny','totalAmount':'12345'}];
         
         myGrid.jqGrid({
 			url: "${pageContext.request.contextPath}/purchase.action?op=view_all",
 			mtype: "POST",
-			//data: mydata,
 			loadonce: true,
 			gridview: true,
 			datatype: "json",//"local"
@@ -38,7 +36,7 @@
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
 				{name:'invoiceNumber',index:'invoiceNumber', sorttype:"int", sortable:true, width:170,editable: false},
-				{name:'sInvoiceDate',index:'sInvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
+				{name:'sinvoiceDate',index:'sinvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
                         		if (this.id.substr(0, 3) === "gs_") {

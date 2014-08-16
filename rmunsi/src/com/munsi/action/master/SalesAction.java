@@ -93,7 +93,7 @@ public class SalesAction extends HttpServlet {
 					String invoiceAddTaxPercent = request.getParameter("invoiceAddTaxPrice");
 					String invoiceAddDiscountPrice = request.getParameter("invoiceAddDiscountPrice");
 					String salesProductJSON = request.getParameter("salesProductJSON");
-					String paidAmount = "100.0";//request.getParameter("paidAmount");
+					String paidAmount = request.getParameter("paidAmount");
 
 					invoiceAddTaxPercent = invoiceAddTaxPercent != null && !invoiceAddTaxPercent.isEmpty() ? invoiceAddTaxPercent : "0";
 					invoiceAddDiscountPrice = invoiceAddDiscountPrice != null && !invoiceAddDiscountPrice.isEmpty() ? invoiceAddDiscountPrice : "0";
@@ -116,6 +116,7 @@ public class SalesAction extends HttpServlet {
 					}
 
 					salesInvoiceService.create(sInvoice);
+					json = "[]";
 					break;
 				case "VIEW":
 					SalesInvoice newInvoice = salesInvoiceService.get(request.getParameter("invoiceid"));

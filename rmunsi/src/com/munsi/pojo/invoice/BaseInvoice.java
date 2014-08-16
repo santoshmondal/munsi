@@ -1,6 +1,7 @@
 package com.munsi.pojo.invoice;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.munsi.pojo.BasePojo;
 
@@ -10,17 +11,18 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	private String _id;
 	private String invoiceNumber;
+	private Date invoiceDate;
+
 	private Double invoiceDiscountPrice;
 	private Double invoiceTaxPercent;
-
 	private Double sumOfNetPaybleProductPrice;
 
 	// sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice
 	private Double netPayblePrice;
-
 	private Integer numberOfItem;
-
 	private Double paidAmount;
+	private Double freight;
+	private Double roundOfAmount;
 
 	public String get_id() {
 		return _id;
@@ -36,6 +38,14 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
+	}
+
+	public Date getInvoiceDate() {
+		return invoiceDate;
+	}
+
+	public void setInvoiceDate(Date invoiceDate) {
+		this.invoiceDate = invoiceDate;
 	}
 
 	public Double getInvoiceDiscountPrice() {
@@ -86,6 +96,22 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	public void setPaidAmount(Double paidAmount) {
 		this.paidAmount = paidAmount;
+	}
+
+	public Double getFreight() {
+		return freight;
+	}
+
+	public void setFreight(Double freight) {
+		this.freight = freight;
+	}
+
+	public Double getRoundOfAmount() {
+		return roundOfAmount;
+	}
+
+	public void setRoundOfAmount(Double roundOfAmount) {
+		this.roundOfAmount = roundOfAmount;
 	}
 
 }

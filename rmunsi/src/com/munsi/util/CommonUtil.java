@@ -33,6 +33,7 @@ public class CommonUtil {
 	private static Map<String, String> schemeOnMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeTypeMap = new LinkedHashMap<>();
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
+	public static final String DATE_FORMAT_ddMMyyyy_HYPHEN = "dd-MM-yyyy";
 	public static final String DATE_FORMAT_YY_MM_DD = "yyMMdd";
 
 	public static final ObjectMapper mapper = new ObjectMapper();

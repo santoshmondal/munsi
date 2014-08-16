@@ -26,18 +26,18 @@
         var mydata=[{'id':'01','sInvoiceNumber':'IX1230','sInvoiceDate':'12/2/2014','supplierName':'Jonny','totalAmount':'12345'}];
         
         myGrid.jqGrid({
-			//url: "${pageContext.request.contextPath}/invoiceaction.do?op=view_all",
-			//mtype: "POST",
-			data: mydata,
+			url: "${pageContext.request.contextPath}/purchase.action?op=view_all",
+			mtype: "POST",
+			//data: mydata,
 			loadonce: true,
 			gridview: true,
-			datatype: "local",//"json",
+			datatype: "json",//"local"
 			viewrecords : true,
 			
 			colNames:['id','Invoice Number','Invoice Date','Supplier Name','Invoice Amount',' '],
 			colModel:[
 				{name:'id',index:'id', width:60, sorttype:"int", editrules:{required:false, addhidden:true}, editable: false, hidden:true},
-				{name:'sInvoiceNumber',index:'sInvoiceNumber', width:170,editable: false},
+				{name:'invoiceNumber',index:'invoiceNumber', sorttype:"int", sortable:true, width:170,editable: false},
 				{name:'sInvoiceDate',index:'sInvoiceDate',width:100,sorttype:'date', searchoptions: {sopt: ['eq'],
                     dataInit : function (elem) {
                         $(elem).datepicker({ format:'dd-M-yyyy' ,changeYear: true, changeMonth: true, showButtonPanel: true, autoclose: true}) .on('changeDate', function(ev){
@@ -50,8 +50,8 @@
                                 }
                         });
                     }},formatter:'date', formatoptions: {srcformat: 'd/m/Y', newformat:'d-M-Y'}, datefmt: 'd-M-Y',unformat: pickDate},
-                {name:'supplierName',index:'supplierName', width:170,editable: false},
-				{name:'totalAmount',index:'totalAmount', width:100, editable: false},
+                {name:'supplierName',index:'supplierName', width:170,editable: false, jsonmap:"supplier.name"},
+				{name:'netPayblePrice',index:'netPayblePrice', width:100, editable: false},
 				{ name: 'act', index: 'act', frozen : true,width:70, search:false, align: 'center', sortable: false, formatter: 'actions',
                     formatoptions: {editbutton:false,delbutton:false,
                         keys: false}
@@ -79,7 +79,7 @@
                             },
                             click: function(e) {
                                 console.log("'Detail' button is clicked in the rowis="+ $(e.target).closest("tr.jqgrow").attr("id") +" !");
-                                var URL = "invoiceaction.do?op=VIEW&invoiceno="+ $(e.target).closest("tr.jqgrow").attr("id");
+                                var URL = "purchase.action?op=VIEW&invoiceid="+ $(e.target).closest("tr.jqgrow").attr("id");
                 				var DATA = {};
                 				var embedInElement = "id_EmbedPage";
                 				async.munsi.ajaxCall(URL,DATA,embedInElement);
@@ -91,16 +91,17 @@
                        .append('<span class="icon-eye-open bigger-120" style="color:black"></span>')
                        .prependTo($(this).children("div"));
                 });
+                
 			},
 			gridComplete : function() {
 				myGrid.find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
 			},
-			rowNum:10,
+			rowNum:20,
             rowList:[10,20,30],
             pager: '#grid-pager-data',
             ignoreCase:true,
             rownumbers:true,
-            sortname: 'invdate',
+            sortname: "invoiceNumber",
             scrollOffset: 18,
 			altRows: true,
 			viewrecords: true,

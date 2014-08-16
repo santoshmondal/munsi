@@ -13,9 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 
-import com.munsi.pojo.master.Manufacturer;
 import com.munsi.pojo.master.Supplier;
-import com.munsi.service.ManufacturerServeice;
 import com.munsi.service.SupplierServeice;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants;
@@ -31,7 +29,7 @@ public class SupplierMasterAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOG = Logger.getLogger(SupplierMasterAction.class);
 	private SupplierServeice supplierService;
-	
+
 	@Override
 	public void init() throws ServletException {
 		super.init();
@@ -40,73 +38,79 @@ public class SupplierMasterAction extends HttpServlet {
 			supplierService = (SupplierServeice) object;
 		}
 	}
+
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doProcessWithException(request,response);
+		doProcessWithException(request, response);
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doProcessWithException(request,response);
+		doProcessWithException(request, response);
 	}
 
-	private void doProcessWithException(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-		try{
-			doProcess(request,response);
-		}catch(Exception e){
+	private void doProcessWithException(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try {
+			doProcess(request, response);
+		} catch (Exception e) {
 			LOG.error(e);
 		}
 	}
 
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		PrintWriter out = response.getWriter();
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
-		
-		if(operation != null && supplierService  != null){
+
+		if (operation != null && supplierService != null) {
 			String id = request.getParameter(Constants.COLLECTION_KEY);
-			Supplier sup =  new Supplier();
-			BeanUtils.populate(sup, request.getParameterMap() );
-			
-			Constants.UIOperations opEnum  = UIOperations.valueOf(operation.toUpperCase());
+			Supplier sup = new Supplier();
+			BeanUtils.populate(sup, request.getParameterMap());
+
+			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:
-				supplierService.create(sup);	
+				supplierService.create(sup);
 				break;
-			case EDIT :
-					if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-						sup.set_id(id);
-						supplierService.update(sup);
-					} 
-				break;	
-				
-			case DELETE :
-				if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+			case EDIT:
+				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+					sup.set_id(id);
+					supplierService.update(sup);
+				}
+				break;
+
+			case DELETE:
+				if (id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
 					supplierService.delete(id);
 				}
 				break;
 
-			case VIEW :
-				
-				break;	
-				
-			case VIEW_ALL :
-				
+			case VIEW:
+				String supplierID = request.getParameter("supplierid");
+				Supplier supplier = supplierService.get(supplierID);
+				json = CommonUtil.objectToJson(supplier);
+				json = json.replaceAll("_id", "id");
+				break;
+
+			case VIEW_ALL:
+
 				List<Supplier> supplierList = supplierService.getAll();
 				json = CommonUtil.objectToJson(supplierList);
 				json = json.replaceAll("_id", "id");
-				break;	
-				
+				break;
+
 			default:
 				break;
 			}
 		}
-		
+
 		out.write(json);
 		out.close();
 	}

@@ -56,7 +56,7 @@
 	
 					<div class="input-group col-xs-6" style='padding: 0px;'>
 					  <span class="input-group-addon">%</span>
-					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" readonly="readonly" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %" >
+					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" readonly="readonly" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %"  value="<%=pInvoice.getInvoiceDiscountPercent() %>" >
 					</div>
 					
 					<div class="input-group col-xs-6" style='padding: 0px;'>
@@ -65,7 +65,7 @@
 					</div>
 					<div class="hr dotted"></div>
 					<div class="input-group">
-					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" value="<%=pInvoice.getInvoiceTaxPercent() %>" >
+					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" value="<%=pInvoice.getInvoiceTaxPrice() %>" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
@@ -75,7 +75,7 @@
 					</div>
 				</div>
 				<div class="grid5 fixedHeightDiv">
-					<pre style="background-color:#87B87F"><span class="bigger-200"><strong><span id="idTotalAmt">0</span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
+					<pre style="background-color:#87B87F"><span class="bigger-200"><strong><span id="idTotalAmt"><%=pInvoice.getNetPayblePrice() %></span></strong></span><br/>Bill Amount(<i class="icon-rupee"></i>)</pre>
 					<span id="idSubTotal" ></span>
 				</div>
 			</div>
@@ -118,7 +118,7 @@
                 	height: '328',
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
-					cellEdit : true,
+					cellEdit : false,
 					colNames:['id','Barcode','Code','Name', 'Qty', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
@@ -145,18 +145,6 @@
 					altRows: true,
 
 					multiselect: false,
-			        gridComplete: function () {
-			        	calculateTotalAmount();
-	                },
-	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
-	                	
-	                	console.log("rowid:"+rowid+", name:"+ name+", val:"+val+", iRow:"+iRow+", iCol:"+iCol);
-	                	getRowAndPopulate(rowid,name,val);
-	                	calculateTotalAmount();
-	                }/* ,
-	                beforeSelectRow: function(rowid) {
-	                 //   return false;
-	                } */,
 	                loadComplete : function() {
 						var table = this;
 						lastsel2 = 1;
@@ -167,13 +155,8 @@
 						$(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
 						$('#grid-table_pinvoice input').css({'background': 'transaprent !important',
 						    'border': '0 none'});
-							
-						//---- Setting Auto Total in Footer --
-						calculateTotalAmount();
-	                    
-					},					  
-					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
-					//caption: "List of areas",
+						
+					},
 					scrollOffset: 20,
 					footerrow: true,
 					autowidth: true
@@ -246,248 +229,7 @@
 						grid_selector.jqGrid("setSelection", ids[0]);
 					}
 			    });
-				
-				function  getTextFromCell(cellNode) {
-					var text = cellNode.childNodes[0].nodeName === "INPUT"?
-                            cellNode.childNodes[0].value:
-	                            cellNode.textContent || cellNode.innerText;
-                    return text.replace("Rs","").replace("%","").replace(",","");
-				};
-				
-				function getColumnIndexByName(grid,columnName) {
-			         var cm = grid.jqGrid('getGridParam','colModel');
-			         
-			         for (var i=0,l=cm.length; i<l; i++) {
-			             if (cm[i].name===columnName) {
-			                 return i; // return the index
-			             }
-			         }
-			         return -1;
-			     };
-				function calculateTotalAmount(){
-					
-			         var totalAmount = 0, totalTax = 0,
-		             i=getColumnIndexByName(grid_selector,'netPaybleProductPrice'); // nth-child need 1-based index so we use (i+1) below
-			         $("tbody > tr.jqgrow > td:nth-child("+(i+1)+")",grid_selector[0]).each(function() {
-			        	    
-			        	 totalAmount += Number(getTextFromCell(this));
-			         });
 
-	                    
-			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',netPaybleProductPrice:totalAmount});
-			         $("#idSubTotal").html(Math.round((Number(totalAmount))*100)/100);
-			    	 $("#idTotalTax").html(Math.round((Number(gridTax))*100)/100);
-			    	 var addDisc = $("#idAddDiscPrice").val();
-			    	 addDisc = addDisc?addDisc:0;
-			    	 $("#idTotalAmt").html(Math.round((Number($("#idSubTotal").html())-Number(addDisc))*100)/100);
-			    	 
-			     };
-			     
-
-			     function getRowAndPopulate(rowid,name,val)
-             	 {
-	                	var rowData = grid_selector.jqGrid('getRowData', rowid);
-
-	                	switch(name) {
-		                    case "name":
-								var prodData =ajaxProductFetch(name,val,true);
-						        if(prodData){
-						        	rowData._id=prodData._id?prodData._id:1;
-			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
-			                        rowData.code=prodData.code?prodData.code:"";
-			                        rowData.name=prodData.name?prodData.name:"";
-			                        rowData.quantity="1";
-			                        rowData.salesRate=prodData.salesRate;
-			                        rowData.purchaseRate=prodData.purchaseRate;
-			                        rowData.mrp=prodData.mrp;
-			                        rowData.freeQuantity="0";
-			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
-			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
-			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.purchaseRate);
-									
-			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
-			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
-		                        }
-		                        grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    case "code":
-								var prodData =ajaxProductFetch(name,val,true);
-		                        if(prodData){
-						        	rowData._id=prodData._id?prodData._id:1;
-			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
-			                        rowData.code=prodData.code?prodData.code:"";
-			                        rowData.name=prodData.name?prodData.name:"";
-			                        rowData.quantity="1";
-			                        rowData.salesRate=prodData.salesRate;
-			                        rowData.purchaseRate=prodData.purchaseRate;
-			                        rowData.mrp=prodData.mrp;
-			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
-			                        rowData.freeQuantity="0";
-			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
-			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.purchaseRate);
-			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
-			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
-
-		                        }
-		                        grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    case "barCode":
-								var prodData =ajaxProductFetch(name,val,true);
-		                        if(prodData){
-						        	rowData._id=prodData._id?prodData._id:1;
-			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
-			                        rowData.code=prodData.code?prodData.code:"";
-			                        rowData.name=prodData.name?prodData.name:"";
-			                        rowData.quantity="1";
-			                        rowData.salesRate=prodData.salesRate;
-			                        rowData.purchaseRate=prodData.purchaseRate;
-			                        rowData.mrp=prodData.mrp;
-			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
-			                        rowData.freeQuantity="0";
-			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
-			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
-			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
-		                        }
-		                        grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    case "quantity":
-		                    	rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
-		                        var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
-		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
-		                        grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    case "purchaseRate":
-		                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
-		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
-		                        grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    case "rawDiscountPercent":
-		                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
-		                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-		                    	var discPercent = rowData.rawDiscountPercent?rowData.rawDiscountPercent:0;
-			                	rowData.rawDiscountPrice = ((Number(rowData.netPaybleProductPrice)*Number(discPercent))/100);
-			                	rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee-Number(rowData.rawDiscountPrice);
-			                	grid_selector.jqGrid('setRowData', rowid, rowData);
-		                		break;
-		                    case "rawDiscountPrice":
-	 	                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
-		                        taxValrupee = (Number(rowData.quantity)*Number(rowData.purchaseRate)*Number(taxValpercent))/100;
-		                        var discPrice = rowData.rawDiscountPrice?rowData.rawDiscountPrice:0;
-			                	rowData.rawDiscountPercent = (discPrice*100)/Number(rowData.netPaybleProductPrice);
-		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee-Number(rowData.rawDiscountPrice);
-		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    case "freeQuantity":
-		                    	rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
-		                    	grid_selector.jqGrid('setRowData', rowid, rowData);
-		                        break;
-		                    default:
-		                        console.log("Default Switch");
-	                	}
-	                	
-	                	var gridData = grid_selector.jqGrid('getGridParam','data');
-	                	if(gridData[gridData.length-1].name){
-	                		var randId = Math.ceil(Math.random()*10000);
-	                		grid_selector.addRowData(randId,{id:randId,date:"a"}, "last");
-	                	}
-	                	
-						//------------- Sales Invoice TAX Rs Calculation
-	                	var tTemp=0;
-	                	for(i=0;i<gridData.length-1;i++){
-		                	var taxValpercent = gridData[i].derSumOfProudctTax?gridData[i].derSumOfProudctTax:0;
-	                		tTemp = tTemp + (Number(gridData[i].quantity)*Number(gridData[i].purchaseRate)*Number(taxValpercent))/100;
-		                }
-	                	
-	                	gridTax=Math.round(tTemp*100)/100;
-	                	$("#idAddTax").val(gridTax);
-	                	
-	                	/* //------------- Sales Invoice Discount Rs Calculation
-	                	tTemp=0;
-	                	for(i=0;i<gridData.length-1;i++){
-		                	var discountAmt = gridData[i].rawDiscountPrice?gridData[i].rawDiscountPrice:0;
-	                		tTemp = tTemp + Number(gridData[i].rawDiscountPrice);
-		                }
-	                	gridDisc=Math.round(tTemp*100)/100;
-		                $("#idTotalDiscount").html(gridDisc);
-		                 */
-		                 g_isDirty=true;
-             	}
-			     
-			     //------- Sales Invoice addition of tax and additional discount
-			     $( "input.invoiceField" ).change(function() {
-			    	 $("#idTotalAmt").html(Math.round((Number($("#idSubTotal").html())-Number($("#idAddDiscPrice").val())+Number($("#idAddFreight").val())+Number($("#idRounding").val()))*100)/100);
-			     });
-			      
-			     
-			     $( "input#idAddDiscPer").change(function() {
-			    	 $("#idAddDiscPrice").val(Math.round((Number($("#idSubTotal").html())*Number($("#idAddDiscPer").val()))/100)*100/100);
-			     });
-			     
-
-			     $( "input#idAddDiscPrice").change(function() {
-			    	 $("#idAddDiscPer").val(Math.round((Number($("#idAddDiscPrice").val())*100)/Number($("#idSubTotal").html()))*100/100);
-			     });
-
-			//-------------------------------------------
-			//------- Product Fetch Invoice -------------
-			//-------------------------------------------
-			
-			function ajaxProductFetch(fetchBy,value,fetchAllField){
-				var urlPath = "sales.action?op=get&fetchBy="+fetchBy+"&value="+value+"&withReferences="+fetchAllField;
-				var proddata;
-				$.ajax({
-					type: "POST",
-					url: urlPath,
-					dataType: 'json',
-					async:false
-					})
-					.complete(function( data ) {
-						console.log("Data Response:" + data.responseJSON);
-						proddata = data.responseJSON;
-					})
-					.fail(function() {
-						console.error( "[async MSG]error in fetching data from server....." );
-					});
-				return proddata;
-			}
-			
-			 //------------ Supplier Info ------------
-			 function showSupplierInfo(){
-				var urlPath = "suppliermaster.action?op=VIEW&supplierid="+$("#idSupplier-id").val();
-				var supplierInfo;
-				$.ajax({
-					type: "POST",
-					url: urlPath,
-					dataType: 'json',
-					async:false
-					})
-					.complete(function( data ) {
-						console.log("Data Response:" + data.responseJSON);
-						supplierInfo= data.responseJSON;
-					})
-					.fail(function() {
-						console.error( "[async MSG]error in fetching data from server....." );
-					});
-				
-				var msgStr = "<div class='profile-user-info profile-user-info-striped'><div class='profile-info-row'><div class='profile-info-name'> Username </div><div class='profile-info-value'><span class='editable editable-click' id='username'>alexdoe</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Location </div><div class='profile-info-value'><i class='icon-map-marker light-orange bigger-110'></i><span class='editable editable-click' id='country'>Netherlands</span><span class='editable editable-click' id='city'>Amsterdam</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Age </div><div class='profile-info-value'><span class='editable editable-click' id='age'>38</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Joined </div><div class='profile-info-value'><span class='editable editable-click' id='signup'>20/06/2010</span></div></div><div class='profile-info-row'><div class='profile-info-name'> Last Online </div><div class='profile-info-value'><span class='editable editable-click' id='login'>3 hours ago</span></div></div><div class='profile-info-row'><div class='profile-info-name'> About Me </div><div class='profile-info-value'><span class='editable editable-click' id='about'>Editable as WYSIWYG</span></div></div></div>";
-				
-				 bootbox.dialog({
-						message: msgStr, 
-						title: "<span class='blue'>Supplier Detail (<span class='red'>"+supplierInfo.name+"</span>)</span>",
-						buttons: {
-						    danger: {
-						      label: "Cancel",
-						      className: "btn-sm btn-danger"
-						    }
-						}
-					});
-			 }
-			 
 			 //---------- Save and Print Invoice--------
 			 function saveAndPrintInvoice(){
 				var gridData = $("#grid-table_pinvoice").jqGrid('getGridParam','data');

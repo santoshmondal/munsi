@@ -90,6 +90,7 @@ public class PurchaseInvoiceServeice {
 		for (PurchaseInvoice pInvoice : pInvoiceList) {
 			pInvoice.setSctime(CommonUtil.longToStringDate(pInvoice.getCtime().getTime()));
 			pInvoice.setSutime(CommonUtil.longToStringDate(pInvoice.getUtime().getTime()));
+			pInvoice.setSinvoiceDate(CommonUtil.longToStringDate(pInvoice.getInvoiceDate().getTime()));
 		}
 
 		return pInvoiceList;

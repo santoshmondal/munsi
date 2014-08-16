@@ -34,6 +34,29 @@
 					Dashboard </span>
 		</a></li>
 
+		
+		<li><a href="#" data-href="/jsp/purchase/purchaseadd.jsp"> <i class="icon-star"></i>
+				<span class="menu-text"> Purchase </span>
+			</a>
+		</li>
+		<li><a href="#" data-href="/jsp/sales/salesadd.jsp"> <i class="icon-star"></i>
+				<span class="menu-text"> Sale </span>
+			</a>
+		</li>
+		<li><a href="#" class="dropdown-toggle"> <i
+				class="icon-inbox"></i> <span class="menu-text"> Invoice Register </span> <b
+				class="arrow icon-angle-down"></b>
+			</a>
+			<ul class="submenu">
+				<li><a href="#" data-href="/jsp/purchase/listpurchase.jsp">
+						<i class="icon-double-angle-right"></i> Purchase Invoices
+				</a></li>
+				
+				<li><a href="#" data-href="/jsp/sales/listsales.jsp">
+						<i class="icon-double-angle-right"></i> Sales Invoices
+				</a></li>
+			</ul>
+		</li>
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-list-alt"></i> <span class="menu-text"> Master </span> <b
 				class="arrow icon-angle-down"></b>
@@ -69,29 +92,6 @@
 				</a></li> -->
 			</ul>
 		</li>
-		<li><a href="#" data-href="/jsp/purchase/purchaseadd.jsp"> <i class="icon-star"></i>
-				<span class="menu-text"> Purchase </span>
-			</a>
-		</li>
-		<li><a href="#" data-href="/jsp/sales/salesadd.jsp"> <i class="icon-star"></i>
-				<span class="menu-text"> Sale </span>
-			</a>
-		</li>
-		<li><a href="#" class="dropdown-toggle"> <i
-				class="icon-inbox"></i> <span class="menu-text"> Invoice Register </span> <b
-				class="arrow icon-angle-down"></b>
-			</a>
-			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/purchase/listpurchase.jsp">
-						<i class="icon-double-angle-right"></i> Purchase Invoices
-				</a></li>
-				
-				<li><a href="#" data-href="/jsp/sales/listsales.jsp">
-						<i class="icon-double-angle-right"></i> Sales Invoices
-				</a></li>
-			</ul>
-		</li>
-		
 		<li><a href="#" class="dropdown-toggle"> <i
 				class="icon-bar-chart"></i> <span class="menu-text"> Report </span>
 				<b class="arrow icon-angle-down"></b>

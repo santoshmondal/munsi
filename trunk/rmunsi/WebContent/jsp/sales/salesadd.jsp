@@ -8,7 +8,7 @@
 		<div class="center col-xs-12 col-md-3 col-sm-3 col-lg-3">
 			<div class="form-group" style="background-color:#eee;  border:1px solid #f59942; padding: 10px 0px 10px 10px">
 				<div class="input-group" style="margin-right: 10px">
-				  <input type="text" id="idCustomer" class="form-control" tabindex="1" placeholder="Enter Customer Name" >
+				  <input type="text" id="idCustomer" class="form-control manual-tooltip tooltip-error" tabindex="1" placeholder="Enter Customer Name" title="Please enter customer name or WALKIN">
 				  <input type="hidden" id="idCustomerID" >
 				  <span class="input-group-addon" style="padding: 0px 10px;">
 				  	<a href="#" onclick='showCustomerInfo()' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Customer Detail">
@@ -48,10 +48,10 @@
 			</div>
 		</div>
 		<div class="center col-xs-12 col-md-2 col-sm-2 col-lg-2 pull-right hidden-print">
-			<button class="btn btn-sm btn-inverse pull-right" type="button" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
+			<button id="idSaveBtn" class="btn btn-sm btn-inverse pull-right" type="button" tabindex="5" data-rel="tooltip" title="Save (Alt+s)" data-placement="bottom">
 				<i class="icon-save"></i> Save
 			</button>
-			<button class="btn btn-sm btn-light pull-right" onclick="saveAndPrintInvoice()" type="button" tabindex="4" data-rel="tooltip" title="Pay Bill" data-placement="bottom">
+			<button id="idPayBtn" class="btn btn-sm btn-light pull-right" onclick="saveAndPrintInvoice()" type="button" tabindex="4" data-rel="tooltip" title="Pay Bill" data-placement="bottom">
 				Pay <i class="icon-print"></i> 
 			</button>
 		</div>
@@ -60,7 +60,7 @@
 <!-- /.page-header -->
 
 <div class="row">
-	<div class="col-xs-12" id="gridDiv">
+	<div class="col-xs-12 manual-tooltip tooltip-error" id="gridDiv" title="No PRODUCT added, please add PRODUCT" data-placement="top">
 		<!-- PAGE CONTENT BEGINS -->
 		<table id="grid-table_pinvoice"></table>
 		<div id="grid-pager_pinvoice"></div>
@@ -74,7 +74,7 @@
 	 var mydata = [
                    {id:"1", code:"",name:"",  quantity:"",  salesRate:"",derSumOfProudctTax:"",rawDiscountPercent:"",rawDiscountPrice:"",freeQuantity:"",totalQuantity:'',netPaybleProductPrice:''}
              ];
-	 var gridDisc,gridTax;
+	 var gridDisc=0,gridTax=0;
 	 
 			jQuery(function($) {
 				var grid_selector = jQuery("#grid-table_pinvoice");
@@ -307,6 +307,7 @@
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
 					$('[data-rel=tooltip]').tooltip({container:'body'});
+					$('.manual-tooltip').tooltip({trigger:'manual'});
 				}
 
 				//-----> press g for setting focus on jqgrid
@@ -349,8 +350,8 @@
 			         grid_selector.jqGrid('footerData','set',{name:'TOTAL',netPaybleProductPrice:totalAmount});
 			         $("#idSubTotal").html(Number(totalAmount).toFixed(2));
 			         var addTaxAmt = Number($("#idSubTotal").html())*Number($("#idAddTax").val())/100;
-			    	 $("#idTotalAmt").html((Number($("#idSubTotal").html())+addTaxAmt-Number($("#idAddDisc").val())).toFixed(2));
-			    	 $("#idAllTotal").html((Number($("#idTotalAmt").html()) + Number($("#idOutstandingAmt").html())).toFixed(2));
+			    	 $("#idTotalAmt").html(Math.round((Number($("#idSubTotal").html())+addTaxAmt-Number($("#idAddDisc").val()))*100)/100);
+			    	 $("#idAllTotal").html(Math.round((Number($("#idTotalAmt").html()) + Number($("#idOutstandingAmt").html()))*100)/100);
 			    	 $("#idTotalDiscount").html(Math.round((Number(gridDisc) + Number($("#idAddDisc").val()))*100)/100);
 			    	 $("#idTotalTax").html(Math.round((Number(gridTax) + Number(addTaxAmt))*100)/100);
 			     };
@@ -504,10 +505,11 @@
 				     return false;
 				     },
 				     select: function( event, ui ) {
-				     $( "#idCustomer" ).val( ui.item.label );
-				     $( "#idCustomerID" ).val( ui.item.id );
-				     $( "#idOutstandingAmt" ).html( ui.item.outStandingAmount );
-				     return false;
+					     $( "#idCustomer" ).val( ui.item.label );
+					     $( "#idCustomerID" ).val( ui.item.id );
+					     $( "#idOutstandingAmt" ).html( Math.round(ui.item.outStandingAmount*100)/100 );
+						 calculateTotalAmount();
+					     return false;
 				     }
 			     })
 			     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
@@ -594,26 +596,97 @@
 					});
 			 }
 			 
+			 //-------------- Payment Dialog-----------
+			 function popupPayment(){
+				var htmlForm = $('<div class="center blue bigger-150">Payment Detail</div><div class="hr"></div><form id="idPayForm" role="form"> \
+						<div class="form-group row"><label class="col-sm-5" ><b>Outstanding Amount :</b></label> <label >' + $("#idOutstandingAmt").html() + '</label></div>\
+						<div class="form-group row"><label class="col-sm-5" ><b>Bill Amount :</b></label> <label >' + $("#idTotalAmt").html() + '</label></div>\
+						<div class="form-group row"><label class="col-sm-5" ><b>Total Amount :</b></label> <label class="normal-tooltip tooltip-info" data-placement="right" data-rel="tooltip" title="Outstanding + Bill Amount">' + $("#idAllTotal").html() + '</label></div>\
+						<div class="form-group row"><label class="col-sm-5" ><b>Pay Amount :</b></label> <input id="idPaidAmount" class="col-sm-3 middle tooltip-error" data-placement="right" data-rel="tooltip" title="Please enter amount to pay" autocomplete=off type=number /></div> \
+						<div class="form-group row "><label class="col-sm-5" for="remType"><b>Payment Mode :</b></label> \
+						<div class="col-sm-3 tooltip-error" id="pmID" data-placement="right" data-rel="tooltip" title="Please select payment mode"><label class="" ><input name="pMode" id="rd1" type="radio" value="1" class="ace"><span class="lbl"> Cash</span></label> \
+						<label class="" ><input name="pMode" id="rd2" type="radio" value="2" class="ace"><span class="lbl"> Card</span></label></div> </div>\
+						<fieldset id="fSh-1" style="display:none" class="toHide"></fieldset>\
+						<fieldset id="fSh-2" style="display:none" class="toHide">\
+						<div class="form-group"><label class="col-sm-5" for="idCardNumber"><b>Card Number :</b></label><input class="form-control" id="idCardNumber" placeholder="Enter Card Number"/></div> </fieldset> \
+						</form>');
+				 var payModal = bootbox.dialog({
+						message: htmlForm, 
+						title: "<span class='blue'></span>",
+						onEscape: function() {},
+						buttons: {
+						    danger: {
+						      label: "Cancel",
+						      className: "btn-sm btn-danger"
+						    },
+						    success: {
+							      label: "Done",
+							      className: "btn-sm btn-primary",
+							      callback:function() {
+							    	 var paidAmount = $("#idPaidAmount").val();
+							    	 var checkedPayMode = $('input[name=pMode]:checked').val();
+									 if(paidAmount && checkedPayMode){
+										 var gridData = $("#grid-table_pinvoice").jqGrid('getGridParam','data');
+											gridData.splice(gridData.length-1,1);
+											var urlPath = "sales.action?op=SAVE&custid="+$("#idCustomerID").val()+"&invoiceAddTaxPrice="+$("#idAddTax").val()+"&invoiceAddDiscountPrice="+$("#idAddDisc").val();
+											var sSalesProducts = JSON.stringify(gridData);
+											$.ajax({
+												type: "POST",
+												url: urlPath,
+												dataType: 'json',
+												data:{'paidAmount':paidAmount,'salesProductJSON':sSalesProducts},
+												async:false
+												})
+												.complete(function( data ) {
+													console.log("Data Response:" + data.responseJSON);
+													alert("saved successfully");
+												})
+												.fail(function() {
+													console.error( "[async MSG]:saveAndPrintInvoice > error in fetching data from server....." );
+												});
+												
+											g_isDirty=false;
+											$("#idPayBtn").prop("disabled",true);
+									 }else{
+										 if(!paidAmount)
+										 	$("#idPaidAmount").tooltip('show');
+										 if(!checkedPayMode)
+											$("#pmID").tooltip('show');
+										 return false;
+									 }
+							      }
+							    }
+						}
+					});
+				 $("[name=pMode]").click(function(){
+					 $('.toHide').hide();
+			        $("#fSh-"+$(this).val()).show('slow');
+				});
+				 $('.normal-tooltip').tooltip();
+				 $('#idPaidAmount,#pmID').tooltip({trigger:'manual'});
+			 }
+	
 			 //---------- Save and Print Invoice--------
 			 function saveAndPrintInvoice(){
+				var cID =$("#idCustomerID").val();
+				var valida=true;
+				if(!cID){
+					$("#idCustomer").tooltip('show');
+					valida =false;
+				}
 				var gridData = $("#grid-table_pinvoice").jqGrid('getGridParam','data');
-				gridData.splice(gridData.length-1,1);
-				var urlPath = "sales.action?op=SAVE&custid="+$("#idCustomerID").val()+"&invoiceAddTaxPrice="+$("#idAddTax").val()+"&invoiceAddDiscountPrice="+$("#idAddDisc").val()+"&salesProductJSON="+JSON.stringify(gridData);
-					
-				$.ajax({
-					type: "POST",
-					url: urlPath,
-					dataType: 'json',
-					async:false
-					})
-					.complete(function( data ) {
-						console.log("Data Response:" + data.responseJSON);
-						alert("saved successfully");
-					})
-					.fail(function() {
-						console.error( "[async MSG]:saveAndPrintInvoice > error in fetching data from server....." );
-					});
-					
-				g_isDirty=false;					 
+				if(gridData[0].name==""){
+					$("#gridDiv").tooltip('show');
+					valida = false;
+				}
+				if(valida)
+					popupPayment();
+				else{
+					setTimeout(function() {
+					 $("#idCustomer").tooltip('hide');
+					 $("#gridDiv").tooltip('hide');
+					}, 5000);
+					return;
+				}
 			 }
 </script>

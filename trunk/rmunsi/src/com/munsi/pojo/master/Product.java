@@ -40,6 +40,8 @@ public class Product extends BasePojo {
 	private Integer maxStock;
 	private Integer currentStock;
 
+	private Set<ProductBatch> batchList;
+
 	private Float derSumOfProudctTax;
 
 	public String get_id() {
@@ -240,6 +242,14 @@ public class Product extends BasePojo {
 
 	public void setCurrentStock(Integer currentStock) {
 		this.currentStock = currentStock;
+	}
+
+	public Set<ProductBatch> getBatchList() {
+		return batchList;
+	}
+
+	public void setBatchList(Set<ProductBatch> batchList) {
+		this.batchList = batchList;
 	}
 
 }

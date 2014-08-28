@@ -113,7 +113,7 @@
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
 					cellEdit : true,
-					colNames:['id','Barcode','Code','Name', 'Qty', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
+					colNames:['id','Barcode','Code','Name', 'Qty', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.','Mfg. Date','Exp. Date','Batch'],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
@@ -150,8 +150,8 @@
                                      ]
                                  }},
 						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
-						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
-/* 						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
+						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+ 						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
 						{name:'expdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
 						{name:'batchno',index:'batchno', sortable:false, width:150, editable: true,editoptions: {
                             dataEvents: [
@@ -177,7 +177,7 @@
                                      ]
                                  }
 						}
- */					], 
+					], 
 			
 					viewrecords : true,
 					rowNum:1000,

@@ -38,17 +38,23 @@
 					gridview: true,
 					datatype: "json",
 					height: 366,
-					colNames:['id','Name','Description','Telephone',' '],
+					colNames:['id','Name','E-mail','Telephone','Mobile','City','Pin Code','Address','Description',' '],
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'name',index:'name', width:110, editrules:{required:true}, editable: true},
-						{name:'remark',index:'remark', width:150,editable: true,editoptions:{maxlength:"200"}},
-						{name:'phone',index:'phone', width:100,editable: true,editoptions:{size:"20",maxlength:"15"}},
+						{name:'email',index:'email', width:150,editable: true,editrules:{email:true,required:false},editoptions:{size:"20",maxlength:"15"}},
+						{name:'phone',index:'phone', width:150,editable: true,editrules:{number:true,required:false},editoptions:{size:"20",maxlength:"15"}},
+						{name:'mobile',index:'mobile', width:150,editable: true,editrules:{number:true,required:false},editoptions:{size:"20",maxlength:"15"}},
+						{name:'city',index:'city', width:150,editable: true,editoptions:{size:"20",maxlength:"130"}},
+						{name:'pin',index:'pin', width:150,editable: true,editrules:{edithidden:true,number:true},hidden:true,editoptions:{size:"20",maxlength:"15"}},
+						{name:'address',index:'address', width:150, sortable:false,editrules:{edithidden:true},editable: true,hidden:true,edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
+						{name:'remark',index:'remark', width:150,editable: true,editoptions:{maxlength:"200"},edittype:"textarea"},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 
 							formatoptions:{ 
 								keys:true,
-								delOptions:{recreateForm: true,url: "${pageContext.request.contextPath}/suppliermaster.action?op=delete",  beforeShowForm:beforeDeleteCallback},
+								delOptions:{url: "${pageContext.request.contextPath}/suppliermaster.action?op=delete", top:45 , left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true,  beforeShowForm:beforeDeleteCallback},
+								editformbutton:true, editOptions:{top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
 							}
 						}
 					], 
@@ -84,7 +90,7 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: "${pageContext.request.contextPath}/suppliermaster.action?op=edit",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/suppliermaster.action?op=edit",
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -153,6 +159,7 @@
 						//closeAfterEdit: true,
 						recreateForm: true,
 						closeOnEscape:true,
+						savekey : [ true, 13 ],
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
@@ -163,8 +170,9 @@
 						//new record form
 						closeAfterAdd: true,
 						recreateForm: true,
-						url: "${pageContext.request.contextPath}/suppliermaster.action?op=add",
-						top:(($(window).height() - 300) / 2), left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
+						savekey : [ true, 13 ],
+						url: "${pageContext.request.contextPath}/customermaster.action?op=add",
+						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,
 						beforeShowForm : function(e) {

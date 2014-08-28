@@ -4,7 +4,7 @@ import com.munsi.pojo.BasePojo;
 
 public class Customer extends BasePojo {
 	private static final long serialVersionUID = 1L;
-	
+
 	private String _id;
 	private String address;
 	private String city;
@@ -12,10 +12,11 @@ public class Customer extends BasePojo {
 	private String pin;
 	private String mobile;
 	private String phone;
+	private String email;
 	private Integer creditDays;
 	private Float creditLimit;
 	private Float outStandingAmount;
-	
+
 	public String get_id() {
 		return _id;
 	}
@@ -64,6 +65,14 @@ public class Customer extends BasePojo {
 		this.phone = phone;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public Integer getCreditDays() {
 		return creditDays;
 	}
@@ -84,11 +93,11 @@ public class Customer extends BasePojo {
 	public int hashCode() {
 		return get_id().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		Customer customer = (Customer) obj;
-		if( get_id().equals(customer.get_id()) ){
+		if (get_id().equals(customer.get_id())) {
 			return true;
 		}
 		return false;

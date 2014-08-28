@@ -113,70 +113,48 @@
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
 					cellEdit : true,
-					colNames:['id','Barcode','Code','Name', 'Qty', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.','Mfg. Date','Exp. Date','Batch'],
+					colNames:['id','Barcode','Code','Name', 'Qty','Batch','Mfg. Date','Exp. Date', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
 						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
 						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:70,editable: true, formatter:'integer', sorttype:'int'},
+						{name:'batchno',index:'batchno', sortable:false, width:150, editable: true,editoptions: {/* 
+                            dataEvents: [
+                                         {
+                                             type: 'keydown',
+                                             fn: function (e) {
+                                            
+                                            	 var key = e.charCode || e.keyCode;
+                                                 if (key == 9 || key == 15)//tab
+                                                 {
+                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
+														
+                                                     }else{
+                                                    	 
+	                                                     //Enter edit row for next row in grid
+	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
+	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
+	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
+                                                     }
+                                                 }
+                                             }
+                                         }
+                                     ]*/
+                                 } 
+						},
+ 						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
+						{name:'expdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
 						{name:'purchaseRate',index:'purchaseRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'mrp',index:'mrp', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'derSumOfProudctTax',index:'derSumOfProudctTax', editable: false, width:80, sortable:false, align:'right', formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPercent',index:'rawDiscountPercent', sortable:false, width:80,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
 						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
-						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int',editoptions: {
-                            dataEvents: [
-                                         {
-                                             type: 'keydown',
-                                             fn: function (e) {
-                                            
-                                            	 var key = e.charCode || e.keyCode;
-                                                 if (key == 9 || key == 15)//tab
-                                                 {
-                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
-														
-                                                     }else{
-                                                    	 
-	                                                     //Enter edit row for next row in grid
-	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
-	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
-	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                     ]
-                                 }},
+						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
-						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
- 						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'expdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'batchno',index:'batchno', sortable:false, width:150, editable: true,editoptions: {
-                            dataEvents: [
-                                         {
-                                             type: 'keydown',
-                                             fn: function (e) {
-                                            
-                                            	 var key = e.charCode || e.keyCode;
-                                                 if (key == 9 || key == 15)//tab
-                                                 {
-                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
-														
-                                                     }else{
-                                                    	 
-	                                                     //Enter edit row for next row in grid
-	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
-	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
-	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                     ]
-                                 }
-						}
+						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
 					], 
 			
 					viewrecords : true,

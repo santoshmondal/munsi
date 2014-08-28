@@ -90,7 +90,7 @@
 	                    });
 	                    return [false, "It's an error text"];
 	                },
-					editurl: "${pageContext.request.contextPath}/suppliermaster.action?op=edit",
+					editurl:"${pageContext.request.contextPath}/suppliermaster.action?op=edit",
 					//caption: "List of areas",
 					scrollOffset: 18,
 					autowidth: true
@@ -160,6 +160,7 @@
 						recreateForm: true,
 						closeOnEscape:true,
 						savekey : [ true, 13 ],
+						url:"${pageContext.request.contextPath}/suppliermaster.action?op=edit",
 						beforeShowForm : function(e) {
 							var form = $(e[0]);
 							form.closest('.ui-jqdialog').find('.ui-jqdialog-titlebar').wrapInner('<div class="widget-header" />')
@@ -171,7 +172,7 @@
 						closeAfterAdd: true,
 						recreateForm: true,
 						savekey : [ true, 13 ],
-						url: "${pageContext.request.contextPath}/customermaster.action?op=add",
+						url: "${pageContext.request.contextPath}/suppliermaster.action?op=add",
 						top:45, left:((($(window).width() - 500) / 2) + $(window).scrollLeft()), width:500,
 						closeOnEscape:true,
 						viewPagerButtons: false,

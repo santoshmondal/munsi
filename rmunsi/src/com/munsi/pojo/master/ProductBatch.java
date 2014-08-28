@@ -9,9 +9,9 @@ public class ProductBatch implements Serializable {
 
 	private String batchNumber;
 
-	private Double purchaseRate;
-	private Double mrp;
-	private Double saleRate;
+	private Float purchaseRate;
+	private Float mrp;
+	private Float saleRate;
 
 	private Long batchCurrentStock;
 
@@ -50,27 +50,27 @@ public class ProductBatch implements Serializable {
 		this.batchCurrentStock = batchCurrentStock;
 	}
 
-	public Double getPurchaseRate() {
+	public Float getPurchaseRate() {
 		return purchaseRate;
 	}
 
-	public void setPurchaseRate(Double purchaseRate) {
+	public void setPurchaseRate(Float purchaseRate) {
 		this.purchaseRate = purchaseRate;
 	}
 
-	public Double getMrp() {
+	public Float getMrp() {
 		return mrp;
 	}
 
-	public void setMrp(Double mrp) {
+	public void setMrp(Float mrp) {
 		this.mrp = mrp;
 	}
 
-	public Double getSaleRate() {
+	public Float getSaleRate() {
 		return saleRate;
 	}
 
-	public void setSaleRate(Double saleRate) {
+	public void setSaleRate(Float saleRate) {
 		this.saleRate = saleRate;
 	}
 

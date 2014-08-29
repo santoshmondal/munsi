@@ -82,7 +82,7 @@
 	 var mydata = [
                    {id:"1", code:"",name:"",  quantity:"",  salesRate:"",derSumOfProudctTax:"",rawDiscountPercent:"",rawDiscountPrice:"",freeQuantity:"",totalQuantity:'',netPaybleProductPrice:''}
              ];
-	 var gridDisc=0,gridTax=0;
+	 var gridDisc=0,gridTax=0,g_objJsonBatch=[],g_rowData=[];
 	 
 			jQuery(function($) {
 				var grid_selector = jQuery("#grid-table_pinvoice");
@@ -105,7 +105,7 @@
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
 						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
 						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
-						{name:'batchNumber',index:'batchno', sortable:false, width:150, editable: true,unformat: pickBatchAutoComplete},
+						{name:'batchNumber',index:'batchno', sortable:false, editable: true,unformat: pickBatchAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'derSumOfProudctTax',index:'derSumOfProudctTax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
@@ -150,15 +150,45 @@
 			        	calculateTotalAmount();
 	                },
 	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
-
 	                	console.log("rowid:"+rowid+", name:"+ name+", val:"+val+", iRow:"+iRow+", iCol:"+iCol);
-	                	getRowAndPopulate(rowid,name,val);
-	                	calculateTotalAmount();
-	                	
+	                	if(iCol!=5){
+		                	getRowAndPopulate(rowid,name,val);
+		                	calculateTotalAmount();
+	                	}else
+                		{
+                			console.log(g_rowData);
+                			console.log(g_objJsonBatch);
+                			for(i=0;i<g_objJsonBatch.length;i++){
+                				if(g_objJsonBatch[i].label==val){
+                					g_rowData.salesRate=g_objJsonBatch[i].salesRate;
+                					g_rowData.batchNumber=g_objJsonBatch[i].batchNumber;
+                					grid_selector.jqGrid('setRowData', rowid, g_rowData);
+                					break;
+                				}
+                			}
+                		}
+                		
 	                }/* ,
 	                beforeSelectRow: function(rowid) {
 	                 //   return false;
 	                } */,
+	                beforeEditCell: function(id,name,val,iRow,iCol){
+	                	// Trigger Batch Fetch on edit click
+	                	g_rowData = [];
+	                	g_objJsonBatch=[];
+	                	if(iCol == 5){
+	                		var prodData = ajaxProductFetch('code',grid_selector.jqGrid ('getCell', id, 'code'),true);
+		                	if(prodData && prodData.batchList){
+		                		$.each(prodData.batchList,function(i,obj){
+		                			obj._id=obj.batchNumber;
+		                			g_objJsonBatch.push(obj);
+		                		});
+		                	}
+		                	var rowid = grid_selector.jqGrid('getGridParam', 'selrow');
+							g_rowData = grid_selector.jqGrid('getRowData', rowid);
+		                	 
+	                	}
+	                },
 	                loadComplete : function() {
 						var table = this;
 						setTimeout(function(){
@@ -195,7 +225,14 @@
 	                    
 					},
 					afterEditCell: function(rowid, cellname, value, iRow, iCol) {
-					    // Get a handle to the actual input field
+					   /* 
+					   if(iCol == 5){
+	                		if(g_rowData._id)
+	                			grid_selector.jqGrid('setRowData', rowid, g_rowData);
+	                	 console.log("afterEditCell called ....");
+						} */
+						
+						// Get a handle to the actual input field
 					    var inputControl = jQuery('#' + (iRow) + '_' + cellname);
 					    curCellname=cellname;
 					    curRow = iRow;
@@ -205,18 +242,13 @@
 					      if (e.keyCode === 13) {  // Enter key:
 					        var increment = e.shiftKey ? -1 : 1;
 
-					        // Do not go out of bounds
-					        //var lastRowInd = grid_selector.jqGrid("getGridParam","reccount");
-					        //if ( iRow+increment == 0 || iRow+increment == lastRowInd+1)
-					        //  return;   // we could re-edit current cell or wrap
-					        //else
 					        	grid_selector.jqGrid("editCell",iRow,iCol+increment,true);
 					        
 					      }
 					    }); // End keydown binding
 					  },
 			
-					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",
 					//caption: "List of areas",
 					scrollOffset: 20,
 					footerrow: true,
@@ -289,12 +321,13 @@
 				function pickCodeAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
+						minLength: 0,
 						source: finProdCode
 					});
 					}, 0);
 				}
 				
-				//autocomplete for Code
+				//autocomplete for Name
 				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
 				 availableProductName = JSON.parse(availableProductName);
 				 var finProdName=[],itr=0;
@@ -307,6 +340,7 @@
 				function pickNameAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
+						minLength: 0,
 						source: finProdName
 					});
 					}, 0);
@@ -314,50 +348,34 @@
 				
 
 				//autocomplete for batch
-				 /* var availableProductBatches = '[]';
-				 availableProductBatches = JSON.parse(availableProductBatches);
-				 var finProdBatch=[],itr=0;
-				 for(i=0;i<availableProductBatches.length;i++){
-					 if(availableProductName[i].name){
-						 finProdBatch[itr++] = availableProductBatches[i].name;
-					 }
-				 } */
 
-				function pickBatchAutoComplete( cellvalue, options, cell ) {
+				function pickBatchAutoComplete( cellvalue, options, cella ) {
 					setTimeout(function(){
-					/* $(cell) .find('input[type=text]').autocomplete({
-						source: finProdBatch
-					}); */
-						var objJsonCustomer = '[ { "_id" : "1" , "name" : "Customer 1" , "outStandingAmount" : 68.75} , { "_id" : "2" , "name" : "Customer 2" , "outStandingAmount" : 0.0}]';
-					    objJsonCustomer = JSON.parse(objJsonCustomer.replace(/_id/g,"id").replace(/name/g,"label"));
+
+					    g_objJsonBatch = JSON.parse(JSON.stringify(g_objJsonBatch).replace(/_id/g,"id").replace(/batchNumber/g,"label"));
 					     
-						$(cell).find('input[type=text]').autocomplete({
+						$(cella).find('input[type=text]').autocomplete({
 					    	 minLength: 0,
-						     source: objJsonCustomer,
-						     focus: function( event, ui ) {
-						     $( "#idCustomer" ).val( ui.item.label );
-						     return false;
-						     },
-						     select: function( event, ui ) {
-							     $( "#idCustomer" ).val( ui.item.label );
-							     $( "#idCustomerID" ).val( ui.item.id );
-							     $( "#idOutstandingAmt" ).html( Math.round(ui.item.outStandingAmount*100)/100 );
-								 calculateTotalAmount();
-							     return false;
-						     }
-					     })
-					     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-					     var temp = $( "<li>" );
-					     console.log(item);
-					     console.log(item.label +" "+item.id);
-					     	temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" ).appendTo( ul );
-					     return temp;
+					    	 source: g_objJsonBatch,
+					    	 open: function() { 
+					    		 $(cella).find('input[type=text]').autocomplete("widget").width(300); 
+					    	    }
+					     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+						     var temp = $( "<li>" );
+						     console.log(item);
+						     console.log(item.label +" "+item.id);
+						     temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'><i class='icon-shopping-cart'></i> "+ item.batchCurrentStock  +"</span> "+"<span class='badge badge-warning pull-right'><i class='icon-rupee'></i> "+ item.salesRate  +"</span>" +"</a>" ).appendTo( ul );
+					     	 return temp;
 					     };
+						
+						$(cella).find('input[type=text]').on( "autocompleteselect", function( event, ui ) {console.log("works.......");} );
 
 					}, 0);
 					
 				}
 
+				
+				
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
@@ -513,6 +531,7 @@
 		                        break;
 		                    default:
 		                        console.log("Default Switch");
+		                    	
 	                	}
 
 	                	var gridData = grid_selector.jqGrid('getGridParam','data');
@@ -557,8 +576,8 @@
 			    	 minLength: 0,
 				     source: objJsonCustomer,
 				     focus: function( event, ui ) {
-				     $( "#idCustomer" ).val( ui.item.label );
-				     return false;
+					     $( "#idCustomer" ).val( ui.item.label );
+					     return false;
 				     },
 				     select: function( event, ui ) {
 					     $( "#idCustomer" ).val( ui.item.label );
@@ -569,11 +588,11 @@
 				     }
 			     })
 			     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-			     var temp = $( "<li>" );
-			     console.log(item);
-			     console.log(item.label +" "+item.id);
-			     	temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" ).appendTo( ul );
-			     return temp;
+				     var temp = $( "<li>" );
+				     console.log(item);
+				     console.log(item.label +" "+item.id);
+				     temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" ).appendTo( ul );
+			     	 return temp;
 			     };
 					
 			   //-----> press alt + g for setting focus on jqgrid
@@ -613,13 +632,13 @@
 					.complete(function( data ) {
 						console.log("Data Response:" + data.responseJSON);
 						proddata = data.responseJSON;
-						if(proddata.batchList){
+						if(proddata && proddata.batchList){
 							proddata.batchNumber=proddata.batchList[0].batchNumber;
 							proddata.salesRate=proddata.batchList[0].salesRate;
 						}
 					})
 					.fail(function() {
-						console.error( "[async MSG]error in fetching data from server....." );
+						console.log( "[async MSG]error in fetching data from server....." );
 					});
 					
 				return proddata;

@@ -290,7 +290,7 @@ public class Product extends BasePojo {
 	}
 
 	public void setsMfgdate(String sMfgdate) {
-		this.manufactureDate = CommonUtil.stringToDate(sMfgdate);
+		this.manufactureDate = CommonUtil.stringToDate(sMfgdate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 		this.sMfgdate = sMfgdate;
 	}
 
@@ -299,7 +299,7 @@ public class Product extends BasePojo {
 	}
 
 	public void setsExpdate(String sExpdate) {
-		this.expiryDate = CommonUtil.stringToDate(sExpdate);
+		this.expiryDate = CommonUtil.stringToDate(sExpdate, CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 		this.sExpdate = sExpdate;
 	}
 

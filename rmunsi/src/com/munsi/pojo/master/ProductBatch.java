@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.munsi.util.CommonUtil;
+
 public class ProductBatch implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -20,6 +22,9 @@ public class ProductBatch implements Serializable {
 	private Date manufactureDate;
 	private Date expiryDate;
 
+	private String sMfgdate;
+	private String sExpdate;
+
 	public String getBatchNumber() {
 		return batchNumber;
 	}
@@ -33,7 +38,9 @@ public class ProductBatch implements Serializable {
 	}
 
 	public void setManufactureDate(Date manufactureDate) {
+
 		this.manufactureDate = manufactureDate;
+		this.sMfgdate = CommonUtil.longToStringDate(manufactureDate.getTime(), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 	}
 
 	public Date getExpiryDate() {
@@ -42,6 +49,7 @@ public class ProductBatch implements Serializable {
 
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
+		this.sExpdate = CommonUtil.longToStringDate(expiryDate.getTime(), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
 	}
 
 	public Long getBatchCurrentStock() {
@@ -74,6 +82,22 @@ public class ProductBatch implements Serializable {
 
 	public void setSalesRate(Float saleRate) {
 		this.salesRate = saleRate;
+	}
+
+	public String getsMfgdate() {
+		return sMfgdate;
+	}
+
+	public void setsMfgdate(String sMfgdate) {
+		this.sMfgdate = sMfgdate;
+	}
+
+	public String getsExpdate() {
+		return sExpdate;
+	}
+
+	public void setsExpdate(String sExpdate) {
+		this.sExpdate = sExpdate;
 	}
 
 	@Override

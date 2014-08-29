@@ -125,7 +125,7 @@ public class OpeningStockMasterAction extends HttpServlet {
 				productBatch.setExpiryDate(ps.getExpDate());
 				productBatch.setManufactureDate(ps.getMfgDate());
 				productBatch.setMrp(product.getMrp());
-				productBatch.setSaleRate(product.getSalesRate());
+				productBatch.setSalesRate(product.getSalesRate());
 				productBatch.setPurchaseRate(product.getPurchaseRate());
 				Set<ProductBatch> batchList = product.getBatchList();
 				if (batchList == null) {

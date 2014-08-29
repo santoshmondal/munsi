@@ -105,7 +105,7 @@
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
 						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
 						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
-						{name:'batchNumber',index:'batchno', sortable:false, width:150, editable: true},
+						{name:'batchNumber',index:'batchno', sortable:false, width:150, editable: true,unformat: pickBatchAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'derSumOfProudctTax',index:'derSumOfProudctTax', width:80, sortable:false, align:'right', editable: false,formatter:'currency', formatoptions:{decimalSeparator:".",  suffix: " %"}},
@@ -303,13 +303,59 @@
 					 	finProdName[itr++] = availableProductName[i].name;
 					 }
 				 }
-
+				 
 				function pickNameAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
 						source: finProdName
 					});
 					}, 0);
+				}
+				
+
+				//autocomplete for batch
+				 /* var availableProductBatches = '[]';
+				 availableProductBatches = JSON.parse(availableProductBatches);
+				 var finProdBatch=[],itr=0;
+				 for(i=0;i<availableProductBatches.length;i++){
+					 if(availableProductName[i].name){
+						 finProdBatch[itr++] = availableProductBatches[i].name;
+					 }
+				 } */
+
+				function pickBatchAutoComplete( cellvalue, options, cell ) {
+					setTimeout(function(){
+					/* $(cell) .find('input[type=text]').autocomplete({
+						source: finProdBatch
+					}); */
+						var objJsonCustomer = '[ { "_id" : "1" , "name" : "Customer 1" , "outStandingAmount" : 68.75} , { "_id" : "2" , "name" : "Customer 2" , "outStandingAmount" : 0.0}]';
+					    objJsonCustomer = JSON.parse(objJsonCustomer.replace(/_id/g,"id").replace(/name/g,"label"));
+					     
+						$(cell).find('input[type=text]').autocomplete({
+					    	 minLength: 0,
+						     source: objJsonCustomer,
+						     focus: function( event, ui ) {
+						     $( "#idCustomer" ).val( ui.item.label );
+						     return false;
+						     },
+						     select: function( event, ui ) {
+							     $( "#idCustomer" ).val( ui.item.label );
+							     $( "#idCustomerID" ).val( ui.item.id );
+							     $( "#idOutstandingAmt" ).html( Math.round(ui.item.outStandingAmount*100)/100 );
+								 calculateTotalAmount();
+							     return false;
+						     }
+					     })
+					     .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+					     var temp = $( "<li>" );
+					     console.log(item);
+					     console.log(item.label +" "+item.id);
+					     	temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'>"+ item.id  +"</span>"+ "</a>" ).appendTo( ul );
+					     return temp;
+					     };
+
+					}, 0);
+					
 				}
 
 				function enableTooltips(table) {
@@ -377,13 +423,13 @@
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.batchNumber=prodData.batchNumber;
 			                        rowData.quantity="1";
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.freeQuantity="0";
 			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
 			                        rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 			                        rowData.netPaybleProductPrice=Number(rowData.quantity)*Number(rowData.salesRate);
-									
 			                        var taxValpercent = prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:1;
 			                        var taxValrupee = (Number(rowData.quantity)*Number(rowData.salesRate)*Number(taxValpercent))/100;
 			                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
@@ -397,6 +443,7 @@
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.batchNumber=prodData.batchNumber;
 			                        rowData.quantity="1";
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.derSumOfProudctTax=prodData.derSumOfProudctTax?prodData.derSumOfProudctTax:0;
@@ -467,7 +514,7 @@
 		                    default:
 		                        console.log("Default Switch");
 	                	}
-	                	
+
 	                	var gridData = grid_selector.jqGrid('getGridParam','data');
 	                	if(gridData[gridData.length-1].name){
 	                		var randId = Math.ceil(Math.random()*10000);
@@ -566,10 +613,15 @@
 					.complete(function( data ) {
 						console.log("Data Response:" + data.responseJSON);
 						proddata = data.responseJSON;
+						if(proddata.batchList){
+							proddata.batchNumber=proddata.batchList[0].batchNumber;
+							proddata.salesRate=proddata.batchList[0].salesRate;
+						}
 					})
 					.fail(function() {
 						console.error( "[async MSG]error in fetching data from server....." );
 					});
+					
 				return proddata;
 			}
 			

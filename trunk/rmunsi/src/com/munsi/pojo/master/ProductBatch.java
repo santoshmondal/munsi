@@ -13,7 +13,7 @@ public class ProductBatch implements Serializable {
 
 	private Float purchaseRate;
 	private Float mrp;
-	private Float saleRate;
+	private Float salesRate;
 
 	private Long batchCurrentStock;
 
@@ -68,12 +68,12 @@ public class ProductBatch implements Serializable {
 		this.mrp = mrp;
 	}
 
-	public Float getSaleRate() {
-		return saleRate;
+	public Float getSalesRate() {
+		return salesRate;
 	}
 
-	public void setSaleRate(Float saleRate) {
-		this.saleRate = saleRate;
+	public void setSalesRate(Float saleRate) {
+		this.salesRate = saleRate;
 	}
 
 	@Override

@@ -160,7 +160,7 @@ public class SalesPurchaseRuleManager {
 				for (ProductBatch pbatch : batchList) {
 					if (pbatch.equals(newProductBatch)) {
 						pbatch.setBatchCurrentStock(pbatch.getBatchCurrentStock() - salesProduct.getTotalQuantity());
-						pbatch.setSaleRate(salesProduct.getSalesRate());
+						pbatch.setSalesRate(salesProduct.getSalesRate());
 						break;
 					}
 				}
@@ -199,7 +199,7 @@ public class SalesPurchaseRuleManager {
 							pbatch.setExpiryDate(purchaseProduct.getExpiryDate());
 							pbatch.setManufactureDate(purchaseProduct.getManufactureDate());
 							pbatch.setMrp(purchaseProduct.getMrp());
-							pbatch.setSaleRate(purchaseProduct.getSalesRate());
+							pbatch.setSalesRate(purchaseProduct.getSalesRate());
 							pbatch.setPurchaseRate(purchaseProduct.getPurchaseRate());
 							break;
 						}
@@ -212,7 +212,7 @@ public class SalesPurchaseRuleManager {
 					newProductBatch.setExpiryDate(purchaseProduct.getExpiryDate());
 					newProductBatch.setManufactureDate(purchaseProduct.getManufactureDate());
 					newProductBatch.setMrp(purchaseProduct.getMrp());
-					newProductBatch.setSaleRate(purchaseProduct.getSalesRate());
+					newProductBatch.setSalesRate(purchaseProduct.getSalesRate());
 					newProductBatch.setPurchaseRate(purchaseProduct.getPurchaseRate());
 					batchList.add(newProductBatch);
 				}

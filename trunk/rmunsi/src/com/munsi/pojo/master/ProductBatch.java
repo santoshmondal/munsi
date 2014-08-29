@@ -2,6 +2,8 @@ package com.munsi.pojo.master;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ProductBatch implements Serializable {
 
@@ -74,4 +76,41 @@ public class ProductBatch implements Serializable {
 		this.saleRate = saleRate;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((batchNumber == null) ? 0 : batchNumber.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ProductBatch other = (ProductBatch) obj;
+		if (batchNumber == null) {
+			if (other.batchNumber != null)
+				return false;
+		} else if (!batchNumber.equals(other.batchNumber))
+			return false;
+		return true;
+	}
+
+	public static void main(String[] args) {
+		ProductBatch pb = new ProductBatch();
+		pb.setBatchNumber("abc");
+		pb.setMrp(12.22f);
+		Set<ProductBatch> spb = new HashSet<>();
+		spb.add(pb);
+		ProductBatch pba = new ProductBatch();
+		pba.setBatchNumber("abc");
+
+		System.out.println(spb.contains(pba));
+
+	}
 }

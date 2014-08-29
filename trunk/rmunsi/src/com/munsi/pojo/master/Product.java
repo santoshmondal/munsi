@@ -1,8 +1,10 @@
 package com.munsi.pojo.master;
 
+import java.util.Date;
 import java.util.Set;
 
 import com.munsi.pojo.BasePojo;
+import com.munsi.util.CommonUtil;
 
 public class Product extends BasePojo {
 
@@ -43,6 +45,13 @@ public class Product extends BasePojo {
 	private Set<ProductBatch> batchList;
 
 	private Float derSumOfProudctTax;
+
+	// Batch handling variables
+	private String batchNumber;
+	private Date manufactureDate;
+	private Date expiryDate;
+	private String sMfgdate;
+	private String sExpdate;
 
 	public String get_id() {
 		return _id;
@@ -250,6 +259,48 @@ public class Product extends BasePojo {
 
 	public void setBatchList(Set<ProductBatch> batchList) {
 		this.batchList = batchList;
+	}
+
+	public String getBatchNumber() {
+		return batchNumber;
+	}
+
+	public void setBatchNumber(String batchNumber) {
+		this.batchNumber = batchNumber;
+	}
+
+	public Date getManufactureDate() {
+		return manufactureDate;
+	}
+
+	public void setManufactureDate(Date manufactureDate) {
+		this.manufactureDate = manufactureDate;
+	}
+
+	public Date getExpiryDate() {
+		return expiryDate;
+	}
+
+	public void setExpiryDate(Date expiryDate) {
+		this.expiryDate = expiryDate;
+	}
+
+	public String getsMfgdate() {
+		return sMfgdate;
+	}
+
+	public void setsMfgdate(String sMfgdate) {
+		this.manufactureDate = CommonUtil.stringToDate(sMfgdate);
+		this.sMfgdate = sMfgdate;
+	}
+
+	public String getsExpdate() {
+		return sExpdate;
+	}
+
+	public void setsExpdate(String sExpdate) {
+		this.expiryDate = CommonUtil.stringToDate(sExpdate);
+		this.sExpdate = sExpdate;
 	}
 
 }

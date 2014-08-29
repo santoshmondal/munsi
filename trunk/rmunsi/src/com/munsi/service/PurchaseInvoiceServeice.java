@@ -39,7 +39,7 @@ public class PurchaseInvoiceServeice {
 		ruleManager.applySupplierUpdates(pInvoice);
 
 		// update inventory
-		ruleManager.applyInventoryUpdates(pInvoice, false);
+		ruleManager.applyInventoryUpdatesPurchase(pInvoice);
 
 		// Object update and creation
 		supplierService.update(pInvoice.getSupplier());
@@ -55,7 +55,7 @@ public class PurchaseInvoiceServeice {
 		ruleManager.applySupplierUpdates(pInvoice);
 
 		// update inventory
-		ruleManager.applyInventoryUpdates(pInvoice, false);
+		ruleManager.applyInventoryUpdatesPurchase(pInvoice);
 
 		// Object update and creation
 		supplierService.update(pInvoice.getSupplier());

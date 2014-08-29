@@ -14,6 +14,10 @@ public class OpeningProductStock extends BasePojo implements Serializable {
 	private String batchNumber;
 	private Date expDate;
 	private Date mfgDate;
+
+	private String sExpDate;
+	private String sMfgDate;
+
 	private Product product;
 
 	public Integer getQuantity() {
@@ -64,6 +68,20 @@ public class OpeningProductStock extends BasePojo implements Serializable {
 		this.product = product;
 	}
 
-	
-	
+	public String getsExpDate() {
+		return sExpDate;
+	}
+
+	public void setsExpDate(String sExpDate) {
+		this.sExpDate = sExpDate;
+	}
+
+	public String getsMfgDate() {
+		return sMfgDate;
+	}
+
+	public void setsMfgDate(String sMfgDate) {
+		this.sMfgDate = sMfgDate;
+	}
+
 }

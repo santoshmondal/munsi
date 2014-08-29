@@ -1,5 +1,6 @@
 package com.munsi.service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -9,6 +10,7 @@ import com.munsi.pojo.invoice.purchase.PurchaseProduct;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.pojo.invoice.sales.SalesProduct;
 import com.munsi.pojo.master.Product;
+import com.munsi.pojo.master.ProductBatch;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
@@ -137,36 +139,89 @@ public class SalesPurchaseRuleManager {
 
 	}
 
-	public void applyInventoryUpdates(Object sInvoice, Boolean isSalesOrPurchase) {
+	public void applyInventoryUpdatesSales(Object sInvoice) {
+		Set<? extends Product> productList = null;
+		SalesInvoice salesInvoice = (SalesInvoice) sInvoice;
+		productList = salesInvoice.getSalesProductList();
+
+		for (Product product : productList) {
+			Product productMaster = productService.get(product.get_id());
+			Set<ProductBatch> batchList = productMaster.getBatchList();
+			Integer currentMasterStock = productMaster.getCurrentStock();
+			currentMasterStock = currentMasterStock != null ? currentMasterStock : 0;
+
+			ProductBatch newProductBatch = new ProductBatch();
+			newProductBatch.setBatchNumber(product.getBatchNumber());
+			// Finding the existing batch to update
+			if (batchList != null && batchList.contains(newProductBatch)) {
+				SalesProduct salesProduct = (SalesProduct) product;
+				currentMasterStock -= salesProduct.getTotalQuantity();
+
+				for (ProductBatch pbatch : batchList) {
+					if (pbatch.equals(newProductBatch)) {
+						pbatch.setBatchCurrentStock(pbatch.getBatchCurrentStock() - salesProduct.getTotalQuantity());
+						pbatch.setSaleRate(salesProduct.getSalesRate());
+						break;
+					}
+				}
+				productMaster.setSalesRate(salesProduct.getSalesRate());
+				productMaster.setCurrentStock(currentMasterStock);
+				productMaster.setBatchList(batchList);
+				productService.update(productMaster);
+			}
+
+		}
+
+	}
+
+	public void applyInventoryUpdatesPurchase(Object sInvoice) {
 		try {
 			Set<? extends Product> productList = null;
-			// if true imples Sales, false implies Purchase
-			if (isSalesOrPurchase) {
-				SalesInvoice salesInvoice = (SalesInvoice) sInvoice;
-				productList = salesInvoice.getSalesProductList();
-
-			} else {
-				PurchaseInvoice purchaseInvoice = (PurchaseInvoice) sInvoice;
-				productList = purchaseInvoice.getPurchaseProductList();
-			}
+			PurchaseInvoice purchaseInvoice = (PurchaseInvoice) sInvoice;
+			productList = purchaseInvoice.getPurchaseProductList();
 
 			for (Product product : productList) {
 				Product productMaster = productService.get(product.get_id());
+				Set<ProductBatch> batchList = productMaster.getBatchList();
 				Integer currentMasterStock = productMaster.getCurrentStock();
 				currentMasterStock = currentMasterStock != null ? currentMasterStock : 0;
 
-				if (isSalesOrPurchase) {
-					SalesProduct salesProduct = (SalesProduct) product;
-					currentMasterStock -= salesProduct.getTotalQuantity();
-				} else {
-					PurchaseProduct purchaseProduct = (PurchaseProduct) product;
-					currentMasterStock += purchaseProduct.getTotalQuantity();
+				PurchaseProduct purchaseProduct = (PurchaseProduct) product;
+				currentMasterStock += purchaseProduct.getTotalQuantity();
 
-					productMaster.setMrp(product.getMrp());
-					productMaster.setSalesRate(product.getSalesRate());
-					productMaster.setPurchaseRate(product.getPurchaseRate());
+				ProductBatch newProductBatch = new ProductBatch();
+				newProductBatch.setBatchNumber(product.getBatchNumber());
+				// Finding the existing batch to update
+				if (batchList != null && batchList.contains(newProductBatch)) {
+					for (ProductBatch pbatch : batchList) {
+						if (pbatch.equals(newProductBatch)) {
+							pbatch.setBatchCurrentStock(pbatch.getBatchCurrentStock() + purchaseProduct.getTotalQuantity());
+							pbatch.setExpiryDate(purchaseProduct.getExpiryDate());
+							pbatch.setManufactureDate(purchaseProduct.getManufactureDate());
+							pbatch.setMrp(purchaseProduct.getMrp());
+							pbatch.setSaleRate(purchaseProduct.getSalesRate());
+							pbatch.setPurchaseRate(purchaseProduct.getPurchaseRate());
+							break;
+						}
+					}
+				} else {// Adding new Batch logic goes here
+					if (batchList == null) {
+						batchList = new HashSet<>();
+					}
+					newProductBatch.setBatchCurrentStock(purchaseProduct.getTotalQuantity().longValue());
+					newProductBatch.setExpiryDate(purchaseProduct.getExpiryDate());
+					newProductBatch.setManufactureDate(purchaseProduct.getManufactureDate());
+					newProductBatch.setMrp(purchaseProduct.getMrp());
+					newProductBatch.setSaleRate(purchaseProduct.getSalesRate());
+					newProductBatch.setPurchaseRate(purchaseProduct.getPurchaseRate());
+					batchList.add(newProductBatch);
 				}
+				productMaster.setMrp(purchaseProduct.getMrp());
+				productMaster.setSalesRate(purchaseProduct.getSalesRate());
+				productMaster.setPurchaseRate(purchaseProduct.getPurchaseRate());
+
 				productMaster.setCurrentStock(currentMasterStock);
+				productMaster.setBatchList(batchList);
 				productService.update(productMaster);
 			}
 

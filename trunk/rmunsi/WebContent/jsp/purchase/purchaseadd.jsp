@@ -120,7 +120,7 @@
 						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
 						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:70,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'batchno',index:'batchno', sortable:false, width:150, editable: true,editoptions: {/* 
+						{name:'batchNumber',index:'batchno', sortable:false, width:150, editable: true,editoptions: {/* 
                             dataEvents: [
                                          {
                                              type: 'keydown',
@@ -144,8 +144,8 @@
                                      ]*/
                                  } 
 						},
- 						{name:'mfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
-						{name:'expdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
+ 						{name:'sMfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
+						{name:'sExpdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
 						{name:'purchaseRate',index:'purchaseRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'salesRate',index:'salesRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'mrp',index:'mrp', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},

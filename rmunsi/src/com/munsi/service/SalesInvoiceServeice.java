@@ -38,7 +38,7 @@ public class SalesInvoiceServeice {
 		ruleManager.applyCustomerUpdates(sInvoice);
 
 		// update inventory
-		ruleManager.applyInventoryUpdates(sInvoice, true);
+		ruleManager.applyInventoryUpdatesSales(sInvoice);
 
 		// Object update and creation
 		customerService.update(sInvoice.getCustomer());
@@ -54,7 +54,7 @@ public class SalesInvoiceServeice {
 		ruleManager.applyCustomerUpdates(sInvoice);
 
 		// update inventory
-		ruleManager.applyInventoryUpdates(sInvoice, true);
+		ruleManager.applyInventoryUpdatesSales(sInvoice);
 
 		// Object update and creation
 		customerService.update(sInvoice.getCustomer());

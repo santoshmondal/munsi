@@ -510,23 +510,15 @@
 							loadonce: true,
 							gridview: true,
 							datatype: "json",
-							colNames:['id','Quantity','Batch Number','Exp. Date','MFG Date',' '],
+							colNames:['id','Quantity','Batch Number','Exp. Date','MFG Date'],
 							colModel:[
 								{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
 								{name:'quantity',index:'quantity', width:100, sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
 								
 								{name:'batchNumber',index:'batchNumber', width:100, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
 								{name:'1expDate',index:'expDate', width:180,editable:true, sorttype:"date",unformat: pickDate},
-								{name:'1mfgDate',index:'mfgDate', width:180, editable:true, sorttype:"date",unformat: pickDate},
-								{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
-									formatter:'actions', 
-									formatoptions:{ 
-										keys:true,
-										delOptions:{top:45 ,url: "${pageContext.request.contextPath}/openingstockmaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
-										//editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
-									}
-								}
-							], 
+								{name:'1mfgDate',index:'mfgDate', width:180, editable:true, sorttype:"date",unformat: pickDate}
+							],
 					
 							viewrecords : true,
 							
@@ -550,7 +542,7 @@
 							//nothing is saved
 							caption: "Opening Stock",
 							scrollOffset: 18,
-							autowidth: false,
+							autowidth: true,
 							autoheight:true
 						});
 
@@ -571,7 +563,7 @@
 										title: "",
 										autoOpen: false,
 										height: 400,
-										width: 660,
+										width: 590,
 										title_html: true,
 										open: function() {
 											$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Opening Stock</span> </div>");

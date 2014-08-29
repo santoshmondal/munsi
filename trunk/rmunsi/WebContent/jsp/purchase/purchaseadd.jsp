@@ -101,8 +101,7 @@
 	 var gridDisc,gridTax;
 			jQuery(function($) {
 				var grid_selector = jQuery("#grid-table_pinvoice");
-				var pager_selector_id = "#grid-table_pinvoice_toppager";
-				var colModel, i, cmi, tr = "<tr>", skip = 0, ths,curCellname,curRow ;
+				var colModel, i, cmi, tr = "<tr>", skip = 0, ths,g_objJsonBatch=[];
 				
 			     
 				grid_selector.jqGrid({
@@ -113,37 +112,14 @@
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
 					cellEdit : true,
-					colNames:['id','Barcode','Code','Name', 'Qty','Batch','Mfg. Date','Exp. Date', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
+					colNames:['id','Barcode','Code','Name', 'Batch','Qty','Mfg. Date','Exp. Date', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
 						{name:'code',index:'code', width:100, sortable:false, editable: true,unformat: pickCodeAutoComplete},
 						{name:'name',index:'name', width:250, sortable:false, editable: true,unformat: pickNameAutoComplete},
+						{name:'batchNumber',index:'batchno', sortable:false, width:150, editable: true,unformat: pickBatchAutoComplete},
 						{name:'quantity',index:'quantity', sortable:false, align:'right', width:70,editable: true, formatter:'integer', sorttype:'int'},
-						{name:'batchNumber',index:'batchno', sortable:false, width:150, editable: true,editoptions: {/* 
-                            dataEvents: [
-                                         {
-                                             type: 'keydown',
-                                             fn: function (e) {
-                                            
-                                            	 var key = e.charCode || e.keyCode;
-                                                 if (key == 9 || key == 15)//tab
-                                                 {
-                                                     if (curRow == grid_selector.jqGrid('getGridParam','data').length) {
-														
-                                                     }else{
-                                                    	 
-	                                                     //Enter edit row for next row in grid
-	                                                     grid_selector.jqGrid("editCell",curRow+1,2,false);
-	                                                     //grid_selector.jqGrid("editCell",curRow+1,2,true);
-	                                                     //$("input #" + (Number(curRow)) + "_barCode").trigger('focus');
-                                                     }
-                                                 }
-                                             }
-                                         }
-                                     ]*/
-                                 } 
-						},
  						{name:'sMfgdate',index:'mfgdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
 						{name:'sExpdate',index:'expdate', sortable:false, width:120, editable: true,sorttype:"date",unformat: pickDate},
 						{name:'purchaseRate',index:'purchaseRate', width:90, sortable:false, align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
@@ -169,10 +145,45 @@
 			        	calculateTotalAmount();
 	                },
 	                afterSaveCell: function (rowid, name, val, iRow, iCol) {
-	                	
 	                	console.log("rowid:"+rowid+", name:"+ name+", val:"+val+", iRow:"+iRow+", iCol:"+iCol);
-	                	getRowAndPopulate(rowid,name,val);
-	                	calculateTotalAmount();
+	                	if(iCol != 5 ){
+		                	getRowAndPopulate(rowid,name,val);
+		                	calculateTotalAmount();
+	                	}else{
+		                	var rowid = grid_selector.jqGrid('getGridParam', 'selrow');
+							var l_rowData = grid_selector.jqGrid('getRowData', rowid);
+	                		
+	                		for(i=0;i<g_objJsonBatch.length;i++){
+                				if(g_objJsonBatch[i].label==val){
+                					l_rowData.salesRate=g_objJsonBatch[i].salesRate;
+                					l_rowData.batchNumber=g_objJsonBatch[i].batchNumber;
+                					l_rowData.mrp=g_objJsonBatch[i].mrp;
+                					l_rowData.salesRate=g_objJsonBatch[i].salesRate;
+                					l_rowData.purchaseRate=g_objJsonBatch[i].purchaseRate;
+                					
+                					l_rowData.sExpdate=g_objJsonBatch[i].sExpdate;
+                					l_rowData.sMfgdate=g_objJsonBatch[i].sMfgdate;
+                					
+                					grid_selector.jqGrid('setRowData', rowid, l_rowData);
+                					break;
+                				}
+                			}
+	                	}
+	                },
+	                beforeEditCell: function(id,name,val,iRow,iCol){
+	                	// Trigger Batch Fetch on edit click
+	                	g_rowData = [];
+	                	g_objJsonBatch=[];
+	                	if(iCol == 5){
+	                		var prodData = ajaxProductFetch('code',grid_selector.jqGrid ('getCell', id, 'code'),true);
+		                	if(prodData && prodData.batchList){
+		                		$.each(prodData.batchList,function(i,obj){
+		                			obj._id=obj.batchNumber;
+		                			g_objJsonBatch.push(obj);
+		                		});
+		                	}
+		                	 
+	                	}
 	                }/* ,
 	                beforeSelectRow: function(rowid) {
 	                 //   return false;
@@ -203,18 +214,13 @@
 					      if (e.keyCode === 13) {  // Enter key:
 					        var increment = e.shiftKey ? -1 : 1;
 
-					        // Do not go out of bounds
-					        //var lastRowInd = grid_selector.jqGrid("getGridParam","reccount");
-					        //if ( iRow+increment == 0 || iRow+increment == lastRowInd+1)
-					        //  return;   // we could re-edit current cell or wrap
-					        //else
 					        	grid_selector.jqGrid("editCell",iRow,iCol+increment,true);
 					        
 					      }
 					    }); // End keydown binding
 					  },
 					  
-					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",//nothing is saved
+					editurl: "${pageContext.request.contextPath}/areamaster.action?op=edit",
 					//caption: "List of areas",
 					scrollOffset: 20,
 					footerrow: true,
@@ -283,16 +289,16 @@
 					 	finProdCode[itr++] = availableProductCode[i].code;
 					 }
 				 }
-				 //console.log(availableProductCode+"\n finProdCode::"+finProdCode);
 				function pickCodeAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
+						minLength: 0,
 						source: finProdCode
 					});
 					}, 0);
 				}
 			
-				//autocomplete for Code
+				//autocomplete for Name
 				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
 				 availableProductName = JSON.parse(availableProductName);
 				 var finProdName=[],itr=0;
@@ -305,11 +311,39 @@
 				function pickNameAutoComplete( cellvalue, options, cell ) {
 					setTimeout(function(){
 					$(cell) .find('input[type=text]').autocomplete({
+						minLength: 0,
 						source: finProdName
 					});
 					}, 0);
 				}
-			
+
+				//autocomplete for batch
+				function pickBatchAutoComplete( cellvalue, options, cella ) {
+					setTimeout(function(){
+
+					    g_objJsonBatch = JSON.parse(JSON.stringify(g_objJsonBatch).replace(/_id/g,"id").replace(/batchNumber/g,"label"));
+					     
+						$(cella).find('input[type=text]').autocomplete({
+					    	 minLength: 0,
+					    	 source: g_objJsonBatch,
+					    	 open: function() { 
+					    		 $(cella).find('input[type=text]').autocomplete("widget").width(350); 
+					    	    }
+					     }).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+						     var temp = $( "<li>" );
+						     console.log(item);
+						     console.log(item.label +" "+item.id);
+						     temp.append( "<a>" + item.label + "<span class='badge badge-danger pull-right'><i class='icon-shopping-cart'></i> "+ item.batchCurrentStock  +"</span> "+
+						    		 "<span class='badge badge-warning pull-right'><i class='icon-rupee'></i> "+ item.purchaseRate  +"</span>" +
+						    		 "<span class='label label-inverse arrowed arrowed-in-right pull-right'><i class='icon-calendar'></i> "+ item.sExpdate +"</span>" +"</a>" ).appendTo( ul );
+					     	 return temp;
+					     };
+						
+						$(cella).find('input[type=text]').on( "autocompleteselect", function( event, ui ) {console.log("works.......");} );
+
+					}, 0);
+					
+				}			
 				function enableTooltips(table) {
 					$('.navtable .ui-pg-button').tooltip({container:'body'});
 					$(table).find('.ui-pg-div').tooltip({container:'body'});
@@ -376,7 +410,10 @@
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.batchNumber=prodData.batchNumber;
 			                        rowData.quantity="1";
+			                        rowData.sMfgdate=prodData.sMfgdate;
+			                        rowData.sExpdate=prodData.sExpdate;
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.purchaseRate=prodData.purchaseRate;
 			                        rowData.mrp=prodData.mrp;
@@ -398,7 +435,10 @@
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.batchNumber=prodData.batchNumber;
 			                        rowData.quantity="1";
+			                        rowData.sMfgdate=prodData.sMfgdate;
+			                        rowData.sExpdate=prodData.sExpdate;
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.purchaseRate=prodData.purchaseRate;
 			                        rowData.mrp=prodData.mrp;
@@ -420,7 +460,10 @@
 			                        rowData.barCode=prodData.barCode?prodData.barCode:"";
 			                        rowData.code=prodData.code?prodData.code:"";
 			                        rowData.name=prodData.name?prodData.name:"";
+			                        rowData.batchNumber=prodData.batchNumber;
 			                        rowData.quantity="1";
+			                        rowData.sMfgdate=prodData.sMfgdate;
+			                        rowData.sExpdate=prodData.sExpdate;
 			                        rowData.salesRate=prodData.salesRate;
 			                        rowData.purchaseRate=prodData.purchaseRate;
 			                        rowData.mrp=prodData.mrp;
@@ -550,6 +593,14 @@
 					.complete(function( data ) {
 						console.log("Data Response:" + data.responseJSON);
 						proddata = data.responseJSON;
+						if(proddata && proddata.batchList){
+							proddata.batchNumber=proddata.batchList[0].batchNumber;
+							proddata.mrp=proddata.batchList[0].mrp;
+							proddata.salesRate=proddata.batchList[0].salesRate;
+							proddata.purchaseRate=proddata.batchList[0].purchaseRate;
+							proddata.sMfgdate=proddata.batchList[0].sMfgdate;
+							proddata.sExpdate=proddata.batchList[0].sExpdate;
+						}
 					})
 					.fail(function() {
 						console.error( "[async MSG]error in fetching data from server....." );

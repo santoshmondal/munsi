@@ -46,7 +46,7 @@
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'name',index:'name', width:110, editrules:{required:true}, editable: true},
-						{name:'rate',index:'rate', width:110, editrules:{required:true}, editable: true},
+						{name:'rate',index:'rate', width:110, editrules:{number:true,required:true}, editable: true},
 						{name:'description',index:'description', width:150,editable: true,editoptions:{maxlength:"200"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

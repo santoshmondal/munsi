@@ -66,13 +66,13 @@ public class CommonAction extends HttpServlet {
 	}
 
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ParseException {
-		
+
 		String json = "";
 		String operation = request.getParameter(Constants.OPERATION);
 		PrintWriter out = null;
-		
+
 		if (operation != null) {
-			
+
 			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case FETCH:
@@ -97,7 +97,7 @@ public class CommonAction extends HttpServlet {
 							if (request.getParameterMap().containsKey("frameNumber")) {
 								whereFields.put("frameNumber", request.getParameter("frameNumber"));
 							}
-							
+
 							json = SantoshUtil.getValue(whereFields, request.getParameter("get").toString());
 						}
 					}
@@ -106,22 +106,22 @@ public class CommonAction extends HttpServlet {
 			case RESEND_SMS:
 				out = response.getWriter();
 				HttpSession session = request.getSession(false);
-				Invoice invoiceObj = (Invoice)session.getAttribute("NEW_INVOICE_DETAIL");
-				String msgNewInvoice = (String)session.getAttribute("SMS_RETRY_MSG");
-				try{
+				Invoice invoiceObj = (Invoice) session.getAttribute("NEW_INVOICE_DETAIL");
+				String msgNewInvoice = (String) session.getAttribute("SMS_RETRY_MSG");
+				try {
 					CommonUtil.smsMsg(invoiceObj.getCustomer().get_id(), msgNewInvoice);
-				}catch(Exception ex){
-					request.setAttribute("SERVER_SMS_FAILED", "SMS sending failed on "+invoiceObj.getCustomer().get_id());
+				} catch (Exception ex) {
+					request.setAttribute("SERVER_SMS_FAILED", "SMS sending failed on " + invoiceObj.getCustomer().get_id());
 					session.setAttribute("SMS_RETRY_MSG", msgNewInvoice);
 					session.setAttribute("NEW_INVOICE_DETAIL", invoiceObj);
 				}
 				request.setAttribute("NEW_INVOICE_DETAIL", invoiceObj);
-				request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ invoiceObj.getInvoiceNumber());
+				request.setAttribute("SERVER_MESSAGE", "SMS sent to " + invoiceObj.getInvoiceNumber());
 				request.setAttribute("SERVER_MESSAGE_DETAIL", msgNewInvoice);
-				
+
 				RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
 				rd.forward(request, response);
-				
+
 				break;
 
 			case REPORT_DATE:
@@ -144,41 +144,47 @@ public class CommonAction extends HttpServlet {
 
 				String startDate = request.getParameter("fStartDateRep");
 				String endDate = request.getParameter("fEndDateRep");
-				if(startDate == null && endDate == null){
+
+				if (startDate == null) {
 					String pattern = "dd-MM-yy";
 					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 					startDate = simpleDateFormat.format(new Date());
-					Calendar cal = Calendar.getInstance();  
-					cal.setTime(new Date());  
+				}
+
+				if (endDate == null) {
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(new Date());
 					cal.add(Calendar.DAY_OF_YEAR, 1);
-					Date tomorrow = cal.getTime();  
-					System.out.println(tomorrow);
+					Date tomorrow = cal.getTime();
+
+					String pattern = "dd-MM-yy";
+					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 					endDate = simpleDateFormat.format(tomorrow);
 				}
-	                response.setContentType("application/pdf");
-	                response.setHeader("Content-Disposition","attachment; filename=\"Report_"+startDate+endDate+".pdf\"");
-	                
-	                InputStream inputStream = MonthlyReport.exportToPdf(startDate, endDate);
-	                //ServletOutputStream output  = response.getOutputStream();
 
-	                BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
-	                //OutputStream output = new FileOutputStream(filename);
-	                int read=0;
-	                byte[] bufferData = new byte[1024];
-	                while((read = inputStream.read(bufferData))!= -1){
-	                        output.write(bufferData, 0, read);
-	                }
-	                
-	                output.flush();
-	                output.close();
-	                inputStream.close();
-				
+				response.setContentType("application/pdf");
+				response.setHeader("Content-Disposition", "attachment; filename=\"Report_" + startDate + endDate + ".pdf\"");
+
+				InputStream inputStream = MonthlyReport.exportToPdf(startDate, endDate);
+				// ServletOutputStream output = response.getOutputStream();
+
+				BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
+				// OutputStream output = new FileOutputStream(filename);
+				int read = 0;
+				byte[] bufferData = new byte[1024];
+				while ((read = inputStream.read(bufferData)) != -1) {
+					output.write(bufferData, 0, read);
+				}
+
+				output.flush();
+				output.close();
+				inputStream.close();
 
 				break;
 			default:
-				
+
 			}
-			
+
 			out.write(json);
 			out.close();
 		}

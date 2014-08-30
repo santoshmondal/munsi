@@ -1,5 +1,8 @@
 package com.async.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.estudio.dao.impl.MongoAccessUserDao;
 import com.estudio.dao.impl.MongoCustomerDao;
 import com.estudio.dao.impl.MongoInvoiceDao;
@@ -10,9 +13,10 @@ import com.estudio.service.InvoiceService;
 import com.estudio.service.MasterService;
 
 public class ObjectFactory {
+	private static final Map<ObjectEnum, Object> objectFactoryMap = new HashMap<ObjectEnum, Object>();
 
 	public static enum ObjectEnum {
-		//@formatter:off
+		// @formatter:off
 		// DAOs
 		CUSTOMER_DAO(MongoCustomerDao.class.getName()),
 		ACCESS_USER_DAO(MongoAccessUserDao.class.getName()),
@@ -23,7 +27,7 @@ public class ObjectFactory {
 		ACCESS_USER_SERVICE(AccessUserServeice.class.getName()),
 		INVOICE_SERVICE(InvoiceService.class.getName()),
 		MASTER_SERVICE(MasterService.class.getName());
-		//@formatter:on
+		// @formatter:on
 
 		private final String className;
 
@@ -37,10 +41,15 @@ public class ObjectFactory {
 		}
 	}
 
-	public static Object getInstance(ObjectEnum ObjectEnum) {
+	public static Object getInstance(ObjectEnum objectEnum) {
 		try {
-			Class<?> clazz = Class.forName(ObjectEnum.toString());
-			return clazz.newInstance();
+			Object instance = objectFactoryMap.get(objectEnum);
+			if (instance == null) {
+				Class<?> clazz = Class.forName(objectEnum.toString());
+				instance = clazz.newInstance();
+			}
+			objectFactoryMap.put(objectEnum, instance);
+			return instance;
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

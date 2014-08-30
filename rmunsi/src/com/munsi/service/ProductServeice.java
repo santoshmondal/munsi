@@ -58,18 +58,18 @@ public class ProductServeice {
 		return productDao.getAll();
 	}
 
-	public String getProductByCode(String code, Boolean withReferences) {
-		Product product = productDao.getProductByCode(code, withReferences);
+	public String getProductByCode(String code, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
+		Product product = productDao.getProductByCode(code, withReferences, excludeExpiredBatch, excludeZeroStock);
 		return populateDerivedProductInfo(product);
 	}
 
-	public String getProductByBarCode(String barCode, Boolean withReferences) {
-		Product product = productDao.getProductByBarCode(barCode, withReferences);
+	public String getProductByBarCode(String barCode, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
+		Product product = productDao.getProductByBarCode(barCode, withReferences, excludeExpiredBatch, excludeZeroStock);
 		return populateDerivedProductInfo(product);
 	}
 
-	public String getProductByName(String name, Boolean withReferences) {
-		Product product = productDao.getProductByName(name, withReferences);
+	public String getProductByName(String name, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
+		Product product = productDao.getProductByName(name, withReferences, excludeExpiredBatch, excludeZeroStock);
 		return populateDerivedProductInfo(product);
 	}
 
@@ -102,8 +102,12 @@ public class ProductServeice {
 		return productJson;
 	}
 
+	public int getAvailableStock(String _id) {
+		return productDao.getAvailableStock(_id);
+	}
+
 	public static void main(String[] args) {
-		ProductServeice ref = (ProductServeice) ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
-		System.out.println(ref.getProductByName("Amul Milk", true));
+		//ProductServeice ref = (ProductServeice) ObjectFactory.getInstance(ObjectEnum.PRODUCT_SERVICE);
+		//System.out.println(ref.getProductByName("Amul Milk", true));
 	}
 }

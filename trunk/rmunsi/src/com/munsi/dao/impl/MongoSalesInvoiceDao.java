@@ -215,7 +215,7 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 
 			BasicDBList queryList = new BasicDBList();
 			queryList.add(deletedQuery);
-			queryList.add(dateQuery);
+			//queryList.add(dateQuery);
 
 			DBObject finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 

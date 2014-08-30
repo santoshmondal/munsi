@@ -63,7 +63,7 @@
 
 						{name:'mrp',index:'mrp',width:120, editable: true,editrules:{number:true},editoptions:{size:"20",maxlength:"130"}},
 						{name:'salesRate',index:'salesRate',width:155,  editable: true,editrules:{number:true},editoptions:{size:"20",maxlength:"130"}},
-						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:6, colpos:2}, edittype:"select",editoptions:{ value:"Box:Box;Piece:Piece;KG:KG"}},
+						{name:'salesUnit',index:'salesUnit',  editable: true, hidden:true,  editrules:{required:false, edithidden:true},formoptions:{label:'Sale Unit', rowpos:6, colpos:2}, edittype:"select",editoptions:{ value:"Piece:Piece"}},
 
 						{name:'purchaseRate',index:'purchaseRate',width:200,  editable: true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'purchaseUnit',index:'purchaseUnit', editable: true,hidden:true,editrules:{required:false, edithidden:true},formoptions:{label:'Purchase Unit', rowpos:8, colpos:2}, edittype:"select",editoptions:{value:"Box:Box;Piece:Piece;KG:KG"}},

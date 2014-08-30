@@ -335,7 +335,7 @@
 						     console.log(item.label +" "+item.id);
 						     temp.append( "<a>" + item.label + "<span class='badge badge-danger pull-right'><i class='icon-shopping-cart'></i> "+ item.batchCurrentStock  +"</span> "+
 						    		 "<span class='badge badge-warning pull-right'><i class='icon-rupee'></i> "+ item.purchaseRate  +"</span>" +
-						    		 "<span class='label label-inverse arrowed arrowed-in-right pull-right'><i class='icon-calendar'></i> "+ item.sExpdate +"</span>" +"</a>" ).appendTo( ul );
+						    		 "<span class='label label-inverse arrowed arrowed-in-right pull-right'><i class='icon-calendar'></i> "+ (item.sExpdate?item.sExpdate:' NA') +"</span>" +"</a>" ).appendTo( ul );
 					     	 return temp;
 					     };
 						
@@ -576,6 +576,14 @@
 				     
 				     $('.datepicker').datepicker({format:'dd-mm-yyyy', autoclose:true});
 				     $('#idSupplierInvDate').datepicker("setDate", new Date());
+			
+
+				//-----> Tab from Date to move to Grid first row (setting focus on jqgrid)
+					$('#idSupplierInvDate').bind('keydown', 'Tab', function(){
+					    console.log("Tab pressed...");
+					    jQuery(grid_selector).jqGrid("editCell",1,2,false);
+						
+				    });
 			});
 			//-------------------------------------------
 			//------- Product Fetch Invoice -------------
@@ -659,6 +667,7 @@
 						    }
 						}
 					});
+			 
 			 }
 			 
 			 //---------- Save and Print Invoice--------
@@ -713,4 +722,5 @@
 						return;
 				}
 			 }
+			
 </script>

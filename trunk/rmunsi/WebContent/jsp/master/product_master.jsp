@@ -375,131 +375,6 @@
 					}
 			    });
 		
-			//--------- Scheme JQGrid------
-			
-				var grid_selector_scheme = "#grid-table-scheme";
-				
-				jQuery(grid_selector_scheme).jqGrid({
-					//direction: "rtl",
-					
-					mtype: "POST",
-					loadonce: true,
-					gridview: true,
-					datatype: "json",
-					colNames:['id','Name','Scheme type','Quantity','Scheme On','Min. Purchase Qty.',' '],
-					colModel:[
-						{name:'id',index:'id', width:30, sorttype:"int", hidden:true, editrules:{required:false, addhidden:true}, editable: false},
-						{name:'name',index:'name', width:100,sortable:false,editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'schemeType',index:'schemeType',formatter:'select', width:100, sortable:false, editable: true, editrules:{required:false, edithidden:true},formoptions:{label:'Unit', rowpos:5, colpos:2}, edittype:"select",editoptions:{ value:"<%= CommonUtil.getSchemeTypeJSON() %>"}},
-						
-						{name:'schemeValue',index:'schemeValue',width:80, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'schemeOn',index:'schemeOn',formatter:'select',width:130 , sortable:false, editable: true,edittype:"select",editoptions:{value:"<%= CommonUtil.getSchemeONJSON() %>"}},
-						{name:'minEligibleValue',index:'minEligibleValue',width:140, sortable:false, editable: true,editoptions:{size:"20",maxlength:"130"}},
-						{name:'myac',index:'', width:70, fixed:true, sortable:false, resize:false,
-							formatter:'actions', 
-							formatoptions:{ 
-								keys:true,
-								delOptions:{top:45 ,url: "${pageContext.request.contextPath}/schememaster.action?op=delete", left:((($(window).width() - 300) / 2) + $(window).scrollLeft()), recreateForm: true, closeOnEscape:true, beforeShowForm:beforeDeleteCallback},
-								//editformbutton:true, editOptions:{top:45, left:((($(window).width() - 600) / 2) + $(window).scrollLeft()), width:600, recreateForm: true, closeOnEscape:true, beforeShowForm:beforeEditCallback}
-							}
-						}
-					], 
-			
-					viewrecords : true,
-					
-					pager : "",
-					altRows: false,
-					
-					multiselect: false,
-					//multikey: "ctrlKey",
-			        multiboxonly: true,
-			        height: 'auto',
-					loadComplete : function() {
-						var table = this;
-						setTimeout(function(){
-							styleCheckbox(table);
-							updatePagerIcons(table);
-							enableTooltips(table);
-						}, 0);
-						
-					},
-					//nothing is saved
-					caption: "Scheme",
-					scrollOffset: 18,
-					autowidth: true,
-					autoheight:true
-				});
-
-				jQuery(grid_selector_scheme).jqGrid('bindKeys', {"onEnter":function( rowid ) {  
-					editingRowId = rowid;
-                    jQuery(grid_selector_scheme).find('#jEditButton_'+editingRowId).click();
-				} } );
-				
-				//----------------------------------------
-				//----------Scheme Related JS ------------
-				//----------------------------------------
-						function showSchemeDialog(row) {
-							console.log("showSchemeDialog[param]> "+row);
-							
-							$( "#dialog-scheme" ).removeClass('hide').dialog({
-								resizable: false,
-								modal: true,
-								autoOpen: false,
-								title: "",
-								height: 400,
-								width: 660,
-								title_html: true,
-								open: function() {
-									$(".ui-dialog-title").empty().append("<div class='widget-header'><span class='ui-jqdialog-title' style='float: left;'>Manage Scheme</span> </div>");
-								    $(".ui-dialog-buttonset").addClass('col-lg-12');
-								    $(this).find(".ui-jqgrid-bdiv").css({'overflow-x':'hidden'});
-								 
-								    var productMasterRowData = jQuery(grid_selector).jqGrid('getRowData',row.split('&')[0]);
-								    prodMasterSelID = productMasterRowData.id;
-								    jQuery(grid_selector_scheme).setGridParam( {editurl: "${pageContext.request.contextPath}/schememaster.action?op=edit&productId="+prodMasterSelID, datatype:"json", url:"${pageContext.request.contextPath}/schememaster.action?op=view&productId="+productMasterRowData.id} );
-								    jQuery(grid_selector_scheme).jqGrid('setCaption', "Scheme for "+productMasterRowData.name);
-
-								    jQuery(grid_selector_scheme).jqGrid("clearGridData");
-								    jQuery(grid_selector_scheme).trigger("reloadGrid");
-								},
-								buttons: [
-									{
-										html: "<i class='icon-plus bigger-110'></i>&nbsp; Add",
-										"class" : "btn btn-primary btn-xs pull-left",
-										click: function() {
-											var datarow = {id:"",name:"",schemetype:"",quantity:"",eligiblitycriteria:"",minreq:""};
-								            var newId = $.jgrid.randId();
-											jQuery(grid_selector_scheme).jqGrid('addRowData', newId , datarow, "last");
-											var editparameters = {
-													"keys" : true,
-													"oneditfunc" : null,
-													"successfunc" : null,
-													"url" : "${pageContext.request.contextPath}/schememaster.action?op=add&productId="+prodMasterSelID,
-												    "extraparam" : {},
-													"aftersavefunc" : function(){
-														jQuery(grid_selector_scheme).setGridParam( {url:"${pageContext.request.contextPath}/schememaster.action?op=edit&productId="+prodMasterSelID} );
-													},
-													"errorfunc": null,
-													"afterrestorefunc" : null,
-													"restoreAfterError" : true,
-													"mtype" : "POST"
-												};
-											jQuery(grid_selector_scheme).jqGrid('editRow',newId , editparameters );
-										}
-									},
-									{
-										html: "<i class='icon-remove bigger-110'></i>&nbsp; Cancel",
-										"class" : "btn btn-xs pull-right",
-										click: function() {
-											$( this).dialog( "close" );
-										}
-									}
-								]
-							});
-							
-							$( "#dialog-scheme" ).dialog( "open" );
-						}
-				
 						//--------- Opening Stock JQGrid------
 						
 						var grid_selector_stock = "#grid-table-stock";
@@ -614,6 +489,14 @@
 											}
 											
 										]
+									});
+									
+									$.extend($.jgrid.edit, {
+									    beforeSubmit: function () {
+									        $(this).jqGrid("setGridParam", {datatype: "json"});
+									        jQuery(grid_selector).jqGrid("setGridParam", {datatype: "json"});
+									        return [true,"",""];
+									    }
 									});
 									
 									$( "#dialog-stock" ).dialog("open");

@@ -1,17 +1,20 @@
 package com.munsi.dao.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
 import com.munsi.dao.SalesInvoiceDao;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
@@ -196,4 +199,47 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 
 		return sInvoice;
 	}
+
+	@Override
+	public List<SalesInvoice> getAllByDate(String startDate, String endDate) {
+		List<SalesInvoice> sInvoiceList = new ArrayList<SalesInvoice>();
+		try {
+			DBCollection collection = mongoDB.getCollection(sInvoiceCollection);
+
+			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
+
+			String pattern = "dd-MM-yy";
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+
+			DBObject dateQuery = new BasicDBObject("invoiceDate", new BasicDBObject("$lt", simpleDateFormat.parse(endDate).getTime()).append("$gte", simpleDateFormat.parse(startDate).getTime()));
+
+			BasicDBList queryList = new BasicDBList();
+			queryList.add(deletedQuery);
+			queryList.add(dateQuery);
+
+			DBObject finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
+
+			DBCursor dbCursor = collection.find(finalQuery);
+
+			while (dbCursor.hasNext()) {
+				DBObject dbObject = dbCursor.next();
+
+				// Handle customer reference
+				DBObject refCustomrObject = ((DBRef) dbObject.get(KEY_CUSTOMER_XID)).fetch();
+				dbObject.put(KEY_CUSTOMER, refCustomrObject);
+				// customer ref continues.
+				dbObject.removeField(KEY_CUSTOMER_XID);
+
+				String jsonString = JSON.serialize(dbObject);
+				SalesInvoice sInvoice = (SalesInvoice) CommonUtil.jsonToObject(jsonString, SalesInvoice.class.getName());
+				sInvoiceList.add(sInvoice);
+			}
+
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+
+		return sInvoiceList;
+	}
+
 }

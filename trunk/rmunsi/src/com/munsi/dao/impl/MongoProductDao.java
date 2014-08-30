@@ -13,13 +13,17 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
 import com.munsi.dao.ProductDao;
 import com.munsi.pojo.master.Product;
+import com.munsi.pojo.master.ProductBatch;
 import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
+import com.munsi.util.ObjectFactory;
+import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class MongoProductDao implements ProductDao {
 	private static final Logger LOG = Logger.getLogger(MongoProductDao.class);
@@ -314,6 +318,61 @@ public class MongoProductDao implements ProductDao {
 			LOG.equals(exception);
 		}
 		return null;
+	}
+
+	@Override
+	public ProductBatch getBatchInfo(String _id, String batchNo) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collProduct);
+			DBObject idQuery = new BasicDBObject("_id", _id);
+
+			DBObject pBatchNo = new BasicDBObject("batchNumber", batchNo);
+			DBObject elementMatch = new BasicDBObject(QueryOperators.ELEM_MATCH, pBatchNo);
+			DBObject batchList = new BasicDBObject("batchList", elementMatch);
+
+			DBObject pRow = collection.findOne(idQuery, batchList);
+			BasicDBList basicDBList = (BasicDBList) pRow.get("batchList");
+			DBObject singleBatch = (DBObject) basicDBList.get(0);
+			String jsonString = JSON.serialize(singleBatch);
+
+			ProductBatch productBatch = (ProductBatch) CommonUtil.jsonToObject(jsonString, ProductBatch.class.getName());
+
+			return productBatch;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public List<ProductBatch> getBatchList(String _id) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collProduct);
+			DBObject batchKey = new BasicDBObject("batchList", 1);
+			DBObject query = new BasicDBObject("_id", _id);
+			DBObject dbObject = collection.findOne(query, batchKey);
+			BasicDBList basicDBList = (BasicDBList) dbObject.get("batchList");
+			String jsonString = JSON.serialize(basicDBList);
+			@SuppressWarnings("unchecked")
+			List<ProductBatch> productBatchList = (List<ProductBatch>) CommonUtil.jsonToObject(jsonString, ArrayList.class.getName());
+
+			return productBatchList;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	public static void main(String[] args) {
+		ProductDao productDao = null;
+		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
+		if (object instanceof ProductDao) {
+			productDao = (MongoProductDao) object;
+		}
+		List<ProductBatch> productBatch = productDao.getBatchList("1");
+		//ProductBatch productBatch = productDao.getBatchInfo("1", "VASAV");
 	}
 
 }

@@ -1,6 +1,5 @@
 package com.estudio.report;
 
-
 import java.io.FileInputStream;
 import java.net.URLDecoder;
 import java.util.HashMap;
@@ -17,31 +16,31 @@ import com.estudio.action.InvoiceAction;
 
 public class MonthlyReport {
 	public static void main(String[] args) {
-		//exportToPdf();
+		// exportToPdf();
 	}
 
 	@SuppressWarnings("deprecation")
-	public static FileInputStream exportToPdf(String startDate,String endDate) {
+	public static FileInputStream exportToPdf(String startDate, String endDate) {
 		System.out.println("Start with Report Design ...");
 		try {
 			// Compile it generates .jasper
-			String sourceFileName = URLDecoder.decode(MonthlyReport.class.getClassLoader().getResource("MonthlyReport.jrxml").getFile());
+			String sourceFileName = URLDecoder.decode(MonthlyReport.class.getClassLoader().getResource("MonthlyReport.jrxml").getFile(), "UTF-8");
 			JasperCompileManager.compileReportToFile(sourceFileName);
 
-			String sourceJasperFileName = URLDecoder.decode(MonthlyReport.class.getClassLoader().getResource("MonthlyReport.jasper").getFile());
+			String sourceJasperFileName = URLDecoder.decode(MonthlyReport.class.getClassLoader().getResource("MonthlyReport.jasper").getFile(), "UTF-8");
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("STARTDATE", startDate);
 			parameters.put("ENDDATE", endDate);
 			parameters.put("STUDIONAME", Config.getProperty("studio.name"));
 
 			// fillreport it generates .jrprint
-			JRBeanCollectionDataSource collectionDS = new JRBeanCollectionDataSource( InvoiceAction.getAllByFieldByDate(startDate,endDate));
+			JRBeanCollectionDataSource collectionDS = new JRBeanCollectionDataSource(InvoiceAction.getAllByFieldByDate(startDate, endDate));
 			JasperFillManager.fillReportToFile(sourceJasperFileName, parameters, collectionDS);
 
 			// export
-			String jrprintName = URLDecoder.decode(MonthlyReport.class.getClassLoader().getResource("MonthlyReport.jrprint").getFile());
+			String jrprintName = URLDecoder.decode(MonthlyReport.class.getClassLoader().getResource("MonthlyReport.jrprint").getFile(), "UTF-8");
 			JasperExportManager.exportReportToPdfFile(jrprintName, "/MonthlyReport.pdf");
-			return new FileInputStream( "/MonthlyReport.pdf");
+			return new FileInputStream("/MonthlyReport.pdf");
 		} catch (JRException e) {
 			e.printStackTrace();
 		} catch (Exception e) {

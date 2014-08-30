@@ -260,24 +260,24 @@ public class MongoProductDao implements ProductDao {
 	}
 
 	@Override
-	public Product getProductByCode(String code, Boolean withReferences) {
+	public Product getProductByCode(String code, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
 		DBObject queryObject = new BasicDBObject("code", code);
-		return getProductByQuery(queryObject, withReferences);
+		return getProductByQuery(queryObject, withReferences, excludeExpiredBatch, excludeZeroStock);
 	}
 
 	@Override
-	public Product getProductByBarCode(String barCode, Boolean withReferences) {
+	public Product getProductByBarCode(String barCode, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
 		DBObject queryObject = new BasicDBObject("barCode", barCode);
-		return getProductByQuery(queryObject, withReferences);
+		return getProductByQuery(queryObject, withReferences, excludeExpiredBatch, excludeZeroStock);
 	}
 
 	@Override
-	public Product getProductByName(String name, Boolean withReferences) {
+	public Product getProductByName(String name, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
 		DBObject queryObject = new BasicDBObject("name", name);
-		return getProductByQuery(queryObject, withReferences);
+		return getProductByQuery(queryObject, withReferences, excludeExpiredBatch, excludeZeroStock);
 	}
 
-	private Product getProductByQuery(DBObject queryObject, Boolean withReferences) {
+	private Product getProductByQuery(DBObject queryObject, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collProduct);
 			DBObject dbObject = collection.findOne(queryObject);
@@ -312,15 +312,20 @@ public class MongoProductDao implements ProductDao {
 			String jsonString = JSON.serialize(dbObject);
 			Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
 
-			// Remove batch of 0 stock and expired stock
-			Set<ProductBatch> productBatchList = product.getBatchList();
-			Iterator<ProductBatch> i = productBatchList.iterator();
-			while (i.hasNext()) {
-				ProductBatch b = i.next();
-				if (b.getBatchCurrentStock() != null && b.getBatchCurrentStock() <= 0) {
-					i.remove();
-				} else if (b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
-					i.remove();
+			if (excludeExpiredBatch || excludeZeroStock) {
+				// Remove batch of 0 stock and expired stock
+				Set<ProductBatch> productBatchList = product.getBatchList();
+				Iterator<ProductBatch> i = productBatchList.iterator();
+				while (i.hasNext()) {
+					ProductBatch b = i.next();
+
+					if (excludeZeroStock && b.getBatchCurrentStock() != null && b.getBatchCurrentStock() <= 0) {
+						i.remove();
+					}
+
+					if (excludeExpiredBatch && b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
+						i.remove();
+					}
 				}
 			}
 			return product;
@@ -329,6 +334,16 @@ public class MongoProductDao implements ProductDao {
 			LOG.equals(exception);
 		}
 		return null;
+	}
+
+	@Override
+	public int getAvailableStock(String _id) {
+		DBCollection collection = mongoDB.getCollection(collProduct);
+		DBObject query = new BasicDBObject("_id", _id);
+		DBObject pCurrentStockKey = new BasicDBObject("currentStock", 1);
+		BasicDBObject dbObject = (BasicDBObject) collection.findOne(query, pCurrentStockKey);
+		Integer currStock = dbObject.getInt("currentStock", -1);
+		return currStock;
 	}
 
 	@Override

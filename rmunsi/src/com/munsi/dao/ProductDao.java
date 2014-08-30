@@ -50,14 +50,16 @@ public interface ProductDao {
 	 */
 	public List<Product> getAll(Boolean withReferences);
 
-	public Product getProductByCode(String code, Boolean withReferences);
+	public Product getProductByCode(String code, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock);
 
-	public Product getProductByBarCode(String barCode, Boolean withReferences);
+	public Product getProductByBarCode(String barCode, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock);
 
-	public Product getProductByName(String name, Boolean withReferences);
+	public Product getProductByName(String name, Boolean withReferences, Boolean excludeExpiredBatch, Boolean excludeZeroStock);
 
 	public ProductBatch getBatchInfo(String _id, String batchNo);
 
 	public List<ProductBatch> getBatchList(String _id);
+
+	int getAvailableStock(String _id);
 
 }

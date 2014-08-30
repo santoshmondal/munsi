@@ -30,35 +30,47 @@ public class SalesInvoiceServeice {
 		ruleManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
 	}
 
-	public Boolean create(SalesInvoice sInvoice) {
+	public Boolean create(SalesInvoice sInvoice) throws Exception {
 		// Rules for calculating TAXs, Discount, Bill Amount etc.
 		ruleManager.applySalesInvoiceRule(sInvoice);
 
 		// Updating Customer Object [Outstanding Amount]
 		ruleManager.applyCustomerUpdates(sInvoice);
+		synchronized (sInvoice) {
+			StringBuffer errorStringBuffer = new StringBuffer();
+			boolean bool = ruleManager.validateStockQuantity(sInvoice.getSalesProductList(), errorStringBuffer);
 
-		// update inventory
-		ruleManager.applyInventoryUpdatesSales(sInvoice);
+			if (!bool) {
+				throw new Exception(errorStringBuffer.toString());
+			}
+			// update inventory
+			ruleManager.applyInventoryUpdatesSales(sInvoice);
 
-		// Object update and creation
-		customerService.update(sInvoice.getCustomer());
-
+			// Object update and creation
+			customerService.update(sInvoice.getCustomer());
+		}
 		return sInvoiceDao.create(sInvoice);
 	}
 
-	public Boolean update(SalesInvoice sInvoice) {
+	public Boolean update(SalesInvoice sInvoice) throws Exception {
 		// Rules for calculating TAXs, Discount, Bill Amount etc.
 		ruleManager.applySalesInvoiceRule(sInvoice);
 
 		// Updating Customer Object [Outstanding Amount]
 		ruleManager.applyCustomerUpdates(sInvoice);
+		synchronized (sInvoice) {
+			StringBuffer errorStringBuffer = new StringBuffer();
+			boolean bool = ruleManager.validateStockQuantity(sInvoice.getSalesProductList(), errorStringBuffer);
 
-		// update inventory
-		ruleManager.applyInventoryUpdatesSales(sInvoice);
+			if (!bool) {
+				throw new Exception(errorStringBuffer.toString());
+			}
+			// update inventory
+			ruleManager.applyInventoryUpdatesSales(sInvoice);
 
-		// Object update and creation
-		customerService.update(sInvoice.getCustomer());
-
+			// Object update and creation
+			customerService.update(sInvoice.getCustomer());
+		}
 		return sInvoiceDao.update(sInvoice);
 	}
 
@@ -89,7 +101,7 @@ public class SalesInvoiceServeice {
 
 		// create test
 		SalesInvoice sInvoice = testSalesInvoice();
-		ref.create(sInvoice);
+		//ref.create(sInvoice);
 
 		// get test
 		/*SalesInvoice sInvoice = ref.get("1", true);
@@ -127,4 +139,5 @@ public class SalesInvoiceServeice {
 
 		return sInvoice;
 	}
+
 }

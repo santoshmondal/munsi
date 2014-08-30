@@ -99,7 +99,7 @@
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
 					cellEdit : true,
-					colNames:['id', 'Barcode', 'Code', 'Name', 'Batch', 'Quantity', 'Rate', 'Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
+					colNames:['id', 'Barcode', 'Code', 'Name', 'Batch', 'Quantity', 'Rate', 'Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.',''],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
@@ -135,9 +135,15 @@
                                      ]
                                  }},
 						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
-						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
+						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name : 'actions', formatter:'actions', width:50,
+							formatoptions: {
+							    keys: true,
+							    editbutton: false,
+							    delOptions: {url: "#"}
+							               }}
 					], 
-			
+
 					viewrecords : true,
 					rowNum:1000,
 					recordtext: "Total Entries {2}",

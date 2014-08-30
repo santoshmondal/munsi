@@ -321,9 +321,7 @@ public class MongoProductDao implements ProductDao {
 
 					if (excludeZeroStock && b.getBatchCurrentStock() != null && b.getBatchCurrentStock() <= 0) {
 						i.remove();
-					}
-
-					if (excludeExpiredBatch && b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
+					} else if (excludeExpiredBatch && b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
 						i.remove();
 					}
 				}
@@ -331,6 +329,7 @@ public class MongoProductDao implements ProductDao {
 			return product;
 
 		} catch (Exception exception) {
+			exception.printStackTrace();
 			LOG.equals(exception);
 		}
 		return null;

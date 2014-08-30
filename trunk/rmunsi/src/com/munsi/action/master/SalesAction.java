@@ -76,6 +76,7 @@ public class SalesAction extends HttpServlet {
 				switch (fetchBy.toUpperCase()) {
 				case "CODE":
 					json = productService.getProductByCode(value, Boolean.valueOf(withReferences), true, true);
+
 					break;
 				case "BARCODE":
 					json = productService.getProductByBarCode(value, Boolean.valueOf(withReferences), true, true);

@@ -1,7 +1,7 @@
 package com.munsi.service;
 
-import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
 
@@ -210,7 +210,7 @@ public class SalesPurchaseRuleManager {
 					}
 				} else {// Adding new Batch logic goes here
 					if (batchList == null) {
-						batchList = new HashSet<>();
+						batchList = new TreeSet<ProductBatch>();
 					}
 
 					newProductBatch.setBatchCurrentStock(purchaseProduct.getTotalQuantity().longValue());

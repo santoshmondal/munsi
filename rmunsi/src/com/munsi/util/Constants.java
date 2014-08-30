@@ -60,4 +60,14 @@ public class Constants {
 		// @formatter:on
 	}
 
+	public enum PaymentModeEnum {
+		// @formatter:off
+		CASH,
+		DEBIT_CARD,
+		CREDIT_CARD,
+		DEBIT,
+		CREDIT;
+		// @formatter:on
+	}
+
 }

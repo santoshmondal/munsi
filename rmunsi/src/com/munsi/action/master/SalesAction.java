@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import com.munsi.pojo.invoice.Payment;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.pojo.invoice.sales.SalesProduct;
 import com.munsi.pojo.master.Customer;
@@ -108,6 +109,18 @@ public class SalesAction extends HttpServlet {
 					sInvoice.setInvoiceTaxPercent(Double.valueOf(invoiceAddTaxPercent));
 					sInvoice.setPaidAmount(Double.valueOf(paidAmount));
 
+					Payment payment = new Payment();
+					String valMode = request.getParameter("paymentMode");
+
+					if (valMode.equals("1")) {
+						valMode = "CASH";
+					} else if (valMode.equals("2")) {
+						valMode = "DEBIT_CARD";
+					}
+					payment.setPaymentMode(valMode);
+					payment.setCardNumber(request.getParameter("cardNo"));
+
+					sInvoice.setPayment(payment);
 					try {
 						List<SalesProduct> salesProductList = CommonUtil.mapper.readValue(salesProductJSON, CommonUtil.mapper.getTypeFactory().constructCollectionType(List.class, SalesProduct.class));
 						Set<SalesProduct> salesProductSet = new HashSet<SalesProduct>(salesProductList);

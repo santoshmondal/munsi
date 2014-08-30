@@ -39,9 +39,9 @@ public class SalesPurchaseRuleManager {
 
 				totalQuantity = sProduct.getFreeQuantity() + sProduct.getQuantity();
 				derPrice = (double) (sProduct.getSalesRate() * sProduct.getQuantity());
-				derTaxPrice = (derPrice * sProduct.getDerSumOfProudctTax()) / 100.0;
-				derDiscountPrice = ((derTaxPrice + derPrice) * sProduct.getRawDiscountPercent()) / 100.0;
-				netPaybleProductPrice = derPrice + derTaxPrice - derDiscountPrice;
+				derDiscountPrice = (derPrice * sProduct.getRawDiscountPercent()) / 100.0;
+				derTaxPrice = ((derPrice - derDiscountPrice) * sProduct.getDerSumOfProudctTax()) / 100.0;
+				netPaybleProductPrice = derPrice - derDiscountPrice + derTaxPrice;
 
 				sProduct.setTotalQuantity(totalQuantity);
 				sProduct.setDerPrice(derPrice);
@@ -52,10 +52,10 @@ public class SalesPurchaseRuleManager {
 				sumOfNetPaybleProductPrice += netPaybleProductPrice;
 			}
 
-			Double invoiceTaxPrice = (sumOfNetPaybleProductPrice * sInvoice.getInvoiceTaxPercent()) / 100.0;
 			Double invoiceDiscountPrice = sInvoice.getInvoiceDiscountPrice();
+			Double invoiceTaxPrice = ((sumOfNetPaybleProductPrice - invoiceDiscountPrice) * sInvoice.getInvoiceTaxPercent()) / 100.0;
 			Integer numberOfItem = sInvoice.getSalesProductList().size();
-			Double netPayblePrice = sumOfNetPaybleProductPrice + invoiceTaxPrice - invoiceDiscountPrice;
+			Double netPayblePrice = sumOfNetPaybleProductPrice - invoiceDiscountPrice + invoiceTaxPrice;
 
 			sInvoice.setSumOfNetPaybleProductPrice(sumOfNetPaybleProductPrice);
 			sInvoice.setNumberOfItem(numberOfItem);
@@ -81,9 +81,9 @@ public class SalesPurchaseRuleManager {
 
 				totalQuantity = pProduct.getFreeQuantity() + pProduct.getQuantity();
 				derPrice = (double) (pProduct.getPurchaseRate() * pProduct.getQuantity());
-				derTaxPrice = (derPrice * pProduct.getDerSumOfProudctTax()) / 100.0;
-				derDiscountPrice = ((derTaxPrice + derPrice) * pProduct.getRawDiscountPercent()) / 100.0;
-				netPaybleProductPrice = derPrice + derTaxPrice - derDiscountPrice;
+				derDiscountPrice = ((derPrice) * pProduct.getRawDiscountPercent()) / 100.0;
+				derTaxPrice = ((derPrice - derDiscountPrice) * pProduct.getDerSumOfProudctTax()) / 100.0;
+				netPaybleProductPrice = derPrice - derDiscountPrice + derTaxPrice;
 
 				pProduct.setTotalQuantity(totalQuantity);
 				pProduct.setDerPrice(derPrice);
@@ -104,7 +104,7 @@ public class SalesPurchaseRuleManager {
 
 			pInvoice.setInvoiceTaxPrice(invoiceTaxPrice);
 			pInvoice.setInvoiceTaxPercent((invoiceTaxPrice / sumOfNetPaybleProductPrice) * 100);
-			pInvoice.setInvoiceDiscountPercent((invoiceDiscountPrice / sumOfNetPaybleProductPrice) * 100);
+			//pInvoice.setInvoiceDiscountPercent();
 			pInvoice.setSumOfNetPaybleProductPrice(sumOfNetPaybleProductPrice);
 			pInvoice.setNumberOfItem(numberOfItem);
 			pInvoice.setNetPayblePrice(netPayblePrice);

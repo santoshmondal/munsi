@@ -163,7 +163,7 @@ public class CommonAction extends HttpServlet {
 				}
 
 				response.setContentType("application/pdf");
-				response.setHeader("Content-Disposition", "attachment; filename=\"Report_" + startDate + endDate + ".pdf\"");
+				response.setHeader("Content-Disposition", "attachment; filename=\"Report_" + startDate + "-" + endDate + ".pdf\"");
 
 				InputStream inputStream = MonthlyReport.exportToPdf(startDate, endDate);
 				// ServletOutputStream output = response.getOutputStream();

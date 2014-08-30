@@ -112,7 +112,7 @@
                 	rownumbers:true,
 					cellsubmit: 'clientArray',
 					cellEdit : true,
-					colNames:['id','Barcode','Code','Name', 'Batch','Qty','Mfg. Date','Exp. Date', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.'],
+					colNames:['id','Barcode','Code','Name', 'Batch','Qty','Mfg. Date','Exp. Date', 'Pur. Rate', 'Sale Rate', 'MRP','Tax','%','Rs','Free Qty.',' Total Qty.','Total Amt.',''],
 					colModel:[
 						{name:'_id',index:'id', width:60, sorttype:"int", sortable:false, editable: false, hidden:true},
 						{name:'barCode',index:'barCode', width:100, sortable:false, editable: true},
@@ -130,7 +130,13 @@
 						{name:'rawDiscountPrice',index:'rawDiscountPrice', sortable:false, width:90,align:'right', editable: true,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
 						{name:'freeQuantity',index:'freeQuantity', sortable:false, align:'right', width:90,editable: true, formatter:'integer', sorttype:'int'},
 						{name:'totalQuantity',index:'totalQuantity', sortable:false, align:'right', width:100,editable: false,formatter:'integer'},
-						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}}
+						{name:'netPaybleProductPrice',index:'netPaybleProductPrice', sortable:false, align:'right', width:120,editable: false,formatter:'currency', formatoptions:{decimalSeparator:".", thousandsSeparator: ",", decimalPlaces: 2, prefix: "Rs "}},
+						{name : 'actions', formatter:'actions', width:50,
+							formatoptions: {
+							    keys: true,
+							    editbutton: false,
+							    delOptions: {url: "#"}
+							               }}
 					], 
 			
 					viewrecords : true,
@@ -590,7 +596,7 @@
 			//-------------------------------------------
 			
 			function ajaxProductFetch(fetchBy,value,fetchAllField){
-				var urlPath = "sales.action?op=get&fetchBy="+fetchBy+"&value="+value+"&withReferences="+fetchAllField;
+				var urlPath = "purchase.action?op=get&fetchBy="+fetchBy+"&value="+value+"&withReferences="+fetchAllField;
 				var proddata;
 				$.ajax({
 					type: "POST",

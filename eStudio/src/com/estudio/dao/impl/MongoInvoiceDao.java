@@ -154,8 +154,9 @@ public class MongoInvoiceDao implements InvoiceDao {
 				query.put("deleted", checkExists);
 			}
 
-			//DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
-			//excludeProjection.put("frameDetailsList", 0);
+			// DBObject excludeProjection = new
+			// BasicDBObject("photoDetailsList", 0);
+			// excludeProjection.put("frameDetailsList", 0);
 			DBObject excludeProjection = new BasicDBObject("frameDetailsList", 0);
 			excludeProjection.put("laminationDetailsList", 0);
 
@@ -184,7 +185,7 @@ public class MongoInvoiceDao implements InvoiceDao {
 		return null;
 	}
 
-	public List<Invoice> getAllByField(Map<String, String> map,String sortBy) {
+	public List<Invoice> getAllByField(Map<String, String> map, String sortBy) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 
@@ -197,8 +198,9 @@ public class MongoInvoiceDao implements InvoiceDao {
 				query.put("deleted", checkExists);
 			}
 
-			//DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
-			//excludeProjection.put("frameDetailsList", 0);
+			// DBObject excludeProjection = new
+			// BasicDBObject("photoDetailsList", 0);
+			// excludeProjection.put("frameDetailsList", 0);
 			DBObject excludeProjection = new BasicDBObject("frameDetailsList", 0);
 			excludeProjection.put("laminationDetailsList", 0);
 
@@ -226,20 +228,21 @@ public class MongoInvoiceDao implements InvoiceDao {
 		}
 		return null;
 	}
-	
-	public List<Invoice> getAllByFieldByDate(String startDate,String endDate,String sortBy) {
+
+	@Override
+	public List<Invoice> getAllByFieldByDate(String startDate, String endDate, String sortBy) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collInvoice);
 			String pattern = "dd-MM-yy";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-			
+
 			DBObject query = new BasicDBObject("invoiceDate", new BasicDBObject("$lt", simpleDateFormat.parse(endDate).getTime()).append("$gte", simpleDateFormat.parse(startDate).getTime()));
 			DBObject checkExists = new BasicDBObject("$exists", false);
 			query.put("deleted", checkExists);
-		
 
-			//DBObject excludeProjection = new BasicDBObject("photoDetailsList", 0);
-			//excludeProjection.put("frameDetailsList", 0);
+			// DBObject excludeProjection = new
+			// BasicDBObject("photoDetailsList", 0);
+			// excludeProjection.put("frameDetailsList", 0);
 			DBObject excludeProjection = new BasicDBObject("frameDetailsList", 0);
 			excludeProjection.put("laminationDetailsList", 0);
 

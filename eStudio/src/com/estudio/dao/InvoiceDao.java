@@ -21,4 +21,6 @@ public interface InvoiceDao {
 
 	public Boolean updateStatus(String _id, String status);
 
+	List<Invoice> getAllByFieldByDate(String startDate, String endDate, String sortBy);
+
 }

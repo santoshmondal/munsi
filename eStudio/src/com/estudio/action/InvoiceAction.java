@@ -34,7 +34,7 @@ import com.async.util.Constants.ServiceEnum;
 import com.async.util.Constants.UIOperations;
 import com.async.util.ObjectFactory;
 import com.async.util.ObjectFactory.ObjectEnum;
-import com.estudio.dao.impl.MongoInvoiceDao;
+import com.estudio.dao.InvoiceDao;
 import com.estudio.pojo.Customer;
 import com.estudio.pojo.FlatInvoice;
 import com.estudio.pojo.FrameDetails;
@@ -67,6 +67,7 @@ public class InvoiceAction extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcessWithException(request, response);
 	}
@@ -75,6 +76,7 @@ public class InvoiceAction extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcessWithException(request, response);
 	}
@@ -103,8 +105,9 @@ public class InvoiceAction extends HttpServlet {
 			Constants.UIOperations opEnum = UIOperations.valueOf(operation.toUpperCase());
 			switch (opEnum) {
 			case ADD:
-				invoice.setTotalAmount((request.getParameter("fTotalAmount") != null && request.getParameter("fTotalAmount").trim().length() > 0) ? Float.parseFloat(request.getParameter("fTotalAmount")) : 00.00f);
-				invoice.setAdvanceBal((request.getParameter("fAdvPaid") != null && request.getParameter("fAdvPaid").trim().length() > 0) ? Float.parseFloat(request.getParameter("fAdvPaid")) : 00.00f);
+				invoice.setTotalAmount(request.getParameter("fTotalAmount") != null && request.getParameter("fTotalAmount").trim().length() > 0 ? Float.parseFloat(request.getParameter("fTotalAmount"))
+						: 00.00f);
+				invoice.setAdvanceBal(request.getParameter("fAdvPaid") != null && request.getParameter("fAdvPaid").trim().length() > 0 ? Float.parseFloat(request.getParameter("fAdvPaid")) : 00.00f);
 				invoice.setDelivaryDate(CommonUtil.stringToDate(request.getParameter("fEstDeliveryDate")));
 
 				Customer customer = getCustomerDetails(request.getParameterMap());
@@ -113,12 +116,12 @@ public class InvoiceAction extends HttpServlet {
 				List<PhotoDetails> photoDetailsList = (List<PhotoDetails>) getServiceDetailsList(Constants.ServiceEnum.PHOTO_DETAILS, request.getParameterMap());
 				List<FrameDetails> frameDetailsList = (List<FrameDetails>) getServiceDetailsList(Constants.ServiceEnum.FRAME_DETAILS, request.getParameterMap());
 				List<LaminationDetails> laminationDetailsList = (List<LaminationDetails>) getServiceDetailsList(Constants.ServiceEnum.LAMINATION_DETAILS, request.getParameterMap());
-				
+
 				invoice.setPhotoDetailsList(photoDetailsList);
 				invoice.setFrameDetailsList(frameDetailsList);
 				invoice.setLaminationDetailsList(laminationDetailsList);
 
-				//TODO check for the valid insert
+				// TODO check for the valid insert
 				Boolean isValid = true;
 				if (invoice.getCustomer().get_id() == null || invoice.getCustomer().get_id().trim().isEmpty()) {
 					isValid = false;
@@ -140,84 +143,86 @@ public class InvoiceAction extends HttpServlet {
 				if (newInvoice != null) {
 					String pattern = "dd/MM/yy";
 					SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-					String msgNewInvoice= "Your invoice no. "+ newInvoice.getInvoiceNumber() +" dated " + simpleDateFormat.format(newInvoice.getInvoiceDate()) 
-							+ " , Total Amt Rs "+ newInvoice.getTotalAmount() +" , Adv paid Rs "+ newInvoice.getAdvanceBal()+" , Bal Amt Rs "+ (newInvoice.getTotalAmount() - newInvoice.getAdvanceBal() )
-							+ " , approx. delivery dt " + simpleDateFormat.format(newInvoice.getDelivaryDate()) +" . Thank you, "+Config.getProperty("studio.name")+" Team";
-					try{
+					String msgNewInvoice = "Your invoice no. " + newInvoice.getInvoiceNumber() + " dated " + simpleDateFormat.format(newInvoice.getInvoiceDate())
+							+ " , Total Amt Rs " + newInvoice.getTotalAmount() + " , Adv paid Rs " + newInvoice.getAdvanceBal() + " , Bal Amt Rs "
+							+ (newInvoice.getTotalAmount() - newInvoice.getAdvanceBal())
+							+ " , approx. delivery dt " + simpleDateFormat.format(newInvoice.getDelivaryDate()) + " . Thank you, " + Config.getProperty("studio.name") + " Team";
+					try {
 						CommonUtil.smsMsg(newInvoice.getCustomer().get_id(), msgNewInvoice);
-					}catch(Exception ex){
+					} catch (Exception ex) {
 						HttpSession session = request.getSession(false);
-						request.setAttribute("SERVER_SMS_FAILED", "SMS sending failed on "+newInvoice.getCustomer().get_id());
+						request.setAttribute("SERVER_SMS_FAILED", "SMS sending failed on " + newInvoice.getCustomer().get_id());
 						session.setAttribute("SMS_RETRY_MSG", msgNewInvoice);
 						session.setAttribute("NEW_INVOICE_DETAIL", invoice);
 					}
 					request.setAttribute("NEW_INVOICE_DETAIL", invoice);
-					request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ newInvoice.getInvoiceNumber());
+					request.setAttribute("SERVER_MESSAGE", "SMS sent to " + newInvoice.getInvoiceNumber());
 					request.setAttribute("SERVER_MESSAGE_DETAIL", msgNewInvoice);
-					
+
 					RequestDispatcher rd = request.getRequestDispatcher("/embedpage.action?reqPage=/jsp/studio/invoiceprint.jsp");
 					rd.forward(request, response);
 				}
 
 				break;
-				case EDIT :
-					String status = request.getParameter("status");
-					String invId = request.getParameter("id");
-					String advanceBal = request.getParameter("advanceBal");
-					
-					if((status != null || advanceBal != null) && invId != null) {
-						Invoice inv = new Invoice();
-						inv.set_id(invId);
-						Invoice oInv= invoiceService.get(invId);
-						float fAdvanceBal = oInv.getTotalAmount() - Float.parseFloat(advanceBal);
-						inv.setAdvanceBal(fAdvanceBal);
-						inv.setStatus(status);
-						
-						String oldStatus = oInv.getStatus();
-						String oldDirPath = Config.getProperty("dir."+ OrderStatuEnum.getEnumName(oldStatus));
-						final JsonNodeFactory jsonfactory = JsonNodeFactory.instance;
-						ObjectNode objNode = jsonfactory.objectNode();
-						if(invoiceService.update(inv))
-						{
-							String newDirPath = Config.getProperty("dir."+OrderStatuEnum.getEnumName(status));
-							List<PhotoDetails> phDetailsList = oInv.getPhotoDetailsList();
-							Iterator<PhotoDetails> itr = phDetailsList.iterator();
-							while(itr.hasNext()){
-								PhotoDetails phdt = itr.next();
-								try{
-								moveFile(phdt.getPhotoNumber(),oldDirPath,newDirPath);
-								}catch(Exception ex){
-									objNode.set("MOVE_FILE_ERROR", jsonfactory.textNode("Can not find photo "+phdt.getPhotoNumber()+" at "+oldDirPath));
-								}
+			case EDIT:
+				String status = request.getParameter("status");
+				String invId = request.getParameter("id");
+				String advanceBal = request.getParameter("advanceBal");
+
+				if ((status != null || advanceBal != null) && invId != null) {
+					Invoice inv = new Invoice();
+					inv.set_id(invId);
+					Invoice oInv = invoiceService.get(invId);
+					float fAdvanceBal = oInv.getTotalAmount() - Float.parseFloat(advanceBal);
+					inv.setAdvanceBal(fAdvanceBal);
+					inv.setStatus(status);
+
+					String oldStatus = oInv.getStatus();
+					String oldDirPath = Config.getProperty("dir." + OrderStatuEnum.getEnumName(oldStatus));
+					final JsonNodeFactory jsonfactory = JsonNodeFactory.instance;
+					ObjectNode objNode = jsonfactory.objectNode();
+					if (invoiceService.update(inv))
+					{
+						String newDirPath = Config.getProperty("dir." + OrderStatuEnum.getEnumName(status));
+						List<PhotoDetails> phDetailsList = oInv.getPhotoDetailsList();
+						Iterator<PhotoDetails> itr = phDetailsList.iterator();
+						while (itr.hasNext()) {
+							PhotoDetails phdt = itr.next();
+							try {
+								moveFile(phdt.getPhotoNumber(), oldDirPath, newDirPath);
+							} catch (Exception ex) {
+								objNode.set("MOVE_FILE_ERROR", jsonfactory.textNode("Can not find photo " + phdt.getPhotoNumber() + " at " + oldDirPath));
 							}
 						}
-						
-						if(status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString())){
-							String msgReadyDelivery = "Your invoice no. "+ oInv.getInvoiceNumber() +" is ready to be delivered. Please collect it from our outlet. Thank you for choosing us, "+Config.getProperty("studio.name")+" Team";
-							
-							try{
+					}
+
+					if (status.equals(OrderStatuEnum.RECEIVED_FROM_PRINT.toString())) {
+						String msgReadyDelivery = "Your invoice no. " + oInv.getInvoiceNumber() + " is ready to be delivered. Please collect it from our outlet. Thank you for choosing us, "
+								+ Config.getProperty("studio.name") + " Team";
+
+						try {
 							CommonUtil.smsMsg(oInv.getCustomer().get_id(), msgReadyDelivery);
-							}catch(Exception ex){
-								objNode.set("SMS_ERROR", jsonfactory.textNode("Problem occured while sending SMS to "+oInv.getCustomer().get_id()));
-							}
-							request.setAttribute("SERVER_MESSAGE", "SMS sent to "+ oInv.getInvoiceNumber());
-							request.setAttribute("SERVER_MESSAGE_DETAIL", msgReadyDelivery);
+						} catch (Exception ex) {
+							objNode.set("SMS_ERROR", jsonfactory.textNode("Problem occured while sending SMS to " + oInv.getCustomer().get_id()));
 						}
-						response.setContentType("application/json");
-						response.getWriter().write(objNode.toString());
-						response.getWriter().flush();
-					} 
-				break;	
-				/*
-			case DELETE :
-				if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
-					areaService.delete(id);
+						request.setAttribute("SERVER_MESSAGE", "SMS sent to " + oInv.getInvoiceNumber());
+						request.setAttribute("SERVER_MESSAGE_DETAIL", msgReadyDelivery);
+					}
+					response.setContentType("application/json");
+					response.getWriter().write(objNode.toString());
+					response.getWriter().flush();
 				}
 				break;
+			/*
+			case DELETE :
+			if(id != null && !id.equalsIgnoreCase(Constants.JQGRID_EMPTY)) {
+				areaService.delete(id);
+			}
+			break;
 			*/
 			case VIEW:
 
-				//TODO check for the valid insert
+				// TODO check for the valid insert
 				newInvoice = invoiceService.get(request.getParameter("invoiceno"));
 
 				if (newInvoice != null) {
@@ -229,11 +234,12 @@ public class InvoiceAction extends HttpServlet {
 
 			case VIEW_ALL:
 
-				String fieldname = request.getParameter("column")!=null?request.getParameter("column"):"";
-				String value =  request.getParameter("value")!=null?request.getParameter("value"):"";
+				String fieldname = request.getParameter("column") != null ? request.getParameter("column") : "";
+				String value = request.getParameter("value") != null ? request.getParameter("value") : "";
 				Map<String, String> mapC = new HashMap<String, String>();
-				if(!fieldname.equalsIgnoreCase("") || !value.equalsIgnoreCase("") )
+				if (!fieldname.equalsIgnoreCase("") || !value.equalsIgnoreCase("")) {
 					mapC.put(fieldname, value);
+				}
 
 				List<Invoice> invList = invoiceService.getAllByField(mapC);
 				for (Invoice invRef : invList) {
@@ -277,38 +283,45 @@ public class InvoiceAction extends HttpServlet {
 	}
 
 	private void moveFile(String photoNumberFileName, String oldDirPath, String newDirPath) throws IOException {
-	
+
 		File oldDir = new File(oldDirPath);
 		boolean isPresent = false;
-		for(String str : oldDir.list())
-	    {
-			String[] splitStr = str.split("\\."); 
-		 	if(splitStr[0].equals(photoNumberFileName)){
-		 		Path oldPath = FileSystems.getDefault().getPath(oldDirPath, str);
-		 		Path newPath = FileSystems.getDefault().getPath(newDirPath, str);
-                Files.move(oldPath, newPath , StandardCopyOption.REPLACE_EXISTING);
-                isPresent = true;
-                break;
-		 	}
-	    }
-		if(!isPresent)
+		for (String str : oldDir.list())
+		{
+			String[] splitStr = str.split("\\.");
+			if (splitStr[0].equals(photoNumberFileName)) {
+				Path oldPath = FileSystems.getDefault().getPath(oldDirPath, str);
+				Path newPath = FileSystems.getDefault().getPath(newDirPath, str);
+				Files.move(oldPath, newPath, StandardCopyOption.REPLACE_EXISTING);
+				isPresent = true;
+				break;
+			}
+		}
+		if (!isPresent) {
 			throw new IOException("File not present");
+		}
 	}
 
 	private Customer getCustomerDetails(Map<String, String[]> parameterMap) throws ParseException {
 		Customer customer = new Customer();
-		if (parameterMap.containsKey("fMobile"))
+		if (parameterMap.containsKey("fMobile")) {
 			customer.set_id(parameterMap.get("fMobile")[0]);
-		if (parameterMap.containsKey("fName"))
+		}
+		if (parameterMap.containsKey("fName")) {
 			customer.setName(parameterMap.get("fName")[0]);
-		if (parameterMap.containsKey("fEmail"))
+		}
+		if (parameterMap.containsKey("fEmail")) {
 			customer.setEmailId(parameterMap.get("fEmail")[0]);
-		if (parameterMap.containsKey("fDOB") && !parameterMap.get("fDOB")[0].equals(""))
+		}
+		if (parameterMap.containsKey("fDOB") && !parameterMap.get("fDOB")[0].equals("")) {
 			customer.setDob(CommonUtil.stringToDate(parameterMap.get("fDOB")[0]));
-		if (parameterMap.containsKey("fMAnniversary") && !parameterMap.get("fMAnniversary")[0].equals(""))
+		}
+		if (parameterMap.containsKey("fMAnniversary") && !parameterMap.get("fMAnniversary")[0].equals("")) {
 			customer.setMarriageDate(CommonUtil.stringToDate(parameterMap.get("fMAnniversary")[0]));
-		if (parameterMap.containsKey("fAddress"))
+		}
+		if (parameterMap.containsKey("fAddress")) {
 			customer.setAddress(parameterMap.get("fAddress")[0]);
+		}
 		return customer;
 	}
 
@@ -328,24 +341,31 @@ public class InvoiceAction extends HttpServlet {
 			if (parameterMap.containsKey("fPhotoNumber") && parameterMap.get("fPhotoNumber")[0] != null && !parameterMap.get("fPhotoNumber")[0].trim().isEmpty()) {
 				pDetails = new PhotoDetails();
 
-				if (parameterMap.containsKey("fUrgent")){
+				if (parameterMap.containsKey("fUrgent")) {
 					String strUrgent = parameterMap.get("fUrgent")[0];
-					pDetails.setUrgent(strUrgent.equalsIgnoreCase("ON")?true:false);
+					pDetails.setUrgent(strUrgent.equalsIgnoreCase("ON") ? true : false);
 				}
-				if (parameterMap.containsKey("fPhotoNumber"))
+				if (parameterMap.containsKey("fPhotoNumber")) {
 					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber")[0]);
-				if (parameterMap.containsKey("fPhotoSource"))
+				}
+				if (parameterMap.containsKey("fPhotoSource")) {
 					pDetails.setPhotoSource(parameterMap.get("fPhotoSource")[0]);
-				if (parameterMap.containsKey("fNoPhoto") && parameterMap.get("fNoPhoto")[0] != null && !parameterMap.get("fNoPhoto")[0].trim().isEmpty())
+				}
+				if (parameterMap.containsKey("fNoPhoto") && parameterMap.get("fNoPhoto")[0] != null && !parameterMap.get("fNoPhoto")[0].trim().isEmpty()) {
 					pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto")[0]));
-				if (parameterMap.containsKey("fQuality"))
+				}
+				if (parameterMap.containsKey("fQuality")) {
 					pDetails.setQuality(parameterMap.get("fQuality")[0]);
-				if (parameterMap.containsKey("fSize"))
+				}
+				if (parameterMap.containsKey("fSize")) {
 					pDetails.setSize(parameterMap.get("fSize")[0]);
-				if (parameterMap.containsKey("fRemark"))
+				}
+				if (parameterMap.containsKey("fRemark")) {
 					pDetails.setRemark(parameterMap.get("fRemark")[0]);
-				if (parameterMap.containsKey("fPhotoCost"))
+				}
+				if (parameterMap.containsKey("fPhotoCost")) {
 					pDetails.setPrice(parameterMap.get("fPhotoCost")[0]);
+				}
 				photoDetailList.add(pDetails);
 			}
 
@@ -353,22 +373,28 @@ public class InvoiceAction extends HttpServlet {
 				if (parameterMap.containsKey("fPhotoNumber" + i)) {
 					pDetails = new PhotoDetails();
 					pDetails.setPhotoNumber(parameterMap.get("fPhotoNumber" + i)[0]);
-					if (parameterMap.containsKey("fUrgent"+ i)){
-						String strUrgent = parameterMap.get("fUrgent"+ i)[0];
-						pDetails.setUrgent(strUrgent.equalsIgnoreCase("ON")?true:false);
+					if (parameterMap.containsKey("fUrgent" + i)) {
+						String strUrgent = parameterMap.get("fUrgent" + i)[0];
+						pDetails.setUrgent(strUrgent.equalsIgnoreCase("ON") ? true : false);
 					}
-					if (parameterMap.containsKey("fPhotoSource" + i))
+					if (parameterMap.containsKey("fPhotoSource" + i)) {
 						pDetails.setPhotoSource(parameterMap.get("fPhotoSource" + i)[0]);
-					if (parameterMap.containsKey("fNoPhoto" + i) && parameterMap.get("fNoPhoto" + i)[0] != null && !parameterMap.get("fNoPhoto" + i)[0].trim().isEmpty())
+					}
+					if (parameterMap.containsKey("fNoPhoto" + i) && parameterMap.get("fNoPhoto" + i)[0] != null && !parameterMap.get("fNoPhoto" + i)[0].trim().isEmpty()) {
 						pDetails.setQuantity(Integer.parseInt(parameterMap.get("fNoPhoto" + i)[0]));
-					if (parameterMap.containsKey("fQuality" + i))
+					}
+					if (parameterMap.containsKey("fQuality" + i)) {
 						pDetails.setQuality(parameterMap.get("fQuality" + i)[0]);
-					if (parameterMap.containsKey("fSize" + i))
+					}
+					if (parameterMap.containsKey("fSize" + i)) {
 						pDetails.setSize(parameterMap.get("fSize" + i)[0]);
-					if (parameterMap.containsKey("fRemark" + i))
+					}
+					if (parameterMap.containsKey("fRemark" + i)) {
 						pDetails.setRemark(parameterMap.get("fRemark" + i)[0]);
-					if (parameterMap.containsKey("fPhotoCost" + i))
+					}
+					if (parameterMap.containsKey("fPhotoCost" + i)) {
 						pDetails.setPrice(parameterMap.get("fPhotoCost" + i)[0]);
+					}
 					photoDetailList.add(pDetails);
 				}
 			}
@@ -386,28 +412,36 @@ public class InvoiceAction extends HttpServlet {
 			FrameDetails fDetails = null;
 			if (parameterMap.containsKey("fFrameNumber") && parameterMap.get("fFrameNumber")[0] != null && !parameterMap.get("fFrameNumber")[0].trim().isEmpty()) {
 				fDetails = new FrameDetails();
-				if (parameterMap.containsKey("fFrameNumber"))
+				if (parameterMap.containsKey("fFrameNumber")) {
 					fDetails.setFrameNumber(parameterMap.get("fFrameNumber")[0]);
-				if (parameterMap.containsKey("fFrameSize"))
+				}
+				if (parameterMap.containsKey("fFrameSize")) {
 					fDetails.setSize(parameterMap.get("fFrameSize")[0]);
-				if (parameterMap.containsKey("fFrameRemark"))
+				}
+				if (parameterMap.containsKey("fFrameRemark")) {
 					fDetails.setRemark(parameterMap.get("fFrameRemark")[0]);
-				if (parameterMap.containsKey("fFrameCost"))
+				}
+				if (parameterMap.containsKey("fFrameCost")) {
 					fDetails.setPrice(parameterMap.get("fFrameCost")[0]);
+				}
 				frameDetailList.add(fDetails);
 			}
 
 			for (int i = 2; i <= fCouter; i++) {
 				if (parameterMap.containsKey("fFrameNumber" + i)) {
 					fDetails = new FrameDetails();
-					if (parameterMap.containsKey("fFrameNumber" + i))
+					if (parameterMap.containsKey("fFrameNumber" + i)) {
 						fDetails.setFrameNumber(parameterMap.get("fFrameNumber" + i)[0]);
-					if (parameterMap.containsKey("fFrameSize" + i))
+					}
+					if (parameterMap.containsKey("fFrameSize" + i)) {
 						fDetails.setSize(parameterMap.get("fFrameSize" + i)[0]);
-					if (parameterMap.containsKey("fFrameRemark" + i))
+					}
+					if (parameterMap.containsKey("fFrameRemark" + i)) {
 						fDetails.setRemark(parameterMap.get("fFrameRemark" + i)[0]);
-					if (parameterMap.containsKey("fFrameCost" + i))
+					}
+					if (parameterMap.containsKey("fFrameCost" + i)) {
 						fDetails.setPrice(parameterMap.get("fFrameCost" + i)[0]);
+					}
 					frameDetailList.add(fDetails);
 				}
 			}
@@ -428,28 +462,36 @@ public class InvoiceAction extends HttpServlet {
 			LaminationDetails lDetails = null;
 			if (parameterMap.containsKey("fLamQuality") && parameterMap.get("fLamQuality")[0] != null && !parameterMap.get("fLamQuality")[0].trim().isEmpty()) {
 				lDetails = new LaminationDetails();
-				if (parameterMap.containsKey("fLamQuality"))
+				if (parameterMap.containsKey("fLamQuality")) {
 					lDetails.setQuality(parameterMap.get("fLamQuality")[0]);
-				if (parameterMap.containsKey("fLamSize"))
+				}
+				if (parameterMap.containsKey("fLamSize")) {
 					lDetails.setSize(parameterMap.get("fLamSize")[0]);
-				if (parameterMap.containsKey("fLamRemark"))
+				}
+				if (parameterMap.containsKey("fLamRemark")) {
 					lDetails.setRemark(parameterMap.get("fLamRemark")[0]);
-				if (parameterMap.containsKey("fLamCost"))
+				}
+				if (parameterMap.containsKey("fLamCost")) {
 					lDetails.setPrice(parameterMap.get("fLamCost")[0]);
+				}
 				laminationDetailList.add(lDetails);
 			}
 
 			for (int i = 2; i <= lCouter; i++) {
 				if (parameterMap.containsKey("fLamQuality" + i)) {
 					lDetails = new LaminationDetails();
-					if (parameterMap.containsKey("fLamQuality" + i))
+					if (parameterMap.containsKey("fLamQuality" + i)) {
 						lDetails.setQuality(parameterMap.get("fLamQuality" + i)[0]);
-					if (parameterMap.containsKey("fLamSize" + i))
+					}
+					if (parameterMap.containsKey("fLamSize" + i)) {
 						lDetails.setSize(parameterMap.get("fLamSize" + i)[0]);
-					if (parameterMap.containsKey("fLamRemark" + i))
+					}
+					if (parameterMap.containsKey("fLamRemark" + i)) {
 						lDetails.setRemark(parameterMap.get("fLamRemark" + i)[0]);
-					if (parameterMap.containsKey("fLamCost" + i))
+					}
+					if (parameterMap.containsKey("fLamCost" + i)) {
 						lDetails.setPrice(parameterMap.get("fLamCost" + i)[0]);
+					}
 					laminationDetailList.add(lDetails);
 				}
 			}
@@ -461,20 +503,19 @@ public class InvoiceAction extends HttpServlet {
 
 		return serviceDetailList;
 	}
-	
-	
-	
-	public static Collection<FlatInvoice> getAllByFieldByDate(String startDate,String endDate){
-		
-		MongoInvoiceDao mongoInvoiceDao = new MongoInvoiceDao();
-		List<Invoice> invList = mongoInvoiceDao.getAllByFieldByDate(startDate,endDate,"status");
+
+	public static Collection<FlatInvoice> getAllByFieldByDate(String startDate, String endDate) {
+
+		InvoiceDao mongoInvoiceDao = (InvoiceDao) ObjectFactory.getInstance(ObjectEnum.INVOICE_DAO);
+
+		List<Invoice> invList = mongoInvoiceDao.getAllByFieldByDate(startDate, endDate, "status");
 		List<FlatInvoice> finvList = new ArrayList<FlatInvoice>();
 		for (Invoice invRef : invList) {
 			FlatInvoice fInv = new FlatInvoice();
-			
+
 			invRef.setsCtime(CommonUtil.longToStringDate(invRef.getCtime().getTime()));
 			invRef.setsUtime(CommonUtil.longToStringDate(invRef.getUtime().getTime()));
-			
+
 			if (invRef.getInvoiceDate() != null) {
 				invRef.setsInvoiceDate(CommonUtil.longToStringDate(invRef.getInvoiceDate().getTime()));
 			}
@@ -491,7 +532,7 @@ public class InvoiceAction extends HttpServlet {
 					sCustomer.setsMarriageDate(CommonUtil.longToStringDate(sCustomer.getMarriageDate().getTime()));
 				}
 			}
-			//----------- Filling flat invoice
+			// ----------- Filling flat invoice
 			fInv.setsCtime(invRef.getsCtime());
 			fInv.setsUtime(invRef.getsUtime());
 			fInv.setsInvoiceDate(invRef.getsInvoiceDate());
@@ -504,18 +545,20 @@ public class InvoiceAction extends HttpServlet {
 			fInv.setTotalAmount(invRef.getTotalAmount());
 			fInv.setCustomerName(invRef.getCustomer().getName());
 			fInv.setCustomerPhone(invRef.getCustomer().get_id());
-			//fInv.setPhotoNo(invRef.getPhotoDetailsList().);
-			String strPhotoNo="";
-			if(invRef.getPhotoDetailsList() != null)
-			for(PhotoDetails phDt : invRef.getPhotoDetailsList()){
-				strPhotoNo = strPhotoNo + phDt.getPhotoNumber()+",";
+			// fInv.setPhotoNo(invRef.getPhotoDetailsList().);
+			String strPhotoNo = "";
+			if (invRef.getPhotoDetailsList() != null) {
+				for (PhotoDetails phDt : invRef.getPhotoDetailsList()) {
+					strPhotoNo = strPhotoNo + phDt.getPhotoNumber() + ",";
+				}
 			}
-			if(strPhotoNo.length()>0)
-				strPhotoNo=strPhotoNo.substring(1, strPhotoNo.length()-1);
+			if (strPhotoNo.length() > 0) {
+				strPhotoNo = strPhotoNo.substring(1, strPhotoNo.length() - 1);
+			}
 			fInv.setPhotoNo(strPhotoNo);
 			finvList.add(fInv);
 		}
-		
+
 		return finvList;
 	}
 }

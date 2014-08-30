@@ -2,15 +2,22 @@ package com.munsi.report.pojo;
 
 import java.util.Date;
 
+import com.munsi.pojo.BasePojo;
 import com.munsi.pojo.master.Customer;
 
-public class SalesInvoice {
+public class ReportSalesInvoice extends BasePojo {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
-
 	private String _id;
 	private String invoiceNumber;
-	private Customer customer;
+
+	private String customerName;
+	private String customerMobile;
+	private Float customerOutStandingAmount;
+	private String customerPhone;
 
 	private Date invoiceDate;
 	private String sinvoiceDate;
@@ -29,14 +36,18 @@ public class SalesInvoice {
 	private Double freight;
 	private Double roundOfAmount;
 
+	// netPayblePrice - paidAmount
 	private Double balanceAmount;
 
-	public SalesInvoice(String _id, String invoiceNumber, Customer customer, Date invoiceDate, String sinvoiceDate, Double invoiceDiscountPrice, Double invoiceDiscountPercent, Double invoiceTaxPercent, Double invoiceTaxPrice, Double sumOfNetPaybleProductPrice,
+	// Default custructor
+	public ReportSalesInvoice() {
+	}
+
+	public ReportSalesInvoice(String _id, String invoiceNumber, Customer customer, Date invoiceDate, String sinvoiceDate, Double invoiceDiscountPrice, Double invoiceDiscountPercent, Double invoiceTaxPercent, Double invoiceTaxPrice, Double sumOfNetPaybleProductPrice,
 			Double netPayblePrice, Integer numberOfItem, Double paidAmount, Double freight, Double roundOfAmount, Double balanceAmount) {
 		super();
 		this._id = _id;
 		this.invoiceNumber = invoiceNumber;
-		this.customer = customer;
 		this.invoiceDate = invoiceDate;
 		this.sinvoiceDate = sinvoiceDate;
 		this.invoiceDiscountPrice = invoiceDiscountPrice;
@@ -66,14 +77,6 @@ public class SalesInvoice {
 
 	public void setInvoiceNumber(String invoiceNumber) {
 		this.invoiceNumber = invoiceNumber;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
 	}
 
 	public Date getInvoiceDate() {
@@ -178,6 +181,38 @@ public class SalesInvoice {
 
 	public void setBalanceAmount(Double balanceAmount) {
 		this.balanceAmount = balanceAmount;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerMobile() {
+		return customerMobile;
+	}
+
+	public void setCustomerMobile(String customerMobile) {
+		this.customerMobile = customerMobile;
+	}
+
+	public Float getCustomerOutStandingAmount() {
+		return customerOutStandingAmount;
+	}
+
+	public void setCustomerOutStandingAmount(Float customerOutStandingAmount) {
+		this.customerOutStandingAmount = customerOutStandingAmount;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
 	}
 
 }

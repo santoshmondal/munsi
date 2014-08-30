@@ -7,7 +7,7 @@ import java.util.Set;
 
 import com.munsi.util.CommonUtil;
 
-public class ProductBatch implements Serializable {
+public class ProductBatch implements Serializable, Comparable<ProductBatch> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -139,5 +139,15 @@ public class ProductBatch implements Serializable {
 
 		System.out.println(spb.contains(pba));
 
+	}
+
+	@Override
+	public int compareTo(ProductBatch arg0) {
+		Date date1 = this.getExpiryDate();
+		Date date2 = this.getExpiryDate();
+		if (date1 != null && date1 != null) {
+			return date2.compareTo(date1);
+		}
+		return 0;
 	}
 }

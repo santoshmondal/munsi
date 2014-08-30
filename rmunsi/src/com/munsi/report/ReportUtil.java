@@ -1,4 +1,4 @@
-package com.munsi.report.pojo;
+package com.munsi.report;
 
 import java.util.ArrayList;
 import java.util.Collection;

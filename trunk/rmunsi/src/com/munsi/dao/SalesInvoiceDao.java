@@ -18,4 +18,6 @@ public interface SalesInvoiceDao {
 
 	public List<SalesInvoice> getAll(Boolean withReferences);
 
+	List<SalesInvoice> getAllByDate(String startDate, String endDate);
+
 }

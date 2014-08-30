@@ -11,6 +11,7 @@ import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.pojo.invoice.sales.SalesProduct;
 import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.ProductBatch;
+import com.munsi.util.Constants;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
 
@@ -190,6 +191,9 @@ public class SalesPurchaseRuleManager {
 				currentMasterStock += purchaseProduct.getTotalQuantity();
 
 				ProductBatch newProductBatch = new ProductBatch();
+				if (product.getBatchNumber() == null || product.getBatchNumber().isEmpty()) {
+					product.setBatchNumber(Constants.DEFAULT_BATCHNUMBER);
+				}
 				newProductBatch.setBatchNumber(product.getBatchNumber());
 				// Finding the existing batch to update
 				if (batchList != null && batchList.contains(newProductBatch)) {
@@ -208,6 +212,7 @@ public class SalesPurchaseRuleManager {
 					if (batchList == null) {
 						batchList = new HashSet<>();
 					}
+
 					newProductBatch.setBatchCurrentStock(purchaseProduct.getTotalQuantity().longValue());
 					newProductBatch.setExpiryDate(purchaseProduct.getExpiryDate());
 					newProductBatch.setManufactureDate(purchaseProduct.getManufactureDate());

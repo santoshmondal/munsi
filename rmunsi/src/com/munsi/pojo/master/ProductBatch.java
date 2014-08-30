@@ -38,9 +38,10 @@ public class ProductBatch implements Serializable {
 	}
 
 	public void setManufactureDate(Date manufactureDate) {
-
 		this.manufactureDate = manufactureDate;
-		this.sMfgdate = CommonUtil.longToStringDate(manufactureDate.getTime(), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+		if (manufactureDate != null) {
+			this.sMfgdate = CommonUtil.longToStringDate(manufactureDate.getTime(), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+		}
 	}
 
 	public Date getExpiryDate() {
@@ -49,7 +50,9 @@ public class ProductBatch implements Serializable {
 
 	public void setExpiryDate(Date expiryDate) {
 		this.expiryDate = expiryDate;
-		this.sExpdate = CommonUtil.longToStringDate(expiryDate.getTime(), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+		if (expiryDate != null) {
+			this.sExpdate = CommonUtil.longToStringDate(expiryDate.getTime(), CommonUtil.DATE_FORMAT_ddMMyyyy_HYPHEN);
+		}
 	}
 
 	public Long getBatchCurrentStock() {

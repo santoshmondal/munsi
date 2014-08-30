@@ -19,7 +19,7 @@
 				  <input type="text" id="idCustomer" class="form-control manual-tooltip tooltip-error" tabindex="1" placeholder="Enter Customer Name" title="Please enter customer name or WALKIN">
 				  <input type="hidden" id="idCustomerID" >
 				  <span class="input-group-addon" style="padding: 0px 10px;">
-				  	<a href="#" onclick='showCustomerInfo()' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Customer Detail">
+				  	<a href="#" onclick='showCustomerInfo()' id='idShowCustomer' tabindex="2" class="btn btn-inverse btn-xs" data-rel="tooltip" title="Show Customer Detail">
 				  		<i class="icon-user white"></i>
 				  	</a>
 				  </span>
@@ -364,7 +364,9 @@
 						     var temp = $( "<li>" );
 						     console.log(item);
 						     console.log(item.label +" "+item.id);
-						     temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'><i class='icon-shopping-cart'></i> "+ item.batchCurrentStock  +"</span> "+"<span class='badge badge-warning pull-right'><i class='icon-rupee'></i> "+ item.salesRate  +"</span>" +"</a>" ).appendTo( ul );
+						     temp.append( "<a>" + item.label + "<span class='badge badge-primary pull-right'><i class='icon-shopping-cart'></i> "+ item.batchCurrentStock  +"</span> "+
+						    		 "<span class='badge badge-warning pull-right'><i class='icon-rupee'></i> "+ item.salesRate  +"</span>" +
+						    		 "<span class='label label-inverse arrowed arrowed-in-right pull-right'><i class='icon-calendar'></i> "+ (item.sExpdate?item.sExpdate:' NA') +"</span>" +"</a>" ).appendTo( ul );
 					     	 return temp;
 					     };
 						
@@ -604,6 +606,12 @@
 						}
 				    });
 			   
+					//-----> Tab from Date to move to Grid first row (setting focus on jqgrid)
+					$('#idShowCustomer').bind('keydown', 'Tab', function(){
+					    console.log("Tab pressed...");
+					    grid_selector.jqGrid("editCell",1,2,false);
+						
+				    });
 			});			
 			
 			// ENTER Event to TAB 

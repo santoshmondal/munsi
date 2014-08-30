@@ -1,67 +1,77 @@
 package com.munsi.report;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.io.FileInputStream;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.munsi.dao.SalesInvoiceDao;
-import com.munsi.pojo.invoice.sales.SalesInvoice;
-import com.munsi.pojo.master.Customer;
-import com.munsi.util.CommonUtil;
-import com.munsi.util.ObjectFactory;
-import com.munsi.util.ObjectFactory.ObjectEnum;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 public class ReportUtil {
 
-	public static Collection<ReportSalesInvoice> getAllByFieldByDate(String startDate, String endDate) {
-
-		SalesInvoiceDao sInvoiceDao = (SalesInvoiceDao) ObjectFactory.getInstance(ObjectEnum.SALES_INVOICE_DAO);
-
-		List<SalesInvoice> salesList = sInvoiceDao.getAllByDate(startDate, endDate);
-
-		List<ReportSalesInvoice> reportSalesInvoiceList = new ArrayList<ReportSalesInvoice>();
-		for (SalesInvoice salesInvoice : salesList) {
-			ReportSalesInvoice reportSalesInvoice = new ReportSalesInvoice();
-
-			String strCtime = CommonUtil.longToStringDate(salesInvoice.getCtime().getTime());
-			reportSalesInvoice.setSctime(strCtime);
-			reportSalesInvoice.setCtime(salesInvoice.getUtime());
-
-			String strUtime = CommonUtil.longToStringDate(salesInvoice.getUtime().getTime());
-			reportSalesInvoice.setSutime(strUtime);
-			reportSalesInvoice.setUtime(salesInvoice.getUtime());
-			reportSalesInvoice.setDeleted(salesInvoice.getDeleted());
-
-			reportSalesInvoice.set_id(salesInvoice.get_id());
-			reportSalesInvoice.setInvoiceNumber(salesInvoice.getInvoiceNumber());
-			Customer customer = salesInvoice.getCustomer();
-			if (customer != null) {
-				reportSalesInvoice.setCustomerName(customer.getName());
-				reportSalesInvoice.setCustomerMobile(customer.getMobile());
-				reportSalesInvoice.setCustomerPhone(customer.getPhone());
-				reportSalesInvoice.setCustomerOutStandingAmount(customer.getOutStandingAmount());
-			}
-
-			String strInvoiceDate = CommonUtil.longToStringDate(salesInvoice.getInvoiceDate().getTime());
-			reportSalesInvoice.setSinvoiceDate(strInvoiceDate);
-			reportSalesInvoice.setInvoiceDate(salesInvoice.getInvoiceDate());
-			reportSalesInvoice.setInvoiceDiscountPrice(salesInvoice.getInvoiceDiscountPrice());
-			reportSalesInvoice.setInvoiceDiscountPrice(salesInvoice.getInvoiceDiscountPercent());
-			reportSalesInvoice.setInvoiceTaxPercent(salesInvoice.getInvoiceTaxPercent());
-			reportSalesInvoice.setInvoiceTaxPrice(salesInvoice.getInvoiceTaxPrice());
-			reportSalesInvoice.setSumOfNetPaybleProductPrice(salesInvoice.getSumOfNetPaybleProductPrice());
-
-			reportSalesInvoice.setNetPayblePrice(salesInvoice.getNetPayblePrice());
-			reportSalesInvoice.setNumberOfItem(salesInvoice.getNumberOfItem());
-			reportSalesInvoice.setPaidAmount(salesInvoice.getPaidAmount());
-			reportSalesInvoice.setFreight(salesInvoice.getFreight());
-			reportSalesInvoice.setRoundOfAmount(salesInvoice.getRoundOfAmount());
-			reportSalesInvoice.setBalanceAmount(salesInvoice.getNetPayblePrice() - salesInvoice.getPaidAmount());
-			reportSalesInvoiceList.add(reportSalesInvoice);
-
-		}
-
-		return reportSalesInvoiceList;
+	public static void main(String[] args) {
+		exportToPdf("01-01-2000", "01-01-2010");
 	}
 
+	@SuppressWarnings("deprecation")
+	public static FileInputStream exportToPdf(String startDate, String endDate) {
+		System.out.println("Start with Report Design ...");
+		try {
+			// Compile it generates .jasper
+			String sourceFileName = URLDecoder.decode(ReportUtil.class.getClassLoader().getResource("SalesReport.jrxml").getFile());
+			JasperCompileManager.compileReportToFile(sourceFileName);
+
+			String sourceJasperFileName = URLDecoder.decode(ReportUtil.class.getClassLoader().getResource("SalesReport.jasper").getFile());
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			/*parameters.put("STARTDATE", startDate);
+			parameters.put("ENDDATE", endDate);
+			parameters.put("STUDIONAME", Config.getProperty("studio.name"));*/
+
+			// fillreport it generates .jrprint
+			/*			List<ReportSalesInvoice> reportSalesInvoiceList = new ArrayList<ReportSalesInvoice>();
+
+						ReportSalesInvoice repSalInv = new ReportSalesInvoice();
+						repSalInv.set_id("1");
+						repSalInv.setCustomerName("customerName");
+						repSalInv.setBalanceAmount(100.00);
+						repSalInv.setInvoiceDate(new Date());
+						//repSalInv.setSinvoiceDate("01-02-2014");
+						//repSalInv.setInvoiceNumber("asa1212");
+						repSalInv.setNetPayblePrice(500.22);
+						reportSalesInvoiceList.add(repSalInv);
+			//JRBeanCollectionDataSource collectionDS = new JRBeanCollectionDataSource(reportSalesInvoiceList);
+			*/
+			JRBeanCollectionDataSource collectionDS = new JRBeanCollectionDataSource(ReportFactory.getAllByFieldByDate(startDate, endDate));
+			JasperFillManager.fillReportToFile(sourceJasperFileName, parameters, collectionDS);
+
+			// export
+			String jrprintName = URLDecoder.decode(ReportUtil.class.getClassLoader().getResource("SalesReport.jrprint").getFile());
+			JasperExportManager.exportReportToPdfFile(jrprintName, "/SalesReport.pdf");
+			return new FileInputStream("/SalesReport.pdf");
+
+			/**
+			 * export to Excel sheet
+			 */
+			/*
+			JRXlsExporter exporter = new JRXlsExporter();
+
+			exporter.setParameter(JRExporterParameter.INPUT_FILE_NAME,
+				jrprintName);
+			exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME,
+			  "C://sample_report.xls");
+
+			exporter.exportReport();*/
+		} catch (JRException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("Done reporting!!!");
+		return null;
+	}
 }

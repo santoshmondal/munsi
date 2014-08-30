@@ -188,8 +188,11 @@ public class SalesPurchaseRuleManager {
 				currentMasterStock = currentMasterStock != null ? currentMasterStock : 0;
 
 				PurchaseProduct purchaseProduct = (PurchaseProduct) product;
-				currentMasterStock += purchaseProduct.getTotalQuantity();
 
+				// Box To Piece Conversion Logic
+				boxPieceConversion(productMaster, purchaseProduct);
+
+				currentMasterStock += purchaseProduct.getTotalQuantity();
 				ProductBatch newProductBatch = new ProductBatch();
 				if (product.getBatchNumber() == null || product.getBatchNumber().isEmpty()) {
 					product.setBatchNumber(Constants.DEFAULT_BATCHNUMBER);
@@ -248,6 +251,16 @@ public class SalesPurchaseRuleManager {
 		}
 
 		return isvalid;
+	}
+
+	private void boxPieceConversion(Product productMaster, PurchaseProduct purchaseProduct) {
+		String purchaseUnit = productMaster.getPurchaseUnit();
+		String salesUnit = productMaster.getSalesUnit();
+		if (!purchaseUnit.equalsIgnoreCase(salesUnit)) {
+			Integer pack = productMaster.getPack();
+			Integer totalQuantity = purchaseProduct.getTotalQuantity();
+			purchaseProduct.setTotalQuantity(totalQuantity * pack);
+		}
 	}
 
 	public static void main(String[] args) {

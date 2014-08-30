@@ -30,6 +30,8 @@ public class BaseInvoice extends BasePojo implements Serializable {
 	private Double freight;
 	private Double roundOfAmount;
 
+	private Payment payment;
+
 	public String get_id() {
 		return _id;
 	}
@@ -142,6 +144,14 @@ public class BaseInvoice extends BasePojo implements Serializable {
 
 	public void setSinvoiceDate(String sinvoiceDate) {
 		this.sinvoiceDate = sinvoiceDate;
+	}
+
+	public Payment getPayment() {
+		return payment;
+	}
+
+	public void setPayment(Payment payment) {
+		this.payment = payment;
 	}
 
 }

@@ -93,6 +93,7 @@ public class ObjectFactory {
 			if (instance == null) {
 				Class<?> clazz = Class.forName(objectEnum.toString());
 				instance = clazz.newInstance();
+				objectFactoryMap.put(objectEnum, instance);
 			}
 
 		} catch (ClassNotFoundException e) {

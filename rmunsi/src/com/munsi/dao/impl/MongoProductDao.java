@@ -2,7 +2,9 @@ package com.munsi.dao.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -22,8 +24,6 @@ import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
-import com.munsi.util.ObjectFactory;
-import com.munsi.util.ObjectFactory.ObjectEnum;
 
 public class MongoProductDao implements ProductDao {
 	private static final Logger LOG = Logger.getLogger(MongoProductDao.class);
@@ -312,6 +312,16 @@ public class MongoProductDao implements ProductDao {
 			String jsonString = JSON.serialize(dbObject);
 			Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
 
+			Set<ProductBatch> productBatchList = product.getBatchList();
+			Iterator<ProductBatch> i = productBatchList.iterator();
+			while (i.hasNext()) {
+				ProductBatch b = i.next();
+				if (b.getBatchCurrentStock() <= 0) {
+					i.remove();
+				} else if (!new Date().before(b.getExpiryDate())) {
+					i.remove();
+				}
+			}
 			return product;
 
 		} catch (Exception exception) {
@@ -366,13 +376,15 @@ public class MongoProductDao implements ProductDao {
 	}
 
 	public static void main(String[] args) {
+		/*
 		ProductDao productDao = null;
 		Object object = ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
 		if (object instanceof ProductDao) {
 			productDao = (MongoProductDao) object;
 		}
-		List<ProductBatch> productBatch = productDao.getBatchList("1");
-		//ProductBatch productBatch = productDao.getBatchInfo("1", "VASAV");
+		List<ProductBatch> productBatchlist = productDao.getBatchList("1");
+		ProductBatch productBatch = productDao.getBatchInfo("1", "VASAV");
+		*/
 	}
 
 }

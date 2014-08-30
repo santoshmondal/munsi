@@ -3,6 +3,7 @@ package com.munsi.dao;
 import java.util.List;
 
 import com.munsi.pojo.master.Product;
+import com.munsi.pojo.master.ProductBatch;
 
 public interface ProductDao {
 
@@ -13,8 +14,7 @@ public interface ProductDao {
 	public Boolean delete(String _id);
 
 	/**
-	 * Get Product instance, Product instance does not load references
-	 * instance,
+	 * Get Product instance, Product instance does not load references instance,
 	 * 
 	 * @param _id
 	 *            product id to be loaded
@@ -27,8 +27,8 @@ public interface ProductDao {
 	 *            product id to be loaded
 	 * @param withReferences
 	 *            - Boolean, if true product object load its references, if
-	 *            false product object does not load its references. (default
-	 *            is false)
+	 *            false product object does not load its references. (default is
+	 *            false)
 	 * @return ArraList of products
 	 */
 	public Product get(String _id, Boolean withReferences);
@@ -49,11 +49,15 @@ public interface ProductDao {
 	 * @return ArraList of products
 	 */
 	public List<Product> getAll(Boolean withReferences);
-	
-	
+
 	public Product getProductByCode(String code, Boolean withReferences);
+
 	public Product getProductByBarCode(String barCode, Boolean withReferences);
+
 	public Product getProductByName(String name, Boolean withReferences);
 
+	public ProductBatch getBatchInfo(String _id, String batchNo);
+
+	public List<ProductBatch> getBatchList(String _id);
 
 }

@@ -312,13 +312,14 @@ public class MongoProductDao implements ProductDao {
 			String jsonString = JSON.serialize(dbObject);
 			Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
 
+			// Remove batch of 0 stock and expired stock
 			Set<ProductBatch> productBatchList = product.getBatchList();
 			Iterator<ProductBatch> i = productBatchList.iterator();
 			while (i.hasNext()) {
 				ProductBatch b = i.next();
-				if (b.getBatchCurrentStock() <= 0) {
+				if (b.getBatchCurrentStock() != null && b.getBatchCurrentStock() <= 0) {
 					i.remove();
-				} else if (!new Date().before(b.getExpiryDate())) {
+				} else if (b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
 					i.remove();
 				}
 			}

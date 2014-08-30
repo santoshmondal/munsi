@@ -64,7 +64,7 @@ public class SalesAction extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		PrintWriter out = response.getWriter();
-		String json = "";
+		String json = "[]";
 		String operation = request.getParameter(Constants.OPERATION);
 
 		if (operation != null) {
@@ -75,13 +75,13 @@ public class SalesAction extends HttpServlet {
 			if (fetchBy != null)
 				switch (fetchBy.toUpperCase()) {
 				case "CODE":
-					json = productService.getProductByCode(value, Boolean.valueOf(withReferences));
+					json = productService.getProductByCode(value, Boolean.valueOf(withReferences), true, true);
 					break;
 				case "BARCODE":
-					json = productService.getProductByBarCode(value, Boolean.valueOf(withReferences));
+					json = productService.getProductByBarCode(value, Boolean.valueOf(withReferences), true, true);
 					break;
 				case "NAME":
-					json = productService.getProductByName(value, Boolean.valueOf(withReferences));
+					json = productService.getProductByName(value, Boolean.valueOf(withReferences), true, true);
 					break;
 				default:
 					break;
@@ -115,8 +115,12 @@ public class SalesAction extends HttpServlet {
 						e.printStackTrace();
 					}
 
-					salesInvoiceService.create(sInvoice);
-					json = "[]";
+					try {
+						salesInvoiceService.create(sInvoice);
+					} catch (Exception e) {
+						String errorMessage = e.getMessage();
+						json = "{'Status':'Fail','ServerMsg':'" + errorMessage + "'}";
+					}
 					break;
 				case "VIEW":
 					SalesInvoice newInvoice = salesInvoiceService.get(request.getParameter("invoiceid"));

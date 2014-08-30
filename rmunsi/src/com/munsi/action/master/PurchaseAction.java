@@ -76,13 +76,13 @@ public class PurchaseAction extends HttpServlet {
 			if (fetchBy != null)
 				switch (fetchBy.toUpperCase()) {
 				case "CODE":
-					json = productService.getProductByCode(value, Boolean.valueOf(withReferences));
+					json = productService.getProductByCode(value, Boolean.valueOf(withReferences), true, false);
 					break;
 				case "BARCODE":
-					json = productService.getProductByBarCode(value, Boolean.valueOf(withReferences));
+					json = productService.getProductByBarCode(value, Boolean.valueOf(withReferences), true, false);
 					break;
 				case "NAME":
-					json = productService.getProductByName(value, Boolean.valueOf(withReferences));
+					json = productService.getProductByName(value, Boolean.valueOf(withReferences), true, false);
 					break;
 				default:
 					break;

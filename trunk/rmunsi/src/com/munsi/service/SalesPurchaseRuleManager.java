@@ -235,6 +235,21 @@ public class SalesPurchaseRuleManager {
 		}
 	}
 
+	public boolean validateStockQuantity(Set<SalesProduct> productList, StringBuffer errorStringBuffer) {
+		boolean isvalid = true;
+		errorStringBuffer.append("InsufficientStock for products: ");
+
+		for (SalesProduct product : productList) {
+			Integer currStock = productService.getAvailableStock(product.get_id());
+			if (currStock < product.getTotalQuantity()) {
+				isvalid = false;
+				errorStringBuffer.append(product.getCode() + ", ");
+			}
+		}
+
+		return isvalid;
+	}
+
 	public static void main(String[] args) {
 		SalesPurchaseRuleManager rManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);
 		rManager.applySalesInvoiceRule(null);

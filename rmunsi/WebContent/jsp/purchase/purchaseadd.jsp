@@ -608,18 +608,20 @@
 					})
 					.complete(function( data ) {
 						console.log("Data Response:" + data.responseJSON);
-						proddata = data.responseJSON;
-						if(proddata && proddata.batchList){
-							proddata.batchNumber=proddata.batchList[0].batchNumber;
-							proddata.mrp=proddata.batchList[0].mrp;
-							proddata.salesRate=proddata.batchList[0].salesRate;
-							proddata.purchaseRate=proddata.batchList[0].purchaseRate;
-							proddata.sMfgdate=proddata.batchList[0].sMfgdate;
-							proddata.sExpdate=proddata.batchList[0].sExpdate;
+						if(data.responseJSON){
+							proddata = data.responseJSON;
+							if(proddata && proddata.batchList){
+								proddata.batchNumber=proddata.batchList[0].batchNumber;
+								proddata.mrp=proddata.batchList[0].mrp;
+								proddata.salesRate=proddata.batchList[0].salesRate;
+								proddata.purchaseRate=proddata.batchList[0].purchaseRate;
+								proddata.sMfgdate=proddata.batchList[0].sMfgdate;
+								proddata.sExpdate=proddata.batchList[0].sExpdate;
+							}
 						}
 					})
 					.fail(function() {
-						console.error( "[async MSG]error in fetching data from server....." );
+						console.log( "[async MSG]error in fetching data from server....." );
 					});
 				return proddata;
 			}
@@ -705,7 +707,7 @@
 						gridData.splice(gridData.length-1,1);
 					
 					var urlPath = "purchase.action?op=SAVE&supplierid="+$("#idSupplier-id").val()+"&invDate="+$("#idSupplierInvDate").val()+"&invoiceTaxPrice="+$("#idAddTax").val()+"&invoiceDiscountPrice="+$("#idAddDiscPrice").val()+"&invoiceNumber="+$("#idSupplierInv").val()+"&freight="+$("#idAddFreight").val()+"&roundOfAmount="+$("#idRounding").val();
-						
+
 					$.ajax({
 						type: "POST",
 						url: urlPath,

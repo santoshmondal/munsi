@@ -36,13 +36,13 @@ public class PurchaseInvoiceServeice {
 
 		// Updating Supplier Object [Outstanding Amount]
 		ruleManager.applySupplierUpdates(pInvoice);
+		synchronized (pInvoice) {
+			// update inventory
+			ruleManager.applyInventoryUpdatesPurchase(pInvoice);
 
-		// update inventory
-		ruleManager.applyInventoryUpdatesPurchase(pInvoice);
-
-		// Object update and creation
-		supplierService.update(pInvoice.getSupplier());
-
+			// Object update and creation
+			supplierService.update(pInvoice.getSupplier());
+		}
 		return pInvoiceDao.create(pInvoice);
 	}
 
@@ -53,12 +53,13 @@ public class PurchaseInvoiceServeice {
 		// Updating Supplier Object [Outstanding Amount]
 		ruleManager.applySupplierUpdates(pInvoice);
 
-		// update inventory
-		ruleManager.applyInventoryUpdatesPurchase(pInvoice);
+		synchronized (pInvoice) {
+			// update inventory
+			ruleManager.applyInventoryUpdatesPurchase(pInvoice);
 
-		// Object update and creation
-		supplierService.update(pInvoice.getSupplier());
-
+			// Object update and creation
+			supplierService.update(pInvoice.getSupplier());
+		}
 		return pInvoiceDao.update(pInvoice);
 	}
 

@@ -12,6 +12,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.DBRef;
+import com.mongodb.QueryOperators;
 import com.mongodb.util.JSON;
 import com.munsi.dao.PurchaseInvoiceDao;
 import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
@@ -148,8 +149,9 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 		try {
 			DBCollection collection = mongoDB.getCollection(pInvoiceCollection);
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
-			DBCursor dbCursor = collection.find(deletedQuery);
+			DBObject finalQuery = new BasicDBObject("$query", deletedQuery).append(QueryOperators.ORDER_BY, new BasicDBObject("ctime", -1));
 
+			DBCursor dbCursor = collection.find(finalQuery);
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 
@@ -198,4 +200,18 @@ public class MongoPurchaseInvoiceDao implements PurchaseInvoiceDao {
 
 		return pInvoice;
 	}
+	/*
+	public static void main(String[] args) {
+		PurchaseInvoiceDao sInvoiceDao = null;
+		Object object = ObjectFactory.getInstance(ObjectEnum.PURCHASE_INVOICE_DAO);
+		if (object instanceof PurchaseInvoiceDao) {
+			sInvoiceDao = (PurchaseInvoiceDao) object;
+		}
+		List<PurchaseInvoice> sil = sInvoiceDao.getAll(false);
+		for (PurchaseInvoice salesInvoice : sil) {
+			System.out.println(salesInvoice.get_id() + "," + salesInvoice.getCtime());
+		}
+
+	}
+	*/
 }

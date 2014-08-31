@@ -149,7 +149,9 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 		try {
 			DBCollection collection = mongoDB.getCollection(sInvoiceCollection);
 			DBObject deletedQuery = MongoUtil.getQueryToCheckDeleted();
-			DBCursor dbCursor = collection.find(deletedQuery);
+			DBObject finalQuery = new BasicDBObject("$query", deletedQuery).append(QueryOperators.ORDER_BY, new BasicDBObject("ctime", -1));
+
+			DBCursor dbCursor = collection.find(finalQuery);
 
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
@@ -211,16 +213,15 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 			String pattern = "dd-MM-yy";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 
-			DBObject dateQuery = new BasicDBObject("invoiceDate", new BasicDBObject("$lt", simpleDateFormat.parse(endDate).getTime()).append("$gte", simpleDateFormat.parse(startDate).getTime()));
+			DBObject dateQuery = new BasicDBObject("ctime", new BasicDBObject(QueryOperators.GTE, simpleDateFormat.parse(startDate).getTime()).append(QueryOperators.LTE, simpleDateFormat.parse(endDate).getTime()));
 
 			BasicDBList queryList = new BasicDBList();
 			queryList.add(deletedQuery);
-			//queryList.add(dateQuery);
+			queryList.add(dateQuery);
 
 			DBObject finalQuery = new BasicDBObject(QueryOperators.AND, queryList);
 
 			DBCursor dbCursor = collection.find(finalQuery);
-
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 

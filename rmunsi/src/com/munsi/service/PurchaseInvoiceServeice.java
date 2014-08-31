@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.munsi.dao.PurchaseInvoiceDao;
-import com.munsi.dao.impl.MongoPurchaseInvoiceDao;
 import com.munsi.pojo.invoice.purchase.PurchaseInvoice;
 import com.munsi.pojo.invoice.purchase.PurchaseProduct;
 import com.munsi.pojo.master.Supplier;
@@ -23,7 +22,7 @@ public class PurchaseInvoiceServeice {
 	public PurchaseInvoiceServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.PURCHASE_INVOICE_DAO);
 		if (object instanceof PurchaseInvoiceDao) {
-			pInvoiceDao = (MongoPurchaseInvoiceDao) object;
+			pInvoiceDao = (PurchaseInvoiceDao) object;
 		}
 
 		ruleManager = (SalesPurchaseRuleManager) ObjectFactory.getInstance(ObjectEnum.SALES_PURCHASE_RULE);

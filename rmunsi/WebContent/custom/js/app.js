@@ -43,3 +43,10 @@ async.loadingDialog = (function () {
 
     };
 })();
+
+async.renderPage = function(pageName){
+	var URL = "hello.action";
+	var DATA = {reqPage:pageName};
+	var embedInElement = "id_EmbedPage";
+	async.munsi.ajaxCall(URL,DATA,embedInElement);
+}

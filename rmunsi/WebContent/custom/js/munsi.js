@@ -70,5 +70,6 @@ $(function(){
 	$(document).bind('keydown', 'Alt+m', function(){
 	    $("#sidebar-collapse").click();
     });
+	
 
 });

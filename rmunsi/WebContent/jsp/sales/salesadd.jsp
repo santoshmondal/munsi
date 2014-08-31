@@ -506,18 +506,19 @@
 		                    case "quantity":
 		                    	rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
 		                        var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
-		                        var discPrice = rowData.rawDiscountPrice?rowData.rawDiscountPrice:0;
-		                        var taxValrupee = ((Number(rowData.quantity)*Number(rowData.salesRate)-discPrice)*Number(taxValpercent))/100;
+		                        rowData.rawDiscountPercent = 0;
+		                        rowData.rawDiscountPrice = 0;
+		                        var taxValrupee = ((Number(rowData.quantity)*Number(rowData.salesRate)-rowData.rawDiscountPrice)*Number(taxValpercent))/100;
 		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
-		                        rowData.rawDiscountPercent = (discPrice*100.0)/(Number(rowData.quantity)*Number(rowData.salesRate));
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "salesRate":
 		                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
+		                    	rowData.rawDiscountPercent = 0;
+		                        rowData.rawDiscountPrice = 0;
 		                    	var discPrice = rowData.rawDiscountPrice?rowData.rawDiscountPrice:0;
 		                    	taxValrupee = ((Number(rowData.quantity)*Number(rowData.salesRate)-discPrice)*Number(taxValpercent))/100;
 		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.salesRate)) + taxValrupee;
-		                        rowData.rawDiscountPercent = (discPrice*100.0)/(Number(rowData.quantity)*Number(rowData.salesRate));
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "rawDiscountPercent":
@@ -552,7 +553,7 @@
 	                	}
 	                	
 						//------------- Sales Invoice TAX Rs Calculation
-	                	var tTemp=0;
+	                	var tTemp=0,gridTax=0;
 	                	for(i=0;i<gridData.length-1;i++){
 		                	var taxValpercent = gridData[i].derSumOfProudctTax?gridData[i].derSumOfProudctTax:0;
 	                		tTemp = tTemp + ((Number(gridData[i].quantity)*Number(gridData[i].salesRate)-Number(gridData[i].rawDiscountPrice))*Number(taxValpercent))/100;
@@ -561,8 +562,8 @@
 	                	$("#idTotalTax").html(gridTax);
 	                	
 	                	//------------- Sales Invoice Discount Rs Calculation
-	                	tTemp=0;
-	                	for(i=0;i<gridDat	a.length-1;i++){
+	                	var tTemp=0,gridDisc=0;
+	                	for(i=0;i<gridData.length-1;i++){
 		                	var discountAmt = gridData[i].rawDiscountPrice?gridData[i].rawDiscountPrice:0;
 	                		tTemp = tTemp + Number(gridData[i].rawDiscountPrice);
 		                }
@@ -783,6 +784,7 @@
 											
 										g_isDirty=false;
 										$("#idPayBtn").prop("disabled",true);
+										async.renderPage("/jsp/sales/salesadd.jsp");
 									 }else{
 										 if(!paidAmount)
 										 	$("#idPaidAmount").tooltip('show');

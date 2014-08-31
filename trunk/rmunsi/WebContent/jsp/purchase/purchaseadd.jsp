@@ -485,16 +485,17 @@
 		                        break;
 		                    case "quantity":
 		                    	rowData.totalQuantity=Number(rowData.quantity)+Number(rowData.freeQuantity);
-		                    	var discPercent = rowData.rawDiscountPercent?rowData.rawDiscountPercent:0;
-			                	rowData.rawDiscountPrice = (((Number(rowData.quantity)*Number(rowData.purchaseRate))*Number(discPercent))/100.0);
-		                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
+		                    	//var discPercent = rowData.rawDiscountPercent?rowData.rawDiscountPercent:0;
+			                	rowData.rawDiscountPrice = 0;
+			                	rowData.rawDiscountPercent= 0;
+		                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:0;
 		                        var taxValrupee = ((Number(rowData.quantity)*Number(rowData.purchaseRate)-rowData.rawDiscountPrice)*Number(taxValpercent))/100.0;
 		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
 		                        grid_selector.jqGrid('setRowData', rowid, rowData);
 		                        break;
 		                    case "purchaseRate":
-		                    	var discPercent = rowData.rawDiscountPercent?rowData.rawDiscountPercent:0;
-			                	rowData.rawDiscountPrice = (((Number(rowData.quantity)*Number(rowData.purchaseRate))*Number(discPercent))/100.0);
+		                    	rowData.rawDiscountPrice = 0;
+			                	rowData.rawDiscountPercent= 0;
 		                    	var taxValpercent = rowData.derSumOfProudctTax?rowData.derSumOfProudctTax:1;
 		                        var taxValrupee = ((Number(rowData.quantity)*Number(rowData.purchaseRate)-rowData.rawDiscountPrice)*Number(taxValpercent))/100.0;
 		                        rowData.netPaybleProductPrice=(Number(rowData.quantity)*Number(rowData.purchaseRate)) + taxValrupee;
@@ -724,6 +725,7 @@
 						});
 					$("#idSaveBtn").prop("disabled",true);
 					g_isDirty=false;
+					async.renderPage("/jsp/purchase/purchaseadd.jsp");
 				}else{
 					setTimeout(function() {
 						 $("#idSupplier").tooltip('hide');

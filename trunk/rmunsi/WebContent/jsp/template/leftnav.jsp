@@ -35,12 +35,12 @@
 		</a></li>
 
 		
-		<li><a href="#" data-href="/jsp/purchase/purchaseadd.jsp"> <i class="icon-star"></i>
-				<span class="menu-text"> Purchase </span>
+		<li><a href="#" data-href="/jsp/sales/salesadd.jsp"> <i class="icon-star" style="color:#f0ad4e"></i>
+				<span class="menu-text"> Sale </span>
 			</a>
 		</li>
-		<li><a href="#" data-href="/jsp/sales/salesadd.jsp"> <i class="icon-star"></i>
-				<span class="menu-text"> Sale </span>
+		<li><a href="#" data-href="/jsp/purchase/purchaseadd.jsp"> <i class="icon-star" style="color:#5cb85c"></i>
+				<span class="menu-text"> Purchase </span>
 			</a>
 		</li>
 		<li><a href="#" class="dropdown-toggle"> <i
@@ -48,12 +48,11 @@
 				class="arrow icon-angle-down"></b>
 			</a>
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/purchase/listpurchase.jsp">
-						<i class="icon-double-angle-right"></i> Purchase Invoices
-				</a></li>
-				
 				<li><a href="#" data-href="/jsp/sales/listsales.jsp">
 						<i class="icon-double-angle-right"></i> Sales Invoices
+				</a></li>
+				<li><a href="#" data-href="/jsp/purchase/listpurchase.jsp">
+						<i class="icon-double-angle-right"></i> Purchase Invoices
 				</a></li>
 			</ul>
 		</li>

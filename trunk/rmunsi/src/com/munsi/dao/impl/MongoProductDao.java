@@ -315,14 +315,16 @@ public class MongoProductDao implements ProductDao {
 			if (excludeExpiredBatch || excludeZeroStock) {
 				// Remove batch of 0 stock and expired stock
 				Set<ProductBatch> productBatchList = product.getBatchList();
-				Iterator<ProductBatch> i = productBatchList.iterator();
-				while (i.hasNext()) {
-					ProductBatch b = i.next();
+				if (productBatchList != null) {
+					Iterator<ProductBatch> i = productBatchList.iterator();
+					while (i.hasNext()) {
+						ProductBatch b = i.next();
 
-					if (excludeZeroStock && b.getBatchCurrentStock() != null && b.getBatchCurrentStock() <= 0) {
-						i.remove();
-					} else if (excludeExpiredBatch && b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
-						i.remove();
+						if (excludeZeroStock && b.getBatchCurrentStock() != null && b.getBatchCurrentStock() <= 0) {
+							i.remove();
+						} else if (excludeExpiredBatch && b.getExpiryDate() != null && !new Date().before(b.getExpiryDate())) {
+							i.remove();
+						}
 					}
 				}
 			}

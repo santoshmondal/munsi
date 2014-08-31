@@ -315,7 +315,7 @@
 				}
 				
 				//autocomplete for Code
-				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "code", "") %>';
+				 var availableProductCode = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "code", "{'currentStock':{'$gt':0}}") %>';
 				 availableProductCode = JSON.parse(availableProductCode);
 				 var finProdCode=[],itr=0;
 				 for(i=0;i<availableProductCode.length;i++){
@@ -332,9 +332,9 @@
 					});
 					}, 0);
 				}
-				
+
 				//autocomplete for Name
-				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "") %>';
+				 var availableProductName = '<%= CommonUtil.getIdLabelJSON(DBCollectionEnum.MAST_PRODUCT, "_id", "name", "{'currentStock':{'$gt':0}}") %>';
 				 availableProductName = JSON.parse(availableProductName);
 				 var finProdName=[],itr=0;
 				 for(i=0;i<availableProductName.length;i++){
@@ -562,7 +562,7 @@
 	                	
 	                	//------------- Sales Invoice Discount Rs Calculation
 	                	tTemp=0;
-	                	for(i=0;i<gridData.length-1;i++){
+	                	for(i=0;i<gridDat	a.length-1;i++){
 		                	var discountAmt = gridData[i].rawDiscountPrice?gridData[i].rawDiscountPrice:0;
 	                		tTemp = tTemp + Number(gridData[i].rawDiscountPrice);
 		                }

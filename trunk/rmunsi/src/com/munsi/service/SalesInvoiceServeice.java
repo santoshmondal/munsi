@@ -91,7 +91,7 @@ public class SalesInvoiceServeice {
 		for (SalesInvoice invoice : sInvoiceList) {
 			invoice.setSctime(CommonUtil.longToStringDate(invoice.getCtime().getTime()));
 			invoice.setSutime(CommonUtil.longToStringDate(invoice.getUtime().getTime()));
-			invoice.setSinvoiceDate(CommonUtil.longToStringDate(invoice.getInvoiceDate().getTime()));
+			//invoice.setSinvoiceDate(CommonUtil.longToStringDate(invoice.getInvoiceDate().getTime()));
 		}
 
 		return sInvoiceList;

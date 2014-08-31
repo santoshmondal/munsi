@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import com.munsi.dao.SalesInvoiceDao;
-import com.munsi.dao.impl.MongoSalesInvoiceDao;
 import com.munsi.pojo.invoice.sales.SalesInvoice;
 import com.munsi.pojo.invoice.sales.SalesProduct;
 import com.munsi.pojo.master.Customer;
@@ -22,7 +21,7 @@ public class SalesInvoiceServeice {
 	public SalesInvoiceServeice() {
 		Object object = ObjectFactory.getInstance(ObjectEnum.SALES_INVOICE_DAO);
 		if (object instanceof SalesInvoiceDao) {
-			sInvoiceDao = (MongoSalesInvoiceDao) object;
+			sInvoiceDao = (SalesInvoiceDao) object;
 		}
 
 		customerService = (CustomerServeice) ObjectFactory.getInstance(ObjectEnum.CUSTOMER_SERVICE);

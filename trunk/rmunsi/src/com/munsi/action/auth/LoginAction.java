@@ -68,6 +68,7 @@ public class LoginAction extends HttpServlet {
 			if (accessUser == null) {
 				session.setAttribute("SERVER_MESSAGE", "Invalid credentials - authentication failed!");
 				response.sendRedirect("");
+				return;
 			} else {
 				PortalUtil.setLoggedUserInSession(request, accessUser);
 				response.sendRedirect("hometmp.jsp");

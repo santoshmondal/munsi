@@ -2,7 +2,7 @@ package com.munsi.dao;
 
 import java.util.List;
 
-import com.munsi.pojo.master.AccessUser;
+import com.munsi.pojo.auth.AccessUser;
 
 public interface AccesssUserDao {
 
@@ -13,9 +13,11 @@ public interface AccesssUserDao {
 	public Boolean delete(String _id);
 
 	/**
-	 * Get AccessUser instance, AccessUser instance does not load references instance,
+	 * Get AccessUser instance, AccessUser instance does not load references
+	 * instance,
 	 * 
-	 * @param _id - AreaDao id to be loaded
+	 * @param _id
+	 *            - AreaDao id to be loaded
 	 * @return instance of AccessUser
 	 */
 	public AccessUser get(String _id);
@@ -24,15 +26,16 @@ public interface AccesssUserDao {
 	 * @param _id
 	 *            AccessUser id to be loaded
 	 * @param withReferences
-	 *            - Boolean, if true AccessUser object load its references, if false
-	 *            AccessUser object does not load its references. (default is false)
+	 *            - Boolean, if true AccessUser object load its references, if
+	 *            false AccessUser object does not load its references. (default
+	 *            is false)
 	 * @return ArraList of AccessUser
 	 */
 	public AccessUser get(String _id, Boolean withReferences);
 
 	/**
-	 * Get list of AccessUser instance, AccessUser instance does not load references
-	 * instance,
+	 * Get list of AccessUser instance, AccessUser instance does not load
+	 * references instance,
 	 * 
 	 * @return ArraList of AccessUser
 	 */
@@ -40,8 +43,9 @@ public interface AccesssUserDao {
 
 	/**
 	 * @param withReferences
-	 *            - Boolean, if true AccessUser object load its references, if false
-	 *            AccessUser object does not load its references.(default is false)
+	 *            - Boolean, if true AccessUser object load its references, if
+	 *            false AccessUser object does not load its references.(default
+	 *            is false)
 	 * @return ArraList of Areas
 	 */
 	public List<AccessUser> getAll(Boolean withReferences);

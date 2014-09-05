@@ -12,19 +12,34 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.util.JSON;
-import com.munsi.dao.AccesssUserDao;
-import com.munsi.pojo.master.AccessUser;
-import com.munsi.pojo.master.Customer;
+import com.munsi.dao.AccessUserDao;
+import com.munsi.pojo.auth.AccessUser;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
 
-public class MongoAccessUserDao implements AccesssUserDao {
+public class MongoAccessUserDao implements AccessUserDao {
 	private static final Logger LOG = Logger.getLogger(MongoAccessUserDao.class);
 
 	private final String collAccessUser = DBCollectionEnum.MAST_ACCESS_USER.toString();
-
 	private final DB mongoDB = MongoUtil.getDB();
+
+	@Override
+	public AccessUser authenticate(String userName, String password) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collAccessUser);
+			DBObject query = new BasicDBObject("userName", userName).append("password", password);
+
+			DBObject dbObject = collection.findOne(query);
+			String jsonString = JSON.serialize(dbObject);
+			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
+			return accessUser;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
 
 	@Override
 	public Boolean create(AccessUser accessUser) {
@@ -39,10 +54,8 @@ public class MongoAccessUserDao implements AccesssUserDao {
 			String jsonString = CommonUtil.objectToJson(accessUser);
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
-
 			collection.insert(dbObject);
 			return true;
-
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -60,13 +73,14 @@ public class MongoAccessUserDao implements AccesssUserDao {
 
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 			dbObject.removeField("_id");
-			
+
 			DBObject query = new BasicDBObject("_id", accessUser.get_id());
 
 			DBObject update = new BasicDBObject("$set", dbObject);
 
 			collection.update(query, update);
 			return true;
+
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -84,17 +98,12 @@ public class MongoAccessUserDao implements AccesssUserDao {
 
 	@Override
 	public AccessUser get(String _id) {
-		return get(_id, false); // _id of customer, withReferences - false
-	}
-
-	@Override
-	public AccessUser get(String _id, Boolean withReferences) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collAccessUser);
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query);
 			String jsonString = JSON.serialize(dbObject);
-			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, Customer.class.getName());
+			AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
 
 			return accessUser;
 
@@ -106,11 +115,6 @@ public class MongoAccessUserDao implements AccesssUserDao {
 
 	@Override
 	public List<AccessUser> getAll() {
-		return getAll(false);
-	}
-
-	@Override
-	public List<AccessUser> getAll(Boolean withReferences) {
 		try {
 			DBCollection collection = mongoDB.getCollection(collAccessUser);
 			DBCursor dbCursor = collection.find();
@@ -120,7 +124,7 @@ public class MongoAccessUserDao implements AccesssUserDao {
 			while (dbCursor.hasNext()) {
 				DBObject dbObject = dbCursor.next();
 				String jsonString = JSON.serialize(dbObject);
-				AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, Customer.class.getName());
+				AccessUser accessUser = (AccessUser) CommonUtil.jsonToObject(jsonString, AccessUser.class.getName());
 				areaList.add(accessUser);
 			}
 
@@ -133,32 +137,16 @@ public class MongoAccessUserDao implements AccesssUserDao {
 	}
 
 	@Override
-	public List<String[]> getIdName() {
+	public Long getCount() {
 		try {
 			DBCollection collection = mongoDB.getCollection(collAccessUser);
-			DBObject dbKey = new BasicDBObject("name", 1);
-
-			DBCursor dbCursor = collection.find(new BasicDBObject(), dbKey);
-
-			List<String[]> areaList = new ArrayList<>();
-
-			while (dbCursor.hasNext()) {
-
-				BasicDBObject dbObject = (BasicDBObject) dbCursor.next();
-
-				String _id = dbObject.getString("_id");
-				String name = dbObject.getString("name");
-
-				String[] idName = new String[] { _id, name };
-				areaList.add(idName);
-			}
-
-			return areaList;
+			Long count = collection.count();
+			return count;
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
-		return null;
+		return -1l;
 	}
 
 }

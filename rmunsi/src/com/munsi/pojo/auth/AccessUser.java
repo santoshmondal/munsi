@@ -1,4 +1,4 @@
-package com.munsi.pojo.master;
+package com.munsi.pojo.auth;
 
 import com.munsi.pojo.BasePojo;
 
@@ -7,10 +7,12 @@ public class AccessUser extends BasePojo {
 	private static final long serialVersionUID = 1L;
 
 	private String _id;
-	private String username;
-	private String password;
 	private String name;
+	private String userName;
+	private String password;
 	private String mobile;
+	private String emailId;
+	private String role;
 	private String phone;
 	private String address;
 	private String city;
@@ -30,12 +32,20 @@ public class AccessUser extends BasePojo {
 		this._id = _id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -46,12 +56,36 @@ public class AccessUser extends BasePojo {
 		this.password = password;
 	}
 
-	public String getName() {
-		return name;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public void setEmailId(String emailId) {
+		this.emailId = emailId;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getAddress() {
@@ -124,36 +158,6 @@ public class AccessUser extends BasePojo {
 
 	public void setApproved(Boolean approved) {
 		this.approved = approved;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	@Override
-	public int hashCode() {
-		return get_id().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		AccessUser accessUser = (AccessUser) obj;
-		if (get_id().equals(accessUser.get_id())) {
-			return true;
-		}
-		return false;
 	}
 
 }

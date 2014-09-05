@@ -29,7 +29,7 @@ public class ReportUtil {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			/*parameters.put("STARTDATE", startDate);
 			parameters.put("ENDDATE", endDate);
-			parameters.put("STUDIONAME", Config.getProperty("studio.name"));*/
+			parameters.put("CLIENTNAME", Config.getProperty("client.name"));*/
 
 			// fillreport it generates .jrprint
 			/*			List<ReportSalesInvoice> reportSalesInvoiceList = new ArrayList<ReportSalesInvoice>();
@@ -49,7 +49,7 @@ public class ReportUtil {
 			JasperFillManager.fillReportToFile(sourceJasperFileName, parameters, collectionDS);
 
 			// export
-			String jrprintName = URLDecoder.decode(ReportUtil.class.getClassLoader().getResource("SalesReport.jrprint").getFile());
+			String jrprintName = URLDecoder.decode(ReportUtil.class.getClassLoader().getResource("SalesReport.jrprint").getFile(), "UTF-8");
 			JasperExportManager.exportReportToPdfFile(jrprintName, "/SalesReport.pdf");
 			return new FileInputStream("/SalesReport.pdf");
 

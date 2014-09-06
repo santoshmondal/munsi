@@ -21,6 +21,12 @@
 	<field name="invoiceNumber" class="java.lang.String">
 		<fieldDescription><![CDATA[invoiceNumber]]></fieldDescription>
 	</field>
+	<variable name="SumTotalAmount" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{netPayblePrice}]]></variableExpression>
+	</variable>
+	<variable name="SumTotalBalance" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{balanceAmount}]]></variableExpression>
+	</variable>
 	<group name="Group2"/>
 	<group name="Group3"/>
 	<group name="Group4"/>
@@ -39,7 +45,7 @@
 					<text><![CDATA[Sales Report]]></text>
 				</staticText>
 				<staticText>
-					<reportElement uuid="a4028ea1-99d1-41f8-96e2-276528dd2c88" x="395" y="43" width="180" height="20" forecolor="#FFFFFF"/>
+					<reportElement uuid="a4028ea1-99d1-41f8-96e2-276528dd2c88" x="395" y="35" width="180" height="20" forecolor="#FFFFFF"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
@@ -57,39 +63,39 @@
 				<reportElement uuid="ab161820-a3b9-405c-ad44-b83b5b7adfb0" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
 			</line>
 			<staticText>
-				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="476" y="1" width="100" height="20"/>
+				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="352" y="1" width="99" height="19"/>
 				<textElement/>
-				<text><![CDATA[balanceAmount]]></text>
+				<text><![CDATA[Balance Amount]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5d4ee7a0-31d9-46d9-8d31-979628c776ba" x="14" y="1" width="100" height="20"/>
+				<reportElement uuid="5d4ee7a0-31d9-46d9-8d31-979628c776ba" x="16" y="1" width="86" height="19"/>
 				<textElement/>
-				<text><![CDATA[invoiceNumber]]></text>
+				<text><![CDATA[Invoice No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="70bf0e5a-b4fa-4a77-a940-df9a27734059" x="131" y="1" width="100" height="20"/>
+				<reportElement uuid="70bf0e5a-b4fa-4a77-a940-df9a27734059" x="126" y="1" width="79" height="19"/>
 				<textElement/>
-				<text><![CDATA[sinvoiceDate]]></text>
+				<text><![CDATA[Invoice Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9f70d647-1766-4f56-9601-1460554f715a" x="249" y="1" width="100" height="20"/>
+				<reportElement uuid="9f70d647-1766-4f56-9601-1460554f715a" x="236" y="1" width="88" height="19"/>
 				<textElement/>
-				<text><![CDATA[customerName]]></text>
+				<text><![CDATA[Customer Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1278fbb7-4a61-4f9b-8620-19cf095163ac" x="363" y="1" width="100" height="20"/>
+				<reportElement uuid="1278fbb7-4a61-4f9b-8620-19cf095163ac" x="468" y="1" width="78" height="19"/>
 				<textElement/>
-				<text><![CDATA[netPayblePrice]]></text>
+				<text><![CDATA[Tatal Amount]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="22">
 			<line>
-				<reportElement uuid="f509ec6b-bb31-4342-b8e8-84ca621ef5a2" positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1"/>
+				<reportElement uuid="f509ec6b-bb31-4342-b8e8-84ca621ef5a2" positionType="FixRelativeToBottom" x="-20" y="19" width="595" height="1"/>
 			</line>
 			<textField>
-				<reportElement uuid="dfa9e1bd-8c53-43a8-be05-1c0eb409475c" x="476" y="2" width="100" height="20"/>
+				<reportElement uuid="dfa9e1bd-8c53-43a8-be05-1c0eb409475c" x="349" y="2" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{balanceAmount}]]></textFieldExpression>
 			</textField>
@@ -99,17 +105,17 @@
 				<textFieldExpression><![CDATA[$F{invoiceNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="d6afb576-b0e0-4a2f-83e2-2f6fe4b684f6" x="131" y="2" width="100" height="20"/>
+				<reportElement uuid="d6afb576-b0e0-4a2f-83e2-2f6fe4b684f6" x="123" y="2" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{sinvoiceDate}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="1f0768b8-b9e9-4301-a889-f190a40a9b43" x="249" y="2" width="100" height="20"/>
+				<reportElement uuid="1f0768b8-b9e9-4301-a889-f190a40a9b43" x="234" y="2" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="e08e70d8-cd27-447b-bc14-f3c0f062c4db" x="363" y="2" width="100" height="20"/>
+				<reportElement uuid="e08e70d8-cd27-447b-bc14-f3c0f062c4db" x="465" y="2" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{netPayblePrice}]]></textFieldExpression>
 			</textField>
@@ -119,24 +125,77 @@
 		<band/>
 	</columnFooter>
 	<pageFooter>
-		<band height="17">
+		<band height="32">
 			<textField>
-				<reportElement uuid="f85c7305-ff49-4c2a-987e-d59a2a2962bf" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<reportElement uuid="f85c7305-ff49-4c2a-987e-d59a2a2962bf" mode="Opaque" x="-20" y="17" width="535" height="13" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement uuid="1e8f9093-beba-4123-bbbd-cabaeae8e431" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<reportElement uuid="1e8f9093-beba-4123-bbbd-cabaeae8e431" mode="Opaque" x="515" y="17" width="60" height="13" forecolor="#FFFFFF" backcolor="#006699"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement uuid="d4b88274-1be4-443a-8ebc-116e1a124053" x="0" y="4" width="100" height="13"/>
+				<reportElement uuid="d4b88274-1be4-443a-8ebc-116e1a124053" x="0" y="17" width="100" height="13" forecolor="#FFFFFF"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
+	<lastPageFooter>
+		<band height="68">
+			<rectangle>
+				<reportElement uuid="d9de227d-81d3-497f-8f10-911f4a2e9de0" mode="Opaque" x="276" y="0" width="299" height="50" backcolor="#FFCC00"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<textField>
+				<reportElement uuid="509db71b-3630-42f3-9193-7a9dd5fa2ebe" x="449" y="5" width="107" height="20" forecolor="#000000"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SumTotalAmount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="354" y="5" width="96" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total : Rs]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="342" y="28" width="112" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Balance : Rs]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="945374f7-47b6-4cd7-ad56-634a785d31ad" x="449" y="28" width="100" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{SumTotalBalance}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="1e8f9093-beba-4123-bbbd-cabaeae8e431" mode="Opaque" x="515" y="55" width="60" height="13" forecolor="#FFFFFF" backcolor="#006699"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f85c7305-ff49-4c2a-987e-d59a2a2962bf" mode="Opaque" x="-20" y="55" width="536" height="13" forecolor="#FFFFFF" backcolor="#006699"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="d4b88274-1be4-443a-8ebc-116e1a124053" x="1" y="55" width="100" height="13" forecolor="#FFFFFF"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</lastPageFooter>
 	<summary>
 		<band/>
 	</summary>

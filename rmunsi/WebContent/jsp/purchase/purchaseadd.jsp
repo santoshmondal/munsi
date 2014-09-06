@@ -44,10 +44,9 @@
 					  <input type="number" class="form-control invoiceField" id="idAddFreight" data-rel="tooltip" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Freight" tabindex="4" style="text-align: center;" placeholder="Freight" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
-					<div class="hr dotted"></div>
 	
 					<div class="input-group col-xs-6" style='padding: 0px;'>
-					  <span class="input-group-addon">%</span>
+					  <span class="input-group-addon" style="padding: 6px 10px;">%</span>
 					  <input type="number" class="form-control invoiceField tooltip-info" id="idAddDiscPer" data-rel="tooltip" data-toggle="tooltip" title="Discount %"  data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Discount %" >
 					</div>
 					
@@ -56,13 +55,12 @@
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 					<div class="hr dotted"></div>
-					<div class="input-group">
-					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="top" tabindex="4" style="text-align: center;" placeholder="Tax" >
+					<div class="input-group col-xs-6" style='padding: 0px;'>
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
+					  <input type="number" readonly="readonly" class="form-control invoiceField" id="idAddTax" data-rel="tooltip" title="Total TAX" data-placement="bottom" tabindex="4" style="text-align: center;" placeholder="Tax" >
 					</div>
-					<div class="hr dotted"></div>
-					<div class="input-group">
-					  <input type="number" class="form-control invoiceField" id="idRounding" data-rel="tooltip" title="Enter a positive or a negative value to round the Total" tabindex="4" data-placement="top" style="text-align: center;" placeholder="Round off Amount" >
+					<div class="input-group col-xs-6" style='padding: 0px;'>
+					  <input type="number" class="form-control invoiceField" id="idRounding" data-rel="tooltip" title="Enter a positive or a negative value to round the Total" tabindex="4" data-placement="bottom" style="text-align: center;" placeholder="Round off Amt" >
 					  <span class="input-group-addon"><i class="icon-rupee red"></i></span>
 					</div>
 				</div>

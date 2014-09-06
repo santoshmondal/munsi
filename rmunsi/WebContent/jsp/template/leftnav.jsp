@@ -30,7 +30,7 @@
 
 	<ul class="nav nav-list">
 		<li class="active"><a href="#"> <i class="icon-dashboard"></i>
-				<span class="menu-text" data-href="/jsp/template/under_maintenance.jsp">
+				<span class="menu-text" data-href="/jsp/dashboard/dashboard.jsp">
 					Dashboard </span>
 		</a></li>
 

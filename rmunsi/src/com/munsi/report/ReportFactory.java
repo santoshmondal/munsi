@@ -20,6 +20,7 @@ public class ReportFactory {
 		List<SalesInvoice> salesList = sInvoiceDao.getAllByDate(startDate, endDate);
 
 		List<ReportSalesInvoice> reportSalesInvoiceList = new ArrayList<ReportSalesInvoice>();
+
 		for (SalesInvoice salesInvoice : salesList) {
 			ReportSalesInvoice reportSalesInvoice = new ReportSalesInvoice();
 

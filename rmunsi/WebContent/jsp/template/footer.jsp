@@ -27,7 +27,10 @@
 
 		<script src="${pageContext.request.contextPath}/assets/js/ace-elements.min.js"></script>
 		<script src="${pageContext.request.contextPath}/assets/js/ace.min.js"></script>
-
+		<!-- JS for Charts -->
+		<script src="${pageContext.request.contextPath}/assets/js/amcharts/amcharts.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/assets/js/amcharts/serial.js" type="text/javascript"></script>
+		
 		<script type="text/javascript">
 			$(document).ready(function(){
 			    $(document).bind("contextmenu",function(e){

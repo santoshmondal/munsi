@@ -23,6 +23,10 @@ public class AccessUserServeice {
 		return accessUserDao.create(accessUser);
 	}
 
+	/**
+	 * @param accessUser
+	 * @return Boolean
+	 */
 	public Boolean update(AccessUser accessUser) {
 		return accessUserDao.update(accessUser);
 	}

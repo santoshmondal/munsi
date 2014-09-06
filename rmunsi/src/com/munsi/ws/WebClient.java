@@ -8,15 +8,16 @@ import org.apache.catalina.websocket.MessageInbound;
 import org.apache.catalina.websocket.WsOutbound;
 
 public class WebClient extends MessageInbound {
+	String id = "";
 
 	@Override
 	protected void onOpen(WsOutbound outbound) {
-		WebSocketServletImpl.webClientList.add(this);
+		WebSocketServletImpl.addWebClient(this);
 	}
 
 	@Override
 	protected void onClose(int status) {
-		WebSocketServletImpl.webClientList.remove(this);
+		WebSocketServletImpl.removeWebClient(this);
 	}
 
 	@Override

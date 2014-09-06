@@ -20,9 +20,9 @@ import com.munsi.util.CommonUtil;
 public class WebSocketServletImpl extends WebSocketServlet {
 	private static final long serialVersionUID = 1L;
 
-	public final static Set<WebClient> webClientList = new CopyOnWriteArraySet<WebClient>();
+	private final static Set<WebClient> webClientList = new CopyOnWriteArraySet<WebClient>();
 
-	public static Map<String, String> outputList = new LinkedHashMap<String, String>();
+	private static Map<String, String> outputList = new LinkedHashMap<String, String>();
 
 	@Override
 	protected StreamInbound createWebSocketInbound(String arg0, HttpServletRequest arg1) {
@@ -37,12 +37,21 @@ public class WebSocketServletImpl extends WebSocketServlet {
 	}
 
 	private static void printPutputList() {
+		//System.out.println(webClientList.size());
 		Collection<String> list = outputList.values();
 		String jsonString = CommonUtil.objectToJson(list);
 
 		for (WebClient webClient : webClientList) {
 			webClient.writeResponse(jsonString);
 		}
+	}
+
+	public static void addWebClient(WebClient webClient) {
+		webClientList.add(webClient);
+	}
+
+	public static void removeWebClient(WebClient webClient) {
+		webClientList.remove(webClient);
 	}
 
 	public static void testWS() {

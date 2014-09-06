@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.catalina.websocket.StreamInbound;
 import org.apache.catalina.websocket.WebSocketServlet;
 
+import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.pojo.master.Product;
 import com.munsi.util.CommonUtil;
 
@@ -42,6 +43,18 @@ public class WebSocketServletImpl extends WebSocketServlet {
 		for (WebClient webClient : webClientList) {
 			webClient.writeResponse(jsonString);
 		}
+	}
+
+	public static void testWS() {
+		MongoProductDao ps = new MongoProductDao();
+		Product p = ps.getForNotification("4");
+		Product p1 = ps.getForNotification("5");
+		Product p2 = ps.getForNotification("6");
+		Product p3 = ps.getForNotification("7");
+		addProductForNotification(p);
+		addProductForNotification(p1);
+		addProductForNotification(p2);
+		addProductForNotification(p3);
 	}
 
 	/*public static void main(String[] args) {

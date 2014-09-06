@@ -29,7 +29,6 @@ public class CommonUtil {
 	private static final Logger LOG = Logger.getLogger(CommonUtil.class);
 
 	private static Map<String, String> vatTypemap = new LinkedHashMap<>();
-	private static Map<String, String> locationMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeOnMap = new LinkedHashMap<>();
 	private static Map<String, String> schemeTypeMap = new LinkedHashMap<>();
 	public static final String DATE_FORMAT = "dd/MM/yyyy";
@@ -39,17 +38,6 @@ public class CommonUtil {
 	public static final ObjectMapper mapper = new ObjectMapper();
 
 	static {
-		// Put value in location map
-		locationMap.put("TE+", "TE+ Trading Expense +ve");
-		locationMap.put("TE-", "TE- Trading Expense -ve");
-		locationMap.put("TI+", "TI+ Trading Income +ve");
-		locationMap.put("TI-", "TI- Trading Income -ve");
-		locationMap.put("PE+", "PE+ Profit Losss Expense +ve");
-		locationMap.put("PI+", "PI+ Profit Losss Income +ve");
-		locationMap.put("BA+", "BA+ Balance Sheet Asset +ve");
-		locationMap.put("BA-", "BA- Balance Sheet Asset -ve");
-		locationMap.put("BL+", "BL+ Balance Sheet Lblty +ve");
-		locationMap.put("BL-", "BL- Balance Sheet Lblty -ve");
 
 		// Put value in vat type map
 		vatTypemap.put("1", Config.getProperty("vatType.1"));
@@ -154,25 +142,6 @@ public class CommonUtil {
 		}
 
 		return sb.toString();
-	}
-
-	public static String getLocationString() {
-		StringBuffer sb = new StringBuffer();
-		String separater = "";
-
-		for (Entry<String, String> entry : locationMap.entrySet()) {
-			sb.append(separater);
-			sb.append(entry.getKey());
-			sb.append(":");
-			sb.append(entry.getValue());
-			separater = ";";
-		}
-
-		return sb.toString();
-	}
-
-	public static String getLocationValue(String locCode) {
-		return locationMap.get(locCode);
 	}
 
 	public static String getIdNameString(DBCollectionEnum dbCollectionEnum, String valueKey, String lableKey) {

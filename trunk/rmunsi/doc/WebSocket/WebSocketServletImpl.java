@@ -14,8 +14,7 @@ import org.apache.catalina.websocket.WebSocketServlet;
 public class WebSocketServletImpl extends WebSocketServlet {
 
     private static final long serialVersionUID = 1L;
-    public final static Set<WebClient> webClientList =
-            new CopyOnWriteArraySet<WebClient>();
+    public final static Set<WebClient> webClientList = new CopyOnWriteArraySet<WebClient>();
 
     @Override
     public void init() throws ServletException {

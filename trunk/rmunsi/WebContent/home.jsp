@@ -1,5 +1,74 @@
 <!-- Including Header -->
 <jsp:include page='/jsp/template/header.jsp'></jsp:include>
+<% 
+String appPath = request.getContextPath();
+%>
+<script type="text/javascript">
+var webSocket = null;
+var url = '';
+var jsAppName = '<%=appPath%>';
+if (window.location.protocol == 'http:') {	
+	url  = 'ws://' + window.location.host+jsAppName+'/alert';
+}
+else{
+	url = 'wss://' + window.location.host+jsAppName+'/alert';
+}
+console.log("WS url:"+url);
+
+if ('WebSocket' in window) {
+	webSocket = new WebSocket(url);
+} else if ('MozWebSocket' in window) {
+	webSocket = new MozWebSocket(url);
+} 
+else {
+	console.log("Info: WebSocket WebSocket is not supported by this browser");
+}
+
+webSocket.onopen = function () {
+	console.log('Info: WebSocket connection opened.');
+};
+
+webSocket.onclose = function () {
+	console.log('Info: WebSocket closed.');
+};
+
+webSocket.onmessage = function (message) {
+	printMsg(message.data);
+};
+      
+function sendMessage(event)
+{
+	/*
+	if (event.keyCode != 13) {
+      return;   
+    }
+	
+    var message = document.getElementById('inputField').value;
+    if (message != '') {
+    	webSocket.send(message);
+        document.getElementById('inputField').value = '';
+    }
+    */
+};
+
+
+function printMsg(message)
+{
+	var console1 = document.getElementById('alertDiv');
+	var p = document.createElement('p');
+	p.style.wordWrap = 'break-word';
+	p.innerHTML = message;
+	console1.appendChild(p);
+	while (console1.childNodes.length > 25) {
+	    console1.removeChild(console1.firstChild);
+	}
+	console1.scrollTop = console1.scrollHeight;
+};
+</script>
+
+
+
+
 <div class="main-container" id="main-container">
 	<script type="text/javascript">
 		try {

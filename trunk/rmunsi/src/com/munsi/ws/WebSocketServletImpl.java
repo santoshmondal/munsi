@@ -23,6 +23,11 @@ public class WebSocketServletImpl extends WebSocketServlet {
 
 	public static Map<String, String> outputList = new LinkedHashMap<String, String>();
 
+	@Override
+	protected StreamInbound createWebSocketInbound(String arg0, HttpServletRequest arg1) {
+		return new WebClient();
+	}
+
 	public static void addProductForNotification(Product product) {
 		String jsonString = CommonUtil.objectToJson(product);
 		outputList.put(product.get_id(), jsonString);
@@ -37,11 +42,6 @@ public class WebSocketServletImpl extends WebSocketServlet {
 		for (WebClient webClient : webClientList) {
 			webClient.writeResponse(jsonString);
 		}
-	}
-
-	@Override
-	protected StreamInbound createWebSocketInbound(String arg0, HttpServletRequest arg1) {
-		return new WebClient();
 	}
 
 	/*public static void main(String[] args) {

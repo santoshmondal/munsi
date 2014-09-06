@@ -10,6 +10,7 @@ import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
+import com.munsi.ws.WebSocketServletImpl;
 
 public class ProductServeice {
 
@@ -28,7 +29,17 @@ public class ProductServeice {
 	}
 
 	public Boolean update(Product product) {
-		return productDao.update(product);
+		if (productDao.update(product)) {
+			// Note: product passed in parameter may does not have minStock or currentStock or name
+			// So need to fetch fresh from DB 
+			Product newProduct = productDao.getForNotification(product.get_id());
+			if (newProduct.getCurrentStock() <= newProduct.getMinStock()) {
+				WebSocketServletImpl.addProductForNotification(newProduct);
+			}
+
+			return true;
+		}
+		return false;
 	}
 
 	public Boolean updateAll(Set<? extends Product> productList) {
@@ -52,6 +63,10 @@ public class ProductServeice {
 
 	public Product get(String _id) {
 		return productDao.get(_id);
+	}
+
+	public Product get(String _id, Boolean withReferences) {
+		return productDao.get(_id, withReferences);
 	}
 
 	public List<Product> getAll() {

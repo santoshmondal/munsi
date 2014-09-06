@@ -35,10 +35,10 @@ public class PurchaseInvoiceServeice {
 		ruleManager.applyPurchaseInvoiceRule(pInvoice);
 
 		// Updating Supplier Object [Outstanding Amount]
-		ruleManager.applySupplierUpdates(pInvoice);
+		ruleManager.applySupplierBalence(pInvoice);
 		synchronized (pInvoice) {
 			// update inventory
-			ruleManager.applyInventoryUpdatesPurchase(pInvoice);
+			ruleManager.applyProductMasterUpdatesPurchase(pInvoice);
 
 			// Object update and creation
 			supplierService.update(pInvoice.getSupplier());
@@ -51,11 +51,11 @@ public class PurchaseInvoiceServeice {
 		ruleManager.applyPurchaseInvoiceRule(pInvoice);
 
 		// Updating Supplier Object [Outstanding Amount]
-		ruleManager.applySupplierUpdates(pInvoice);
+		ruleManager.applySupplierBalence(pInvoice);
 
 		synchronized (pInvoice) {
 			// update inventory
-			ruleManager.applyInventoryUpdatesPurchase(pInvoice);
+			ruleManager.applyProductMasterUpdatesPurchase(pInvoice);
 
 			// Object update and creation
 			supplierService.update(pInvoice.getSupplier());

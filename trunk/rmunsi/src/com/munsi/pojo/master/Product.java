@@ -38,7 +38,7 @@ public class Product extends BasePojo {
 
 	private String barCode;
 	private Boolean allowNegativeStock;
-	private Integer minStock;
+	private Integer minStock = 0;
 	private Integer maxStock;
 	private Integer currentStock;
 
@@ -303,4 +303,20 @@ public class Product extends BasePojo {
 		this.sExpdate = sExpdate;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		Product product = (Product) obj;
+		if (this.get_id() == null && product.get_id() != null) {
+			return false;
+		}
+		return this.get_id().equals(product.get_id());
+	}
+
+	@Override
+	public int hashCode() {
+		return this.get_id().hashCode();
+	}
 }

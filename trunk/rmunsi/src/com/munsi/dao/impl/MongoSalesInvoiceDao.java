@@ -55,9 +55,7 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 			DBRef refCustomrObject = new DBRef(mongoDB, refCustomerCollection, sInvoice.getCustomer().get_id());
 			dbObject.put(KEY_CUSTOMER_XID, refCustomrObject);
 			dbObject.removeField(KEY_CUSTOMER);
-
 			collection.insert(dbObject);
-
 			sReturn = true;
 		} catch (Exception e) {
 			LOG.error(e);

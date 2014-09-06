@@ -113,7 +113,7 @@ public class SalesPurchaseRuleManager {
 		}
 	}
 
-	public void applyCustomerUpdates(SalesInvoice sInvoice) {
+	public void applyCustomerBalence(SalesInvoice sInvoice) {
 		try {
 			Double netPayblePrice = sInvoice.getNetPayblePrice();
 			Double paidAmount = sInvoice.getPaidAmount();
@@ -136,11 +136,11 @@ public class SalesPurchaseRuleManager {
 		}
 	}
 
-	public void applySupplierUpdates(PurchaseInvoice pInvoice) {
+	public void applySupplierBalence(PurchaseInvoice pInvoice) {
 
 	}
 
-	public void applyInventoryUpdatesSales(Object sInvoice) {
+	public void applyProductMasterUpdatesSales(Object sInvoice) {
 		Set<? extends Product> productList = null;
 		SalesInvoice salesInvoice = (SalesInvoice) sInvoice;
 		productList = salesInvoice.getSalesProductList();
@@ -175,7 +175,7 @@ public class SalesPurchaseRuleManager {
 
 	}
 
-	public void applyInventoryUpdatesPurchase(Object sInvoice) {
+	public void applyProductMasterUpdatesPurchase(Object sInvoice) {
 		try {
 			Set<? extends Product> productList = null;
 			PurchaseInvoice purchaseInvoice = (PurchaseInvoice) sInvoice;

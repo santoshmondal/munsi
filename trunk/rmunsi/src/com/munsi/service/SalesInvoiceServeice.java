@@ -34,7 +34,7 @@ public class SalesInvoiceServeice {
 		ruleManager.applySalesInvoiceRule(sInvoice);
 
 		// Updating Customer Object [Outstanding Amount]
-		ruleManager.applyCustomerUpdates(sInvoice);
+		ruleManager.applyCustomerBalence(sInvoice);
 		synchronized (sInvoice) {
 			StringBuffer errorStringBuffer = new StringBuffer();
 			boolean bool = ruleManager.validateStockQuantity(sInvoice.getSalesProductList(), errorStringBuffer);
@@ -43,7 +43,7 @@ public class SalesInvoiceServeice {
 				throw new Exception(errorStringBuffer.toString());
 			}
 			// update inventory
-			ruleManager.applyInventoryUpdatesSales(sInvoice);
+			ruleManager.applyProductMasterUpdatesSales(sInvoice);
 
 			// Object update and creation
 			customerService.update(sInvoice.getCustomer());
@@ -56,7 +56,7 @@ public class SalesInvoiceServeice {
 		ruleManager.applySalesInvoiceRule(sInvoice);
 
 		// Updating Customer Object [Outstanding Amount]
-		ruleManager.applyCustomerUpdates(sInvoice);
+		ruleManager.applyCustomerBalence(sInvoice);
 		synchronized (sInvoice) {
 			StringBuffer errorStringBuffer = new StringBuffer();
 			boolean bool = ruleManager.validateStockQuantity(sInvoice.getSalesProductList(), errorStringBuffer);
@@ -65,7 +65,7 @@ public class SalesInvoiceServeice {
 				throw new Exception(errorStringBuffer.toString());
 			}
 			// update inventory
-			ruleManager.applyInventoryUpdatesSales(sInvoice);
+			ruleManager.applyProductMasterUpdatesSales(sInvoice);
 
 			// Object update and creation
 			customerService.update(sInvoice.getCustomer());

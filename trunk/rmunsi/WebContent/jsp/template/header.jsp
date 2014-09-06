@@ -62,7 +62,9 @@ function sendMessage(event)
 
 function printMsg(message)
 {
-	var console1 = document.getElementById('alertDiv');
+	console.log(message);
+	
+	/* var console1 = document.getElementById('alertDiv');
 	var p = document.createElement('p');
 	p.style.wordWrap = 'break-word';
 	p.innerHTML = message;
@@ -70,7 +72,7 @@ function printMsg(message)
 	while (console1.childNodes.length > 25) {
 	    console1.removeChild(console1.firstChild);
 	}
-	console1.scrollTop = console1.scrollHeight;
+	console1.scrollTop = console1.scrollHeight; */
 };
 </script>
 <!-- WEB SOCKET START -->

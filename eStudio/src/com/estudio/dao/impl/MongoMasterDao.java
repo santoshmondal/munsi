@@ -12,6 +12,7 @@ import com.async.util.Constants.DBCollectionEnum;
 import com.async.util.MongoUtil;
 import com.estudio.dao.MasterDao;
 import com.estudio.pojo.master.Master;
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -40,6 +41,7 @@ public class MongoMasterDao implements MasterDao {
 			DBObject dbObject = (DBObject) JSON.parse(jsonString);
 
 			collection.insert(dbObject);
+			return true;
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
@@ -64,6 +66,7 @@ public class MongoMasterDao implements MasterDao {
 			DBObject update = new BasicDBObject("$set", dbObject);
 
 			collection.update(query, update);
+			return true;
 
 		} catch (Exception exception) {
 			LOG.equals(exception);
@@ -80,17 +83,17 @@ public class MongoMasterDao implements MasterDao {
 		return update(master);
 	}
 
-	//@Override
+	// @Override
 	public List<Master> getPhotoAll() {
 		return getByType("photo");
 	}
 
-	//@Override
+	// @Override
 	public List<Master> getLaminationAll() {
 		return getByType("photo");
 	}
 
-	//@Override
+	// @Override
 	public List<Master> getFrameAll() {
 		return getByType("photo");
 	}
@@ -144,17 +147,20 @@ public class MongoMasterDao implements MasterDao {
 
 		try {
 			DBCollection collection = mongoDB.getCollection(collMaster);
+			DBObject finalQuery = MongoUtil.getQueryToCheckDeleted();
 
-			DBObject query = new BasicDBObject();
-			if (map != null) {
+			if (map != null && map.size() > 0) {
+				DBObject query = new BasicDBObject();
 				for (Map.Entry<String, String> entry : map.entrySet()) {
 					query.put(entry.getKey(), entry.getValue());
 				}
-				DBObject checkExists = new BasicDBObject("$exists", false);
-				query.put("deleted", checkExists);
+				BasicDBList andQuery = new BasicDBList();
+				andQuery.add(query);
+				andQuery.add(finalQuery);
+				finalQuery = new BasicDBObject("$and", andQuery);
 			}
 
-			DBCursor dbCursor = collection.find(query);
+			DBCursor dbCursor = collection.find(finalQuery);
 
 			List<Master> masterList = new ArrayList<>();
 

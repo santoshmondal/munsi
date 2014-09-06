@@ -60,19 +60,19 @@ public class MongoUtil {
 		}
 
 	}
-	
-	public static DBObject getQueryToCheckDeleted(){
-		DBObject q1 =  new BasicDBObject("deleted", new BasicDBObject("$exists", false));
-		DBObject q2 =  new BasicDBObject("deleted", null);
-		DBObject q3 =  new BasicDBObject("deleted", "");
-		DBObject q4 =  new BasicDBObject("deleted", false);
-	
+
+	public static DBObject getQueryToCheckDeleted() {
+		DBObject q1 = new BasicDBObject("deleted", new BasicDBObject("$exists", false));
+		DBObject q2 = new BasicDBObject("deleted", null);
+		DBObject q3 = new BasicDBObject("deleted", "");
+		DBObject q4 = new BasicDBObject("deleted", false);
+
 		BasicDBList orQuery = new BasicDBList();
-		orQuery.add( q1 );
-		orQuery.add( q2 );
-		orQuery.add( q3 );
-		orQuery.add( q4 );
-				
+		orQuery.add(q1);
+		orQuery.add(q2);
+		orQuery.add(q3);
+		orQuery.add(q4);
+
 		DBObject finalQuery = new BasicDBObject("$or", orQuery);
 		return finalQuery;
 	}

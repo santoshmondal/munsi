@@ -10,7 +10,7 @@ import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
-import com.munsi.ws.WebSocketServletImpl;
+import com.munsi.ws.NotificationUtil;
 
 public class ProductServeice {
 
@@ -33,10 +33,7 @@ public class ProductServeice {
 			// Note: product passed in parameter may does not have minStock or currentStock or name
 			// So need to fetch fresh from DB 
 			Product newProduct = productDao.getForNotification(product.get_id());
-			if (newProduct.getCurrentStock() <= newProduct.getMinStock()) {
-				WebSocketServletImpl.addProductForNotification(newProduct);
-			}
-
+			NotificationUtil.checkProductForNotification(newProduct);
 			return true;
 		}
 		return false;

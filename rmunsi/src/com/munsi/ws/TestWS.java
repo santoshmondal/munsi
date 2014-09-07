@@ -36,7 +36,7 @@ public class TestWS extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		WebSocketServletImpl.testWS();
+		NotificationUtil.testWS();
 	}
 
 }

@@ -55,9 +55,11 @@ public class NotificationUtil {
 
 	public static void addWebClient(WebClient webClient) {
 		webClientList.add(webClient);
-		Collection<String> list = alertList.values();
-		String jsonString = CommonUtil.objectToJson(list);
-		webClient.writeResponse(jsonString);
+		if (alertList.size() > 0) {
+			Collection<String> list = alertList.values();
+			String jsonString = CommonUtil.objectToJson(list);
+			webClient.writeResponse(jsonString);
+		}
 	}
 
 	public static void removeWebClient(WebClient webClient) {

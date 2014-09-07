@@ -42,18 +42,12 @@
 			
 			<!-- Dynamic Content Goes here-->
 			<div class="page-content">
-				<!-- <div class="space"></div><div class="space"></div>
-				 -->
+				<div id="dialog-report" class="hide"></div>
 				<div id="id_EmbedPage">
-				
-					
+					<jsp:include page="/jsp/dashboard/dashboard.jsp"></jsp:include>
 				</div>
 			</div>
 			<!-- /.page-content -->
-
-
-
-
 
 		</div>
 		<!-- /.main-content -->

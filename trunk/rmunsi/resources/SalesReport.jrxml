@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="salesReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a32f9fdf-ccc5-44aa-9ac5-605673c2e863">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="salesReport" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a32f9fdf-ccc5-44aa-9ac5-605673c2e863">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
@@ -27,7 +27,46 @@
 	<variable name="SumTotalBalance" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{balanceAmount}]]></variableExpression>
 	</variable>
-	<group name="Group2"/>
+	<group name="Group2">
+		<groupFooter>
+			<band height="59">
+				<rectangle>
+					<reportElement uuid="d9de227d-81d3-497f-8f10-911f4a2e9de0" mode="Opaque" x="275" y="3" width="299" height="50" backcolor="#FFCC00"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+				<textField>
+					<reportElement uuid="509db71b-3630-42f3-9193-7a9dd5fa2ebe" x="449" y="8" width="101" height="20" forecolor="#000000"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SumTotalAmount}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="353" y="8" width="96" height="20"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Grand Total : Rs]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="341" y="31" width="107" height="20"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Balance : Rs]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="945374f7-47b6-4cd7-ad56-634a785d31ad" x="450" y="31" width="100" height="20"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{SumTotalBalance}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<group name="Group3"/>
 	<group name="Group4"/>
 	<background>
@@ -63,27 +102,27 @@
 				<reportElement uuid="ab161820-a3b9-405c-ad44-b83b5b7adfb0" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
 			</line>
 			<staticText>
-				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="352" y="1" width="99" height="19"/>
+				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="348" y="1" width="99" height="19"/>
 				<textElement/>
 				<text><![CDATA[Balance Amount]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="5d4ee7a0-31d9-46d9-8d31-979628c776ba" x="16" y="1" width="86" height="19"/>
+				<reportElement uuid="5d4ee7a0-31d9-46d9-8d31-979628c776ba" x="14" y="1" width="86" height="19"/>
 				<textElement/>
 				<text><![CDATA[Invoice No]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="70bf0e5a-b4fa-4a77-a940-df9a27734059" x="126" y="1" width="79" height="19"/>
+				<reportElement uuid="70bf0e5a-b4fa-4a77-a940-df9a27734059" x="123" y="1" width="79" height="19"/>
 				<textElement/>
 				<text><![CDATA[Invoice Date]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="9f70d647-1766-4f56-9601-1460554f715a" x="236" y="1" width="88" height="19"/>
+				<reportElement uuid="9f70d647-1766-4f56-9601-1460554f715a" x="232" y="1" width="88" height="19"/>
 				<textElement/>
 				<text><![CDATA[Customer Name]]></text>
 			</staticText>
 			<staticText>
-				<reportElement uuid="1278fbb7-4a61-4f9b-8620-19cf095163ac" x="468" y="1" width="78" height="19"/>
+				<reportElement uuid="1278fbb7-4a61-4f9b-8620-19cf095163ac" x="463" y="1" width="78" height="19"/>
 				<textElement/>
 				<text><![CDATA[Tatal Amount]]></text>
 			</staticText>
@@ -143,59 +182,6 @@
 			</textField>
 		</band>
 	</pageFooter>
-	<lastPageFooter>
-		<band height="68">
-			<rectangle>
-				<reportElement uuid="d9de227d-81d3-497f-8f10-911f4a2e9de0" mode="Opaque" x="276" y="0" width="299" height="50" backcolor="#FFCC00"/>
-				<graphicElement>
-					<pen lineWidth="0.0"/>
-				</graphicElement>
-			</rectangle>
-			<textField>
-				<reportElement uuid="509db71b-3630-42f3-9193-7a9dd5fa2ebe" x="449" y="5" width="107" height="20" forecolor="#000000"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{SumTotalAmount}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="354" y="5" width="96" height="20"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Grand Total : Rs]]></text>
-			</staticText>
-			<staticText>
-				<reportElement uuid="1d35fc00-162a-4030-a1ae-e06b3504e1a0" x="342" y="28" width="112" height="20"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Total Balance : Rs]]></text>
-			</staticText>
-			<textField>
-				<reportElement uuid="945374f7-47b6-4cd7-ad56-634a785d31ad" x="449" y="28" width="100" height="20"/>
-				<textElement>
-					<font size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{SumTotalBalance}]]></textFieldExpression>
-			</textField>
-			<textField evaluationTime="Report">
-				<reportElement uuid="1e8f9093-beba-4123-bbbd-cabaeae8e431" mode="Opaque" x="515" y="55" width="60" height="13" forecolor="#FFFFFF" backcolor="#006699"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="f85c7305-ff49-4c2a-987e-d59a2a2962bf" mode="Opaque" x="-20" y="55" width="536" height="13" forecolor="#FFFFFF" backcolor="#006699"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
-			</textField>
-			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement uuid="d4b88274-1be4-443a-8ebc-116e1a124053" x="1" y="55" width="100" height="13" forecolor="#FFFFFF"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
-			</textField>
-		</band>
-	</lastPageFooter>
 	<summary>
 		<band/>
 	</summary>

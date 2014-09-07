@@ -97,12 +97,16 @@
 		</a>
 
 			<ul class="submenu">
-				<li><a href="#" data-href="/jsp/template/under_maintenance2.jsp"> <i
-						class="icon-double-angle-right"></i> Report 1
+				<li><a href="report.action?op=REPORT_DATE"> <i
+						class="icon-double-angle-right"></i> Daily Sales
+				</a></li>
+				
+				<li><a href="#" onclick="showSalesReportDialog()"> <i
+						class="icon-double-angle-right"></i> Sales Report
 				</a></li>
 
-				<li><a href="#" data-href="/jsp/template/under_maintenance1.jsp">
-						<i class="icon-double-angle-right"></i> Report 2
+				<li><a href="#" onclick="showPurchaseReportDialog()">
+						<i class="icon-double-angle-right"></i> Purchase Report
 				</a></li>
 			</ul>
 		</li>

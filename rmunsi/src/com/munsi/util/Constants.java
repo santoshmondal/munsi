@@ -56,7 +56,8 @@ public class Constants {
 		VIEW_ALL,
 		ADD,
 		EDIT,
-		DELETE;
+		DELETE, 
+		REPORT_DATE;
 		// @formatter:on
 	}
 

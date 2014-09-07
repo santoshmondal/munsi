@@ -16,7 +16,7 @@
 String appPath = request.getContextPath();
 %>
 <script type="text/javascript">
-var webSocket = null;
+<%-- var webSocket = null;
 var url = '';
 var jsAppName = '<%=appPath%>';
 if (window.location.protocol == 'http:') {	
@@ -73,7 +73,7 @@ function printMsg(message)
 	    console1.removeChild(console1.firstChild);
 	}
 	console1.scrollTop = console1.scrollHeight; */
-};
+}; --%>
 </script>
 <!-- WEB SOCKET START -->
 	

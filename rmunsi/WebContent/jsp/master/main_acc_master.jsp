@@ -48,7 +48,7 @@
 					colModel:[
 						{name:'id',index:'id', width:60, sorttype:"int", editable: false, hidden:true},
 						{name:'code',index:'code', width:60, sorttype:"int", editrules:{required:true}, editable: true},
-						{name:'location',index:'location', width:110, editable: true,edittype:"select", formatter:'select', editoptions:{value: "<%= CommonUtil.getLocationString()%>"}},
+						{name:'location',index:'location', width:110, editable: true,edittype:"select", formatter:'select', editoptions:{value: "<%= "abc//CommonUtil.getLocationString()"%>"}},
 						{name:'name',index:'name', width:150,editable: true,editoptions:{size:"40",maxlength:"130"}},
 						{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 							formatter:'actions', 

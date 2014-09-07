@@ -76,11 +76,16 @@
 			<artifactId>jasperreports</artifactId>
 			<version>5.2.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.codehaus.groovy</groupId>
 			<artifactId>groovy-all-minimal</artifactId>
 			<version>1.5.8</version>
+		</dependency> -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.6</version>
 		</dependency>
-		
+				
 	</dependencies>
 </project>

@@ -200,26 +200,6 @@ public class MongoProductDao implements ProductDao {
 	}
 
 	@Override
-	public Product getForNotification(String _id) {
-		try {
-			DBCollection collection = mongoDB.getCollection(collProduct);
-			DBObject query = new BasicDBObject("_id", _id);
-			DBObject fields = new BasicDBObject("code", 1).append("name", 1).append("minStock", 1).append("currentStock", 1);
-
-			DBObject dbObject = collection.findOne(query, fields);
-
-			String jsonString = JSON.serialize(dbObject);
-			Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
-
-			return product;
-
-		} catch (Exception exception) {
-			LOG.equals(exception);
-		}
-		return null;
-	}
-
-	@Override
 	public List<Product> getAll() {
 		return getAll(false);
 	}
@@ -412,8 +392,54 @@ public class MongoProductDao implements ProductDao {
 		return null;
 	}
 
-	public static void main(String[] args) {
+	@Override
+	public Product getForNotification(String _id) {
+		try {
+			DBCollection collection = mongoDB.getCollection(collProduct);
+			DBObject query = new BasicDBObject("_id", _id);
+			DBObject fields = new BasicDBObject("code", 1).append("name", 1).append("minStock", 1).append("currentStock", 1);
 
+			DBObject dbObject = collection.findOne(query, fields);
+
+			String jsonString = JSON.serialize(dbObject);
+			Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
+
+			return product;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public List<Product> getAllForNotification() {
+		try {
+			DBCollection collection = mongoDB.getCollection(collProduct);
+			DBObject delQuery = MongoUtil.getQueryToCheckDeleted();
+			DBObject fieldQuery = new BasicDBObject(QueryOperators.WHERE, "function() { return this.currentStock <= this.minStock } }");
+			BasicDBList andQuery = new BasicDBList();
+			andQuery.add(delQuery);
+			andQuery.add(fieldQuery);
+			DBObject finalQuery = new BasicDBObject("$and", andQuery);
+			DBObject fields = new BasicDBObject("code", 1).append("name", 1).append("minStock", 1).append("currentStock", 1);
+			DBCursor dbCursor = collection.find(finalQuery, fields);
+
+			String jsonString = JSON.serialize(dbCursor);
+			@SuppressWarnings("unchecked")
+			List<Product> productList = (List<Product>) CommonUtil.jsonToObject(jsonString, ArrayList.class.getName());
+			return productList;
+
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	public static void main(String[] args) {
+		MongoProductDao mpd = new MongoProductDao();
+		List<Product> productList = mpd.getAllForNotification();
+		System.out.println(productList.size());
 	}
 
 }

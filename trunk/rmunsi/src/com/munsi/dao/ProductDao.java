@@ -63,4 +63,6 @@ public interface ProductDao {
 	int getAvailableStock(String _id);
 
 	Product getForNotification(String _id);
+
+	List<Product> getAllForNotification();
 }

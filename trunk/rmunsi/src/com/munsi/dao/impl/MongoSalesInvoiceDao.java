@@ -210,8 +210,9 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 
 			String pattern = "dd-MM-yy";
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
-			DBObject dateQuery = new BasicDBObject("ctime", new BasicDBObject(QueryOperators.GTE, simpleDateFormat.parse(startDate).getTime()).append(QueryOperators.LTE, simpleDateFormat.parse(endDate).getTime()));
+			long dateStart = simpleDateFormat.parse(startDate).getTime();
+			long dateEnd = simpleDateFormat.parse(endDate).getTime();
+			DBObject dateQuery = new BasicDBObject("ctime", new BasicDBObject(QueryOperators.GTE, dateStart).append(QueryOperators.LTE, dateEnd));
 
 			BasicDBList queryList = new BasicDBList();
 			queryList.add(deletedQuery);
@@ -240,5 +241,4 @@ public class MongoSalesInvoiceDao implements SalesInvoiceDao {
 
 		return sInvoiceList;
 	}
-
 }

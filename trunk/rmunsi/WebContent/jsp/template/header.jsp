@@ -51,7 +51,7 @@ webSocket.onmessage = function (message) {
 
 function printMsg(message)
 {
-	//console.log(message);
+	console.log(message);
 };
 </script>
 <!-- WEB SOCKET START -->

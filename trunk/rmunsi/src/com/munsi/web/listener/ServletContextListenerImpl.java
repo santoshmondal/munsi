@@ -25,6 +25,7 @@ public class ServletContextListenerImpl implements ServletContextListener {
 		try {
 			NotificationUtil.initNotification();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

@@ -18,14 +18,25 @@ public class NotificationUtil {
 
 	private final static Set<WebClient> webClientList = new CopyOnWriteArraySet<WebClient>();
 
-	private static Map<String, String> alertList = new LinkedHashMap<String, String>();
+	private static Map<String, String> stockShortAlertList = new LinkedHashMap<String, String>();
+	private static Map<String, String> stockExpAlertList = new LinkedHashMap<String, String>();
 
 	public static void initNotification() {
 		ProductDao productDao = (MongoProductDao) ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
-		List<Product> productList = productDao.getAllForNotification();
-		for (Product product : productList) {
-			String jsonString = CommonUtil.objectToJson(product);
-			alertList.put(product.get_id(), jsonString);
+		List<Product> productList = productDao.getAllShortedProdect();
+		if (productList != null && productList.size() > 0) {
+			for (Product product : productList) {
+				String jsonString = CommonUtil.objectToJson(product);
+				stockShortAlertList.put(product.get_id(), jsonString);
+			}
+		}
+
+		productList = productDao.getAllExpireProdect();
+		if (productList != null && productList.size() > 0) {
+			for (Product product : productList) {
+				String jsonString = CommonUtil.objectToJson(product);
+				stockExpAlertList.put(product.get_id(), jsonString);
+			}
 		}
 	}
 
@@ -33,11 +44,11 @@ public class NotificationUtil {
 
 		if (product.getCurrentStock() <= product.getMinStock()) {
 			String jsonString = CommonUtil.objectToJson(product);
-			alertList.put(product.get_id(), jsonString);
+			stockShortAlertList.put(product.get_id(), jsonString);
 			printAlertList();
 
 		} else {
-			String str = alertList.remove(product.get_id());
+			String str = stockShortAlertList.remove(product.get_id());
 			if (str != null) {
 				printAlertList();
 			}
@@ -45,7 +56,7 @@ public class NotificationUtil {
 	}
 
 	private static void printAlertList() {
-		Collection<String> list = alertList.values();
+		Collection<String> list = stockShortAlertList.values();
 		String jsonString = CommonUtil.objectToJson(list);
 
 		for (WebClient webClient : webClientList) {
@@ -55,8 +66,8 @@ public class NotificationUtil {
 
 	public static void addWebClient(WebClient webClient) {
 		webClientList.add(webClient);
-		if (alertList.size() > 0) {
-			Collection<String> list = alertList.values();
+		if (stockShortAlertList.size() > 0) {
+			Collection<String> list = stockShortAlertList.values();
 			String jsonString = CommonUtil.objectToJson(list);
 			webClient.writeResponse(jsonString);
 		}
@@ -78,16 +89,12 @@ public class NotificationUtil {
 		checkProductForNotification(p3);
 	}
 
-	/*public static void main(String[] args) {
-		MongoProductDao ps = new MongoProductDao();
-		Product p = ps.getForNotification("4");
-		Product p1 = ps.getForNotification("5");
-		Product p2 = ps.getForNotification("6");
-		Product p3 = ps.getForNotification("7");
-		addProductForNotification(p);
-		addProductForNotification(p1);
-		addProductForNotification(p2);
-		addProductForNotification(p3);
-	}*/
+	public static void main(String[] args) {
+		try {
+			NotificationUtil.initNotification();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

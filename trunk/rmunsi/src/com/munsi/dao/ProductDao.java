@@ -64,5 +64,8 @@ public interface ProductDao {
 
 	Product getForNotification(String _id);
 
-	List<Product> getAllForNotification();
+	List<Product> getAllShortedProdect();
+
+	List<Product> getAllExpireProdect();
+
 }

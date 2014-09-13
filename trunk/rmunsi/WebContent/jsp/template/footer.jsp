@@ -39,12 +39,11 @@
         <script src="${pageContext.request.contextPath}/assets/js/amcharts/exporting/filesaver.js" type="text/javascript"></script>
         <script src="${pageContext.request.contextPath}/assets/js/amcharts/exporting/jspdf.plugin.addimage.js" type="text/javascript"></script>
 		<script type="text/javascript">
-			$(document).ready(function(){
+			/* $(document).ready(function(){
 			    $(document).bind("contextmenu",function(e){
 			        return false;
 			    });
-			    
-			});
+			}); */
 			
 			//----------Reporting Dialogs-------------
 			

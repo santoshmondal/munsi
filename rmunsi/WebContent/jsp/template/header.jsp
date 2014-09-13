@@ -19,7 +19,7 @@ String appPath = request.getContextPath();
 var webSocket = null;
 var url = '';
 var jsAppName = '<%=appPath%>';
-if (window.location.protocol == 'http:') {	
+if(window.location.protocol == 'http:') {	
 	url  = 'ws://' + window.location.host+jsAppName+'/alert';
 }
 else{

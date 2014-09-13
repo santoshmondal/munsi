@@ -1,6 +1,7 @@
 package com.munsi.ws;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,24 +19,22 @@ public class NotificationUtil {
 
 	private final static Set<WebClient> webClientList = new CopyOnWriteArraySet<WebClient>();
 
-	private static Map<String, String> stockShortAlertList = new LinkedHashMap<String, String>();
-	private static Map<String, String> stockExpAlertList = new LinkedHashMap<String, String>();
+	private static Map<String, Product> stockShortageAlertList = new LinkedHashMap<>();
+	private static Map<String, Product> stockExpAlertList = new LinkedHashMap<>();
 
 	public static void initNotification() {
 		ProductDao productDao = (MongoProductDao) ObjectFactory.getInstance(ObjectEnum.PRODUCT_DAO);
 		List<Product> productList = productDao.getAllShortedProdect();
 		if (productList != null && productList.size() > 0) {
 			for (Product product : productList) {
-				String jsonString = CommonUtil.objectToJson(product);
-				stockShortAlertList.put(product.get_id(), jsonString);
+				stockShortageAlertList.put(product.get_id(), product);
 			}
 		}
 
 		productList = productDao.getAllExpireProdect();
 		if (productList != null && productList.size() > 0) {
 			for (Product product : productList) {
-				String jsonString = CommonUtil.objectToJson(product);
-				stockExpAlertList.put(product.get_id(), jsonString);
+				stockExpAlertList.put(product.get_id(), product);
 			}
 		}
 	}
@@ -43,12 +42,12 @@ public class NotificationUtil {
 	public static void checkProductForNotification(Product product) {
 
 		if (product.getCurrentStock() <= product.getMinStock()) {
-			String jsonString = CommonUtil.objectToJson(product);
-			stockShortAlertList.put(product.get_id(), jsonString);
+			//String jsonString = CommonUtil.objectToJson(product);
+			stockShortageAlertList.put(product.get_id(), product);
 			printAlertList();
 
 		} else {
-			String str = stockShortAlertList.remove(product.get_id());
+			Product str = stockShortageAlertList.remove(product.get_id());
 			if (str != null) {
 				printAlertList();
 			}
@@ -56,45 +55,28 @@ public class NotificationUtil {
 	}
 
 	private static void printAlertList() {
-		Collection<String> list = stockShortAlertList.values();
-		String jsonString = CommonUtil.objectToJson(list);
-
+		Map<String, Collection<Product>> tempMap = new HashMap<>();
+		tempMap.put("SHORTAGE_ALERT", stockShortageAlertList.values());
+		tempMap.put("EXPIRY_ALERT", stockShortageAlertList.values());
+		String jsonStringAlert = CommonUtil.objectToJson(tempMap);
 		for (WebClient webClient : webClientList) {
-			webClient.writeResponse(jsonString);
+			webClient.writeResponse(jsonStringAlert);
 		}
 	}
 
 	public static void addWebClient(WebClient webClient) {
 		webClientList.add(webClient);
-		if (stockShortAlertList.size() > 0) {
-			Collection<String> list = stockShortAlertList.values();
-			String jsonString = CommonUtil.objectToJson(list);
-			webClient.writeResponse(jsonString);
+		if (stockShortageAlertList.size() > 0 || stockExpAlertList.size() > 0) {
+			Map<String, Collection<Product>> tempMap = new HashMap<>();
+			tempMap.put("SHORTAGE_ALERT", stockShortageAlertList.values());
+			tempMap.put("EXPIRY_ALERT", stockShortageAlertList.values());
+			String jsonStringAlert = CommonUtil.objectToJson(tempMap);
+			webClient.writeResponse(jsonStringAlert);
 		}
 	}
 
 	public static void removeWebClient(WebClient webClient) {
 		webClientList.remove(webClient);
-	}
-
-	public static void testWS() {
-		MongoProductDao ps = new MongoProductDao();
-		Product p = ps.getForNotification("4");
-		Product p1 = ps.getForNotification("5");
-		Product p2 = ps.getForNotification("6");
-		Product p3 = ps.getForNotification("7");
-		checkProductForNotification(p);
-		checkProductForNotification(p1);
-		checkProductForNotification(p2);
-		checkProductForNotification(p3);
-	}
-
-	public static void main(String[] args) {
-		try {
-			NotificationUtil.initNotification();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 }

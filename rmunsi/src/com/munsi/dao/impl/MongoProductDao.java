@@ -1,6 +1,7 @@
 package com.munsi.dao.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,7 @@ import com.munsi.pojo.master.Product;
 import com.munsi.pojo.master.ProductBatch;
 import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
+import com.munsi.util.Config;
 import com.munsi.util.Constants.DBCollectionEnum;
 import com.munsi.util.MongoUtil;
 
@@ -315,7 +317,7 @@ public class MongoProductDao implements ProductDao {
 			if (excludeExpiredBatch || excludeZeroStock) {
 				// Remove batch of 0 stock and expired stock
 				Set<ProductBatch> productBatchList = product.getBatchList();
-				if (productBatchList != null) {
+				if (productBatchList != null && productBatchList.size() > 0) {
 					Iterator<ProductBatch> i = productBatchList.iterator();
 					while (i.hasNext()) {
 						ProductBatch b = i.next();
@@ -380,12 +382,19 @@ public class MongoProductDao implements ProductDao {
 			DBObject query = new BasicDBObject("_id", _id);
 			DBObject dbObject = collection.findOne(query, batchKey);
 			BasicDBList basicDBList = (BasicDBList) dbObject.get("batchList");
-			String jsonString = JSON.serialize(basicDBList);
-			@SuppressWarnings("unchecked")
-			List<ProductBatch> productBatchList = (List<ProductBatch>) CommonUtil.jsonToObject(jsonString, ArrayList.class.getName());
+			if (basicDBList == null || basicDBList.size() == 0) {
+				return null;
+			}
 
+			List<ProductBatch> productBatchList = null;
+			productBatchList = new ArrayList<>();
+			for (int i = 0; i < basicDBList.size(); i++) {
+				DBObject obj = (DBObject) basicDBList.get(i);
+				String jsonString = JSON.serialize(obj);
+				ProductBatch productBatch = (ProductBatch) CommonUtil.jsonToObject(jsonString, ProductBatch.class);
+				productBatchList.add(productBatch);
+			}
 			return productBatchList;
-
 		} catch (Exception exception) {
 			LOG.equals(exception);
 		}
@@ -413,7 +422,7 @@ public class MongoProductDao implements ProductDao {
 	}
 
 	@Override
-	public List<Product> getAllForNotification() {
+	public List<Product> getAllShortedProdect() {
 		try {
 			DBCollection collection = mongoDB.getCollection(collProduct);
 			DBObject delQuery = MongoUtil.getQueryToCheckDeleted();
@@ -424,10 +433,70 @@ public class MongoProductDao implements ProductDao {
 			DBObject finalQuery = new BasicDBObject("$and", andQuery);
 			DBObject fields = new BasicDBObject("code", 1).append("name", 1).append("minStock", 1).append("currentStock", 1);
 			DBCursor dbCursor = collection.find(finalQuery, fields);
+			if (dbCursor == null) {
+				return null;
+			}
+			List<Product> productList = new ArrayList<Product>();
 
-			String jsonString = JSON.serialize(dbCursor);
-			@SuppressWarnings("unchecked")
-			List<Product> productList = (List<Product>) CommonUtil.jsonToObject(jsonString, ArrayList.class.getName());
+			while (dbCursor.hasNext()) {
+				DBObject dbObject = dbCursor.next();
+				String jsonString = JSON.serialize(dbObject);
+				Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
+				productList.add(product);
+			}
+			return productList;
+		} catch (Exception exception) {
+			LOG.equals(exception);
+		}
+		return null;
+	}
+
+	@Override
+	public List<Product> getAllExpireProdect() {
+		try {
+			DBCollection collection = mongoDB.getCollection(collProduct);
+			DBObject delQuery = MongoUtil.getQueryToCheckDeleted();
+
+			Calendar calendar = Calendar.getInstance();
+			String strDays = Config.getProperty("expiry.warning.days", "10");
+			int days = Integer.parseInt(strDays);
+			calendar.add(Calendar.DATE, days);
+			long dateInLong = calendar.getTimeInMillis();
+
+			DBObject batchQuery = new BasicDBObject("batchCurrentStock", new BasicDBObject(QueryOperators.GTE, 1)).append("expiryDate", new BasicDBObject(QueryOperators.LTE, dateInLong));
+			DBObject elementMatch = new BasicDBObject(QueryOperators.ELEM_MATCH, batchQuery);
+			DBObject batchList = new BasicDBObject("batchList", elementMatch);
+
+			BasicDBList andQuery = new BasicDBList();
+			andQuery.add(delQuery);
+			andQuery.add(batchList);
+
+			DBObject finalQuery = new BasicDBObject("$and", andQuery);
+			DBObject fields = new BasicDBObject("code", 1).append("name", 1).append("batchList", 1);
+			DBCursor dbCursor = collection.find(finalQuery, fields);
+			if (dbCursor == null) {
+				return null;
+			}
+			List<Product> productList = new ArrayList<>();
+			while (dbCursor.hasNext()) {
+				DBObject dbObject = dbCursor.next();
+				String jsonString = JSON.serialize(dbObject);
+				Product product = (Product) CommonUtil.jsonToObject(jsonString, Product.class.getName());
+				Set<ProductBatch> productBatchList = product.getBatchList();
+
+				if (productBatchList != null && productBatchList.size() > 0) {
+					Iterator<ProductBatch> bIter = productBatchList.iterator();
+
+					while (bIter.hasNext()) {
+						ProductBatch batch = bIter.next();
+						Date expDate = batch.getExpiryDate();
+						if (expDate.after(calendar.getTime())) {
+							bIter.remove();
+						}
+					}
+				}
+				productList.add(product);
+			}
 			return productList;
 
 		} catch (Exception exception) {
@@ -438,8 +507,11 @@ public class MongoProductDao implements ProductDao {
 
 	public static void main(String[] args) {
 		MongoProductDao mpd = new MongoProductDao();
-		List<Product> productList = mpd.getAllForNotification();
-		System.out.println(productList.size());
+		List<ProductBatch> bpl = mpd.getBatchList("3");
+		for (ProductBatch pb : bpl) {
+			System.out.println(pb.getBatchNumber());
+		}
+
 	}
 
 }

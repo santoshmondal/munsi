@@ -77,6 +77,20 @@ public class CommonUtil {
 		return null;
 	}
 
+	public static Object jsonToObject(String json, Class<?> clazz) {
+
+		try {
+			return mapper.readValue(json, clazz);
+		} catch (JsonGenerationException e) {
+			LOG.error(e);
+		} catch (JsonMappingException e) {
+			LOG.error(e);
+		} catch (IOException e) {
+			LOG.error(e);
+		}
+		return null;
+	}
+
 	public static String objectToJson(Object object) {
 		try {
 

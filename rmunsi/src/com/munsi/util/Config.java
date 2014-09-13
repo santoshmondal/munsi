@@ -34,6 +34,15 @@ public class Config {
 		return null;
 	}
 
+	public static String getProperty(String key, String defaultValue) {
+		try {
+			return properties.getProperty(key, defaultValue);
+		} catch (Exception e) {
+			LOG.error(e);
+		}
+		return null;
+	}
+
 	public static String getCurrentClasspath() throws UnsupportedEncodingException {
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		URL resource = loader.getResource("");

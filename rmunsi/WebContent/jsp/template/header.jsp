@@ -16,7 +16,7 @@
 String appPath = request.getContextPath();
 %>
 <script type="text/javascript">
-<%-- var webSocket = null;
+var webSocket = null;
 var url = '';
 var jsAppName = '<%=appPath%>';
 if (window.location.protocol == 'http:') {	
@@ -48,32 +48,11 @@ webSocket.onclose = function () {
 webSocket.onmessage = function (message) {
 	printMsg(message.data);
 };
-      
-function sendMessage(event)
-{
-	/*
-    var message = document.getElementById('inputField').value;
-    if (message != '') {
-    	webSocket.send(message);
-    }
-    */
-};
-
 
 function printMsg(message)
 {
-	console.log(message);
-	
-	/* var console1 = document.getElementById('alertDiv');
-	var p = document.createElement('p');
-	p.style.wordWrap = 'break-word';
-	p.innerHTML = message;
-	console1.appendChild(p);
-	while (console1.childNodes.length > 25) {
-	    console1.removeChild(console1.firstChild);
-	}
-	console1.scrollTop = console1.scrollHeight; */
-}; --%>
+	//console.log(message);
+};
 </script>
 <!-- WEB SOCKET START -->
 	

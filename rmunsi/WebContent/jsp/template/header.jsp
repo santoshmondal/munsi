@@ -51,7 +51,75 @@ webSocket.onmessage = function (message) {
 
 function printMsg(message)
 {
+	console.log("called....");
 	console.log(message);
+	var JsonAlertObj = JSON.parse(message);
+	var shortageObj = JsonAlertObj.SHORTAGE_ALERT;
+	var expiryObj = JsonAlertObj.EXPIRY_ALERT;
+	
+	//----------- Shortage Javascript ALERT ----------------
+	$("#idSortageCount").html(shortageObj.length);
+	$("#idSortageList").empty();
+	
+	var header="<li class='dropdown-header'>\
+					<i class='icon-shopping-cart'></i>\
+					Shortage of Product\
+				</li>";
+	$("#idSortageList").append(header);
+	$.each(shortageObj,function(ir,value){
+		var itemLi = "<li> \
+						<a href='#'> \
+							<div class='clearfix'> \
+								<span class='pull-left red bigger-150 col-lg-6' style='padding: 0;'>"+ value.name +"</span> \
+								<span class='pull-right bigger-150'><i class='icon-shopping-cart'> </i><b>"+ value.currentStock +"</b></span> \
+								<span class='col-lg-6' style='padding: 0;'>	Code : <span>"+ value.code +"</span></span> \
+							</div> \
+						</a> \
+					</li>";
+		$("#idSortageList").append(itemLi);
+	});
+	if(shortageObj.length>0){
+		var showAll = "<li> \
+							<a href='#'>\
+								See all with details\
+								<i class='icon-arrow-right'></i>\
+							</a>\
+						</li>";
+		$("#idSortageList").append(showAll);
+	}
+	
+
+	//----------- Expiry Javascript ALERT ----------------
+	$("#idExpiryCount").html(expiryObj.length);
+	$("#idExpiryList").empty();
+	header="<li class='dropdown-header'>\
+					<i class='icon-warning-sign'></i>\
+					Expired Product\
+				</li>";
+	$("#idExpiryList").append(header);
+	$.each(expiryObj,function(ir,value){
+		
+		var itemLi = "<li>\
+						<a href='#'>\
+							<div class='clearfix'>\
+								<span class='pull-left'>\
+									<i class='btn btn-xs no-hover btn-pink icon-calendar'></i>"+value.name+"\
+								</span>\
+								<span class='pull-right badge badge-info'>12.09.2015</span>\
+							</div>\
+						</a>\
+					</li>";
+		$("#idExpiryList").append(itemLi);
+	});
+	if(expiryObj.length>0){
+		var showAll = "<li> \
+							<a href='#'>\
+								See all with details\
+								<i class='icon-arrow-right'></i>\
+							</a>\
+						</li>";
+		$("#idExpiryList").append(showAll);
+	}
 };
 </script>
 <!-- WEB SOCKET START -->
@@ -80,137 +148,21 @@ function printMsg(message)
 						<li class="grey">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-tasks"></i>
-								<span class="badge badge-grey">4</span>
+								<span id="idSortageCount" class="badge badge-grey">0</span>
 							</a>
 
-							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
-									<i class="icon-ok"></i>
-									4 Recent Activities
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">Software Update</span>
-											<span class="pull-right">65%</span>
-										</div>
-
-										<div class="progress progress-mini ">
-											<div style="width:65%" class="progress-bar "></div>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">Hardware Upgrade</span>
-											<span class="pull-right">35%</span>
-										</div>
-
-										<div class="progress progress-mini ">
-											<div style="width:35%" class="progress-bar progress-bar-danger"></div>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">Unit Testing</span>
-											<span class="pull-right">15%</span>
-										</div>
-
-										<div class="progress progress-mini ">
-											<div style="width:15%" class="progress-bar progress-bar-warning"></div>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">Bug Fixes</span>
-											<span class="pull-right">90%</span>
-										</div>
-
-										<div class="progress progress-mini progress-striped active">
-											<div style="width:90%" class="progress-bar progress-bar-success"></div>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										See tasks with details
-										<i class="icon-arrow-right"></i>
-									</a>
-								</li>
+							<ul id="idSortageList" class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
 							</ul>
 						</li>
 
 						<li class="purple">
 							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
 								<i class="icon-bell-alt icon-animated-bell"></i>
-								<span class="badge badge-important">8</span>
+								<span id="idExpiryCount" class="badge badge-important">0</span>
 							</a>
 
-							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
-								<li class="dropdown-header">
-									<i class="icon-warning-sign"></i>
-									8 Alerts & Notifications
-								</li>
+							<ul id="idExpiryList" class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
 
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">
-												<i class="btn btn-xs no-hover btn-pink icon-comment"></i>
-												New Comments
-											</span>
-											<span class="pull-right badge badge-info">+12</span>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<i class="btn btn-xs btn-primary icon-user"></i>
-										Bob just signed up as an editor ...
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">
-												<i class="btn btn-xs no-hover btn-success icon-shopping-cart"></i>
-												New Orders
-											</span>
-											<span class="pull-right badge badge-success">+8</span>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										<div class="clearfix">
-											<span class="pull-left">
-												<i class="btn btn-xs no-hover btn-info icon-twitter"></i>
-												Followers
-											</span>
-											<span class="pull-right badge badge-info">+11</span>
-										</div>
-									</a>
-								</li>
-
-								<li>
-									<a href="#">
-										See all notifications
-										<i class="icon-arrow-right"></i>
-									</a>
-								</li>
 							</ul>
 						</li>
 

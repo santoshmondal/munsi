@@ -78,18 +78,15 @@ function printMsg(message)
 					</li>";
 		$("#idSortageList").append(itemLi);
 	});
+	
 	if(shortageObj.length>0){
-		var showAll = "<li> \
-							<a href='#'>\
-								See all with details\
-								<i class='icon-arrow-right'></i>\
-							</a>\
-						</li>";
+		var showAll = "<li></li>"; 
+		/* <a href='#'>See all with details <i class='icon-arrow-right'></i></a> */
 		$("#idSortageList").append(showAll);
 	}
-	
 
-	//----------- Expiry Javascript ALERT ----------------
+
+	//----------- Expiry Javascript ALERT ------------- //
 	$("#idExpiryCount").html(expiryObj.length);
 	$("#idExpiryList").empty();
 	header="<li class='dropdown-header'>\
@@ -98,6 +95,10 @@ function printMsg(message)
 				</li>";
 	$("#idExpiryList").append(header);
 	$.each(expiryObj,function(ir,value){
+		var itemBat = "";
+		$.each(value.batchList,function(itrb,valueBatch){
+			itemBat = itemBat + "<div class='col-lg-12'><span>"+valueBatch.batchNumber+"</span><span class='badge badge-info'>"+valueBatch.sExpdate+"</span></div>";
+		});
 		
 		var itemLi = "<li>\
 						<a href='#'>\
@@ -105,21 +106,26 @@ function printMsg(message)
 								<span class='pull-left'>\
 									<i class='btn btn-xs no-hover btn-pink icon-calendar'></i>"+value.name+"\
 								</span>\
-								<span class='pull-right badge badge-info'>12.09.2015</span>\
+								<div class='container'>"+itemBat+"</div>\
 							</div>\
 						</a>\
 					</li>";
+		
 		$("#idExpiryList").append(itemLi);
 	});
+	
+	
 	if(expiryObj.length>0){
-		var showAll = "<li> \
-							<a href='#'>\
+		var showAll = "<li></li>";
+							/* <a href='#'>\
 								See all with details\
 								<i class='icon-arrow-right'></i>\
 							</a>\
-						</li>";
+							 */
 		$("#idExpiryList").append(showAll);
 	}
+	
+	
 };
 </script>
 <!-- WEB SOCKET START -->

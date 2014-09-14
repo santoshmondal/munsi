@@ -1,8 +1,13 @@
 package com.munsi.ws;
 
-import org.apache.jasper.tagplugins.jstl.core.Set;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 
-import com.lowagie.text.List;
 import com.munsi.dao.ProductDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.pojo.master.Product;
@@ -37,7 +42,6 @@ public class NotificationUtil {
 	public static void checkProductForNotification(Product product) {
 
 		if (product.getCurrentStock() <= product.getMinStock()) {
-			//String jsonString = CommonUtil.objectToJson(product);
 			stockShortageAlertList.put(product.get_id(), product);
 			printAlertList();
 

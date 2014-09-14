@@ -1,13 +1,8 @@
 package com.munsi.ws;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
+import org.apache.jasper.tagplugins.jstl.core.Set;
 
+import com.lowagie.text.List;
 import com.munsi.dao.ProductDao;
 import com.munsi.dao.impl.MongoProductDao;
 import com.munsi.pojo.master.Product;
@@ -57,7 +52,7 @@ public class NotificationUtil {
 	private static void printAlertList() {
 		Map<String, Collection<Product>> tempMap = new HashMap<>();
 		tempMap.put("SHORTAGE_ALERT", stockShortageAlertList.values());
-		tempMap.put("EXPIRY_ALERT", stockShortageAlertList.values());
+		tempMap.put("EXPIRY_ALERT", stockExpAlertList.values());
 		String jsonStringAlert = CommonUtil.objectToJson(tempMap);
 		for (WebClient webClient : webClientList) {
 			webClient.writeResponse(jsonStringAlert);
@@ -69,7 +64,7 @@ public class NotificationUtil {
 		if (stockShortageAlertList.size() > 0 || stockExpAlertList.size() > 0) {
 			Map<String, Collection<Product>> tempMap = new HashMap<>();
 			tempMap.put("SHORTAGE_ALERT", stockShortageAlertList.values());
-			tempMap.put("EXPIRY_ALERT", stockShortageAlertList.values());
+			tempMap.put("EXPIRY_ALERT", stockExpAlertList.values());
 			String jsonStringAlert = CommonUtil.objectToJson(tempMap);
 			webClient.writeResponse(jsonStringAlert);
 		}

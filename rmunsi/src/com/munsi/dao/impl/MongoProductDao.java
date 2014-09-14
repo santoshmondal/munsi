@@ -490,7 +490,7 @@ public class MongoProductDao implements ProductDao {
 					while (bIter.hasNext()) {
 						ProductBatch batch = bIter.next();
 						Date expDate = batch.getExpiryDate();
-						if (expDate.after(calendar.getTime())) {
+						if (expDate == null || expDate.after(calendar.getTime())) {
 							bIter.remove();
 						}
 					}
@@ -507,10 +507,7 @@ public class MongoProductDao implements ProductDao {
 
 	public static void main(String[] args) {
 		MongoProductDao mpd = new MongoProductDao();
-		List<ProductBatch> bpl = mpd.getBatchList("3");
-		for (ProductBatch pb : bpl) {
-			System.out.println(pb.getBatchNumber());
-		}
+		List<Product> pdl = mpd.getAllExpireProdect();
 
 	}
 

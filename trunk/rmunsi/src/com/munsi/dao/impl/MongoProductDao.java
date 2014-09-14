@@ -505,10 +505,8 @@ public class MongoProductDao implements ProductDao {
 		return null;
 	}
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		MongoProductDao mpd = new MongoProductDao();
-		List<Product> pdl = mpd.getAllExpireProdect();
-
-	}
+	}*/
 
 }

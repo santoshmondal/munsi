@@ -1,0 +1,42 @@
+.message_box
+{
+	border:solid 1px #ccc;
+	min-height:300px;
+	max-height:500px;
+	overflow:auto;
+	padding: 5px;	
+}
+
+.message_box .me
+{
+	text-align: right;
+}
+
+.message_box .server
+{
+	text-align: left;
+}
+
+.message_box .senderName
+{
+	padding-left: 4px;
+}
+.message_box .glyphicon-user
+{
+	color: blue;	
+}
+.message_box .message
+{
+	margin-left:4px;
+}
+
+.message:before {
+   content: "";
+   position: absolute;
+   top: 100%;
+   left: 20px;
+   border-top: 20px solid black;
+   border-top-color: inherit; 
+   border-left: 20px solid transparent;
+   border-right: 20px solid transparent; 
+}

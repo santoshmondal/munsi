@@ -13,9 +13,11 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 public class LicenseUtil {
-	public static String ENCODING_UTF8 = "UTF-8";
 
-	private static String licenseToXmlString(License license) {
+	public static final String ENCODING_UTF8 = "UTF-8";
+	public static final String LIC_DATE_FORMAT = "dd-MM-yyyy";
+
+	public static String licenseToXmlString(License license) {
 		try {
 
 			JAXBContext jaxbContext = JAXBContext.newInstance(License.class);

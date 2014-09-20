@@ -15,13 +15,13 @@ import org.apache.log4j.Logger;
 
 public class Global {
 	public static Logger LOG = Logger.getLogger(Global.class);
-	private static String LIC_DATE_FORMAT = "dd-MM-yyyy";
+	private static String LIC_DATE_FORMAT = LicenseUtil.LIC_DATE_FORMAT;
 	private static String licenseFilePath;
 
-	private static Boolean licenseValid = false;
-	private static Boolean licenseExpired = true;
-	private static Boolean licenseFileFound = false;
-	private static Boolean systemDateValid = false;
+	private static Boolean validMachine = Boolean.FALSE;
+	private static Boolean licenseExpired = Boolean.TRUE;
+	private static Boolean licenseFileFound = Boolean.FALSE;
+	private static Boolean systemDateValid = Boolean.FALSE;
 	private static License license = null;
 
 	public static void initializeLicense(String licenseFile) {
@@ -29,26 +29,38 @@ public class Global {
 		File file = new File(licenseFile);
 
 		if (!file.exists()) {
-			licenseValid = false;
-			licenseFileFound = false;
+			validMachine = Boolean.FALSE;
+			licenseFileFound = Boolean.FALSE;
 			LOG.info("License file not found");
 			return;
 		}
 
 		licenseFilePath = licenseFile;
 
-		licenseFileFound = true;
+		licenseFileFound = Boolean.TRUE;
 		License tempLicense = LicenseUtil.readLicenseFile(file);
 		if (tempLicense == null) {
-			licenseValid = false;
+			validMachine = Boolean.FALSE;
 			LOG.info("License instance is null after reading the License.lic file");
 			return;
 		}
 		license = tempLicense;
-		licenseExpired = checkLicenseExpire();
-		systemDateValid = validateSyatemDate();
-		licenseValid = validateMachine();
 
+		if (license.isIgnoreEndDate()) {
+			licenseExpired = Boolean.FALSE;
+			systemDateValid = Boolean.TRUE;
+		}
+		else {
+			licenseExpired = checkLicenseExpire();
+			systemDateValid = validateSyatemDate();
+		}
+
+		if (license.isIgnoreMachine()) {
+			validMachine = Boolean.TRUE;
+		}
+		else {
+			validMachine = validateMachine();
+		}
 	}
 
 	public static Boolean isLicenseExpired() {
@@ -59,8 +71,8 @@ public class Global {
 		return systemDateValid;
 	}
 
-	public static Boolean isValidLicense() {
-		return licenseValid;
+	public static Boolean isValidMachine() {
+		return validMachine;
 	}
 
 	public static Boolean isLicenseFileExist() {
@@ -78,9 +90,9 @@ public class Global {
 		LOG.info("License exp date :" + endDate + ", Current date: " + today);
 		if (endDate.before(today)) {
 			LOG.info("License is expired");
-			return true;
+			return Boolean.TRUE;
 		}
-		return false;
+		return Boolean.FALSE;
 	}
 
 	private static Boolean validateSyatemDate() {
@@ -95,7 +107,7 @@ public class Global {
 			SimpleDateFormat sdf = new SimpleDateFormat(LIC_DATE_FORMAT);
 			String strTodayDate = sdf.format(today);
 			license.setLastAccessDate(strTodayDate);
-			return true;
+			return Boolean.TRUE;
 		}
 	}
 
@@ -111,8 +123,8 @@ public class Global {
 		String licHostName = license.getMachineSid();
 		String osName = System.getProperty("os.name");
 
-		Boolean valid1 = false;
-		Boolean valid2 = false;
+		Boolean valid1 = Boolean.FALSE;
+		Boolean valid2 = Boolean.FALSE;
 
 		if (osName.contains("Windows")) {
 			if (licSid != null && licSid.trim().length() > 0) {
@@ -165,21 +177,21 @@ public class Global {
 		return string1.toLowerCase().contains(string2.toLowerCase());
 	}
 
-	public static boolean overrideFromNetwork() {
+	public static Boolean overrideFromNetwork() {
 		Date network = getNetworkDate();
 		try {
 			if (network != null && network.before(getLicenseEndDate())) {
 				SimpleDateFormat sdf = new SimpleDateFormat(LIC_DATE_FORMAT);
 				String date = sdf.format(network);
 				license.setLastAccessDate(date);
-				systemDateValid = true;
-				licenseExpired = false;
-				return true;
+				systemDateValid = Boolean.TRUE;
+				licenseExpired = Boolean.FALSE;
+				return Boolean.TRUE;
 			}
 		} catch (Exception exception) {
 			//
 		}
-		return false;
+		return Boolean.FALSE;
 	}
 
 	private static Date getNetworkDate() {
@@ -210,10 +222,14 @@ public class Global {
 	}
 
 	public static void updateLastAccessTime() {
+		if (license.isIgnoreEndDate()) {
+			return;
+		}
+
 		Thread t = new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while (true) {
+				while (Boolean.TRUE) {
 					if (isValidSyatemDate()) {
 						LicenseUtil.generateLicenseFile(licenseFilePath, license);
 					}
@@ -260,23 +276,4 @@ public class Global {
 		}
 		return new Date();
 	}
-
-	/*
-	public static void main(String[] args) {
-		SimpleDateFormat sdf = new SimpleDateFormat( LIC_DATE_FORMAT);
-		try {
-			Date date = sdf.parse( "15-08-2014" );
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(date);
-			System.out.println( date );
-			System.out.println( calendar.getTime() );
-			calendar.set(Calendar.HOUR_OF_DAY, 23);
-			calendar.set(Calendar.MINUTE, 59);
-			calendar.set(Calendar.SECOND, 59);
-			System.out.println(calendar.getTime());
-		}
-		catch (ParseException e) {
-			e.printStackTrace();
-		}
-	}*/
 }

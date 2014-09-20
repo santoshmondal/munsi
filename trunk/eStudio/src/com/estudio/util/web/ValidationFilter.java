@@ -39,7 +39,7 @@ public class ValidationFilter implements Filter {
 			response.sendRedirect("index.jsp");
 			return;
 		}
-		if (!Global.isValidLicense()) {
+		if (!Global.isValidMachine()) {
 			session.invalidate();
 			session = request.getSession(true);
 			session.setAttribute("SERVER_MESSAGE", Config.getProperty("license.invalid"));

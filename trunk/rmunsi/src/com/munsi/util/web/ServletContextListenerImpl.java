@@ -1,4 +1,6 @@
-package com.munsi.web.listener;
+package com.munsi.util.web;
+
+import java.io.File;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -6,6 +8,7 @@ import javax.servlet.annotation.WebListener;
 
 import org.apache.log4j.Logger;
 
+import com.license.tool.Global;
 import com.munsi.ws.NotificationUtil;
 
 /**
@@ -22,11 +25,23 @@ public class ServletContextListenerImpl implements ServletContextListener {
 	 */
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
+		//=============//
+
+		String licenseFilePath = arg0.getServletContext().getRealPath("") + File.separator + "config" + File.separator + "License.lic";
+
+		Global.initializeLicense(licenseFilePath);
+		Global.updateLastAccessTime();
+
+		//=============//
+
 		try {
 			NotificationUtil.initNotification();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		//=============//
+
 	}
 
 	/**

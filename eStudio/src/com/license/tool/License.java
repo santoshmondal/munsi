@@ -1,167 +1,207 @@
 package com.license.tool;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name="license")
+@XmlRootElement(name = "license")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class License {
-    @XmlElement private String startDate			= "";
-    @XmlElement private String endDate				= "";
-    @XmlElement private String hostname				= "";	
-    @XmlElement private String machineName			= "";
-    @XmlElement private String machineSid			= "";
-    @XmlElement private String osName				= "";
-    @XmlElement private String osArchitecture		= "";
-    @XmlElement private String osSerialNumber		= "";
-    @XmlElement private String cpuProcessorId		= "";
-    @XmlElement private String baseboardSerialNuber	= "";
-    @XmlElement private String biosSerialNuber		= "";
-    @XmlElement private String clientName			= "";
-    @XmlElement private String clientAddress		= "";
-    @XmlElement private String clientContactNumber	= "";
-    @XmlElement private String lastAccessDate		= "";
-    
-    public String getStartDate()
-    {
-        return startDate;
-    }
+	@XmlElement
+	private String startDate = "";
+	@XmlElement
+	private String endDate = "";
+	@XmlElement
+	private Boolean ignoreMachine = false;
+	@XmlElement
+	private Boolean ignoreEndDate = false;
+	@XmlElement
+	private String hostname = "";
+	@XmlElement
+	private String machineName = "";
+	@XmlElement
+	private String machineSid = "";
+	@XmlElement
+	private String osName = "";
+	@XmlElement
+	private String osArchitecture = "";
+	@XmlElement
+	private String osSerialNumber = "";
+	@XmlElement
+	private String cpuProcessorId = "";
+	@XmlElement
+	private String baseboardSerialNuber = "";
+	@XmlElement
+	private String biosSerialNuber = "";
+	@XmlElement
+	private String clientName = "";
+	@XmlElement
+	private String clientAddress = "";
+	@XmlElement
+	private String clientContactNumber = "";
+	@XmlElement
+	private String lastAccessDate = "";
 
-    public void setStartDate(String startDate)
-    {
-        this.startDate = startDate;
-    }
+	public String getStartDate()
+	{
+		return startDate;
+	}
 
-    public String getEndDate()
-    {
-        return endDate;
-    }
+	public void setStartDate(String startDate)
+	{
+		this.startDate = startDate;
+	}
 
-    public void setEndDate(String endDate)
-    {
-        this.endDate = endDate;
-    }
+	public String getEndDate()
+	{
+		return endDate;
+	}
 
-    public String getHostname()
-    {
-        return hostname;
-    }
+	public void setEndDate(String endDate)
+	{
+		this.endDate = endDate;
+	}
 
-    public void setHostname(String hostname)
-    {
-        this.hostname = hostname;
-    }
+	public String getHostname()
+	{
+		return hostname;
+	}
 
-    public String getMachineName()
-    {
-        return machineName;
-    }
+	public void setIgnoreMachine(Boolean ignoreMachine)
+	{
+		this.ignoreMachine = ignoreMachine;
+	}
 
-    public void setMachineName(String machineName)
-    {
-        this.machineName = machineName;
-    }
+	public Boolean isIgnoreMachine()
+	{
+		return ignoreMachine;
+	}
 
-    public String getMachineSid()
-    {
-        return machineSid;
-    }
+	public void setIgnoreEndDate(Boolean ignoreEndDate)
+	{
+		this.ignoreEndDate = ignoreEndDate;
+	}
 
-    public void setMachineSid(String machineSid)
-    {
-        this.machineSid = machineSid;
-    }
+	public Boolean isIgnoreEndDate()
+	{
+		return ignoreEndDate;
+	}
 
-    public String getOsName()
-    {
-        return osName;
-    }
+	public void setHostname(String hostname)
+	{
+		this.hostname = hostname;
+	}
 
-    public void setOsName(String osName)
-    {
-        this.osName = osName;
-    }
+	public String getMachineName()
+	{
+		return machineName;
+	}
 
-    public String getOsArchitecture()
-    {
-        return osArchitecture;
-    }
+	public void setMachineName(String machineName)
+	{
+		this.machineName = machineName;
+	}
 
-    public void setOsArchitecture(String osArchitecture)
-    {
-        this.osArchitecture = osArchitecture;
-    }
+	public String getMachineSid()
+	{
+		return machineSid;
+	}
 
-    public String getOsSerialNumber()
-    {
-        return osSerialNumber;
-    }
+	public void setMachineSid(String machineSid)
+	{
+		this.machineSid = machineSid;
+	}
 
-    public void setOsSerialNumber(String osSerialNumber)
-    {
-        this.osSerialNumber = osSerialNumber;
-    }
+	public String getOsName()
+	{
+		return osName;
+	}
 
-    public String getCpuProcessorId()
-    {
-        return cpuProcessorId;
-    }
+	public void setOsName(String osName)
+	{
+		this.osName = osName;
+	}
 
-    public void setCpuProcessorId(String processorId)
-    {
-        this.cpuProcessorId = processorId;
-    }
+	public String getOsArchitecture()
+	{
+		return osArchitecture;
+	}
 
-    public String getBaseboardSerialNuber()
-    {
-        return baseboardSerialNuber;
-    }
+	public void setOsArchitecture(String osArchitecture)
+	{
+		this.osArchitecture = osArchitecture;
+	}
 
-    public void setBaseboardSerialNuber(String baseboardSerialNuber)
-    {
-        this.baseboardSerialNuber = baseboardSerialNuber;
-    }
+	public String getOsSerialNumber()
+	{
+		return osSerialNumber;
+	}
 
-    public String getBiosSerialNuber()
-    {
-        return biosSerialNuber;
-    }
+	public void setOsSerialNumber(String osSerialNumber)
+	{
+		this.osSerialNumber = osSerialNumber;
+	}
 
-    public void setBiosSerialNuber(String biosSerialNuber)
-    {
-        this.biosSerialNuber = biosSerialNuber;
-    }
+	public String getCpuProcessorId()
+	{
+		return cpuProcessorId;
+	}
 
-    public String getClientName()
-    {
-        return clientName;
-    }
+	public void setCpuProcessorId(String processorId)
+	{
+		cpuProcessorId = processorId;
+	}
 
-    public void setClientName(String clientName)
-    {
-        this.clientName = clientName;
-    }
+	public String getBaseboardSerialNuber()
+	{
+		return baseboardSerialNuber;
+	}
 
-    public String getClientAddress()
-    {
-        return clientAddress;
-    }
+	public void setBaseboardSerialNuber(String baseboardSerialNuber)
+	{
+		this.baseboardSerialNuber = baseboardSerialNuber;
+	}
 
-    public void setClientAddress(String clientAddress)
-    {
-        this.clientAddress = clientAddress;
-    }
+	public String getBiosSerialNuber()
+	{
+		return biosSerialNuber;
+	}
 
-    public String getClientContactNumber()
-    {
-        return clientContactNumber;
-    }
+	public void setBiosSerialNuber(String biosSerialNuber)
+	{
+		this.biosSerialNuber = biosSerialNuber;
+	}
 
-    public void setClientContactNumber(String clientContactNumber)
-    {
-        this.clientContactNumber = clientContactNumber;
-    }
+	public String getClientName()
+	{
+		return clientName;
+	}
+
+	public void setClientName(String clientName)
+	{
+		this.clientName = clientName;
+	}
+
+	public String getClientAddress()
+	{
+		return clientAddress;
+	}
+
+	public void setClientAddress(String clientAddress)
+	{
+		this.clientAddress = clientAddress;
+	}
+
+	public String getClientContactNumber()
+	{
+		return clientContactNumber;
+	}
+
+	public void setClientContactNumber(String clientContactNumber)
+	{
+		this.clientContactNumber = clientContactNumber;
+	}
 
 	public String getLastAccessDate() {
 		return lastAccessDate;
@@ -170,5 +210,5 @@ public class License {
 	public void setLastAccessDate(String lastAccessDate) {
 		this.lastAccessDate = lastAccessDate;
 	}
-    
+
 }

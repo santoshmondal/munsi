@@ -9,7 +9,7 @@ import javax.servlet.annotation.WebListener;
 import org.apache.log4j.Logger;
 
 import com.license.tool.Global;
-import com.munsi.ws.NotificationUtil;
+import com.munsi.websocket.NotificationUtil;
 
 /**
  * Application Lifecycle Listener implementation class ContextListener

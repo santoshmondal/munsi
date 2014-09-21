@@ -10,7 +10,7 @@ import com.munsi.pojo.master.Tax;
 import com.munsi.util.CommonUtil;
 import com.munsi.util.ObjectFactory;
 import com.munsi.util.ObjectFactory.ObjectEnum;
-import com.munsi.ws.NotificationUtil;
+import com.munsi.websocket.NotificationUtil;
 
 public class ProductServeice {
 

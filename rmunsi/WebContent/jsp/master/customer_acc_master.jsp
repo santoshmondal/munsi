@@ -52,7 +52,7 @@
 						{name:'address',index:'address', width:150, sortable:false,editable: true,hidden:true,editrules:{edithidden:true},edittype:"textarea", editoptions:{rows:"2",cols:"20"}},
 						{name:'city',index:'city', width:150,editable: true,editrules:{edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"130"}},
 						{name:'pin',index:'pin', width:150,editable: true,editrules:{number:true,edithidden:true},hidden:true,editoptions:{size:"20",maxlength:"15"}},
-						{name:'email',index:'email', width:150,editable: true,editrules:{email:true,edithidden:true},editoptions:{size:"20",maxlength:"15"}},
+						{name:'email',index:'email', width:150,editable: true,editrules:{required:false,email:true,edithidden:true},editoptions:{size:"20",maxlength:"15"}},
 						{name:'phone',index:'phone', width:150,hidden:true,editable: true,editrules:{number:true,edithidden:true},editoptions:{size:"20",maxlength:"15"}},
 						{name:'mobile',index:'mobile', width:150,hidden:true,editable: true,editrules:{number:true,edithidden:true},editoptions:{size:"20",maxlength:"15"}},
 

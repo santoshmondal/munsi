@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import javax.websocket.CloseReason;
 import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.RemoteEndpoint;
@@ -44,6 +45,11 @@ public class ServerEndPointImpl {
 
 	@OnMessage
 	public void onMessage(String pMessage) {
+	}
+
+	@OnError
+	public void onError(Throwable throwable) throws Exception {
+		throwable.printStackTrace();
 	}
 
 	public void writeResponse(String pMessage) {

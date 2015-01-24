@@ -426,7 +426,7 @@ public class MongoProductDao implements ProductDao {
 		try {
 			DBCollection collection = mongoDB.getCollection(collProduct);
 			DBObject delQuery = MongoUtil.getQueryToCheckDeleted();
-			DBObject fieldQuery = new BasicDBObject(QueryOperators.WHERE, "function() { return this.currentStock <= this.minStock } }");
+			DBObject fieldQuery = new BasicDBObject(QueryOperators.WHERE, "function() { return this.currentStock <= this.minStock } ");
 			BasicDBList andQuery = new BasicDBList();
 			andQuery.add(delQuery);
 			andQuery.add(fieldQuery);
